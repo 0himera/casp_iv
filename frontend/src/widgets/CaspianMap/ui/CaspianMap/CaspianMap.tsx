@@ -1,17 +1,18 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
-import { setWorkerUrl } from 'maplibre-gl';
 import Map, { NavigationControl, type MapLayerMouseEvent, type MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { CaspianPort } from '@/entities/cargo';
 import { buildMapRoutesGeoJson } from '@/entities/shipment';
 import type { Shipment } from '@/shared/api/caspian';
 import { resolveMapPalette } from '../../model/mapLayers';
+import { applySpectralBasemapTheme, initMapLibreWorker, SPECTRAL_BASE_STYLE } from '../../model/spectralBasemap';
 import { useMapInteractions } from '../../model/useMapInteractions';
 import { ArchivalMapView } from '../ArchivalMapView';
 import { CorridorExplorer, CorridorLines } from '../CorridorExplorer';
 import { MapGeoLayers } from '../MapGeoLayers';
+import { MapHudOverlay } from '../MapHudOverlay';
 import { MapInspectionOverlays } from '../MapInspectionOverlays';
 import { MapLegend } from '../MapLegend';
 import { MapPresetsBar } from '../MapPresetsBar';
@@ -19,8 +20,7 @@ import { PortMarkers } from '../PortMarkers';
 import styles from './CaspianMap.module.css';
 
 interface CaspianMapProps { ports: CaspianPort[]; shipment: Shipment; stormActive: boolean; xrayMode?: boolean; onSelectRoute?: (routeId: string) => void; }
-const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
-if (typeof window !== 'undefined') setWorkerUrl('/maplibre-gl-worker.mjs');
+initMapLibreWorker();
 
 export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, onSelectRoute }: CaspianMapProps) {
   const mapRef = useRef<MapRef | null>(null);
@@ -45,12 +45,12 @@ export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, onS
       </div>
       <div className={`${styles.stageGrid} ${hasDock ? styles.stageWithDock : ''}`}>
         <div className={styles.canvas}>{archivalMode ? <ArchivalMapView /> : (
-          <Map ref={mapRef} initialViewState={{ longitude: 49.2, latitude: 42.2, zoom: 4.45 }} mapStyle={DARK_STYLE} attributionControl={false} interactiveLayerIds={['storm-fill', 'alt-route-line']} onClick={onMapClick} style={{ width: '100%', height: '100%' }}>
+          <><Map ref={mapRef} initialViewState={{ longitude: 49.4, latitude: 41.8, zoom: 4.6 }} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false} interactiveLayerIds={['storm-fill', 'alt-route-line']} onLoad={(e) => applySpectralBasemapTheme(e.target)} onClick={onMapClick} style={{ width: '100%', height: '100%' }}>
             <NavigationControl position="bottom-right" showCompass={false} />
             <MapGeoLayers stormActive={stormActive} routeGeoJson={routeGeoJson} palette={palette} />
             <CorridorLines highlighted={highlighted} />
             <PortMarkers ports={ports} shipment={shipment} stormActive={stormActive} xrayMode={xrayMode} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={(p) => { setNetworkOpen(false); i.selectPort(p); }} onSelectCargo={(lng, lat) => { setNetworkOpen(false); i.selectCargo(lng, lat); }} />
-          </Map>
+          </Map><MapHudOverlay stormActive={stormActive} /></>
         )}</div>
         {hasDock && <aside className={styles.dock}>{networkOpen && <CorridorExplorer onClose={() => setNetworkOpen(false)} onHighlight={setHighlighted} />}<MapInspectionOverlays shipment={shipment} selectedPort={i.selectedPort} cargoSelected={i.cargoSelected} stormSelected={i.stormSelected} onSelectRoute={onSelectRoute} onClose={i.closeAll} /></aside>}
       </div>

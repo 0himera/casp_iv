@@ -10,13 +10,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center bottom;
+  object-position: center 88%;
+  filter: contrast(1.06) saturate(1.08);
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 14, 23, 0.72) 0%, rgba(10, 14, 23, 0.15) 40%, rgba(10, 14, 23, 0.65) 100%);
+  background: linear-gradient(180deg, rgba(10, 14, 23, 0.78) 0%, rgba(10, 14, 23, 0.08) 38%, rgba(10, 14, 23, 0.62) 100%);
   pointer-events: none;
 }
 
