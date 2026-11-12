@@ -21,22 +21,22 @@ export function HeroKpiGrid({ shipment, selectedRoute, stormActive }: HeroKpiGri
   return (
     <div className={styles.grid}>
       <div className={styles.card}>
-        <span className={styles.label}>[ ACTIVE CORRIDOR ]</span>
+        <span className={styles.label}>01 / МАРШРУТ</span>
         <span className={styles.value}>{shipment.origin.name} → {shipment.destination.name}</span>
         <span className={styles.sub}>{shipment.title} · {shipment.mass_tonnes} т</span>
       </div>
       <div className={styles.card}>
-        <span className={styles.label}>{'[ РИСК ПРОПУСКА CUTOFF ]'}</span>
+        <span className={styles.label}>{'02 / ПРОПУСК CUTOFF'}</span>
         <span className={`${styles.value} ${stormActive ? styles.thermal : styles.cyan}`}>{riskValue}</span>
         <span className={styles.sub}>{stormActive ? 'Шторм · сценарий' : 'Расчёт по условиям сценария'}</span>
       </div>
       <div className={styles.card}>
-        <span className={styles.label}>[ ТАРИФ · СЦЕНАРИЙ ]</span>
+        <span className={styles.label}>03 / ТАРИФ · СЦЕНАРИЙ</span>
         <span className={styles.value}>{costValue}</span>
         <span className={styles.sub}>{selectedRoute ? selectedRoute.name : 'Маршрут не выбран'}</span>
       </div>
       <div className={styles.card}>
-        <span className={styles.label}>{'[ ECO // CARBON ]'}</span>
+        <span className={styles.label}>{'04 / УГЛЕРОДНЫЙ СЛЕД'}</span>
         <span className={`${styles.value} ${styles.eco}`}>{ecoValue}</span>
         <span className={styles.sub}>ATTESTATION V{shipment.passport.version} · {shipment.passport.status.toUpperCase()}</span>
       </div>

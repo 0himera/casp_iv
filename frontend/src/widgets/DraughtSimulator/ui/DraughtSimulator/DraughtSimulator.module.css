@@ -27,3 +27,10 @@
 .ok { color: var(--status-success); }
 .icon { width: 13px; height: 13px; flex-shrink: 0; }
 @media (max-width: 900px) { .grid, .metrics { grid-template-columns: 1fr; } }
+
+.frame { border-radius: 2px; background: #eee5d6; background-image: var(--paper-fiber); border-color: var(--border-strong); }
+.controls, .kpi { border-radius: 2px; }
+.kpi:nth-child(2) { background: #eee3ef; }
+.kpi:nth-child(3) { background: #e2ece6; }
+.kpi:nth-child(4) { background: #f2e0d4; }
+.kpi:hover { transform: none; }

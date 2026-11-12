@@ -47,7 +47,7 @@ export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, rol
     setClickMenu({ x: e.point.x, y: e.point.y, lng: e.lngLat.lng, lat: e.lngLat.lat, width: rect.width, height: rect.height });
   };
   return (
-    <section id="map-section" className={`${styles.frame} ${printEnabled ? styles.riso : ''}`}><div className={styles.toolbar}>
+    <section id="map-section" className={`map-ink ${styles.frame} ${printEnabled ? styles.riso : ''}`}><div className={styles.toolbar}>
       <span className={styles.overline}>[ FIG. 01: КАСПИЙСКАЯ ГИДРОЛОГИЯ И ВЕКТОРЫ КОРИДОРОВ ]</span>
       <MapPresetsBar activeId={archivalMode ? 'archival' : i.activePreset} dockOpen={hasDock} onSelectPreset={(id) => { setArchivalMode(false); setNetworkOpen(false); setClickMenu(null); i.selectPreset(id); }} onReset={() => { setArchivalMode(false); setClickMenu(null); i.resetView(); }} onFocusCargo={() => { setArchivalMode(false); setClickMenu(null); i.selectCargo(shipment.current_location.longitude, shipment.current_location.latitude); }} onToggleNetwork={() => { i.closeAll(); setClickMenu(null); setNetworkOpen((v) => !v); }} onToggleArchival={() => { setClickMenu(null); setArchivalMode((v) => !v); }} onToggleDock={() => { i.closeAll(); setNetworkOpen(false); setDockOpen((v) => !v); }} />
     </div><div className={`${styles.stageGrid} ${hasDock ? styles.stageWithDock : ''}`}><div className={styles.canvas}>{archivalMode ? <ArchivalMapView printEnabled={printEnabled} ports={ports} shipment={shipment} selectedPortId={i.selectedPort?.id} onSelectPort={(p) => { setNetworkOpen(false); i.selectPort(p); }} /> : (

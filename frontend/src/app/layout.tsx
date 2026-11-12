@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${plexSans.variable} ${plexSerif.variable} ${ibmPlexMono.variable} dark antialiased`}
+      className={`${plexSans.variable} ${plexSerif.variable} ${ibmPlexMono.variable} antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <QueryProvider>{children}</QueryProvider>
