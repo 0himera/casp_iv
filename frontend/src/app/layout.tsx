@@ -1,16 +1,28 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Instrument_Serif, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin', 'cyrillic'],
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-sans',
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  fallback: ['system-ui', 'sans-serif'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const instrumentSerif = Instrument_Serif({
+  variable: '--font-serif',
+  weight: '400',
+  style: ['italic', 'normal'],
   subsets: ['latin'],
+  display: 'swap',
+  fallback: ['Georgia', 'serif'],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-mono',
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -23,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
       <body className="h-screen overflow-hidden bg-background text-foreground">
         <QueryProvider>{children}</QueryProvider>
@@ -31,4 +43,3 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     </html>
   );
 }
-

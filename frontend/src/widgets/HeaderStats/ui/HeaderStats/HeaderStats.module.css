@@ -2,35 +2,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--border);
-  background-color: var(--card);
+  gap: 14px;
+  padding: 10px 18px;
+  background-color: transparent;
   flex-shrink: 0;
 }
 
 .brandBlock,
+.brandTitleRow,
 .kpiRow {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.brandBlock { gap: 10px; }
-
-.logoIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background-color: color-mix(in oklch, var(--primary) 16%, transparent);
-  border: 1px solid color-mix(in oklch, var(--primary) 35%, transparent);
-}
-
-.anchor { width: 18px; height: 18px; color: var(--primary); }
-.brandMeta { display: flex; flex-direction: column; gap: 2px; }
-.brandName { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
-.dot { width: 6px; height: 6px; border-radius: 999px; background-color: currentColor; }
-.kpiIcon { width: 15px; height: 15px; }
+.brandBlock { gap: 12px; }
+.brandTitleRow { align-items: baseline; gap: 10px; }
+.brandMeta { display: flex; flex-direction: column; gap: 3px; }
+.brandName { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; color: var(--foreground); }
+.brandItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 20px; color: var(--primary); }
+.stamp { font-size: 11px; color: var(--muted-foreground); }
+.statusBadge { width: fit-content; }
+.squareDot { width: 5px; height: 5px; border-radius: 1px; background-color: currentColor; }
+.kpiRow { gap: 4px; }
+.kpiIcon { width: 13px; height: 13px; color: var(--muted-foreground); }

@@ -1,0 +1,55 @@
+.overlay {
+  position: fixed;
+  right: 24px;
+  top: 76px;
+  width: 380px;
+  max-width: calc(100vw - 80px);
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 90%, transparent);
+}
+
+.tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+}
+
+.closeBtn:hover {
+  color: var(--foreground);
+}
+
+.closeIcon {
+  width: 13px;
+  height: 13px;
+}
+
+@media (max-width: 1200px) {
+  .overlay {
+    width: 330px;
+    right: 14px;
+    top: 68px;
+  }
+}

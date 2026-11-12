@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.headerRow,
+.titleWrap,
+.badges,
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerRow,
+.metaRow {
+  justify-content: space-between;
+}
+
+.aiIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--accent-lavender);
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.metaRow {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+
+.reason {
+  font-size: 11px;
+  color: var(--foreground);
+  line-height: 1.3;
+}

@@ -1,7 +1,8 @@
-import type { FeatureCollection, LineString } from 'geojson';
 import type { Role, Route, Shipment } from '@/shared/api/caspian';
 import type { MultimodalNodeData, NodeStatus } from '@/shared/types/transit';
 import { formatMskDateTime } from '@/shared/lib/formatters';
+
+export { buildMapRoutesGeoJson } from './routeGeoJson';
 
 export function getSelectedRoute(shipment: Shipment): Route {
   return shipment.routes.find((r) => r.id === shipment.selected_route_id) ?? shipment.routes[0];
@@ -24,21 +25,6 @@ export function getMovementStatusLabel(status: Shipment['movement_status']): str
   if (status === 'at_port') return 'В порту';
   if (status === 'planned') return 'Запланирован';
   return 'В пути';
-}
-
-export function buildMapRoutesGeoJson(shipment: Shipment): FeatureCollection<LineString> {
-  return {
-    type: 'FeatureCollection',
-    features: shipment.routes.map((route) => ({
-      type: 'Feature',
-      properties: {
-        id: route.id,
-        selected: route.id === shipment.selected_route_id ? 1 : 0,
-        primaryMode: route.modes[0] ?? 'rail',
-      },
-      geometry: { type: 'LineString', coordinates: route.geometry.coordinates },
-    })),
-  };
 }
 
 export function buildGraphNodesFromShipment(shipment: Shipment, route: Route): MultimodalNodeData[] {

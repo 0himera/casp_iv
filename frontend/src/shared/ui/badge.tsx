@@ -3,19 +3,21 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
 
 const badgeVariants = cva(
-  'inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors',
+  'inline-flex items-center gap-1 rounded-[6px] border px-2 py-0.5 text-[11px] font-medium transition-colors',
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary/15 text-primary',
-        secondary: 'border-border bg-secondary text-secondary-foreground',
+        default: 'border-border bg-primary/10 text-primary',
+        secondary: 'border-border bg-secondary/80 text-secondary-foreground',
         destructive:
-          'border-destructive/40 bg-destructive/15 text-destructive',
-        outline: 'border-border text-foreground',
+          'border-[var(--status-danger)]/25 bg-[var(--status-danger)]/10 text-[var(--status-danger)]',
+        lavender:
+          'border-[var(--accent-lavender)]/25 bg-[var(--accent-lavender)]/10 text-[var(--accent-lavender)]',
+        outline: 'border-border text-muted-foreground bg-card/60',
         success:
-          'border-[var(--status-success)]/40 bg-[var(--status-success)]/15 text-[var(--status-success)]',
+          'border-[var(--status-success)]/25 bg-[var(--status-success)]/10 text-[var(--status-success)]',
         warning:
-          'border-[var(--status-warning)]/40 bg-[var(--status-warning)]/15 text-[var(--status-warning)]',
+          'border-[var(--status-warning)]/25 bg-[var(--status-warning)]/10 text-[var(--status-warning)]',
       },
     },
     defaultVariants: {
@@ -33,4 +35,3 @@ export function Badge({ className, variant, ...props }: BadgeProps) {
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
   );
 }
-

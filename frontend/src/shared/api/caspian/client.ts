@@ -9,6 +9,7 @@ import type {
   Shipment,
   ShipmentList,
 } from './types';
+import { getRoleToken } from './tokens';
 
 export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string) {
@@ -24,7 +25,7 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
       method: body === undefined ? 'GET' : 'POST',
       cache: 'no-store',
       headers: {
-        Authorization: `Bearer demo-${getDemoRole()}`,
+        Authorization: `Bearer ${getRoleToken(getDemoRole())}`,
         ...(body === undefined
           ? {}
           : {

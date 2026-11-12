@@ -1,60 +1,47 @@
 'use client';
 
-import {
-  Area,
-  Bar,
-  CartesianGrid,
-  ComposedChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-import { Activity } from 'lucide-react';
-import { CASPIAN_WEATHER_SERIES } from '@/data/caspianSnapshots';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useLiveOverview } from '@/entities/cargo';
 import type { Shipment } from '@/shared/api/caspian';
 import { formatMskDateTime } from '@/shared/lib/formatters';
-import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
+import { Badge, PixelMarker, ViewfinderFrame } from '@/shared/ui';
 import styles from './PredictiveChart.module.css';
 
-interface PredictiveChartProps {
-  shipment: Shipment;
-  stormActive: boolean;
-}
+interface PredictiveChartProps { shipment: Shipment; stormActive: boolean; }
 
 export function PredictiveChart({ shipment, stormActive }: PredictiveChartProps) {
-  const { forecast } = shipment;
+  const query = useLiveOverview();
+  const route = shipment.routes.find((r) => r.id === shipment.selected_route_id);
+  const port = query.data?.items.find((item) => route?.ports.some((name) => name === item.port.id || name === item.port.name) && item.weather)
+    ?? query.data?.items.find((item) => item.port.id === 'astrakhan');
+  const weather = port?.weather;
+  const points = weather?.hourly.map((point) => ({
+    hour: point.time.slice(11, 16), time: point.time, wind: point.wind_speed_10m, gust: point.wind_gusts_10m,
+  })) ?? [];
   return (
-    <Card className={styles.card}>
-      <CardHeader className={styles.header}>
-        <div className={styles.titleRow}>
-          <span className={styles.titleWrap}>
-            <Activity className={styles.icon} />
-            <CardTitle>Погода Каспия (Open-Meteo, 24 ч)</CardTitle>
-          </span>
-          <Badge variant={stormActive ? 'destructive' : 'secondary'}>
-            {forecast.quality === 'missing' ? 'Нет данных' : stormActive ? 'Шторм' : 'Штатно'}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent className={styles.content}>
-        <div className={styles.chartBox}>
-          <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={CASPIAN_WEATHER_SERIES} margin={{ top: 6, right: 6, left: -24, bottom: 0 }}>
-              <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="hour" interval={5} tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis yAxisId="left" tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 45]} />
-              <YAxis yAxisId="right" orientation="right" hide domain={[0, 5]} />
-              <Tooltip contentStyle={{ backgroundColor: 'var(--popover)', borderColor: 'var(--border)', fontSize: 11, borderRadius: 6 }} />
-              <Area yAxisId="left" type="monotone" dataKey="windGusts" name="Порывы (км/ч)" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.18} strokeWidth={2} />
-              <Bar yAxisId="right" dataKey="waveHeight" name="Волна (м)" fill={stormActive ? 'var(--chart-4)' : 'var(--chart-3)'} radius={[2, 2, 0, 0]} barSize={6} />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </div>
-        <div className={styles.legend}>
-          <span>P10–P90: {formatMskDateTime(forecast.ready_at.p10)} — {formatMskDateTime(forecast.ready_at.p90)}</span>
-        </div>
-      </CardContent>
-    </Card>
+    <ViewfinderFrame stamp="Погода · прогноз" className={styles.card}>
+      <div className={styles.titleRow}>
+        <span className={styles.titleWrap}><PixelMarker variant={stormActive ? 'alert' : 'ai'} />
+          <h3 className={styles.heading}>Ветер · <em className={styles.headingItalic}>{port?.port.name ?? 'нет данных'}</em></h3>
+        </span>
+        <Badge variant={weather?.meta.stale || !weather ? 'warning' : 'lavender'}>{weather ? weather.meta.stale ? 'Устарело' : 'Open-Meteo' : 'Нет данных'}</Badge>
+      </div>
+      <div className={styles.chartBox}>
+        {points.length ? <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={points} margin={{ top: 8, right: 6, left: -24, bottom: 0 }}>
+            <CartesianGrid stroke="var(--border-subtle)" strokeDasharray="2 4" vertical={false} />
+            <XAxis dataKey="hour" interval={5} tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }} axisLine={false} tickLine={false} />
+            <Tooltip contentStyle={{ backgroundColor: 'var(--popover)', borderColor: 'var(--border)', fontSize: 11, borderRadius: 6 }} />
+            <Area type="monotone" dataKey="wind" name="Ветер (км/ч)" stroke="var(--chart-1)" fill="transparent" connectNulls={false} />
+            <Area type="monotone" dataKey="gust" name="Порывы (км/ч)" stroke="var(--chart-2)" fill="transparent" connectNulls={false} />
+          </AreaChart>
+        </ResponsiveContainer> : <p>Прогноз погоды недоступен.</p>}
+      </div>
+      <div className={styles.legend}>
+        <span>Часы UTC · прогноз на сетке Open-Meteo{weather ? ` · получен ${new Date(weather.meta.fetched_at).toLocaleString('ru-RU')}` : ''}</span>
+        <span>Готовность груза (сценарий): {formatMskDateTime(shipment.forecast.ready_at.p10)} — {formatMskDateTime(shipment.forecast.ready_at.p90)}</span>
+      </div>
+    </ViewfinderFrame>
   );
 }

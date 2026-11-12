@@ -1,0 +1,2 @@
+export { CargoInspectionCard } from './CargoInspectionCard';
+

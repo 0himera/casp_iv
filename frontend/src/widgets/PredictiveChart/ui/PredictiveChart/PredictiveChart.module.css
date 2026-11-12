@@ -1,16 +1,12 @@
 .card {
   display: flex;
   flex-direction: column;
-}
-
-.header {
-  padding-bottom: 6px;
+  gap: 8px;
 }
 
 .titleRow,
 .titleWrap,
-.legend,
-.legend span {
+.legend {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -20,37 +16,28 @@
   justify-content: space-between;
 }
 
-.icon {
-  width: 14px;
-  height: 14px;
-  color: var(--primary);
+.heading {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--foreground);
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.headingItalic {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--accent-lavender);
 }
 
 .chartBox {
   width: 100%;
-  height: 165px;
+  height: 158px;
 }
 
 .legend {
   justify-content: space-between;
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
   color: var(--muted-foreground);
 }
-
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-}
-
-.loadDot { background-color: var(--chart-1); }
-.delayDot { background-color: var(--chart-3); }
-.stormDot { background-color: var(--chart-4); }
-

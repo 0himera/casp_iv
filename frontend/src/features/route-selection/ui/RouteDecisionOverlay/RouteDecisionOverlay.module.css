@@ -1,60 +1,18 @@
 .overlayCard {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  right: 12px;
-  z-index: 20;
-  max-width: 580px;
+  position: fixed;
+  bottom: 84px;
+  left: 64px;
+  z-index: 25;
+  width: min(430px, calc(100vw - 80px));
   backdrop-filter: blur(12px);
-  background-color: color-mix(in oklch, var(--card) 93%, transparent);
-  border-color: color-mix(in oklch, var(--primary) 40%, var(--border));
+  background-color: color-mix(in srgb, var(--card) 92%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .content,
 .routesList {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
-
-.content { padding: 10px 12px; }
-
-.headerRow,
-.titleWrap,
-.badges,
-.metaRow,
-.opBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-}
-
-.titleWrap,
-.opBox { justify-content: flex-start; }
-
-.aiIcon { width: 14px; height: 14px; color: var(--primary); }
-.miniIcon { width: 12px; height: 12px; }
-.spinIcon { width: 13px; height: 13px; color: var(--primary); animation: spin 1s linear infinite; }
-
-.title { font-size: 12px; font-weight: 700; color: var(--foreground); }
-.metaRow { font-size: 10px; color: var(--muted-foreground); }
-.reason { font-size: 11px; color: var(--foreground); line-height: 1.3; }
-
-.errorBox {
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  color: var(--status-danger);
-  background-color: color-mix(in oklch, var(--status-danger) 14%, transparent);
-}
-
-.opBox {
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  color: var(--primary);
-  background-color: color-mix(in oklch, var(--primary) 12%, transparent);
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }

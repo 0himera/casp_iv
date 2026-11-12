@@ -1,13 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { SEED_SHIPMENT } from '@/data/caspianSnapshots';
-import {
-  createCaspianClient,
-  type Role,
-  type Shipment,
-  type ShipmentSummary,
-} from '@/shared/api/caspian';
+import { createCaspianClient, type Role, type Shipment, type ShipmentSummary } from '@/shared/api/caspian';
+import { enrichShipmentWithCorridors } from '../lib/enrichShipment';
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4010/api/v1';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '/api/backend';
 
 export const shipmentKeys = {
   all: ['caspian-shipments'] as const,
@@ -19,14 +15,9 @@ export const shipmentKeys = {
 function buildFallbackSummary(s: Shipment): ShipmentSummary {
   const route = s.routes.find((r) => r.id === s.selected_route_id) ?? s.routes[0];
   return {
-    id: s.id,
-    title: s.title,
-    origin: s.origin.name,
-    destination: s.destination.name,
-    movement_status: s.movement_status,
-    eta: route?.eta.p50 ?? null,
-    miss_probability: s.forecast.miss_probability,
-    passport_status: s.passport.status,
+    id: s.id, title: s.title, origin: s.origin.name, destination: s.destination.name,
+    movement_status: s.movement_status, eta: route?.eta.p50 ?? null,
+    miss_probability: s.forecast.miss_probability, passport_status: s.passport.status,
   };
 }
 
@@ -42,19 +33,22 @@ export function useHealthQuery() {
 
 export function useShipmentsListQuery(role: Role, apiOnline: boolean) {
   const client = createCaspianClient(API_BASE_URL, () => role);
-  return useQuery({
+  const query = useQuery({
     queryKey: shipmentKeys.list(role),
-    queryFn: async () =>
-      apiOnline ? client.listShipments() : { items: [buildFallbackSummary(SEED_SHIPMENT)] },
-    initialData: { items: [buildFallbackSummary(SEED_SHIPMENT)] },
+    queryFn: async () => (apiOnline ? client.listShipments() : { items: [buildFallbackSummary(SEED_SHIPMENT)] }),
+    placeholderData: { items: [buildFallbackSummary(SEED_SHIPMENT)] },
+    enabled: apiOnline,
   });
+  return { ...query, data: query.data ?? { items: [buildFallbackSummary(SEED_SHIPMENT)] } };
 }
 
 export function useShipmentDetailQuery(id: string, role: Role, apiOnline: boolean) {
   const client = createCaspianClient(API_BASE_URL, () => role);
-  return useQuery({
+  const query = useQuery({
     queryKey: shipmentKeys.detail(id, role),
-    queryFn: async () => (apiOnline ? client.getShipment(id) : SEED_SHIPMENT),
-    initialData: SEED_SHIPMENT,
+    queryFn: async () => enrichShipmentWithCorridors(apiOnline ? await client.getShipment(id) : SEED_SHIPMENT),
+    placeholderData: enrichShipmentWithCorridors(SEED_SHIPMENT),
+    enabled: apiOnline && Boolean(id),
   });
+  return { ...query, data: query.data ?? enrichShipmentWithCorridors(SEED_SHIPMENT) };
 }

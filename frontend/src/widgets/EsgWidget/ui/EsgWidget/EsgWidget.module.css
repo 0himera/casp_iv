@@ -1,53 +1,47 @@
 .card {
   display: flex;
   flex-direction: column;
+  gap: 9px;
   flex: 1;
   min-height: 0;
 }
 
-.header {
-  padding-bottom: 6px;
-}
-
 .titleRow,
 .titleWrap,
-.reductionPill {
+.reductionTag {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
 .titleRow { justify-content: space-between; }
-.icon, .trendIcon { width: 14px; height: 14px; color: var(--status-success); }
+.heading { font-size: 13px; font-weight: 500; color: var(--foreground); }
+.headingItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 18px; color: var(--status-success); }
+.collageBadge { transform: translateY(-1px); }
+.trendIcon { width: 13px; height: 13px; color: var(--status-success); }
+.bars { display: flex; flex-direction: column; gap: 7px; }
 
-.content,
-.bars {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.summaryBox {
+.summaryRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background-color: var(--muted);
+  padding: 6px 0;
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
 }
 
 .summaryLabel { font-size: 10px; color: var(--muted-foreground); }
-.summaryValue { font-size: 15px; font-weight: 700; color: var(--foreground); }
+.summaryValue { font-family: var(--font-mono), monospace; font-size: 15px; font-weight: 600; color: var(--foreground); }
 
-.reductionPill {
+.reductionTag {
   padding: 3px 8px;
   border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
+  border: 1px solid color-mix(in srgb, var(--status-success) 35%, transparent);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--status-success);
-  background-color: color-mix(in oklch, var(--status-success) 15%, transparent);
+  background-color: color-mix(in srgb, var(--status-success) 10%, transparent);
 }
 
-.savedNote { font-size: 11px; color: var(--muted-foreground); }
-.savedNote strong { color: var(--status-success); }
-
+.savedNote { font-size: 10px; color: var(--muted-foreground); line-height: 1.3; }

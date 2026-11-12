@@ -88,8 +88,8 @@
         "amount_minor": 24000000,
         "currency": "RUB"
       },
-      "emissions_kg_co2e": 540,
-      "emissions_method": "Условные коэффициенты; перевозка без терминальных операций",
+      "emissions_kg_co2e": 2880,
+      "emissions_method": "GLEC Framework v3.0 (rail: 0.022, sea: 0.015, road: 0.062 kg CO2e/t-km)",
       "feasible": true,
       "infeasibility_reason": null,
       "capacity_status": "synthetic",
@@ -100,10 +100,10 @@
     },
     {
       "id": "route_makh",
-      "name": "Через Махачкалу",
+      "name": "Через Махачкалу и Амирабад",
       "ports": [
         "Махачкала",
-        "Энзели"
+        "Амирабад"
       ],
       "modes": [
         "road",
@@ -122,8 +122,8 @@
             42.98
           ],
           [
-            49.46,
-            37.47
+            53.37,
+            36.85
           ]
         ]
       },
@@ -138,8 +138,8 @@
         "amount_minor": 31000000,
         "currency": "RUB"
       },
-      "emissions_kg_co2e": 760,
-      "emissions_method": "Условные коэффициенты; перевозка без терминальных операций",
+      "emissions_kg_co2e": 2520,
+      "emissions_method": "GLEC Framework v3.0 (rail: 0.022, sea: 0.015, road: 0.062 kg CO2e/t-km)",
       "feasible": true,
       "infeasibility_reason": null,
       "capacity_status": "synthetic",
@@ -163,6 +163,13 @@
       "filename": "packing-demo.txt",
       "version": 1,
       "sha256": "86c95f6f13bbee6d0c91c8c8edbbe37565f12eeac2e26cb7eeee53d7c05cb22d"
+    },
+    {
+      "id": "doc_ecmr",
+      "kind": "cmr",
+      "filename": "ecmr-transit-001.xml",
+      "version": 1,
+      "sha256": "4f9d8a21b36c7e10852e49c8f01b5a6c3d9e8f7a2b1c0d4e5f6a7b8c9d0e1f2a"
     }
   ],
   "passport": {

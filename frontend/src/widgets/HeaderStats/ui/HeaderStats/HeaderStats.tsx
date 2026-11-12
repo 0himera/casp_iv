@@ -1,11 +1,11 @@
 'use client';
 
-import { Anchor, Clock, Leaf, Scale, Waves } from 'lucide-react';
+import { Clock, Leaf, Scale, Waves } from 'lucide-react';
 import { getSelectedRoute } from '@/entities/shipment';
 import { DemoControls } from '@/features/demo-controls';
 import type { Role, ScenarioRequest, Shipment } from '@/shared/api/caspian';
 import { formatMskDateTime, formatProbability } from '@/shared/lib/formatters';
-import { Badge } from '@/shared/ui';
+import { Badge, PixelMarker } from '@/shared/ui';
 import { KpiTile } from '../KpiTile';
 import styles from './HeaderStats.module.css';
 
@@ -23,15 +23,21 @@ export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onCha
   const route = getSelectedRoute(shipment);
   const prob = shipment.forecast.miss_probability;
   const probTone = prob === null ? 'warning' : prob >= 0.5 ? 'danger' : prob >= 0.2 ? 'warning' : 'success';
+
   return (
     <header className={styles.header}>
       <div className={styles.brandBlock}>
-        <div className={styles.logoIcon}><Anchor className={styles.anchor} /></div>
+        <PixelMarker variant={apiOnline ? 'telemetry' : 'alert'} />
         <div className={styles.brandMeta}>
-          <span className={styles.brandName}>Smart Caspian Transit</span>
-          <Badge variant={apiOnline ? 'success' : 'warning'}>
-            <span className={styles.dot} />
-            {apiOnline ? 'API: Mock :4010' : 'Офлайн-резерв'}
+          <div className={styles.brandTitleRow}>
+            <span className={styles.brandName}>
+              Smart Caspian <em className={styles.brandItalic}>Transit</em>
+            </span>
+            <span className={styles.stamp}>МТК Север–Юг</span>
+          </div>
+          <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
+            <span className={styles.squareDot} />
+            {apiOnline ? (shipment.data_mode === 'synthetic' ? 'Casper Live · демо' : 'Casper Live') : 'Офлайн-резерв'}
           </Badge>
         </div>
       </div>

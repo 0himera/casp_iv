@@ -1,0 +1,52 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 8px;
+  background-color: color-mix(in srgb, var(--card) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: var(--foreground);
+}
+.boxDanger {
+  border-color: var(--status-danger);
+  background-color: color-mix(in srgb, var(--status-danger) 12%, var(--card));
+}
+.boxXray { border-color: var(--accent-lavender); }
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.name {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.country { color: var(--muted-foreground); font-size: 10px; }
+.badgeSafe,
+.badgeDanger {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+.badgeSafe {
+  color: #639a67;
+  background: rgba(99, 154, 103, 0.12);
+  border: 1px solid rgba(99, 154, 103, 0.3);
+}
+.badgeDanger {
+  color: #cf6a46;
+  background: rgba(207, 106, 70, 0.16);
+  border: 1px solid rgba(207, 106, 70, 0.4);
+}
+.coords { font-size: 9px; color: var(--accent-slate); }
+.grid { display: flex; gap: 6px; font-size: 9px; color: var(--muted-foreground); }
+.archive { font-size: 8px; color: var(--muted-foreground); opacity: 0.8; }
