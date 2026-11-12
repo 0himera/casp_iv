@@ -46,6 +46,11 @@
 .zone { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
 .storm { background-color: rgba(217, 78, 52, 0.3); border: 1px solid var(--primary); }
 .calm { background-color: rgba(217, 138, 60, 0.22); border: 1px solid var(--status-warning); }
+.depthScale { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; color: #94A0B3; }
+.d1, .d2, .d3 { display: inline-block; width: 10px; height: 10px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.16); }
+.d1 { background: #2B6E87; }
+.d2 { background: #143B54; }
+.d3 { background: #071B2E; }
 
 .schematicTag {
   font-family: var(--font-mono), monospace;
