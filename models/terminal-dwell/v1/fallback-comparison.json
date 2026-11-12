@@ -1,0 +1,116 @@
+{
+  "task": "terminal_release_after_discharge",
+  "case_count": 14542,
+  "test_predictions_sha256": "fcd01c39113998baed88592b2893bc41a50a31e8aa023ee05616a18123b00a5e",
+  "fallback_parameters": {
+    "observed_at": "2026-11-12T12:00:00+03:00",
+    "container_size": 20,
+    "container_type": "DRY",
+    "gross_tonnes": 15.0,
+    "mode": "algorithm",
+    "fallback_duration": {
+      "minimum_hours": 0.0,
+      "typical_hours": 48.0,
+      "maximum_hours": 168.0
+    },
+    "samples": 2000,
+    "seed": 42
+  },
+  "fallback_quantiles_hours": {
+    "p10": 29.30311636057104,
+    "p50": 68.84654098098548,
+    "p90": 122.63303618097508
+  },
+  "monte_carlo_default": {
+    "mae_hours": 47.75283153632176,
+    "rmse_hours": 65.35273478575019,
+    "median_absolute_error_hours": 42.55292986987437,
+    "p90_absolute_error_hours": 67.6361561041005,
+    "bias_hours": 9.330361600188096,
+    "pinball_hours": {
+      "0.1": 8.272928136787836,
+      "0.5": 23.87641576816088,
+      "0.9": 15.602120667297608
+    },
+    "mean_pinball_hours": 15.91715485741544,
+    "p10_p90_coverage": 0.4740063265025444,
+    "mean_interval_width_hours": 93.32991982040404,
+    "below_p10_fraction": 0.4046210975106588,
+    "above_p90_fraction": 0.12137257598679686
+  },
+  "model_comparisons": {
+    "global_median": {
+      "mae_hours": 50.2092365791042,
+      "rmse_hours": 66.27412371396288,
+      "median_absolute_error_hours": 46.468611111111116,
+      "p90_absolute_error_hours": 70.55233333333334,
+      "bias_hours": 14.433820619202619,
+      "pinball_hours": {
+        "0.1": 6.125964314094042,
+        "0.5": 25.1046182895521,
+        "0.9": 17.77520395330002
+      },
+      "mean_pinball_hours": 16.33526218564872,
+      "p10_p90_coverage": 0.7016916517672948,
+      "mean_interval_width_hours": 180.0266666666667,
+      "below_p10_fraction": 0.25484802640627147,
+      "above_p90_fraction": 0.04346032182643378
+    },
+    "type_size_median": {
+      "mae_hours": 48.88439730130351,
+      "rmse_hours": 65.70915820432207,
+      "median_absolute_error_hours": 43.30083333333332,
+      "p90_absolute_error_hours": 78.75725,
+      "bias_hours": 14.885606251623651,
+      "pinball_hours": {
+        "0.1": 6.114745717385658,
+        "0.5": 24.442198650651754,
+        "0.9": 16.772119156771954
+      },
+      "mean_pinball_hours": 15.77635450826979,
+      "p10_p90_coverage": 0.6960528125429789,
+      "mean_interval_width_hours": 169.57257014165867,
+      "below_p10_fraction": 0.2603493329665796,
+      "above_p90_fraction": 0.04359785449044148
+    },
+    "catboost": {
+      "mae_hours": 48.61706424864053,
+      "rmse_hours": 65.42037737346287,
+      "median_absolute_error_hours": 41.81398983007685,
+      "p90_absolute_error_hours": 81.44933240789543,
+      "bias_hours": 15.594003562251704,
+      "pinball_hours": {
+        "0.1": 6.018655405646852,
+        "0.5": 24.308532124320266,
+        "0.9": 17.109464161373644
+      },
+      "mean_pinball_hours": 15.81221723044692,
+      "p10_p90_coverage": 0.6860129280704167,
+      "mean_interval_width_hours": 172.08105711028037,
+      "below_p10_fraction": 0.27155824508320725,
+      "above_p90_fraction": 0.042428826846376014
+    },
+    "random_forest": {
+      "mae_hours": 59.66993863819561,
+      "rmse_hours": 73.6647540136081,
+      "median_absolute_error_hours": 54.75271844847713,
+      "p90_absolute_error_hours": 100.00444859294346,
+      "bias_hours": 33.155577184439196
+    },
+    "random_forest_log": {
+      "mae_hours": 47.47193333122199,
+      "rmse_hours": 66.60063477793163,
+      "median_absolute_error_hours": 37.73513340377028,
+      "p90_absolute_error_hours": 87.0175473383167,
+      "bias_hours": 10.307166147867653
+    }
+  },
+  "parameters_tuned_on_test": false,
+  "interpretation": [
+    "The default fallback is a fixed scenario distribution, not a fitted model",
+    "Remaining-hour quantiles are identical for every case with these default assumptions",
+    "All methods use exactly the same historical completed-case sample",
+    "This is a post-hoc comparison, not additional independent validation",
+    "Small mean-error differences do not establish statistically significant superiority"
+  ]
+}
