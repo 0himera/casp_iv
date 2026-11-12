@@ -8,10 +8,12 @@ async function proxy(request: Request, context: { params: Promise<{ path: string
   if (path.some((part) => !/^[a-zA-Z0-9_-]+$/.test(part))) return new Response(null, { status: 400 });
   const url = new URL(`${backend}/${path.map(encodeURIComponent).join('/')}`);
   url.search = new URL(request.url).search;
-  const roleName = request.headers.get('authorization')?.replace(/^Bearer demo-/, '') as Role;
-  const token = Object.hasOwn(previewTokens, roleName) ? previewTokens[roleName] : undefined;
+  const authorization = request.headers.get('authorization');
+  const roleName = authorization?.match(/^Bearer demo-([a-z]+)$/)?.[1] as Role | undefined;
+  const token = roleName && Object.hasOwn(previewTokens, roleName) ? previewTokens[roleName] : undefined;
   const headers = new Headers();
   if (token) headers.set('Authorization', `Bearer ${token}`);
+  else if (authorization?.startsWith('Bearer ')) headers.set('Authorization', authorization);
   const contentType = request.headers.get('content-type');
   const idempotency = request.headers.get('idempotency-key');
   if (contentType) headers.set('Content-Type', contentType);

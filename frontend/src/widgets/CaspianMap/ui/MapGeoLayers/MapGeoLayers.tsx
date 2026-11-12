@@ -5,7 +5,7 @@ import { Layer, Source } from 'react-map-gl/maplibre';
 import type { FeatureCollection, LineString, Point } from 'geojson';
 import { CALM_ZONE_GEOJSON, STORM_ZONE_GEOJSON } from '@/data/mockTransitData';
 import { getCssVarColor } from '@/shared/lib/theme-colors';
-import { buildCaspianGraticule, smoothSeaArc } from '../../model/caspianGraticule';
+import { buildCaspianGraticule } from '../../model/caspianGraticule';
 
 const CRIMEA_LABEL: FeatureCollection<Point> = {
   type: 'FeatureCollection',
@@ -39,9 +39,9 @@ export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGr
     surface: getCssVarColor('--surface-default', 'transparent'),
   }), []);
   const graticule = useMemo(() => buildCaspianGraticule(), []);
-  const curvedRoutes = useMemo(() => ({
+  const displayRoutes = useMemo(() => ({
     ...routeGeoJson,
-    features: routeGeoJson.features.map((f) => ({ ...f, properties: { ...(f.properties ?? {}), hovered: f.properties?.id === hoveredRouteId ? 1 : 0 }, geometry: { ...f.geometry, coordinates: smoothSeaArc(f.geometry.coordinates, 0.1) } })),
+    features: routeGeoJson.features.map((f) => ({ ...f, properties: { ...(f.properties ?? {}), hovered: f.properties?.id === hoveredRouteId ? 1 : 0 }, geometry: f.geometry })),
   }), [routeGeoJson, hoveredRouteId]);
 
   return (
@@ -70,7 +70,7 @@ export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGr
       <Source id="caspian-bathymetry" type="geojson" data="/geo/caspian-bathymetry.json"><Layer id="bathymetry-fill" type="fill" paint={{ 'fill-color': ['match', ['get', 'depth_m'], 15, palette.shallow, 180, palette.midDepth, 450, palette.deep, 1025, palette.deepest, palette.midDepth], 'fill-opacity': 0.92 }} /><Layer id="bathymetry-isobath" type="line" paint={{ 'line-color': palette.contour, 'line-width': 0.7, 'line-opacity': 0.58, 'line-dasharray': [3, 3] }} /></Source>
       {showGrid && <Source id="caspian-graticule" type="geojson" data={graticule}><Layer id="graticule-lines" type="line" paint={{ 'line-color': palette.grid, 'line-width': 0.65, 'line-dasharray': [2, 5], 'line-opacity': 0.6 }} /></Source>}
       {showStorm && <Source id="storm-zone" type="geojson" data={stormGeoJson}><Layer id="storm-fill" type="fill" paint={{ 'fill-color': palette.primary, 'fill-opacity': stormActive ? 0.2 : 0.04 }} /><Layer id="storm-outline" type="line" paint={{ 'line-color': palette.primary, 'line-width': 1.4, 'line-dasharray': [4, 4] }} /></Source>}
-      <Source id="cargo-routes" type="geojson" data={curvedRoutes}>
+      <Source id="cargo-routes" type="geojson" data={displayRoutes}>
         <Layer id="alt-route-line" type="line" filter={['==', ['get', 'selected'], 0]} paint={{ 'line-width': ['case', ['==', ['get', 'hovered'], 1], 2.8, 1.5], 'line-color': ['case', ['==', ['get', 'hovered'], 1], palette.warning, palette.routeAlt], 'line-dasharray': [4, 3], 'line-opacity': ['case', ['==', ['get', 'hovered'], 1], 0.96, 0.72] }} />
         <Layer id="active-route-casing" type="line" filter={['==', ['get', 'selected'], 1]} layout={{ 'line-cap': 'round', 'line-join': 'round' }} paint={{ 'line-width': 5, 'line-color': palette.routeCasing, 'line-opacity': 0.95 }} />
         <Layer id="active-route-line" type="line" filter={['==', ['get', 'selected'], 1]} layout={{ 'line-cap': 'round', 'line-join': 'round' }} paint={{ 'line-width': 2.5, 'line-color': palette.primary, 'line-opacity': 1 }} />

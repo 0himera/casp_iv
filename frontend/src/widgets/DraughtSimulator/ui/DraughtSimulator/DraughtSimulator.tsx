@@ -20,14 +20,15 @@ export function DraughtSimulator({ shipment }: DraughtSimulatorProps) {
     <section className={styles.frame}>
       <div className={styles.header}>
         <div>
-          <span className={styles.stamp}>{'[ ARCHIVAL SPEC // КАЛЬКУЛЯТОР ОСАДКИ И ОБМЕЛЕНИЯ КАСПИЯ ]'}</span>
-          <h2 className={styles.heading}>Гидрологический симулятор прохода судов</h2>
+          <span className={styles.stamp}>{'[ ДЕМО // УСЛОВНЫЕ ПАРАМЕТРЫ ОСАДКИ ]'}</span>
+          <h2 className={styles.heading}>Сценарный симулятор осадки</h2>
         </div>
         <Badge variant={sim.atRisk ? 'destructive' : 'success'}>
           {sim.atRisk ? <AlertTriangle className={styles.icon} /> : <CheckCircle2 className={styles.icon} />}
-          <span>{sim.atRisk ? 'ОГРАНИЧЕНИЕ ОСАДКИ' : 'ПРОХОД БЕЗОПАСЕН'}</span>
+          <span>{sim.atRisk ? 'ДЕМО: НЕДОСТАТОЧНЫЙ ЗАПАС' : 'ДЕМО: ПОЛОЖИТЕЛЬНЫЙ ЗАПАС'}</span>
         </Badge>
       </div>
+      <p className={styles.sub}>Расчёт по условным константам. Глубины, сборы и загрузка не получены от операторов. Результат не подтверждает возможность или безопасность прохода.</p>
       <div className={styles.grid}>
         <div className={styles.controls}>
           <label className={styles.field}>
@@ -46,10 +47,10 @@ export function DraughtSimulator({ shipment }: DraughtSimulatorProps) {
           </label>
         </div>
         <div className={styles.metrics}>
-          <div className={styles.kpi}><span className={styles.label}>ГЛУБИНА КАНАЛА</span><span className={styles.big}>{sim.availableDepth} м</span><span className={styles.sub}>Требуемая осадка: {sim.requiredDraught} м</span></div>
-          <div className={styles.kpi}><span className={styles.label}>ЗАПАС ПОД КИЛЕМ (UKC)</span><span className={`${styles.big} ${sim.atRisk ? styles.danger : styles.ok}`}>{sim.ukc} м</span><span className={styles.sub}>{sim.atRisk ? 'Риск касания грунта (рекомендуется Махачкала / Актау)' : 'В пределах допуска БСУ'}</span></div>
-          <div className={styles.kpi}><span className={styles.label}>ПРЕДЕЛЬНЫЙ ДЕДВЕЙТ</span><span className={styles.big}>{sim.safeDwt.toLocaleString('ru-RU')} т</span><span className={styles.sub}>Загруженность рейда: {sim.congestion}%</span></div>
-          <div className={styles.kpi}><span className={styles.label}>ДНОУГЛУБ. СБОР</span><span className={styles.big}>{sim.ecoEscrow.toLocaleString('ru-RU')} ₽</span><span className={styles.sub}>Пропорционально тоннажу и уровню MSL</span></div>
+          <div className={styles.kpi}><span className={styles.label}>ГЛУБИНА · СЦЕНАРИЙ</span><span className={styles.big}>{sim.availableDepth} м</span><span className={styles.sub}>Требуемая осадка: {sim.requiredDraught} м</span></div>
+          <div className={styles.kpi}><span className={styles.label}>ЗАПАС ПОД КИЛЕМ (UKC)</span><span className={`${styles.big} ${sim.atRisk ? styles.danger : styles.ok}`}>{sim.ukc} м</span><span className={styles.sub}>{sim.atRisk ? 'Недостаточный запас в сценарии' : 'Положительный запас в сценарии'}</span></div>
+          <div className={styles.kpi}><span className={styles.label}>ДЕДВЕЙТ · СЦЕНАРИЙ</span><span className={styles.big}>{sim.safeDwt.toLocaleString('ru-RU')} т</span><span className={styles.sub}>Условная загрузка: {sim.congestion}%</span></div>
+          <div className={styles.kpi}><span className={styles.label}>СБОР · СЦЕНАРИЙ</span><span className={styles.big}>{sim.ecoEscrow.toLocaleString('ru-RU')} ₽</span><span className={styles.sub}>Пропорционально тоннажу и уровню MSL</span></div>
         </div>
       </div>
     </section>

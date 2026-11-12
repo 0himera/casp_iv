@@ -4,7 +4,6 @@ import { Layer, Source } from 'react-map-gl/maplibre';
 import type { FeatureCollection, LineString } from 'geojson';
 import { getCssVarColor } from '@/shared/lib/theme-colors';
 import { seaRoute } from '@/entities/shipment/lib/marineGeometry';
-import { smoothSeaArc } from '../../model/caspianGraticule';
 import { useCorridors } from '../../model/useCorridors';
 
 export function CorridorLines({ highlighted }: { highlighted: string[] }) {
@@ -19,7 +18,7 @@ export function CorridorLines({ highlighted }: { highlighted: string[] }) {
       return [{
         type: 'Feature' as const,
         properties: { highlighted: highlighted.includes(edge.id) ? 1 : 0 },
-        geometry: { type: 'LineString' as const, coordinates: smoothSeaArc(points, 0.1) },
+        geometry: { type: 'LineString' as const, coordinates: points },
       }];
     }),
   };

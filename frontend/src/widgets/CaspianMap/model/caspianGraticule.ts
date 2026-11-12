@@ -18,23 +18,3 @@ export function buildCaspianGraticule(): FeatureCollection<LineString> {
   }
   return { type: 'FeatureCollection', features };
 }
-
-export function smoothSeaArc(coords: number[][], bend = 0.08): number[][] {
-  if (coords.length !== 2) return coords;
-  const [[x1, y1], [x2, y2]] = coords;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const mx = (x1 + x2) / 2 - dy * bend;
-  const my = (y1 + y2) / 2 + dx * bend;
-  const out: number[][] = [];
-  for (let i = 0; i <= 14; i++) {
-    const t = i / 14;
-    const inv = 1 - t;
-    out.push([
-      inv * inv * x1 + 2 * inv * t * mx + t * t * x2,
-      inv * inv * y1 + 2 * inv * t * my + t * t * y2,
-    ]);
-  }
-  return out;
-}
-
