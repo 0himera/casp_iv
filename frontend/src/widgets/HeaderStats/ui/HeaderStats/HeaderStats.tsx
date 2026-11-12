@@ -27,8 +27,8 @@ export function HeaderStats(props: HeaderStatsProps) {
     <header className={styles.header}>
       <div className={styles.brandBlock}>
         <div className={styles.brandTitleRow}>
-          <span className={styles.brandName}>CaspiFlow</span>
-          <span className={styles.brandItalic}>Atlas</span>
+          <span className={styles.brandName}>CASPIAN</span>
+          <span className={styles.brandItalic}>Transit</span>
           <span className={styles.stamp}>{`${shipment.id} // REV ${shipment.revision}`}</span>
         </div>
         <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>

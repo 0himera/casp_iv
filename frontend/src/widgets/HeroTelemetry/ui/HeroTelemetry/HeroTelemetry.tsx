@@ -25,12 +25,12 @@ export function HeroTelemetry({ shipment, stormActive }: HeroTelemetryProps) {
         <div className={styles.bgMask} />
       </div>
       <div className={styles.content}>
-        <span className={styles.overline}>{'[ CASPIAN BASIN // SPECTRAL TELEMETRY V4.2A ]'}</span>
+        <span className={styles.overline}>{'[ CASPIAN BASIN / ROUTE DESK 01 ]'}</span>
         <h1 className={styles.headline}>
-          Спектральная картография <span className={styles.accentSerif}>каспийских</span> коридоров
+          Каспийский <span className={styles.accentSerif}>маршрутный</span> журнал
         </h1>
         <p className={styles.subtitle}>
-          Мультимодальный контроль переходов, прогностическое моделирование погодных окон и криптографическая аттестация рейсов на базе блокчейн-реестра.
+          Переходы, погода и документы грузов на одном навигационном столе. Выберите рейс, чтобы проследить его путь через Каспийский бассейн.
         </p>
         <div className={styles.actions}>
           <Button type="button" variant="default" size="lg" onClick={() => jumpTo('route-section')}>

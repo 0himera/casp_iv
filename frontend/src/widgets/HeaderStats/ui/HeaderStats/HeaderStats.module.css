@@ -23,8 +23,8 @@
 .brandName {
   font-family: var(--font-sans);
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.045em;
   color: var(--foreground);
 }
 
@@ -32,16 +32,27 @@
   font-family: var(--font-editorial);
   font-style: italic;
   font-weight: 400;
-  font-size: 21px;
+  font-size: 20px;
   color: var(--primary);
 }
 
 .stamp {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted-foreground);
   letter-spacing: 0.04em;
 }
 
 .statusBadge { gap: 6px; }
 .warnDot { width: 6px; height: 6px; border-radius: 50%; background-color: var(--status-warning); }
+
+.brandName::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--primary);
+  transform: rotate(-45deg);
+}
