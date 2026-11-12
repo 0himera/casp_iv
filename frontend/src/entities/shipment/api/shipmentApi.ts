@@ -7,7 +7,7 @@ import {
   type ShipmentSummary,
 } from '@/shared/api/caspian';
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4010/api/v1';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://150.251.112.240:18081/api/v1';
 
 export const shipmentKeys = {
   all: ['caspian-shipments'] as const,
