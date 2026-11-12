@@ -17,10 +17,10 @@
   gap: 6px;
 }
 
-.titleWrap { justify-content: flex-start; }
+.titleWrap { justify-content: flex-start; gap: 6px; }
 .title { font-size: 12px; font-weight: 500; color: var(--foreground); }
 .collageBadge { transform: translateY(-1px); }
-.icon { width: 13px; height: 13px; color: var(--status-success); }
+.icon { width: 13px; height: 13px; color: var(--muted-foreground); }
 .miniIcon { width: 11px; height: 11px; }
 
 .subRow,

@@ -1,0 +1,2 @@
+export { HeroKpiGrid } from './HeroKpiGrid';
+

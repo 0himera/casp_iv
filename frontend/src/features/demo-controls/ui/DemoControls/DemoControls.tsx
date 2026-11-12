@@ -36,7 +36,7 @@ export function DemoControls({
             key={item.id}
             type="button"
             size="sm"
-            variant={role === item.id ? 'default' : 'outline'}
+            variant={role === item.id ? 'secondary' : 'outline'}
             onClick={() => onChangeRole(item.id)}
           >
             {item.label}

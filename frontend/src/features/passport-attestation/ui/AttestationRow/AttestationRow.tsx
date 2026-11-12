@@ -21,10 +21,10 @@ export function AttestationRow({ role, currentRole, version, attestations }: Att
   const isInvalidated = latest?.status === 'invalidated';
 
   const statusLabel = role === 'customs'
-    ? isApproved ? 'e-CMR pre-clearance auto-verified' : isInvalidated ? 'Pending (re-approval)' : 'Pending e-CMR'
-    : isApproved ? 'Approved' : isRejected ? 'Rejected' : isInvalidated ? 'Invalidated' : 'Pending';
+    ? isApproved ? 'e-CMR верифицирован' : isInvalidated ? 'Повторная подпись' : 'Ожидает e-CMR'
+    : isApproved ? 'Согласовано' : isRejected ? 'Отклонено' : isInvalidated ? 'Повторная подпись' : 'Ожидает подписи';
 
-  const variant = isApproved ? 'success' : isRejected ? 'destructive' : 'warning';
+  const variant = isApproved ? 'success' : isRejected ? 'destructive' : isInvalidated ? 'warning' : 'outline';
 
   return (
     <div className={`${styles.row} ${role === currentRole ? styles.activeRole : ''}`}>

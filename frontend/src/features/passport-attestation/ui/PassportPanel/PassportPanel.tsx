@@ -3,7 +3,7 @@
 import { ExternalLink, ShieldCheck } from 'lucide-react';
 import { getPassportStatusLabel } from '@/entities/shipment';
 import type { Role, Shipment } from '@/shared/api/caspian';
-import { Badge, PixelMarker, Separator, ViewfinderFrame } from '@/shared/ui';
+import { Badge, Separator, ViewfinderFrame } from '@/shared/ui';
 import { AttestationRow } from '../AttestationRow';
 import { DocumentList } from '../DocumentList';
 import { PassportActions } from '../PassportActions';
@@ -30,13 +30,12 @@ export function PassportPanel({
   const { passport, documents, allowed_actions } = shipment;
   const canAttest = allowed_actions.includes('attest') && !isBusy;
   const canReplace = allowed_actions.includes('replace_document') && !isBusy;
-  const variant = passport.status === 'ready' ? 'success' : passport.status === 'blocked' ? 'destructive' : 'warning';
+  const variant = passport.status === 'ready' ? 'success' : passport.status === 'blocked' ? 'destructive' : 'secondary';
 
   return (
     <ViewfinderFrame stamp="Pre-clearance" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
-          <PixelMarker variant={passport.status === 'ready' ? 'verified' : 'telemetry'} />
           <ShieldCheck className={styles.icon} />
           <span className={styles.title}>Паспорт v{passport.version}</span>
         </span>

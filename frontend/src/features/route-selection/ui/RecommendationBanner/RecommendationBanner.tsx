@@ -47,7 +47,7 @@ export function RecommendationBanner({
       <div className={styles.metaRow}><span>Задержка: +48 ч</span><span>Альтернатива: 12% риск</span></div>
       {onRerouteAlternative && (
         <Button size="sm" variant="default" disabled={!canSelectRoute || isBusy} onClick={onRerouteAlternative} className={styles.actionBtn}>
-          Перестроить маршрут (/reroute-amirabad) <ArrowRight size={12} />
+          Перестроить маршрут в обход шторма <ArrowRight size={12} />
         </Button>
       )}
     </div>

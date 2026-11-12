@@ -1,30 +1,26 @@
 .bar {
-  position: absolute;
-  top: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: calc(100vw - 100px);
-  overflow-x: auto;
-  z-index: 10;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  padding: 4px 6px;
-  border-radius: 8px;
+  padding: 4px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background-color: color-mix(in srgb, var(--card) 88%, transparent);
-  backdrop-filter: blur(8px);
+  background-color: var(--surface-low);
 }
 
 .presetBtn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 5px;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   background: transparent;
+  font-family: var(--font-mono);
   font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--muted-foreground);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -32,13 +28,17 @@
 
 .presetBtn:hover {
   color: var(--foreground);
-  background-color: var(--accent);
+  background-color: var(--surface-raised);
+}
+
+.presetBtn:active {
+  transform: scale(0.96);
 }
 
 .active {
   color: var(--foreground);
-  border-color: var(--border-strong);
-  background-color: var(--secondary);
+  border-color: var(--accent-cyan);
+  background-color: color-mix(in srgb, var(--accent-cyan) 12%, var(--surface-low));
 }
 
 .divider {

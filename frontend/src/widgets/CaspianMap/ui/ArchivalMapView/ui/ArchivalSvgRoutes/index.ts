@@ -1,0 +1,2 @@
+export { ArchivalSvgRoutes } from './ArchivalSvgRoutes';
+

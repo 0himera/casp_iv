@@ -1,0 +1,2 @@
+export { CaspianMapDock } from './CaspianMapDock';
+

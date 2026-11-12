@@ -1,17 +1,18 @@
 'use client';
 
+import { Layers } from 'lucide-react';
+import { PassportPanel } from '@/features/passport-attestation';
 import { RouteDecisionOverlay } from '@/features/route-selection';
-import { AsciiCaspianBackground } from '@/shared/ui';
-import { CargoSidebar } from '@/widgets/CargoSidebar';
-import { NavigationRail } from '@/widgets/NavigationRail';
+import { Button, FilmGrainOverlay } from '@/shared/ui';
+import { DraughtSimulator } from '@/widgets/DraughtSimulator';
+import { EsgWidget } from '@/widgets/EsgWidget';
+import { HeroTelemetry } from '@/widgets/HeroTelemetry';
+import { PredictiveChart } from '@/widgets/PredictiveChart';
 import { SpatialCore } from '@/widgets/SpatialCore';
 import { useCommandCenterActions } from '../../model/useCommandCenterActions';
 import { useCommandCenterState } from '../../model/useCommandCenterState';
 import { useLayoutState } from '../../model/useLayoutState';
-import { AnalyticsPanel } from '../AnalyticsPanel';
-import { CommandCenterActions } from '../CommandCenterActions';
 import { CommandCenterTopBar } from '../CommandCenterTopBar';
-import { CustomsOverlay } from '../CustomsOverlay';
 import styles from './CommandCenterPage.module.css';
 
 export function CommandCenterPage() {
@@ -19,18 +20,31 @@ export function CommandCenterPage() {
   const l = useLayoutState();
   const stormActive = s.scenario === 'storm';
   const a = useCommandCenterActions({ ...s, stormActive });
-
   return (
     <div className={styles.root}>
-      <AsciiCaspianBackground />
-      <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} onSelectRoute={s.selectRoute} />
-      <NavigationRail mode={l.mode} onToggleMode={l.setMode} manifestOpen={l.manifestOpen} onToggleManifest={l.toggleManifest} customsOpen={l.customsOpen} onToggleCustoms={l.toggleCustoms} analyticsOpen={l.analyticsOpen} onToggleAnalytics={l.toggleAnalytics} stormActive={stormActive} onToggleStorm={a.onToggleStorm} />
-      <CargoSidebar isOpen={l.manifestOpen} onClose={l.closeManifest} items={s.items} shipment={s.shipment} onSelectShipment={s.setSelectedId} />
-      <CommandCenterTopBar shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} isBusy={s.isBusy} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />
-      <RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} />
-      <CustomsOverlay shipment={s.shipment} role={s.role} isBusy={s.isBusy} isOpen={l.customsOpen} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} onClose={l.closeCustoms} />
-      <AnalyticsPanel shipment={s.shipment} stormActive={stormActive} isOpen={l.analyticsOpen} onClose={l.closeAnalytics} />
-      <CommandCenterActions stormActive={stormActive} xrayMode={l.xrayMode} isBusy={s.isBusy} onToggleXray={l.toggleXray} {...a} />
+      <FilmGrainOverlay />
+      <CommandCenterTopBar items={s.items} shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} mode={l.mode} isBusy={s.isBusy} canRunScenario={a.canRunScenario} onSelectShipment={s.setSelectedId} onToggleMode={l.setMode} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />
+      <main className={styles.container}>
+        <HeroTelemetry shipment={s.shipment} stormActive={stormActive} />
+        <section className={styles.mapSection}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionStamp}>{'[ FIG. 01 // CASPIAN HYDRO-CORRIDORS & TELEMETRY ]'}</span>
+            <Button type="button" size="sm" variant={l.xrayMode ? 'default' : 'outline'} onClick={l.toggleXray}>
+              <Layers className={styles.btnIcon} /> {l.xrayMode ? 'X-RAY ВКЛ' : 'X-RAY РЕНТГЕН'}
+            </Button>
+          </div>
+          <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole} onAttest={s.attest} />
+        </section>
+        <DraughtSimulator shipment={s.shipment} />
+        <section id="route-section" className={styles.bentoRow}>
+          <div className={styles.bentoCell}><RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} /></div>
+          <div className={styles.bentoCell}><PredictiveChart shipment={s.shipment} stormActive={stormActive} /></div>
+        </section>
+        <section id="ledger-section" className={styles.bentoRow}>
+          <div className={styles.bentoCell}><PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} /></div>
+          <div className={styles.bentoCell}><EsgWidget shipment={s.shipment} /></div>
+        </section>
+      </main>
     </div>
   );
 }

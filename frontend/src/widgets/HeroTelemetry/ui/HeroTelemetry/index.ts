@@ -1,0 +1,2 @@
+export { HeroTelemetry } from './HeroTelemetry';
+

@@ -1,0 +1,2 @@
+export { ArchivalSvgDefs } from './ArchivalSvgDefs';
+

@@ -1,0 +1,29 @@
+.frame { display: flex; flex-direction: column; gap: 18px; padding: 22px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-low); }
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.stamp { display: block; margin-bottom: 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--cyan); }
+.heading { font-family: var(--font-editorial); font-size: 24px; font-weight: 400; color: var(--foreground); }
+.grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; }
+.controls { display: flex; flex-direction: column; gap: 14px; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-default); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.labelRow { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); }
+.label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.07em; color: var(--muted-foreground); }
+.val { color: var(--foreground); font-weight: 600; }
+.select { padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-strong); background: var(--card-elevated); color: var(--foreground); font-size: 12px; }
+.slider { accent-color: var(--primary); cursor: pointer; transition: filter 0.15s ease; }
+.slider:hover { filter: brightness(1.15); }
+.metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.kpi {
+  display: flex; flex-direction: column; gap: 5px; padding: 14px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--surface-default);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.kpi:hover {
+  transform: translateY(-2px); border-color: var(--border-strong);
+  box-shadow: none;
+}
+.big { font-family: var(--font-mono); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--foreground); }
+.sub { font-size: 11px; color: var(--muted-foreground); line-height: 1.35; }
+.danger { color: var(--status-danger); }
+.ok { color: var(--status-success); }
+.icon { width: 13px; height: 13px; flex-shrink: 0; }
+@media (max-width: 900px) { .grid, .metrics { grid-template-columns: 1fr; } }

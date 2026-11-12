@@ -1,0 +1,66 @@
+.section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  padding: clamp(30px, 5vw, 62px) clamp(24px, 5vw, 64px) 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface-default);
+  overflow: hidden;
+}
+
+.backdrop { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.bgImage { object-fit: cover; object-position: center 42%; opacity: 0.17; filter: grayscale(0.7) saturate(0.65) contrast(1.12); mix-blend-mode: screen; }
+
+.bgMask {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--surface-default) 0%, color-mix(in srgb, var(--surface-default) 88%, transparent) 42%, color-mix(in srgb, var(--surface-default) 44%, transparent) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent-cyan) 5%, transparent), var(--surface-default));
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 15px;
+  max-width: 690px;
+}
+
+.overline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+}
+
+.headline {
+  font-family: var(--font-editorial);
+  max-width: 14ch;
+  font-size: clamp(2.65rem, 5.4vw, 5rem);
+  font-weight: 400;
+  line-height: 0.99;
+  letter-spacing: -0.045em;
+  color: var(--foreground);
+}
+
+.accentSerif { font-style: italic; color: var(--primary); }
+.subtitle { max-width: 55ch; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.actions { display: flex; align-items: flex-start; justify-content: flex-start; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.icon { width: 15px; height: 15px; }
+
+@media (max-width: 640px) {
+  .section { padding: 28px 20px 20px; gap: 24px; }
+  .headline { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+  .subtitle { font-size: 13px; }
+  .actions { align-items: stretch; width: 100%; }
+  .actions > * { width: 100%; }
+}

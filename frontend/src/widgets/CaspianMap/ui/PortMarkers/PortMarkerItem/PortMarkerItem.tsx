@@ -1,9 +1,6 @@
 'use client';
 
 import type { CaspianPort } from '@/entities/cargo';
-import { getLeaderLineConfig } from '../../../model/calloutDirections';
-import { BioOpticReticle } from '../BioOpticReticle';
-import { TelemetryCallout } from '../TelemetryCallout';
 import styles from './PortMarkerItem.module.css';
 
 interface PortMarkerItemProps {
@@ -14,30 +11,31 @@ interface PortMarkerItemProps {
   onClick?: (port: CaspianPort) => void;
 }
 
-export function PortMarkerItem({
-  port,
-  isDanger,
-  xrayMode,
-  isSelected,
-  onClick,
-}: PortMarkerItemProps) {
-  const cfg = getLeaderLineConfig(port.id);
-  const strokeClass = isDanger ? styles.strokeDanger : styles.strokeNormal;
+const LEFT_PORTS = new Set(['makhachkala', 'anzali', 'baku', 'alat']);
+
+function getAlignClass(id: string): string {
+  if (LEFT_PORTS.has(id)) return styles.left;
+  if (id === 'kuryk') return styles.downRight;
+  if (id === 'aktau') return styles.upRight;
+  return styles.right;
+}
+
+export function PortMarkerItem({ port, isDanger, isSelected, onClick }: PortMarkerItemProps) {
+  const wind = port.live?.windSpeed ?? (port.live?.demoMetricsAvailable ? port.windSpeedKmh : null);
 
   return (
-    <div className={styles.container}>
-      <BioOpticReticle isDanger={isDanger} xrayMode={xrayMode} />
-      <svg className={styles.leaderSvg} viewBox="-100 -100 200 200">
-        <path d={cfg.path} className={`${styles.leaderPath} ${strokeClass}`} />
-        <circle cx={cfg.endX} cy={cfg.endY} r="2" className={`${styles.leaderDot} ${strokeClass}`} />
-      </svg>
-      <div
-        className={`${styles.calloutWrapper} ${isSelected ? styles.selected : ''}`}
-        style={cfg.calloutStyle}
-        onClick={(event) => { event.stopPropagation(); onClick?.(port); }}
-      >
-        <TelemetryCallout port={port} isDanger={isDanger} xrayMode={xrayMode} />
-      </div>
+    <div
+      className={styles.container}
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick?.(port);
+      }}
+    >
+      <span className={`${styles.beacon} ${isDanger ? styles.beaconDanger : ''} ${isSelected ? styles.beaconSelected : ''}`} />
+      <span className={`${styles.pill} ${getAlignClass(port.id)} ${isDanger ? styles.pillDanger : ''} ${isSelected ? styles.pillSelected : ''}`}>
+        <span>{port.name}</span>
+        {wind !== null && <span className={styles.wind}>{Math.round(wind)}</span>}
+      </span>
     </div>
   );
 }

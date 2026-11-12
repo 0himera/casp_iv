@@ -5,10 +5,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card-elevated: var(--card-elevated);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -16,10 +18,32 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-sage: var(--accent-sage);
+  --color-cyan: var(--cyan);
+  --color-bio-chartreuse: var(--bio-chartreuse);
+  --color-thermal-amber: var(--thermal-amber);
+  --color-surface-default: var(--surface-default);
+  --color-surface-low: var(--surface-low);
+  --color-surface-raised: var(--surface-raised);
+  --color-map-land: var(--map-land);
+  --color-map-land-use: var(--map-land-use);
+  --color-map-water: var(--map-water);
+  --color-map-shallow: var(--map-shallow);
+  --color-map-mid-depth: var(--map-mid-depth);
+  --color-map-deep: var(--map-deep);
+  --color-map-deepest: var(--map-deepest);
+  --color-map-shore: var(--map-shore);
+  --color-map-label: var(--map-label);
+  --color-status-success: var(--status-success);
+  --color-status-warning: var(--status-warning);
+  --color-status-danger: var(--status-danger);
+  --color-map-background: var(--map-background);
   --color-lavender: var(--accent-lavender);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --font-sans: var(--font-sans);
@@ -32,11 +56,17 @@ body {
   background-color: var(--background);
   background-image:
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+    repeating-radial-gradient(ellipse at 18% 28%, transparent 0 46px, color-mix(in srgb, var(--map-grid) 45%, transparent) 47px, transparent 48px 92px);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
   --font-editorial: var(--font-serif), Georgia, serif;
 }
+
+::selection { background: var(--primary); color: var(--primary-foreground); }
+button, a { -webkit-tap-highlight-color: transparent; }

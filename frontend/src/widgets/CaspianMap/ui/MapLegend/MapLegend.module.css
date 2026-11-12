@@ -1,58 +1,60 @@
 .legend {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 10;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background-color: color-mix(in srgb, var(--card) 86%, transparent);
-  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  background-color: var(--surface-default);
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-family: var(--font-mono);
   font-size: 11px;
   color: var(--foreground);
 }
 
-.line {
-  display: inline-block;
-  width: 14px;
-  height: 2px;
-  border-radius: 1px;
+.toggleItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
 }
+.on { color: var(--foreground); border-color: var(--accent-cyan); background: color-mix(in srgb, var(--accent-cyan) 10%, var(--surface-low)); }
+.off { color: var(--muted-foreground); opacity: 0.6; }
 
-.rail { background-color: var(--mode-rail); }
-.sea { background-color: var(--mode-sea); }
-.road { background-color: var(--mode-road); }
-
-.zone {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-}
-
-.storm {
-  background-color: color-mix(in srgb, var(--status-danger) 40%, transparent);
-  border: 1px solid var(--status-danger);
-}
-
-.calm {
-  background-color: color-mix(in srgb, var(--status-warning) 30%, transparent);
-  border: 1px solid var(--status-warning);
-}
+.line { display: inline-block; width: 16px; height: 2px; border-radius: 1px; }
+.rail { background-color: var(--primary); }
+.sea { border-bottom: 2px dashed var(--cyan); height: 0; }
+.zone { display: inline-block; width: 10px; height: 10px; border-radius: var(--radius-sm); }
+.storm { background-color: color-mix(in srgb, var(--primary) 28%, transparent); border: 1px solid var(--primary); }
+.calm { background-color: color-mix(in srgb, var(--status-warning) 22%, transparent); border: 1px solid var(--status-warning); }
+.depthScale { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+.d1, .d2, .d3 { display: inline-block; width: 10px; height: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.d1 { background: var(--map-shallow); }
+.d2 { background: var(--map-mid-depth); }
+.d3 { background: var(--map-deepest); }
 
 .schematicTag {
   font-family: var(--font-mono), monospace;
   font-size: 10px;
+  letter-spacing: 0.06em;
   color: var(--muted-foreground);
-  border-left: 1px solid var(--border);
-  padding-left: 8px;
 }

@@ -1,0 +1,2 @@
+export { ArchivalSvgDecor } from './ArchivalSvgDecor';
+

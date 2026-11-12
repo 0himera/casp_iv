@@ -14,9 +14,9 @@ export function AsciiCaspianBackground() {
     if (!canvas || !ctx) return;
 
     const palette = [
-      getCssVarColor('--ascii-slate', '#7D99AA'),
-      getCssVarColor('--ascii-lavender', '#9386B8'),
-      getCssVarColor('--ascii-sage', '#639A67'),
+      getCssVarColor('--accent-cyan', 'transparent'),
+      getCssVarColor('--accent-lavender', 'transparent'),
+      getCssVarColor('--accent-sage', 'transparent'),
     ];
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let rafId = 0;

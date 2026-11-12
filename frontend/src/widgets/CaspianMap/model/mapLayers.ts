@@ -17,10 +17,10 @@ export function buildRouteGeoJson(
 
 export function resolveMapPalette() {
   return {
-    rail: getCssVarColor('--mode-rail', '#8096a5'),
-    sea: getCssVarColor('--mode-sea', '#6e8c82'),
-    road: getCssVarColor('--mode-road', '#b89b6a'),
-    danger: getCssVarColor('--status-danger', '#ba735b'),
-    warning: getCssVarColor('--status-warning', '#b89b6a'),
+    rail: getCssVarColor('--mode-rail', 'transparent'),
+    sea: getCssVarColor('--mode-sea', 'transparent'),
+    road: getCssVarColor('--mode-road', 'transparent'),
+    danger: getCssVarColor('--status-danger', 'transparent'),
+    warning: getCssVarColor('--status-warning', 'transparent'),
   };
 }

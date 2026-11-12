@@ -35,7 +35,7 @@
 
 .reductionTag {
   padding: 3px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--status-success) 35%, transparent);
   font-family: var(--font-mono), monospace;
   font-size: 11px;

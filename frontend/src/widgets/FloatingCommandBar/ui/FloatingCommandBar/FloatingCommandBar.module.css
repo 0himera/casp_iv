@@ -1,3 +1,14 @@
+@keyframes floatBarEntrance {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 14px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
 .bar {
   position: fixed;
   bottom: 20px;
@@ -8,13 +19,13 @@
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--border);
-  background-color: color-mix(in srgb, var(--card) 85%, transparent);
-  backdrop-filter: blur(12px);
+  background-color: var(--surface-default);
   max-width: calc(100vw - 32px);
   overflow-x: auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
+  animation: floatBarEntrance 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .lead {

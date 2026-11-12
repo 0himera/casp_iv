@@ -1,0 +1,52 @@
+.menu {
+  position: absolute;
+  z-index: 20;
+  width: 282px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius-lg);
+  background-color: var(--map-overlay);
+  border: 1px solid var(--border-strong);
+  box-shadow: none;
+}
+
+.head,
+.portQuickBtn,
+.routeTop,
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.coords { font-family: var(--font-mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.06em; }
+.closeBtn { padding: 2px; border: none; background: transparent; color: var(--muted-foreground); cursor: pointer; }
+.closeBtn:hover { color: var(--foreground); }
+
+.portQuickBtn {
+  width: 100%; padding: 7px 9px; border-radius: var(--radius-sm); cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface-low); color: var(--foreground);
+  font-size: 11px; font-weight: 500;
+}
+.portQuickBtn:hover { border-color: var(--cyan); }
+.portInfo { display: inline-flex; align-items: center; gap: 6px; }
+
+.sectionTitle { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; color: var(--muted-foreground); }
+.routeList { display: flex; flex-direction: column; gap: 5px; max-height: 155px; overflow-y: auto; }
+
+.routeItem {
+  display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 6px 8px; text-align: left;
+  border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface-low); cursor: pointer;
+}
+.routeItem:hover:not(:disabled) { border-color: var(--primary); }
+.routeItem:disabled { cursor: default; opacity: 0.85; }
+.routeActive { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--surface-low)); }
+.routeName { font-size: 11px; font-weight: 600; color: var(--foreground); }
+.routeMeta { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+.risk { font-family: var(--font-mono); font-size: 10px; color: var(--primary); }
+.icon { width: 13px; height: 13px; }
+.cyanIcon { width: 13px; height: 13px; color: var(--cyan); }
+.okIcon { width: 13px; height: 13px; color: var(--status-success); }
+.roleBtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 5px 8px; border-radius: var(--radius-sm); font-size: 10px; cursor: pointer;
+  background: color-mix(in srgb, var(--status-warning) 12%, transparent); border: 1px solid color-mix(in srgb, var(--status-warning) 35%, transparent); color: var(--status-warning);
+}
+

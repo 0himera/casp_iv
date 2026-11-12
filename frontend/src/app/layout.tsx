@@ -1,43 +1,45 @@
 import type { Metadata } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
+const plexSans = IBM_Plex_Sans({
   variable: '--font-sans',
-  subsets: ['latin', 'latin-ext'],
-  display: 'swap',
-  fallback: ['system-ui', 'sans-serif'],
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: '--font-serif',
-  weight: '400',
-  style: ['italic', 'normal'],
-  subsets: ['latin'],
-  display: 'swap',
-  fallback: ['Georgia', 'serif'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--font-mono',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
 
+const plexSerif = IBM_Plex_Serif({
+  variable: '--font-serif',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  preload: false,
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: '--font-mono',
+  weight: ['400', '500', '600'],
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  preload: false,
+});
+
 export const metadata: Metadata = {
-  title: 'Smart Caspian Transit — Цифровой двойник МТК Север-Юг',
+  title: 'Caspian Transit — маршрутный журнал',
   description:
-    'Предиктивный цифровой двойник мультимодального транспортного коридора Север-Юг в Каспийском регионе',
+    'Маршруты, погодные окна и цифровые паспорта грузов Каспийского бассейна',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
+      className={`${plexSans.variable} ${plexSerif.variable} ${ibmPlexMono.variable} dark antialiased`}
     >
-      <body className="h-screen overflow-hidden bg-background text-foreground">
+      <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

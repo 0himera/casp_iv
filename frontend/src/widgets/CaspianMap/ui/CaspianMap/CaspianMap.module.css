@@ -1,11 +1,58 @@
-.wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.frame { position: relative; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background-color: var(--surface-default); overflow: hidden; }
+.halo { display: none; }
+.toolbar { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 16px; border-bottom: 1px solid var(--border); background-color: var(--surface-default); }
+.overline { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-cyan); }
+.stageGrid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; }
+.stageWithDock { grid-template-columns: 1fr 350px; }
+.canvas { position: relative; height: 580px; width: 100%; background-color: var(--map-background); }
+.archivalWrap { position: relative; height: 580px; width: 100%; background-color: var(--map-background); overflow: hidden; }
+.archivalImg { width: 100%; height: 100%; object-fit: cover; object-position: bottom center; opacity: 0.92; }
+
+.frame :global(.maplibregl-ctrl-group) {
   overflow: hidden;
-  background-color: var(--background);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-default);
+  box-shadow: none;
+}
+.frame :global(.maplibregl-ctrl-group button) {
+  background-color: var(--surface-default);
+}
+.frame :global(.maplibregl-ctrl-group button + button) {
+  border-top: 1px solid var(--border);
+}
+.frame :global(.maplibregl-ctrl-group button:not(:disabled):hover),
+.frame :global(.maplibregl-ctrl-group button:not(:disabled):active) {
+  background-color: var(--surface-raised);
+}
+.frame :global(.maplibregl-ctrl-group button:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: -3px;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon),
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon) {
+  display: grid;
+  place-items: center;
+  background-image: none !important;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon)::before,
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon)::before {
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon)::before { content: "+"; }
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon)::before { content: "−"; }
+
+.dock {
+  height: 580px; padding: 12px; border-left: 1px solid var(--border);
+  background-color: var(--surface-low); overflow-y: auto;
 }
 
-.orbits {
-  z-index: 5;
+@media (max-width: 1024px) {
+  .stageWithDock { grid-template-columns: 1fr; }
+  .canvas, .archivalWrap { height: 420px; }
+  .dock { height: auto; max-height: 420px; border-left: none; border-top: 1px solid var(--border); }
 }

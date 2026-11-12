@@ -1,40 +1,33 @@
 .node {
   width: 210px;
   padding: 10px 12px;
-  border-radius: 6px;
+  border-radius: 9px;
   border: 1px solid var(--border);
   background-color: var(--card);
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.ok {
-  border-color: color-mix(in srgb, var(--status-success) 40%, var(--border));
+.node:hover {
+  border-color: var(--border-strong);
+  box-shadow: none;
 }
 
+.ok { border-color: color-mix(in srgb, var(--status-success) 40%, var(--border)); }
 .warning {
   border-color: var(--status-warning);
   background-color: color-mix(in srgb, var(--status-warning) 8%, var(--card));
 }
-
 .critical {
   border-color: var(--status-danger);
   background-color: color-mix(in srgb, var(--status-danger) 10%, var(--card));
 }
 
 .topRow,
-.titleWrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-}
-
-.collageTag {
-  transform: translateY(-2px);
-}
-
+.titleWrap { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+.collageTag { transform: translateY(-2px); }
 .icon { width: 13px; height: 13px; color: var(--primary); flex-shrink: 0; }
 .label { font-size: 11px; font-weight: 500; color: var(--foreground); }
 .location { font-size: 11px; color: var(--foreground); }

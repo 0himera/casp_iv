@@ -2,21 +2,29 @@
   width: 100%;
   text-align: left;
   padding: 9px 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background-color: var(--card);
   display: flex;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  position: relative;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease, background-color 0.18s ease;
 }
 
-.item:hover { border-color: var(--border-strong); }
+.item:hover {
+  border-color: var(--border-strong);
+  transform: translateX(3px);
+  background-color: var(--card-elevated);
+}
+
+.item:active { transform: translateX(1px) scale(0.99); }
 
 .selected {
   border-color: var(--primary);
   background-color: color-mix(in srgb, var(--primary) 10%, var(--card));
+  box-shadow: inset 3px 0 0 var(--primary);
 }
 
 .topRow,

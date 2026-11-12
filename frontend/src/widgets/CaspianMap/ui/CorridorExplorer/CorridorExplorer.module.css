@@ -1,9 +1,18 @@
-.panel { position:absolute; top:160px; left:50%; transform:translateX(-50%); width:min(420px,calc(100vw - 110px)); max-height:calc(100vh - 250px); overflow:auto; z-index:26; padding:16px; background:var(--card); border:1px solid var(--border); border-radius:8px; font-size:12px; }
-.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
-.fields { display:flex; gap:8px; margin:12px 0; }
-.fields label { flex:1; min-width:0; }
-.fields select { display:block; width:100%; background:var(--background); color:var(--foreground); border:1px solid var(--border); padding:6px; margin-top:4px; }
-.item { display:block; padding:10px; border:1px solid var(--border); border-radius:6px; margin:8px 0; }
-.item button, .header button { cursor:pointer; color:var(--foreground); background:var(--secondary); padding:5px 8px; border-radius:4px; }
-.note { color:var(--muted-foreground); line-height:1.5; margin:8px 0; }
-.item a { display:block; text-decoration:underline; margin:5px 0; }
+.panel {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--surface-default);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+}
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-family: var(--font-mono); color: var(--cyan); }
+.fields { display: flex; gap: 8px; margin: 12px 0; }
+.fields label { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+.fields select { display: block; width: 100%; background: var(--surface-low); color: var(--foreground); border: 1px solid var(--border); border-radius: 2px; padding: 6px; margin-top: 4px; }
+.item { display: block; padding: 10px; border: 1px solid var(--border); background: var(--card); border-radius: 2px; margin: 8px 0; }
+.item button, .header button { cursor: pointer; color: var(--foreground); background: var(--surface-low); border: 1px solid var(--border); padding: 4px 8px; border-radius: 2px; font-family: var(--font-mono); font-size: 11px; }
+.note { color: var(--muted-foreground); line-height: 1.5; margin: 8px 0; font-size: 11px; }
+.item a { display: block; text-decoration: underline; color: var(--cyan); margin: 5px 0; }

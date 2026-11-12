@@ -26,7 +26,11 @@ export function SpatialCore({
   shipment,
   stormActive,
   xrayMode,
+  role,
+  isBusy,
   onSelectRoute,
+  onChangeRole,
+  onAttest,
 }: SpatialCoreProps) {
   return (
     <div className={styles.container}>
@@ -36,7 +40,11 @@ export function SpatialCore({
           shipment={shipment}
           stormActive={stormActive}
           xrayMode={xrayMode}
+          role={role}
+          isBusy={isBusy}
           onSelectRoute={onSelectRoute}
+          onChangeRole={onChangeRole}
+          onAttest={onAttest}
         />
       ) : (
         <MultimodalGraph shipment={shipment} />

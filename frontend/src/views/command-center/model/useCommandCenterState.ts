@@ -18,9 +18,9 @@ export function useCommandCenterState() {
 
   const health = useHealthQuery();
   const apiOnline = !health.isError && health.data?.status === 'ok';
-  const listQuery = useShipmentsListQuery(role, apiOnline);
-  const activeId = selectedId || (!listQuery.isPlaceholderData ? listQuery.data.items[0]?.id : '') || '';
-  const detail = useShipmentDetailQuery(activeId, role, apiOnline);
+  const listQuery = useShipmentsListQuery(role);
+  const activeId = selectedId || (listQuery.isSuccess && !listQuery.isPlaceholderData ? listQuery.data.items[0]?.id : '') || '';
+  const detail = useShipmentDetailQuery(activeId, role);
   const shipment = detail.data;
   const { data: ports } = useCaspianPortsQuery();
   const client = createCaspianClient(API_BASE_URL, () => role);
