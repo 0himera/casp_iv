@@ -4,7 +4,7 @@ export function resolvePortTelemetry(
   port: CaspianPort,
   stormActive: boolean
 ): CaspianPort {
-  if (!stormActive || port.id !== 'anzali') {
+  if (port.live || !stormActive || port.id !== 'anzali') {
     return port;
   }
   return {

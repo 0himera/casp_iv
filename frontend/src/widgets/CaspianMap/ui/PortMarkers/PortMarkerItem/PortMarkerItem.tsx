@@ -34,7 +34,7 @@ export function PortMarkerItem({
       <div
         className={`${styles.calloutWrapper} ${isSelected ? styles.selected : ''}`}
         style={cfg.calloutStyle}
-        onClick={() => onClick?.(port)}
+        onClick={(event) => { event.stopPropagation(); onClick?.(port); }}
       >
         <TelemetryCallout port={port} isDanger={isDanger} xrayMode={xrayMode} />
       </div>

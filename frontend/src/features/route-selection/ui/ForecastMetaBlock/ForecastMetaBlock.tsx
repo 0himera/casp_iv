@@ -25,7 +25,7 @@ export function ForecastMetaBlock({ forecast }: ForecastMetaBlockProps) {
         </span>
         <div className={styles.badges}>
           <Badge variant={forecast.quality === 'missing' ? 'warning' : 'lavender'}>
-            {forecast.quality === 'missing' ? 'Нет данных' : 'AI-модель'}
+            {forecast.quality === 'missing' ? 'Нет данных' : forecast.quality === 'synthetic' ? 'Демо / сценарий' : forecast.method === 'ml' ? 'ML-модель' : 'Прогноз'}
           </Badge>
           <Badge variant={probVariant}>
             Срыв: {formatProbability(forecast.miss_probability)}

@@ -14,7 +14,7 @@ export function EsgSummaryBlock({ esg }: EsgSummaryBlockProps) {
     <div className={styles.summaryRow}>
       <div className={styles.topValues}>
         <div>
-          <div className={styles.summaryLabel}>Выбросы маршрута (GLEC v3.0)</div>
+          <div className={styles.summaryLabel}>Выбросы маршрута (демо)</div>
           <div className={styles.summaryValue}>{esg.totalCurrentKg} кг CO₂e</div>
         </div>
         <Badge variant={esg.rating === 'A+' ? 'success' : 'warning'}>
@@ -39,7 +39,7 @@ export function EsgSummaryBlock({ esg }: EsgSummaryBlockProps) {
           </span>
         </div>
         <div className={styles.metricItem}>
-          <span className={styles.metricLabel}>Рейтинг энергоэффекта</span>
+          <span className={styles.metricLabel}>Демо-рейтинг</span>
           <span className={`${styles.metricValue} ${styles.positiveDelta}`}>
             {esg.rating} {esg.rating === 'A+' ? '(Оптимум)' : '(Стандарт)'}
           </span>

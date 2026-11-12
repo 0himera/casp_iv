@@ -37,7 +37,7 @@ export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onCha
           </div>
           <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
             <span className={styles.squareDot} />
-            {apiOnline ? 'Live API :18081' : 'Офлайн-резерв'}
+            {apiOnline ? (shipment.data_mode === 'synthetic' ? 'API · груз: демо' : 'API · данные груза') : 'Офлайн · демо'}
           </Badge>
         </div>
       </div>

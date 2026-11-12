@@ -11,9 +11,11 @@ interface MapPresetsBarProps {
 }
 
 const PRESETS = [
-  { id: 'astra', label: 'Астрахань' },
-  { id: 'makh', label: 'Махачкала' },
+  { id: 'astrakhan', label: 'Астрахань' },
+  { id: 'makhachkala', label: 'Махачкала' },
   { id: 'aktau', label: 'Актау' },
+  { id: 'kuryk', label: 'Курык' },
+  { id: 'turkmenbashi', label: 'Туркменбаши' },
   { id: 'anzali', label: 'Энзели' },
   { id: 'amirabad', label: 'Амирабад' },
 ];
