@@ -27,3 +27,11 @@ GEMINI.md
 .copilot/
 .vscode/
 .idea/
+backend/var/
+.pytest_cache/
+.ruff_cache/
+contracts/target/
+contracts/wasm/
+contracts/.odra/
+contracts/.local/
+

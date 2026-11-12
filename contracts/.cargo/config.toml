@@ -1,0 +1,6 @@
+[target.wasm32-unknown-unknown]
+# Casper provides these host functions at execution time.
+rustflags = [
+  "-C", "link-arg=--allow-undefined",
+  "-C", "target-feature=-bulk-memory,-reference-types,-multivalue,-sign-ext,-nontrapping-fptoint",
+]

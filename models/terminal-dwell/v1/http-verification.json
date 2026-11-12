@@ -1,0 +1,115 @@
+{
+  "verified_at": "2026-11-12T12:02:24.206264+00:00",
+  "model_sha256": "becf233dafbde9775fed0432b39dfd5767619bf714c6cc868f64259cbb39be85",
+  "checks": [
+    {
+      "case": "model_loaded",
+      "status": 200,
+      "model_status": {
+        "loaded": true,
+        "model_version": "terminal-dwell-catboost-v1",
+        "task": "terminal_release_after_discharge",
+        "fallback_available": true,
+        "load_error": null,
+        "caspian_validated": false
+      },
+      "response": {
+        "task": "terminal_release_after_discharge",
+        "method": "catboost_terminal_dwell_v1",
+        "model_loaded": true,
+        "model_version": "terminal-dwell-catboost-v1",
+        "fallback_reason": null,
+        "trained_on_history": true,
+        "caspian_validated": false,
+        "remaining_hours": {
+          "p10": 16.06400999879817,
+          "p50": 62.11371395579613,
+          "p90": 184.9571330321476
+        },
+        "release_at": {
+          "p10": "2026-11-13T01:03:50.435996Z",
+          "p50": "2026-11-14T23:06:49.370241Z",
+          "p90": "2026-11-20T01:57:25.678916Z"
+        },
+        "samples": null,
+        "warnings": [
+          "EXPERIMENTAL_ANONYMIZED_TERMINAL_NOT_VALIDATED_ON_CASPIAN",
+          "TARGET_IS_IMPORT_CONTAINER_RELEASE_NOT_OUTBOUND_FERRY_READINESS",
+          "SOURCE_TIMEZONE_AND_FEATURE_PUBLICATION_TIMES_UNCONFIRMED",
+          "EXPERIMENTAL_MODEL_ERROR_AND_INTERVAL_COVERAGE_REQUIRE_REVIEW"
+        ]
+      }
+    },
+    {
+      "case": "model_disabled",
+      "status": 200,
+      "model_status": {
+        "loaded": false,
+        "model_version": null,
+        "task": "terminal_release_after_discharge",
+        "fallback_available": true,
+        "load_error": "MODEL_DISABLED",
+        "caspian_validated": false
+      },
+      "response": {
+        "task": "terminal_release_after_discharge",
+        "method": "monte_carlo_terminal_dwell_v1",
+        "model_loaded": false,
+        "model_version": null,
+        "fallback_reason": "MODEL_DISABLED",
+        "trained_on_history": false,
+        "caspian_validated": false,
+        "remaining_hours": {
+          "p10": 6.0,
+          "p50": 6.0,
+          "p90": 6.0
+        },
+        "release_at": {
+          "p10": "2026-11-12T15:00:00Z",
+          "p50": "2026-11-12T15:00:00Z",
+          "p90": "2026-11-12T15:00:00Z"
+        },
+        "samples": 2000,
+        "warnings": [
+          "EXPERIMENTAL_ANONYMIZED_TERMINAL_NOT_VALIDATED_ON_CASPIAN",
+          "TARGET_IS_IMPORT_CONTAINER_RELEASE_NOT_OUTBOUND_FERRY_READINESS",
+          "SOURCE_TIMEZONE_AND_FEATURE_PUBLICATION_TIMES_UNCONFIRMED",
+          "EXPERIMENTAL_MODEL_ERROR_AND_INTERVAL_COVERAGE_REQUIRE_REVIEW",
+          "FALLBACK_DURATION_IS_A_USER_SCENARIO_NOT_A_CALIBRATED_FORECAST"
+        ]
+      }
+    },
+    {
+      "case": "explicit_algorithm_with_loaded_model",
+      "status": 200,
+      "response": {
+        "task": "terminal_release_after_discharge",
+        "method": "monte_carlo_terminal_dwell_v1",
+        "model_loaded": true,
+        "model_version": null,
+        "fallback_reason": "ALGORITHM_REQUESTED",
+        "trained_on_history": false,
+        "caspian_validated": false,
+        "remaining_hours": {
+          "p10": 6.0,
+          "p50": 6.0,
+          "p90": 6.0
+        },
+        "release_at": {
+          "p10": "2026-11-12T15:00:00Z",
+          "p50": "2026-11-12T15:00:00Z",
+          "p90": "2026-11-12T15:00:00Z"
+        },
+        "samples": 2000,
+        "warnings": [
+          "EXPERIMENTAL_ANONYMIZED_TERMINAL_NOT_VALIDATED_ON_CASPIAN",
+          "TARGET_IS_IMPORT_CONTAINER_RELEASE_NOT_OUTBOUND_FERRY_READINESS",
+          "SOURCE_TIMEZONE_AND_FEATURE_PUBLICATION_TIMES_UNCONFIRMED",
+          "EXPERIMENTAL_MODEL_ERROR_AND_INTERVAL_COVERAGE_REQUIRE_REVIEW",
+          "FALLBACK_DURATION_IS_A_USER_SCENARIO_NOT_A_CALIBRATED_FORECAST"
+        ]
+      }
+    }
+  ],
+  "existing_shipment_count": 1
+}

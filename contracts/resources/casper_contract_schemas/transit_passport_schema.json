@@ -1,0 +1,677 @@
+{
+  "casper_contract_schema_version": 1,
+  "toolchain": "rustc 1.98.0-nightly (8954863c8 2026-06-05)",
+  "toolkit": {
+    "name": "Odra",
+    "version": "2.10.1"
+  },
+  "authors": [],
+  "repository": null,
+  "homepage": null,
+  "contract_name": "TransitPassport",
+  "contract_version": "0.1.0",
+  "types": [
+    {
+      "struct": {
+        "name": "ApprovalRevoked",
+        "description": null,
+        "members": [
+          {
+            "name": "shipment_id",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "actor",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "role",
+            "description": null,
+            "ty": "Role"
+          },
+          {
+            "name": "block_time_ms",
+            "description": null,
+            "ty": "U64"
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "Attested",
+        "description": null,
+        "members": [
+          {
+            "name": "shipment_id",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "actor",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "role",
+            "description": null,
+            "ty": "Role"
+          },
+          {
+            "name": "approved",
+            "description": null,
+            "ty": "Bool"
+          },
+          {
+            "name": "valid_until_ms",
+            "description": null,
+            "ty": "U64"
+          },
+          {
+            "name": "block_time_ms",
+            "description": null,
+            "ty": "U64"
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "Decision",
+        "description": null,
+        "members": [
+          {
+            "name": "approved",
+            "description": null,
+            "ty": "Bool"
+          },
+          {
+            "name": "decided_at_ms",
+            "description": null,
+            "ty": "U64"
+          },
+          {
+            "name": "valid_until_ms",
+            "description": null,
+            "ty": "U64"
+          },
+          {
+            "name": "revoked_at_ms",
+            "description": null,
+            "ty": {
+              "Option": "U64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "PassportCreated",
+        "description": null,
+        "members": [
+          {
+            "name": "shipment_id",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "actor",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "documents_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "route_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "block_time_ms",
+            "description": null,
+            "ty": "U64"
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "PassportRevised",
+        "description": null,
+        "members": [
+          {
+            "name": "shipment_id",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "actor",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "documents_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "route_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "block_time_ms",
+            "description": null,
+            "ty": "U64"
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "PassportView",
+        "description": null,
+        "members": [
+          {
+            "name": "shipment_id",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "current_version",
+            "description": null,
+            "ty": "U32"
+          },
+          {
+            "name": "header",
+            "description": null,
+            "ty": "VersionHeader"
+          },
+          {
+            "name": "logistician",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "carrier",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "clearance",
+            "description": null,
+            "ty": "Key"
+          },
+          {
+            "name": "logistician_decision",
+            "description": null,
+            "ty": {
+              "Option": "Decision"
+            }
+          },
+          {
+            "name": "carrier_decision",
+            "description": null,
+            "ty": {
+              "Option": "Decision"
+            }
+          },
+          {
+            "name": "clearance_decision",
+            "description": null,
+            "ty": {
+              "Option": "Decision"
+            }
+          },
+          {
+            "name": "status",
+            "description": null,
+            "ty": "Status"
+          },
+          {
+            "name": "evaluated_at_ms",
+            "description": null,
+            "ty": "U64"
+          },
+          {
+            "name": "ready_until_ms",
+            "description": null,
+            "ty": {
+              "Option": "U64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "struct": {
+        "name": "VersionHeader",
+        "description": null,
+        "members": [
+          {
+            "name": "documents_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "route_hash",
+            "description": null,
+            "ty": {
+              "ByteArray": 32
+            }
+          },
+          {
+            "name": "created_at_ms",
+            "description": null,
+            "ty": "U64"
+          }
+        ]
+      }
+    },
+    {
+      "enum": {
+        "name": "Role",
+        "description": null,
+        "variants": [
+          {
+            "name": "Logistician",
+            "description": null,
+            "discriminant": 0,
+            "ty": "Unit"
+          },
+          {
+            "name": "Carrier",
+            "description": null,
+            "discriminant": 1,
+            "ty": "Unit"
+          },
+          {
+            "name": "Clearance",
+            "description": null,
+            "discriminant": 2,
+            "ty": "Unit"
+          }
+        ]
+      }
+    },
+    {
+      "enum": {
+        "name": "Status",
+        "description": null,
+        "variants": [
+          {
+            "name": "Collecting",
+            "description": null,
+            "discriminant": 0,
+            "ty": "Unit"
+          },
+          {
+            "name": "Blocked",
+            "description": null,
+            "discriminant": 1,
+            "ty": "Unit"
+          },
+          {
+            "name": "Ready",
+            "description": null,
+            "discriminant": 2,
+            "ty": "Unit"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "entry_points": [
+    {
+      "name": "create",
+      "description": "",
+      "is_mutable": true,
+      "is_payable": false,
+      "arguments": [
+        {
+          "name": "shipment_id",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "documents_hash",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "route_hash",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        }
+      ],
+      "return_ty": "Unit",
+      "is_contract_context": true,
+      "access": "public"
+    },
+    {
+      "name": "revise",
+      "description": "",
+      "is_mutable": true,
+      "is_payable": false,
+      "arguments": [
+        {
+          "name": "shipment_id",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "expected_version",
+          "description": null,
+          "ty": "U32",
+          "optional": false
+        },
+        {
+          "name": "documents_hash",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "route_hash",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        }
+      ],
+      "return_ty": "Unit",
+      "is_contract_context": true,
+      "access": "public"
+    },
+    {
+      "name": "attest",
+      "description": "",
+      "is_mutable": true,
+      "is_payable": false,
+      "arguments": [
+        {
+          "name": "shipment_id",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "expected_version",
+          "description": null,
+          "ty": "U32",
+          "optional": false
+        },
+        {
+          "name": "approved",
+          "description": null,
+          "ty": "Bool",
+          "optional": false
+        },
+        {
+          "name": "valid_until_ms",
+          "description": null,
+          "ty": "U64",
+          "optional": false
+        }
+      ],
+      "return_ty": "Unit",
+      "is_contract_context": true,
+      "access": "public"
+    },
+    {
+      "name": "revoke",
+      "description": "",
+      "is_mutable": true,
+      "is_payable": false,
+      "arguments": [
+        {
+          "name": "shipment_id",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "expected_version",
+          "description": null,
+          "ty": "U32",
+          "optional": false
+        }
+      ],
+      "return_ty": "Unit",
+      "is_contract_context": true,
+      "access": "public"
+    },
+    {
+      "name": "get_passport",
+      "description": "",
+      "is_mutable": false,
+      "is_payable": false,
+      "arguments": [
+        {
+          "name": "shipment_id",
+          "description": null,
+          "ty": {
+            "ByteArray": 32
+          },
+          "optional": false
+        },
+        {
+          "name": "version",
+          "description": null,
+          "ty": "U32",
+          "optional": false
+        }
+      ],
+      "return_ty": "PassportView",
+      "is_contract_context": true,
+      "access": "public"
+    }
+  ],
+  "events": [
+    {
+      "name": "ApprovalRevoked",
+      "ty": "ApprovalRevoked"
+    },
+    {
+      "name": "Attested",
+      "ty": "Attested"
+    },
+    {
+      "name": "PassportCreated",
+      "ty": "PassportCreated"
+    },
+    {
+      "name": "PassportRevised",
+      "ty": "PassportRevised"
+    }
+  ],
+  "call": {
+    "wasm_file_name": "TransitPassport.wasm",
+    "description": "",
+    "arguments": [
+      {
+        "name": "odra_cfg_package_hash_key_name",
+        "description": "The arg name for the package hash key name.",
+        "ty": "String",
+        "optional": false
+      },
+      {
+        "name": "odra_cfg_allow_key_override",
+        "description": "If true and the key specified in odra_cfg_package_hash_key_name already exists, it will be overwritten.",
+        "ty": "Bool",
+        "optional": false
+      },
+      {
+        "name": "odra_cfg_is_upgradable",
+        "description": "The arg name for the contract upgradeability setting.",
+        "ty": "Bool",
+        "optional": false
+      },
+      {
+        "name": "odra_cfg_is_upgrade",
+        "description": "The arg name for telling the installer that the contract is being upgraded.",
+        "ty": "Bool",
+        "optional": false
+      },
+      {
+        "name": "logistician",
+        "description": null,
+        "ty": "Key",
+        "optional": false
+      },
+      {
+        "name": "carrier",
+        "description": null,
+        "ty": "Key",
+        "optional": false
+      },
+      {
+        "name": "clearance",
+        "description": null,
+        "ty": "Key",
+        "optional": false
+      }
+    ]
+  },
+  "storage": {
+    "kind": "module",
+    "fields": [
+      {
+        "name": "logistician",
+        "index": 1,
+        "kind": "value",
+        "ty": "Key"
+      },
+      {
+        "name": "carrier",
+        "index": 2,
+        "kind": "value",
+        "ty": "Key"
+      },
+      {
+        "name": "clearance",
+        "index": 3,
+        "kind": "value",
+        "ty": "Key"
+      },
+      {
+        "name": "current_versions",
+        "index": 4,
+        "kind": "mapping",
+        "key": {
+          "ByteArray": 32
+        },
+        "value": {
+          "kind": "value",
+          "ty": "U32"
+        }
+      },
+      {
+        "name": "versions",
+        "index": 5,
+        "kind": "mapping",
+        "key": {
+          "Tuple2": [
+            {
+              "ByteArray": 32
+            },
+            "U32"
+          ]
+        },
+        "value": {
+          "kind": "value",
+          "ty": "VersionHeader"
+        }
+      },
+      {
+        "name": "decisions",
+        "index": 6,
+        "kind": "mapping",
+        "key": {
+          "Tuple3": [
+            {
+              "ByteArray": 32
+            },
+            "U32",
+            "Role"
+          ]
+        },
+        "value": {
+          "kind": "value",
+          "ty": "Decision"
+        }
+      }
+    ]
+  }
+}

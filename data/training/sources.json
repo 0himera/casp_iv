@@ -1,0 +1,152 @@
+{
+  "checked_at_utc": "2026-11-12",
+  "policy": "Public sources without keys; main source is Mendeley event log; large raw files remain outside Git",
+  "sources": [
+    {
+      "id": "mendeley",
+      "title": "Event Log Dwelling Time Dataset v2",
+      "record_url": "https://data.mendeley.com/datasets/yvp2b4rtp3/2",
+      "doi": "10.17632/yvp2b4rtp3.2",
+      "license": "CC-BY-4.0",
+      "attribution": "Hanung Nindito Prasetyo, Riyanarto Sarno, Kelly Rossa Sungkono, Indra Waspada, Raden Budiraharjo (2024)",
+      "status": "downloaded_publisher_sha256_verified_full_file_profiled",
+      "download_url": "https://data.mendeley.com/public-files/datasets/yvp2b4rtp3/files/123e253c-48a7-46b8-bdc9-c0e7335fbca2/file_downloaded",
+      "publisher_sha256": "fd4ddc8e50f57cceb84881461f85a142137785ca81f59b37165ae484412f7d8c",
+      "local_raw_path": "var/dataset-search/container-dwell.xlsx",
+      "download_bytes": 63774563,
+      "download_sha256": "fd4ddc8e50f57cceb84881461f85a142137785ca81f59b37165ae484412f7d8c",
+      "observed_rows": 952069,
+      "observed_unique_cases": 95648,
+      "declared_period": "July–September 2021; invalid/outlying timestamps are present",
+      "geography": "Terminal identity and location anonymized; no verified Caspian attribution",
+      "target_use": "Remaining terminal time from unloading completion to truck departure; customs-stage durations can also be derived after cleaning",
+      "not_supported": [
+        "Caspian accuracy claims",
+        "Outbound ferry cutoff classification",
+        "Weather joins without confirmed terminal location and timezone"
+      ],
+      "profile": "mendeley-profile.json"
+    },
+    {
+      "id": "caribbean",
+      "title": "Port calls and vessel trajectory dataset in the Caribbean with accurate port quays survey v1.1.0",
+      "record_url": "https://zenodo.org/records/10380638",
+      "doi": "10.5281/zenodo.10380638",
+      "license": "CC-BY-NC-SA-4.0 (first eleven tables); CC-BY-3.0-IGO (three UN tables)",
+      "attribution": "Clément Iphar, Iwan Le Berre, Manuel Sahuquet, Aldo Napoli, Éric Foulquier (2023)",
+      "status": "downloaded_publisher_md5_verified_portcalls_counted",
+      "download_url": "https://zenodo.org/api/records/10380638/files/CSV.zip/content",
+      "publisher_md5": "a260ec8776b456dc8c7d30acffaad4b7",
+      "local_raw_path": "var/dataset-search/caribbean.zip",
+      "download_bytes": 66613093,
+      "download_sha256": "2ef809fa8302fde6ff957223f7dd9e66738ad071f9dd668fd68dc8bcfdb3f932",
+      "observed_portcall_rows": 1488781,
+      "observed_unique_mmsi_values": 22225,
+      "observed_port_ids": 415,
+      "zero_confidence_rows": 166162,
+      "period": "2019-01-01 to 2019-12-31; UTC per authors",
+      "target_use": "AIS-derived stop durations after confidence, vessel-type, identifier and observation-gap filtering",
+      "not_supported": [
+        "Direct container handling labels",
+        "Caspian accuracy claims",
+        "Treating all stop records as independent complete port calls"
+      ]
+    },
+    {
+      "id": "astrakhan",
+      "title": "Daily vessel movements as of 17 March 2025 08:00",
+      "record_url": "https://ampastra.ru/files/files/Ежедневная информация о движении судов.pdf",
+      "license": "No explicit reuse license verified on PDF; record only facts and source link",
+      "status": "downloaded_pdf_text_extracted",
+      "download_url": "https://ampastra.ru/files/files/Ежедневная информация о движении судов.pdf",
+      "local_raw_path": "var/dataset-search/astrakhan-movements.pdf",
+      "download_bytes": 528566,
+      "download_sha256": "8554725f5614c742554dd2b5e684080fe23734b2704f6b90bf67d4f984588d2f",
+      "actual_approach_rows_manually_counted": 13,
+      "expected_approach_rows_manually_counted": 4,
+      "geography": "Astrakhan roadstead / Volga-Caspian shipping canal",
+      "target_use": "Real Caspian approach timestamps; useful for schema and observation collection",
+      "limitations": [
+        "One dated report, not a historical training series",
+        "Expected approaches and actual approaches refer to different rows",
+        "Time zone unconfirmed",
+        "One unique archived PDF content found via Internet Archive CDX"
+      ]
+    },
+    {
+      "id": "barcelona",
+      "title": "Port of Barcelona arrivals, 2024",
+      "record_url": "https://opendata.portdebarcelona.cat/dataset/escales-arribades",
+      "license": "CC-BY-SA-4.0",
+      "status": "downloaded_schema_checked_rejected_as_actual_timing_labels",
+      "download_url": "https://opendata.portdebarcelona.cat/dataset/478fa90f-2998-4431-b163-6570209536ba/resource/1dfe46aa-b84e-4de2-b2b3-88b063d022e6/download/escales_arribades_2024.csv",
+      "local_raw_path": "var/dataset-search/barcelona-2024.csv",
+      "download_bytes": 4469293,
+      "download_sha256": "792e886b41edcdda60a8e487a0c5616934dff3b7a7815a47f9d257534588ff91",
+      "observed_rows": 10313,
+      "observed_finalized_rows": 10259,
+      "reason": "Publisher datastore schema explicitly describes ETAUTC and ETDUTC as estimated arrival/departure; final status does not establish actual timestamp semantics",
+      "schema_url": "https://opendata.portdebarcelona.cat/api/3/action/datastore_search?resource_id=1dfe46aa-b84e-4de2-b2b3-88b063d022e6&limit=1"
+    },
+    {
+      "id": "dataco",
+      "title": "DataCo SMART SUPPLY CHAIN FOR BIG DATA ANALYSIS v5",
+      "record_url": "https://data.mendeley.com/datasets/8gx2fvg2k6/5",
+      "status": "public_file_listing_and_dictionary_downloaded_main_dataset_not_downloaded",
+      "dictionary_url": "https://data.mendeley.com/public-files/datasets/8gx2fvg2k6/files/29dc7b05-dda6-4834-8354-5b5cc44430df/file_downloaded",
+      "main_csv_bytes_from_publisher": 95910149,
+      "labels_documented": [
+        "Days for shipping (real)",
+        "Days for shipment (scheduled)",
+        "Late_delivery_risk",
+        "Delivery Status"
+      ],
+      "target_use": "General order/dispatch lateness experiment after resolving target semantics and order-level grouping",
+      "limitations": [
+        "Not maritime/Caspian data",
+        "No actual delivery timestamp verified",
+        "Exclude outcome-derived features and unnecessary personal fields",
+        "Full file row counts and license not independently checked in this run"
+      ]
+    },
+    {
+      "id": "lade",
+      "title": "LaDe: real last-mile pickup/delivery events",
+      "record_url": "https://huggingface.co/datasets/Cainiao-AI/LaDe",
+      "paper": "https://arxiv.org/abs/2306.10675",
+      "status": "author_dataset_card_checked_not_downloaded",
+      "license": "Research-use terms linked by dataset authors; check selected files before training",
+      "target_use": "Last-mile remaining-time and routing benchmarks",
+      "limitations": [
+        "China urban parcel couriers, not Caspian maritime cargo",
+        "Not downloaded or profiled in this run"
+      ]
+    },
+    {
+      "id": "us-dwell",
+      "title": "17-year port congestion and operational mode dataset, five US ports",
+      "record_url": "https://zenodo.org/records/21203605",
+      "license": "CC-BY-4.0",
+      "status": "metadata_readme_and_small_analysis_csv_downloaded",
+      "target_use": "Port-month dwell/congestion research; vessel-month operational hours",
+      "limitations": [
+        "Small analysis CSV is a macroeconomic monthly panel, not individual cargo labels",
+        "Full AIS pings 2.2 GB not downloaded",
+        "Non-Caspian geography"
+      ]
+    },
+    {
+      "id": "voydar",
+      "title": "Monthly port calls by port",
+      "record_url": "https://www.voydar.com/data",
+      "license": "CC-BY-4.0 with upstream attribution",
+      "status": "latest_csv_downloaded_no_named_target_caspian_ports_found",
+      "observed_rows": 681,
+      "target_use": "Monthly aggregate counts and median dwell, where coverage exists",
+      "limitations": [
+        "Aggregated port-month records, not container cases",
+        "No target Caspian port match in inspected latest file"
+      ]
+    }
+  ]
+}

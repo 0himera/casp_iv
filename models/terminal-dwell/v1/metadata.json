@@ -1,0 +1,41 @@
+{
+  "version": "terminal-dwell-catboost-v1",
+  "task": "terminal_release_after_discharge",
+  "features": [
+    "container_size",
+    "container_type",
+    "gross_tonnes",
+    "hour",
+    "weekday"
+  ],
+  "quantiles": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "model_sha256": "becf233dafbde9775fed0432b39dfd5767619bf714c6cc868f64259cbb39be85",
+  "input_domain": {
+    "container_sizes": [
+      "20",
+      "40",
+      "45"
+    ],
+    "container_types": [
+      "DRY",
+      "FLT",
+      "O/T",
+      "OVD",
+      "RFR",
+      "TNK"
+    ],
+    "gross_min": 2.19,
+    "gross_max": 35.17
+  },
+  "trained_on_history": true,
+  "caspian_validated": false,
+  "source_doi": "10.17632/yvp2b4rtp3.2",
+  "source_license": "CC-BY-4.0",
+  "feature_availability": "event end timestamps; recorded_at not supplied",
+  "task_definition": "Hours from DISCHARGE end to TRUCK_OUT end",
+  "selected_candidate": "catboost_quantile_depth4"
+}

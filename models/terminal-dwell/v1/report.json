@@ -1,0 +1,257 @@
+{
+  "generated_at": "2026-11-12T11:59:45.983114+00:00",
+  "seed": 42,
+  "input_sha256": "8a278ec8ff40e94c596553e76a6fe92b002ff933b340c4b6d5dd365ec6309132",
+  "feature_quality_policy": {
+    "source_rows": 95587,
+    "retained_rows": 77565,
+    "excluded_ambiguous_mass_rows": 18022,
+    "accepted_gross_tonnes": [
+      1,
+      60
+    ],
+    "conversion_guessed": false
+  },
+  "training_script_sha256": "0396e8320346279b6f6b0ef14dc05902266cfe3b7f2477769b841478b171c2e7",
+  "source_profile_sha256": "3b25732449594134572f0b4863498ffac59f2176c39a7b68d64ad85274355c41",
+  "versions": {
+    "catboost": "1.2.10",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4"
+  },
+  "features": [
+    "container_size",
+    "container_type",
+    "gross_tonnes",
+    "hour",
+    "weekday"
+  ],
+  "split": {
+    "train": {
+      "cohort_rows": 22818,
+      "used_rows": 21129,
+      "purged_unknown_outcomes": 1689,
+      "first_prediction": "2021-07-01T00:05:00",
+      "last_prediction": "2021-07-31T07:12:00",
+      "latest_outcome": "2021-07-31T23:40:00"
+    },
+    "validation": {
+      "cohort_rows": 14587,
+      "used_rows": 14548,
+      "purged_unknown_outcomes": 39,
+      "first_prediction": "2021-08-01T00:07:17",
+      "last_prediction": "2021-08-15T23:57:57",
+      "latest_outcome": "2021-08-31T23:45:52"
+    },
+    "test": {
+      "cohort_rows": 14542,
+      "used_rows": 14542,
+      "purged_unknown_outcomes": 0,
+      "first_prediction": "2021-09-01T00:03:31",
+      "last_prediction": "2021-09-15T23:14:00",
+      "latest_outcome": "2021-09-30T22:53:36"
+    },
+    "excluded_outside_prediction_windows": 25618
+  },
+  "candidates": [
+    {
+      "name": "catboost_quantile_depth4",
+      "parameters": {
+        "iterations": 1600,
+        "depth": 4,
+        "learning_rate": 0.04,
+        "loss_function": "MultiQuantile:alpha=0.1,0.5,0.9",
+        "random_seed": 42,
+        "thread_count": 4,
+        "allow_writing_files": false,
+        "l2_leaf_reg": 5
+      },
+      "trees": 68
+    },
+    {
+      "name": "catboost_quantile_depth6",
+      "parameters": {
+        "iterations": 1600,
+        "depth": 6,
+        "learning_rate": 0.04,
+        "loss_function": "MultiQuantile:alpha=0.1,0.5,0.9",
+        "random_seed": 42,
+        "thread_count": 4,
+        "allow_writing_files": false,
+        "l2_leaf_reg": 5
+      },
+      "trees": 36
+    }
+  ],
+  "selection": {
+    "candidate": "catboost_quantile_depth4",
+    "metric": "validation_mean_pinball_hours",
+    "refit_on_test": false
+  },
+  "validation": {
+    "global_median": {
+      "mae_hours": 50.275392742034036,
+      "rmse_hours": 71.7865600970869,
+      "median_absolute_error_hours": 41.97749999999999,
+      "p90_absolute_error_hours": 73.92111111111112,
+      "bias_hours": 4.479723692451045,
+      "pinball_hours": {
+        "0.1": 6.464341064445667,
+        "0.5": 25.137696371017018,
+        "0.9": 18.344633762181896
+      },
+      "mean_pinball_hours": 16.64889039921486,
+      "p10_p90_coverage": 0.7535743744844652,
+      "mean_interval_width_hours": 180.02666666666667,
+      "below_p10_fraction": 0.1885482540555403,
+      "above_p90_fraction": 0.0578773714599945
+    },
+    "type_size_median": {
+      "mae_hours": 48.73494980218739,
+      "rmse_hours": 70.84926324612337,
+      "median_absolute_error_hours": 38.83819444444444,
+      "p90_absolute_error_hours": 81.84486111111113,
+      "bias_hours": 5.598487440045214,
+      "pinball_hours": {
+        "0.1": 6.464543261005714,
+        "0.5": 24.367474901093694,
+        "0.9": 17.358274995799345
+      },
+      "mean_pinball_hours": 16.063431052632918,
+      "p10_p90_coverage": 0.7504124278251306,
+      "mean_interval_width_hours": 169.99643708184402,
+      "below_p10_fraction": 0.1910228210063239,
+      "above_p90_fraction": 0.0585647511685455
+    },
+    "catboost_quantile_depth4": {
+      "mae_hours": 47.877275535673775,
+      "rmse_hours": 71.24761506131902,
+      "median_absolute_error_hours": 37.32577716527943,
+      "p90_absolute_error_hours": 84.32016107642067,
+      "bias_hours": 4.426422080628757,
+      "pinball_hours": {
+        "0.1": 6.351139477262462,
+        "0.5": 23.938637767836887,
+        "0.9": 17.832718042557733
+      },
+      "mean_pinball_hours": 16.04083176255236,
+      "p10_p90_coverage": 0.7482815507286225,
+      "mean_interval_width_hours": 172.8604663118611,
+      "below_p10_fraction": 0.193153698102832,
+      "above_p90_fraction": 0.0585647511685455
+    },
+    "catboost_quantile_depth6": {
+      "mae_hours": 48.200870091845125,
+      "rmse_hours": 71.34565363442724,
+      "median_absolute_error_hours": 38.27770622928884,
+      "p90_absolute_error_hours": 83.12325637355096,
+      "bias_hours": 4.486452046499656,
+      "pinball_hours": {
+        "0.1": 6.3899068216831045,
+        "0.5": 24.100435045922563,
+        "0.9": 17.96948103143864
+      },
+      "mean_pinball_hours": 16.15327429968144,
+      "p10_p90_coverage": 0.7440885345064614,
+      "mean_interval_width_hours": 174.4991886878565,
+      "below_p10_fraction": 0.19817156997525434,
+      "above_p90_fraction": 0.0577398955182843
+    },
+    "random_forest": {
+      "mae_hours": 59.29060577085924,
+      "rmse_hours": 77.28736986618823,
+      "median_absolute_error_hours": 50.809888306923334,
+      "p90_absolute_error_hours": 105.59947695816427,
+      "bias_hours": 24.674821693540654
+    },
+    "random_forest_log": {
+      "mae_hours": 47.32536076585073,
+      "rmse_hours": 72.37333611665106,
+      "median_absolute_error_hours": 33.04148017422108,
+      "p90_absolute_error_hours": 92.45214136271737,
+      "bias_hours": -1.1528976623238654
+    }
+  },
+  "test": {
+    "global_median": {
+      "mae_hours": 50.2092365791042,
+      "rmse_hours": 66.27412371396288,
+      "median_absolute_error_hours": 46.468611111111116,
+      "p90_absolute_error_hours": 70.55233333333334,
+      "bias_hours": 14.433820619202619,
+      "pinball_hours": {
+        "0.1": 6.125964314094042,
+        "0.5": 25.1046182895521,
+        "0.9": 17.77520395330002
+      },
+      "mean_pinball_hours": 16.33526218564872,
+      "p10_p90_coverage": 0.7016916517672948,
+      "mean_interval_width_hours": 180.0266666666667,
+      "below_p10_fraction": 0.25484802640627147,
+      "above_p90_fraction": 0.04346032182643378
+    },
+    "type_size_median": {
+      "mae_hours": 48.88439730130351,
+      "rmse_hours": 65.70915820432207,
+      "median_absolute_error_hours": 43.30083333333332,
+      "p90_absolute_error_hours": 78.75725,
+      "bias_hours": 14.885606251623651,
+      "pinball_hours": {
+        "0.1": 6.114745717385658,
+        "0.5": 24.442198650651754,
+        "0.9": 16.772119156771954
+      },
+      "mean_pinball_hours": 15.77635450826979,
+      "p10_p90_coverage": 0.6960528125429789,
+      "mean_interval_width_hours": 169.57257014165867,
+      "below_p10_fraction": 0.2603493329665796,
+      "above_p90_fraction": 0.04359785449044148
+    },
+    "catboost": {
+      "mae_hours": 48.61706424864053,
+      "rmse_hours": 65.42037737346287,
+      "median_absolute_error_hours": 41.81398983007685,
+      "p90_absolute_error_hours": 81.44933240789543,
+      "bias_hours": 15.594003562251704,
+      "pinball_hours": {
+        "0.1": 6.018655405646852,
+        "0.5": 24.308532124320266,
+        "0.9": 17.109464161373644
+      },
+      "mean_pinball_hours": 15.81221723044692,
+      "p10_p90_coverage": 0.6860129280704167,
+      "mean_interval_width_hours": 172.08105711028037,
+      "below_p10_fraction": 0.27155824508320725,
+      "above_p90_fraction": 0.042428826846376014
+    },
+    "random_forest": {
+      "mae_hours": 59.66993863819561,
+      "rmse_hours": 73.6647540136081,
+      "median_absolute_error_hours": 54.75271844847713,
+      "p90_absolute_error_hours": 100.00444859294346,
+      "bias_hours": 33.155577184439196
+    },
+    "random_forest_log": {
+      "mae_hours": 47.47193333122199,
+      "rmse_hours": 66.60063477793163,
+      "median_absolute_error_hours": 37.73513340377028,
+      "p90_absolute_error_hours": 87.0175473383167,
+      "bias_hours": 10.307166147867653
+    }
+  },
+  "caspian_validated": false,
+  "limitations": [
+    "Anonymized terminal; import release differs from outbound ferry readiness",
+    "Source timezone and publication/recording timestamps unavailable",
+    "Case-based feature availability inferred from event end times",
+    "Completed-case selection and right truncation can bias results",
+    "Test predictions restricted to first half of September, leaving a follow-up buffer",
+    "Historical fitting excludes outcomes unavailable at training/selection cutoffs",
+    "Only static container/calendar features; weather, capacity and live queue not trained",
+    "No calibration to Caspian terminals, no learned ferry cutoff classifier",
+    "Mass-unit filtering changes the evaluated population; conversion was not inferred",
+    "Unfiltered pilot saw this test period; external confirmation is still needed"
+  ],
+  "elapsed_seconds": 5.49
+}

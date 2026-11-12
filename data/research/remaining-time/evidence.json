@@ -1,0 +1,161 @@
+{
+  "checked_on": "2026-11-12",
+  "purpose": "Research and proposed experiment; no v2 training or API changes.",
+  "sources": [
+    {
+      "id": "same_dataset_transformer",
+      "title": "Enhancing Remaining Time Prediction in Business Process Monitoring via Cross-Entropy Supervised Entity Embeddings and Transformer Model",
+      "doi": "10.37394/23207.2025.22.218",
+      "url": "https://wseas.com/journals/articles.php?id=11437",
+      "pdf_url": "https://wseas.com/journals/bae/2025/e425107-059%282025%29.pdf",
+      "reported_mae_minutes": 1414.49,
+      "comparable_to_v1": false,
+      "limitation": "Different prediction moments; clipped labels and augmentation; strict case/time split not sufficiently documented in reviewed text; implementation not found.",
+      "reviewed_pdf_sha256": "b16b12ac433c5532f9ac1aedc91004e25a0c8a4cff05e8aa059ca8194433a0b3",
+      "reviewed_pdf_bytes": 1288397
+    },
+    {
+      "id": "warehouse",
+      "title": "Remaining Time Prediction in Outbound Warehouse Processes: A Case Study",
+      "url": "https://arxiv.org/abs/2509.18986",
+      "repository": "https://github.com/ultrawaffle/ppm_remaining_time",
+      "repository_license": "MIT",
+      "reported_mae_minutes": {
+        "xgboost": 613,
+        "dalstm": 568,
+        "sutran": 554,
+        "pgtnet": 1390
+      },
+      "reported_training_times": {
+        "xgboost": "about 2 minutes",
+        "dalstm": "1.26 hours",
+        "sutran": "4.65 hours",
+        "pgtnet": "0.8 hours"
+      },
+      "reported_hardware": "Apple M1 Pro, 32 GB RAM",
+      "comparable_to_v1": false,
+      "reviewed_pdf_sha256": "ac4ef88fba361445901eaebede41c78b84a207f06183da3a2b6ef3a77931b3a8",
+      "reviewed_pdf_bytes": 119973
+    },
+    {
+      "id": "assessment",
+      "title": "Assessing the Performance of Remaining Time Prediction Methods for Business Processes",
+      "doi": "10.1109/ACCESS.2024.3459648",
+      "url": "https://ieeexplore.ieee.org/abstract/document/10679137/",
+      "author_pdf_url": "https://open.fau.de/server/api/core/bitstreams/00920136-8579-4854-b3bc-20b2677722e1/content",
+      "repository": "https://github.com/RoiderJ/assessing_remaining_time_methods",
+      "repository_license": null,
+      "reviewed_pdf_sha256": "38fc100eaedbabb9b51277b0faaa5bcf2b06b91a60d3327ba3b87d9613b4337e",
+      "reviewed_pdf_bytes": 1876323
+    },
+    {
+      "id": "unbiased_splitting",
+      "title": "Creating Unbiased Public Benchmark Datasets with Data Leakage Prevention for Predictive Process Monitoring",
+      "url": "https://arxiv.org/abs/2107.01905",
+      "repository": "https://github.com/hansweytjens/predictive-process-monitoring-benchmarks",
+      "repository_license": null,
+      "reviewed_pdf_sha256": "b86290545226cb3d6f42db2228293ec6702be60a7d3e665402926c574ea945a4",
+      "reviewed_pdf_bytes": 662121
+    },
+    {
+      "id": "sutran",
+      "title": "SuTraN: an Encoder-Decoder Transformer for Full-Context-Aware Suffix Prediction of Business Processes",
+      "repository": "https://github.com/BrechtWts/SuffixTransformerNetwork",
+      "repository_license": "MIT",
+      "inspected_tree_sha": "f120e6f7067302b0b5ef26f043322ee2619e07a4",
+      "inspected_preprocessing_file": "Preprocessing/create_benchmarks.py"
+    },
+    {
+      "id": "cqr",
+      "title": "Conformalized Quantile Regression",
+      "url": "https://arxiv.org/abs/1905.03222",
+      "review_scope": "Abstract and standard method; no claim of guarantee under temporal drift or correlated prefixes."
+    },
+    {
+      "id": "aft",
+      "title": "Survival Analysis with Accelerated Failure Time",
+      "url": "https://xgboost.readthedocs.io/en/stable/tutorials/aft_survival_analysis.html",
+      "review_scope": "Official tutorial; requires observed censoring bounds for incomplete cases."
+    }
+  ],
+  "warehouse_dataset": {
+    "doi": "10.6084/m9.figshare.29500898.v1",
+    "url": "https://figshare.com/articles/dataset/Warehouse_outbound_event_log/29500898",
+    "metadata_url": "https://api.figshare.com/v2/articles/29500898",
+    "license": {
+      "value": 1,
+      "name": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "download_disabled": false,
+    "files": [
+      {
+        "name": "outbound_2024_06_10_obfuscated.csv",
+        "size": 73123087,
+        "download_url": "https://ndownloader.figshare.com/files/56054435",
+        "computed_md5": "10b6913de29a7099c28dbed9cc387866"
+      },
+      {
+        "name": "outbound_2024_ext_obfuscated.csv",
+        "size": 357622604,
+        "download_url": "https://ndownloader.figshare.com/files/56054441",
+        "computed_md5": "5a70551180accfdb9773876b5c509133"
+      },
+      {
+        "name": "outbound_2024_obfuscated.csv",
+        "size": 226656157,
+        "download_url": "https://ndownloader.figshare.com/files/56054438",
+        "computed_md5": "9d567c18b2ae9ff7a2ee6499f1496067"
+      }
+    ],
+    "csv_downloaded_for_this_research": false
+  },
+  "local_diagnostics": {
+    "prepared_cases": 95587,
+    "mass_filtered_cases": 77565,
+    "truck_out_month_counts_all_prepared": {
+      "2021-07": 30040,
+      "2021-08": 33213,
+      "2021-09": 32334
+    },
+    "monthly_cohorts_mass_filtered": [
+      {
+        "discharge_month": "2021-05",
+        "cases": 14,
+        "median_dwell_hours": 1868.6705555555554,
+        "max_dwell_hours": 2590.7669444444446
+      },
+      {
+        "discharge_month": "2021-06",
+        "cases": 2628,
+        "median_dwell_hours": 83.91666666666666,
+        "max_dwell_hours": 2375.7166666666667
+      },
+      {
+        "discharge_month": "2021-07",
+        "cases": 22818,
+        "median_dwell_hours": 78.64319444444445,
+        "max_dwell_hours": 1509.955
+      },
+      {
+        "discharge_month": "2021-08",
+        "cases": 27849,
+        "median_dwell_hours": 45.08583333333333,
+        "max_dwell_hours": 1324.9888888888888
+      },
+      {
+        "discharge_month": "2021-09",
+        "cases": 24256,
+        "median_dwell_hours": 36.98805555555556,
+        "max_dwell_hours": 632.6061111111111
+      }
+    ],
+    "prepared_csv_sha256": "8a278ec8ff40e94c596553e76a6fe92b002ff933b340c4b6d5dd365ec6309132"
+  },
+  "local_diagnostics_method": "Read prepared CSV using stdlib csv; count TRUCK_OUT timestamp month over all 95587 rows; group dwell hours by prediction timestamp month after inclusive 1 <= gross_tonnes <= 60 filter; compute statistics.median and max. Monthly cohorts are not v1 split cohorts.",
+  "local_diagnostics_interpretation": "All prepared outcomes end in July-September 2021. Declining monthly durations are compatible with process drift and/or completed-case selection; this is not proof of either cause.",
+  "v1_comparison_file": "models/terminal-dwell/v1/fallback-comparison.json",
+  "v1_comparison_sha256": "e9b838ccf02bdf269a12508dc5a45cff9da490cdbd4a635d71bd57969ba08b71",
+  "v1_test_cases": 14542,
+  "decision": "First evaluate history-aware CatBoost vs conditional empirical baselines, then a compact LSTM. Keep fixed discharge and event-updated tasks separate. Preserve existing fallback; defer Transformer until measured benefit."
+}
