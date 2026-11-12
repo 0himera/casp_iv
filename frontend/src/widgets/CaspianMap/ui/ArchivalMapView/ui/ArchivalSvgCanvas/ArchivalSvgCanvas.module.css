@@ -34,3 +34,8 @@
   stroke-width: 1.5;
   stroke-linejoin: round;
 }
+
+.print .shoreBuffer { stroke: var(--riso-red-ink); stroke-width: 1; stroke-opacity: 0.5; transform: translate(1.3px, -0.8px); }
+.print .shoreInk { stroke: var(--riso-water-ink); stroke-width: 1.1; }
+.print .bathLayer { fill-opacity: 0.88; stroke-dasharray: 2 3; }
+.waterPrint { opacity: 0.36; }

@@ -36,7 +36,7 @@ export function DockRoutesList({ shipment, role, isBusy, onSelectRoute, onHoverR
         const isCurrent = r.id === shipment.selected_route_id;
         const hasTariffs = active && active.cost.amount_minor > 0 && r.cost.amount_minor > 0;
         const deltaRub = hasTariffs ? (r.cost.amount_minor - active.cost.amount_minor) / 100 : 0;
-        const deltaCo2 = active && r.emissions_kg_co2e !== null && active.emissions_kg_co2e !== null ? r.emissions_kg_co2e - active.emissions_kg_co2e : null;
+        const deltaCo2 = active && r.emissions_kg_co2e !== null && active.emissions_kg_co2e !== null ? Math.round((r.emissions_kg_co2e - active.emissions_kg_co2e) * 100) / 100 : null;
         return (
           <div key={r.id} onMouseEnter={() => onHoverRoute?.(r.id)} onMouseLeave={() => onHoverRoute?.(null)} className={`${styles.card} ${isCurrent ? styles.cardActive : ''}`}>
             <div className={styles.rowBetween}><span className={styles.title}>{r.name}</span><Badge variant={r.feasible ? 'secondary' : 'destructive'}>Риск: {formatProbability(r.miss_probability)}</Badge></div>

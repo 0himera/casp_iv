@@ -12,6 +12,7 @@ import { ArchivalSvgCanvas } from './ui/ArchivalSvgCanvas';
 import styles from './ArchivalMapView.module.css';
 
 interface ArchivalMapViewProps {
+  printEnabled?: boolean;
   ports?: CaspianPort[];
   shipment?: Shipment;
   selectedPortId?: string | null;
@@ -19,6 +20,7 @@ interface ArchivalMapViewProps {
 }
 
 export function ArchivalMapView({
+  printEnabled = true,
   ports = [],
   shipment,
   selectedPortId,
@@ -32,6 +34,7 @@ export function ArchivalMapView({
     <div className={styles.wrap}>
       <div className={styles.sheet}>
         <ArchivalSvgCanvas
+          printEnabled={printEnabled}
           activePortId={activeId}
           cargoLng={shipment?.current_location.longitude}
           cargoLat={shipment?.current_location.latitude}
