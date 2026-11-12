@@ -38,8 +38,8 @@ export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, onS
     const id = e.features?.[0]?.layer.id;
     if (id === 'storm-fill' || id === 'storm-outline') i.selectStorm();
     if (id === 'alt-route-line') {
-      const alt = shipment.routes.find((r) => r.id !== shipment.selected_route_id);
-      if (alt) onSelectRoute?.(alt.id);
+      const clickedId = e.features?.[0]?.properties?.id;
+      if (clickedId) onSelectRoute?.(clickedId);
     }
   };
 

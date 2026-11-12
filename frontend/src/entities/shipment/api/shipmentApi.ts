@@ -1,11 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { SEED_SHIPMENT } from '@/data/caspianSnapshots';
-import {
-  createCaspianClient,
-  type Role,
-  type Shipment,
-  type ShipmentSummary,
-} from '@/shared/api/caspian';
+import { createCaspianClient, type Role, type Shipment, type ShipmentSummary } from '@/shared/api/caspian';
+import { enrichShipmentWithCorridors } from '../lib/enrichShipment';
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://150.251.112.240:18081/api/v1';
 
@@ -44,8 +40,7 @@ export function useShipmentsListQuery(role: Role, apiOnline: boolean) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   return useQuery({
     queryKey: shipmentKeys.list(role),
-    queryFn: async () =>
-      apiOnline ? client.listShipments() : { items: [buildFallbackSummary(SEED_SHIPMENT)] },
+    queryFn: async () => (apiOnline ? client.listShipments() : { items: [buildFallbackSummary(SEED_SHIPMENT)] }),
     initialData: { items: [buildFallbackSummary(SEED_SHIPMENT)] },
   });
 }
@@ -54,7 +49,7 @@ export function useShipmentDetailQuery(id: string, role: Role, apiOnline: boolea
   const client = createCaspianClient(API_BASE_URL, () => role);
   return useQuery({
     queryKey: shipmentKeys.detail(id, role),
-    queryFn: async () => (apiOnline ? client.getShipment(id) : SEED_SHIPMENT),
-    initialData: SEED_SHIPMENT,
+    queryFn: async () => enrichShipmentWithCorridors(apiOnline ? await client.getShipment(id) : SEED_SHIPMENT),
+    initialData: enrichShipmentWithCorridors(SEED_SHIPMENT),
   });
 }

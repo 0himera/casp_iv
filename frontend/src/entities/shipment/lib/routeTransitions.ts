@@ -20,22 +20,24 @@ export function applyRouteSwitchTransition(
     r.requires_reapproval = r.id !== target.id;
   }
 
-  if (target.id === 'route_makh') {
+  if (target.id === 'route_aktau') {
+    next.forecast.miss_probability = 0.12;
+    next.forecast.cargo_cutoff = '2026-11-15T00:00:00Z';
+    next.forecast.ready_at = { p10: '2026-11-14T10:00:00Z', p50: '2026-11-14T16:00:00Z', p90: '2026-11-15T02:00:00Z' };
+    next.forecast.reasons = ['Восточный коридор через Актау (Казахстан) и Амирабад. Риск 12%, шторм Энзели обойдён.'];
+  } else if (target.id === 'route_makh') {
     next.forecast.miss_probability = 0.22;
     next.forecast.cargo_cutoff = '2026-11-14T12:00:00Z';
-    next.forecast.ready_at = {
-      p10: '2026-11-14T04:00:00Z',
-      p50: '2026-11-14T08:00:00Z',
-      p90: '2026-11-14T15:00:00Z',
-    };
-    next.forecast.reasons = [
-      'Маршрут перестроен через Махачкалу и Амирабад (-16 ч задержки, риск 22%). Требуется повторный e-CMR pre-clearance.',
-    ];
+    next.forecast.ready_at = { p10: '2026-11-14T04:00:00Z', p50: '2026-11-14T08:00:00Z', p90: '2026-11-14T15:00:00Z' };
+    next.forecast.reasons = ['Маршрут перестроен через Махачкалу (-16 ч задержки, риск 22%).'];
+  } else if (target.id === 'route_turkmen') {
+    next.forecast.miss_probability = 0.18;
+    next.forecast.cargo_cutoff = '2026-11-15T06:00:00Z';
+    next.forecast.ready_at = { p10: '2026-11-14T14:00:00Z', p50: '2026-11-14T20:00:00Z', p90: '2026-11-15T08:00:00Z' };
+    next.forecast.reasons = ['Юго-восточный коридор через Туркменбаши. Риск 18%.'];
   } else {
     next.forecast.miss_probability = 0.84;
-    next.forecast.reasons = [
-      'Штормовое окно в районе Энзели. Высокий риск срыва стыковки.',
-    ];
+    next.forecast.reasons = ['Штормовое окно в районе Энзели. Высокий риск срыва стыковки.'];
   }
 
   next.updated_at = new Date().toISOString();

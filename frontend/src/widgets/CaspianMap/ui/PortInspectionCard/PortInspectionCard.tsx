@@ -20,9 +20,8 @@ export function PortInspectionCard({
   onClose,
 }: PortInspectionCardProps) {
   const activeRoute = shipment.routes.find((r) => r.id === shipment.selected_route_id);
-  const altRoute = shipment.routes.find((r) => r.id !== shipment.selected_route_id);
   const isInActive = activeRoute?.ports.includes(port.name);
-  const isInAlt = altRoute?.ports.includes(port.name);
+  const portRoute = shipment.routes.find((r) => r.ports.includes(port.name));
 
   return (
     <ViewfinderFrame stamp="[ 04-PORT / INSPECTION ]" className={styles.card}>
@@ -43,8 +42,8 @@ export function PortInspectionCard({
         <div className={styles.metric}><span className={styles.k}>На рейде</span><span className={styles.v}>{port.vesselsInRoadstead} суд.</span></div>
       </div>
       {isInActive && <div className={styles.statusRow}><Check className={styles.checkIcon} /><span>Включён в текущий маршрут</span></div>}
-      {isInAlt && !isInActive && (
-        <Button type="button" size="sm" onClick={() => altRoute && onSelectRoute?.(altRoute.id)} className={styles.routeBtn}>
+      {!isInActive && portRoute && (
+        <Button type="button" size="sm" onClick={() => onSelectRoute?.(portRoute.id)} className={styles.routeBtn}>
           Маршрут через {port.name} <ArrowRight className={styles.arrowIcon} />
         </Button>
       )}
