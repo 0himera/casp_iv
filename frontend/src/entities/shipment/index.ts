@@ -22,3 +22,6 @@ export {
   type EsgModeContribution,
   type EsgRecalculationResult,
 } from './lib/esgEngine';
+export { applyScenarioTransition } from './lib/scenarioTransitions';
+export { applyRouteSwitchTransition } from './lib/routeTransitions';
+export { applyAttestationTransition } from './lib/attestationTransitions';
