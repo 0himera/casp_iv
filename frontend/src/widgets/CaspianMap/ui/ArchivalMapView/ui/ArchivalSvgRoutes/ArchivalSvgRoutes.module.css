@@ -6,31 +6,31 @@
 
 .canal {
   fill: none;
-  stroke: #D94E34;
-  stroke-width: 1.5;
+  stroke: #FFB800;
+  stroke-width: 1.6;
   stroke-dasharray: 4 3;
-  opacity: 0.72;
+  opacity: 0.82;
 }
 
 .passive {
   fill: none;
-  stroke: #7EB2CC;
+  stroke: #5CE1E6;
   stroke-width: 0.9;
   stroke-dasharray: 2.5 3.5;
-  opacity: 0.34;
+  opacity: 0.38;
 }
 
 .activeHalo {
   fill: none;
-  stroke: #D94E34;
-  stroke-width: 4;
-  opacity: 0.22;
+  stroke: #FFB800;
+  stroke-width: 4.5;
+  opacity: 0.28;
 }
 
 .activeLine {
   fill: none;
-  stroke: #FF5B3D;
-  stroke-width: 1.8;
+  stroke: #FFD15C;
+  stroke-width: 2;
   stroke-dasharray: 6 4;
   animation: arcFlow 1.6s linear infinite;
 }

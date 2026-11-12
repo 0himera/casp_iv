@@ -46,3 +46,4 @@ export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }
     </svg>
   );
 }
+

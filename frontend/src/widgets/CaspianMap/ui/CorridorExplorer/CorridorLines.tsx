@@ -27,7 +27,7 @@ export function CorridorLines({ highlighted }: { highlighted: string[] }) {
         id="published-corridors-line"
         type="line"
         paint={{
-          'line-color': ['case', ['==', ['get', 'highlighted'], 1], '#D94E34', '#567F99'],
+          'line-color': ['case', ['==', ['get', 'highlighted'], 1], '#FFB800', '#567F99'],
           'line-width': ['case', ['==', ['get', 'highlighted'], 1], 3, 1.2],
           'line-dasharray': [2, 3],
           'line-opacity': 0.68,

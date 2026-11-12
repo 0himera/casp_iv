@@ -1,20 +1,20 @@
-.frame { position: relative; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: #0F131C; overflow: hidden; }
+.frame { position: relative; border-radius: 6px; border: 1px solid var(--border); background-color: var(--surface-default); overflow: hidden; }
 .halo { display: none; }
-.toolbar { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background-color: #0F131C; }
+.toolbar { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); background-color: var(--surface-default); }
 .overline { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); }
 .stageGrid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; }
 .stageWithDock { grid-template-columns: 1fr 350px; }
-.canvas { position: relative; height: 580px; width: 100%; background-color: #080C14; }
-.archivalWrap { position: relative; height: 580px; width: 100%; background-color: #080C14; overflow: hidden; }
+.canvas { position: relative; height: 580px; width: 100%; background-color: #170205; }
+.archivalWrap { position: relative; height: 580px; width: 100%; background-color: #170205; overflow: hidden; }
 .archivalImg { width: 100%; height: 100%; object-fit: cover; object-position: bottom center; opacity: 0.92; }
 
 .dock {
-  height: 580px; padding: 12px; border-left: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: #121621; overflow-y: auto;
+  height: 580px; padding: 12px; border-left: 1px solid var(--border);
+  background-color: var(--surface-low); overflow-y: auto;
 }
 
 @media (max-width: 1024px) {
   .stageWithDock { grid-template-columns: 1fr; }
   .canvas, .archivalWrap { height: 420px; }
-  .dock { height: auto; max-height: 420px; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  .dock { height: auto; max-height: 420px; border-left: none; border-top: 1px solid var(--border); }
 }

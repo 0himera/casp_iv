@@ -14,7 +14,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background: radial-gradient(circle at 48% 50%, #EFEAE0 0%, #E1E4DF 68%, #0F1722 100%);
+  background: radial-gradient(circle at 48% 50%, #3A0610 0%, #250409 68%, #170205 100%);
   overflow: hidden;
 }
 
@@ -30,7 +30,7 @@
   position: absolute;
   inset: 0;
   width: 20%;
-  background: linear-gradient(90deg, transparent, rgba(126, 178, 204, 0.14), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 184, 0, 0.15), transparent);
   animation: scanSweep 6s linear infinite;
   pointer-events: none;
   z-index: 3;
@@ -43,9 +43,9 @@
   z-index: 5;
   padding: 5px 9px;
   border-radius: 4px;
-  background: rgba(15, 19, 28, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(43, 5, 11, 0.94);
+  border: 1px solid rgba(255, 90, 120, 0.28);
   font-family: var(--font-mono);
   font-size: 10px;
-  color: #CBD5E1;
+  color: #FFF5F5;
 }
