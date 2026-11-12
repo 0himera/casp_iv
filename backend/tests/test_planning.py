@@ -177,3 +177,19 @@ def test_alternative_must_keep_destination(rig, planning):
     assert response.status_code == 422
     assert response.json()["error"]["code"] == "DESTINATION_MISMATCH"
     assert client.get(f"/api/v1/shipments/{planning[0]}").json()["revision"] == shipment["revision"]
+
+
+def test_rail_and_road_delays_only_affect_their_own_legs(rig, planning):
+    normal = recalculate(rig, planning, "modes-normal").json()
+    rail = recalculate(rig, planning, "modes-rail", assumptions={"rail_delay_hours": 24}).json()
+    road = recalculate(rig, planning, "modes-road", assumptions={"road_delay_hours": 24}).json()
+
+    def by_route(value):
+        return {r["route_id"]: r for r in value["planning"]["inputs"]}
+
+    base, delayed_rail, delayed_road = map(by_route, (normal, rail, road))
+    assert delayed_rail["route_astra"]["land_hours"] == base["route_astra"]["land_hours"] + 24
+    assert delayed_rail["route_makh"]["land_hours"] == base["route_makh"]["land_hours"]
+    assert delayed_road["route_astra"]["land_hours"] == base["route_astra"]["land_hours"]
+    assert delayed_road["route_makh"]["land_hours"] == base["route_makh"]["land_hours"] + 24
+    assert road["routes"][1]["miss_probability"] > normal["routes"][1]["miss_probability"]

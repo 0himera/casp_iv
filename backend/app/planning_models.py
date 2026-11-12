@@ -11,6 +11,7 @@ from .models import Model
 class PlanningAssumptions(Model):
     terminal_hours: float = Field(default=8, ge=0, le=72)
     rail_delay_hours: float = Field(default=0, ge=0, le=72)
+    road_delay_hours: float = Field(default=0, ge=0, le=72)
     wind_limit_kmh: float = Field(default=40, gt=0, le=150)
     cutoff_in_hours: float = Field(default=24, ge=2, le=96)
     sailing_interval_hours: float = Field(default=24, ge=6, le=72)

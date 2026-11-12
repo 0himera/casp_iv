@@ -152,7 +152,9 @@ async def prepare(shipment, body, data, settings, start):
             warnings.append("Судозаходы / медиана масштабируют очередь. Это сценарная эвристика.")
         else:
             warnings.append("Свежая активность недоступна: очередь взята из допущений.")
-        land_hours = land_km / 40 + assumptions.rail_delay_hours
+        mode = "rail" if "rail" in route["modes"] else "road"
+        delay = assumptions.rail_delay_hours if mode == "rail" else assumptions.road_delay_hours
+        land_hours = land_km / (40 if mode == "rail" else 60) + delay
         terminal = assumptions.terminal_hours * factor
         cutoff_hours = assumptions.cutoff_in_hours + CUTOFF_OFFSETS.get(route["id"], 0)
         inputs.append(
@@ -200,7 +202,6 @@ async def prepare(shipment, body, data, settings, start):
                 "sailings": sailings,
             }
         )
-        mode = "rail" if "rail" in route["modes"] else "road"
         emissions_routes.append(
             {
                 "route_id": route["id"],

@@ -194,6 +194,7 @@ Legacy deploy выбран по фактической совместимост�
   "assumptions": {
     "terminal_hours": 8,
     "rail_delay_hours": 0,
+    "road_delay_hours": 0,
     "wind_limit_kmh": 40,
     "cutoff_in_hours": 24,
     "sailing_interval_hours": 24,
