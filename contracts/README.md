@@ -1,6 +1,6 @@
 # TransitPassport простой контракт согласования перевозки
 
-Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. Контракт развёрнут и проверен в Casper testnet; backend signer к интерфейсу ещё не подключён.
+Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. Контракт развёрнут в Casper testnet, подключён к постоянному backend и проверен через HTTP API → worker → chain. [API и запуск](../docs/TRANSIT_API.md), [подтверждённые операции](../backend/evidence/testnet-transit.json). Frontend пока использует mock.
 
 ## Сборка и тесты
 
@@ -116,11 +116,11 @@ MVP использует обычные подписанные Casper-транз
 На стенде три ключа находятся в backend signer, переключение ролей разрешается сервером только как demo-функция. Это custody команды, а не три независимые организации. Для пилота подпись нужно передать участникам, сохранив те же entrypoints.
 
 ```text
-Next.js → FastAPI → operation в БД → Rust Odra adapter → Casper testnet
+Next.js → FastAPI → operation в SQLite → Python worker → Rust casper-client → Casper testnet
                                    ← state/результат ←
 ```
 
-Rust adapter — небольшой отдельный process/CLI с JSON-входом, без shell interpolation. Он сопоставляет actor с локальным key path, вызывает Livenet и возвращает transaction hash и результат. Закрытые ключи не передаются в JSON и не выводятся в логи. Контракт не делает HTTP-запросов к Open-Meteo/ASCO: результат анализа остаётся вне chain.
+Adapter реализован в `backend/app/casper.py`: Python вызывает готовый Rust `casper-client` списком аргументов без shell. Actor сопоставляется с локальным key path; worker сохраняет подписанный deploy до отправки и затем проверяет receipt/state. Закрытые ключи не передаются в JSON и не выводятся в логи. Контракт не делает HTTP-запросов к Open-Meteo/ASCO: результат анализа остаётся вне chain.
 
 Operation flow: queued → submitted → confirmed/failed. После submit сохраняется hash; при timeout сначала сверка того же hash и state. Confirmed ставится после successful execution и проверки expected version/decision. Сбой БД после chain execution восстанавливается сверкой, не повторной подписью вслепую. Idempotency на backend не заменяет проверку версии в контракте.
 
@@ -148,7 +148,7 @@ Operation flow: queued → submitted → confirmed/failed. После submit с�
 - Правильные caller и native events проверяются в Casper VM, затем на testnet.
 - Повтор HTTP-запроса, timeout RPC, failed execution и сбой записи БД не создают ложного confirmed.
 
-Testnet deploy и проверка трёх подтверждений выполнены. Следующий шаг — подключение signer adapter к backend Operation flow. Реестр организаций и сложное управление участниками не входят в этот вариант.
+Testnet deploy, backend Operation flow и проверка трёх подтверждений через настоящий HTTP API выполнены. Следующий шаг — подключение Next.js к этому API. Реестр организаций и сложное управление участниками не входят в этот вариант.
 
 ## Проверенное развёртывание в testnet
 

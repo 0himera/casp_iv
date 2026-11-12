@@ -1,3 +1,4 @@
+import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -8,6 +9,17 @@ REPOSITORY_ROOT = BACKEND_ROOT.parent
 
 @dataclass(frozen=True)
 class Settings:
+    transit_path: Path = field(
+        default_factory=lambda: Path(
+            os.getenv("CASPIAN_TRANSIT_PATH", str(BACKEND_ROOT / "var/transit.sqlite3"))
+        )
+    )
+    transit_writes: bool = field(
+        default_factory=lambda: os.getenv("CASPIAN_TRANSIT_WRITES", "false").lower() == "true"
+    )
+    role_tokens: dict[str, str] = field(
+        default_factory=lambda: json.loads(os.getenv("CASPIAN_ROLE_TOKENS", "{}"))
+    )
     catalog_path: Path = REPOSITORY_ROOT / "data/ports.json"
     cache_path: Path = field(
         default_factory=lambda: Path(
@@ -40,6 +52,12 @@ class Settings:
     )
 
     def __post_init__(self):
+        if self.role_tokens and (
+            set(self.role_tokens) != {"logistician", "carrier", "customs"}
+            or any(not isinstance(t, str) or len(t) < 24 for t in self.role_tokens.values())
+            or len(set(self.role_tokens.values())) != 3
+        ):
+            raise ValueError("Provide three distinct role tokens, at least 24 characters each")
         if (
             self.request_timeout_seconds <= 0
             or min(

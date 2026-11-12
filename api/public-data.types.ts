@@ -19,9 +19,35 @@ export type ActivityResponse = {
   meta: Provenance;
 };
 
+export type Attest = {
+  expected_revision: number;
+  decision: "approved" | "rejected";
+};
+
+export type Attestation = {
+  role: "logistician" | "carrier" | "customs";
+  version: number;
+  decision: "approved" | "rejected";
+  status: "active" | "invalidated" | "expired" | "revoked";
+  valid_until: string;
+};
+
 export type Coordinates = {
   latitude: number;
   longitude: number;
+};
+
+export type CreateDemoShipment = {
+  template: "demo";
+  title?: string;
+};
+
+export type Document = {
+  id: string;
+  kind: "invoice" | "packing_list";
+  filename: string;
+  version: number;
+  sha256: string;
 };
 
 export type Duration = {
@@ -39,12 +65,73 @@ export type ErrorResponse = {
   error: ErrorDetail;
 };
 
+export type Eta = {
+  p10: string | null;
+  p50: string | null;
+  p90: string | null;
+};
+
+export type Forecast = {
+  id: string;
+  generated_at: string;
+  valid_until: string;
+  method: "scenario_fixture" | "monte_carlo" | "ml";
+  quality: "observed" | "forecast" | "synthetic" | "stale" | "missing";
+  ready_at: Eta;
+  cargo_cutoff: string;
+  miss_probability: number | null;
+  reasons: Array<string>;
+};
+
+export type Geometry = {
+  type: "LineString";
+  coordinates: Array<Array<number>>;
+};
+
 export type Health = {
   status?: "ok";
   mode?: "public_data";
   api_version?: string;
   catalog_ports: number;
   upstream_checked?: false;
+};
+
+export type Location = {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type Money = {
+  amount_minor: number;
+  currency: "RUB";
+};
+
+export type Operation = {
+  id: string;
+  shipment_id: string;
+  status: "queued" | "submitted" | "confirmed" | "failed";
+  kind: "create" | "select_route" | "replace_document" | "attest" | "revoke";
+  network?: "casper-test";
+  transaction_hash?: string | null;
+  explorer_url?: string | null;
+  created_at: string;
+  result_revision?: number | null;
+  error_code?: string | null;
+};
+
+export type Passport = {
+  version: number;
+  status: "collecting" | "ready" | "blocked";
+  documents_hash: string;
+  route_hash: string;
+  required_roles: Array<"logistician" | "carrier" | "customs">;
+  attestations: Array<Attestation>;
+  network: "mock" | "casper-test";
+  contract_address: string | null;
+  transaction_hash: string | null;
+  explorer_url: string | null;
 };
 
 export type Port = {
@@ -94,6 +181,37 @@ export type Provenance = {
   cache_age_seconds: number;
   stale: boolean;
   warnings: Array<string>;
+};
+
+export type ReplaceDocument = {
+  expected_revision: number;
+  document_id: string;
+  filename: string;
+  content_base64: string;
+};
+
+export type RevisionInput = {
+  expected_revision: number;
+};
+
+export type Route = {
+  id: string;
+  name: string;
+  ports: Array<string>;
+  modes: Array<"rail" | "road" | "sea">;
+  distance_km: number;
+  geometry: Geometry;
+  geometry_kind: "schematic" | "measured";
+  eta: Eta;
+  miss_probability: number | null;
+  cost: Money;
+  emissions_kg_co2e: number | null;
+  emissions_method: string;
+  feasible: boolean;
+  infeasibility_reason: string | null;
+  capacity_status: "confirmed" | "unknown" | "synthetic";
+  requires_reapproval: boolean;
+  source_ids: Array<string>;
 };
 
 export type RoutePrediction = {
@@ -175,10 +293,71 @@ export type SailingsResponse = {
   partial: boolean;
 };
 
+export type SelectRoute = {
+  expected_revision: number;
+  route_id: string;
+  forecast_id: string;
+};
+
+export type Shipment = {
+  id: string;
+  revision: number;
+  title: string;
+  mass_tonnes: number;
+  origin: Location;
+  destination: Location;
+  current_location: Location;
+  movement_status: "planned" | "in_transit" | "at_port" | "delivered";
+  scenario_time: string;
+  updated_at: string;
+  data_mode: "synthetic" | "mixed" | "live";
+  selected_route_id: string;
+  forecast: Forecast;
+  routes: Array<Route>;
+  documents: Array<Document>;
+  passport: Passport;
+  timeline: Array<TimelineEvent>;
+  sources: Array<Source>;
+  allowed_actions: Array<"select_route" | "replace_document" | "attest" | "run_scenario">;
+  pending_operation_id: string | null;
+};
+
+export type ShipmentList = {
+  items: Array<ShipmentSummary>;
+};
+
+export type ShipmentSummary = {
+  id: string;
+  title: string;
+  origin: string;
+  destination: string;
+  movement_status: "planned" | "in_transit" | "at_port" | "delivered";
+  eta: string | null;
+  miss_probability: number | null;
+  passport_status: "collecting" | "ready" | "blocked";
+};
+
+export type Source = {
+  id: string;
+  name: string;
+  url: string | null;
+  quality: "observed" | "forecast" | "synthetic" | "stale" | "missing";
+  observed_at: string | null;
+  note: string;
+};
+
 export type TimeQuantiles = {
   p10: string;
   p50: string;
   p90: string;
+};
+
+export type TimelineEvent = {
+  id: string;
+  occurred_at: string;
+  actor: string;
+  title: string;
+  passport_version: number;
 };
 
 export type WeatherPoint = {

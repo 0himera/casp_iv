@@ -26,6 +26,8 @@ from .models import (
 from .prediction import PredictionRequest, PredictionResponse, predict
 from .sailings import PORT_SOURCES
 from .service import DataService, DataUnavailable
+from .transit_api import router as transit_router
+from .transit_store import Store
 
 
 def create_app(
@@ -40,6 +42,8 @@ def create_app(
     @asynccontextmanager
     async def lifespan(app):
         cache = SnapshotCache(settings.cache_path)
+        app.state.settings = settings
+        app.state.transit = Store(settings.transit_path)
         async with httpx.AsyncClient(
             transport=transport,
             timeout=httpx.Timeout(settings.request_timeout_seconds, connect=5),
@@ -51,18 +55,19 @@ def create_app(
             yield
 
     app = FastAPI(
-        title="Caspian Flow Public Data API",
+        title="Caspian Flow API",
         version="1.0.0",
         lifespan=lifespan,
-        description="Keyless public sources. Separate from the shipment/contract demo API.",
+        description="Public sources and persistent shipments with Casper testnet operations.",
         responses={status: {"model": ErrorResponse} for status in (404, 422, 500, 503)},
     )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.cors_origins),
         allow_methods=["GET", "POST"],
-        allow_headers=["Content-Type"],
+        allow_headers=["Content-Type", "Authorization", "Idempotency-Key"],
     )
+    app.include_router(transit_router)
 
     def error(status, code, message):
         return JSONResponse(
