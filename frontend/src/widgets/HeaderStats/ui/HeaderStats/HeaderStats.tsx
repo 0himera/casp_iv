@@ -1,53 +1,45 @@
 'use client';
 
-import { Clock, Leaf, Scale, Waves } from 'lucide-react';
-import { getSelectedRoute } from '@/entities/shipment';
-import { DemoControls } from '@/features/demo-controls';
 import type { Role, ScenarioRequest, Shipment } from '@/shared/api/caspian';
-import { formatMskDateTime, formatProbability } from '@/shared/lib/formatters';
-import { Badge, PixelMarker } from '@/shared/ui';
-import { KpiTile } from '../KpiTile';
+import { DemoControls } from '@/features/demo-controls';
+import { Badge, LivePing } from '@/shared/ui';
+import { HeaderNavActions } from '../HeaderNavActions';
 import styles from './HeaderStats.module.css';
 
 interface HeaderStatsProps {
+  items: Array<{ id: string }>;
   shipment: Shipment;
   apiOnline: boolean;
   role: Role;
   scenario: ScenarioRequest['scenario'];
+  mode: 'map' | 'graph';
   isBusy: boolean;
+  canRunScenario: boolean;
+  onSelectShipment: (id: string) => void;
+  onToggleMode: (mode: 'map' | 'graph') => void;
   onChangeRole: (role: Role) => void;
   onSelectScenario: (scenario: ScenarioRequest['scenario']) => void;
 }
 
-export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onChangeRole, onSelectScenario }: HeaderStatsProps) {
-  const route = getSelectedRoute(shipment);
-  const prob = shipment.forecast.miss_probability;
-  const probTone = prob === null ? 'warning' : prob >= 0.5 ? 'danger' : prob >= 0.2 ? 'warning' : 'success';
-
+export function HeaderStats(props: HeaderStatsProps) {
+  const { items, shipment, apiOnline, role, scenario, mode, isBusy } = props;
   return (
     <header className={styles.header}>
       <div className={styles.brandBlock}>
-        <PixelMarker variant={apiOnline ? 'telemetry' : 'alert'} />
-        <div className={styles.brandMeta}>
-          <div className={styles.brandTitleRow}>
-            <span className={styles.brandName}>
-              Smart Caspian <em className={styles.brandItalic}>Transit</em>
-            </span>
-            <span className={styles.stamp}>МТК Север–Юг</span>
-          </div>
-          <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
-            <span className={styles.squareDot} />
-            {apiOnline ? (shipment.data_mode === 'synthetic' ? 'Casper Live · демо' : 'Casper Live') : 'Офлайн-резерв'}
-          </Badge>
+        <div className={styles.brandTitleRow}>
+          <span className={styles.brandName}>CaspiFlow</span>
+          <span className={styles.brandItalic}>Atlas</span>
+          <span className={styles.stamp}>{`${shipment.id} // REV ${shipment.revision}`}</span>
         </div>
+        <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
+          {apiOnline ? <LivePing /> : <span className={styles.warnDot} />}
+          <span>{apiOnline ? 'TELEMETRY LIVE' : 'OFFLINE'}</span>
+        </Badge>
       </div>
-      <div className={styles.kpiRow}>
-        <KpiTile label="Масса груза" value={`${shipment.mass_tonnes} т`} icon={<Scale className={styles.kpiIcon} />} />
-        <KpiTile label="Риск срыва" value={formatProbability(prob)} tone={probTone} icon={<Waves className={styles.kpiIcon} />} />
-        <KpiTile label="ETA (P50)" value={formatMskDateTime(route.eta.p50)} icon={<Clock className={styles.kpiIcon} />} />
-        <KpiTile label="Выбросы CO₂e" value={route.emissions_kg_co2e !== null ? `${route.emissions_kg_co2e} кг` : 'Нет данных'} tone="success" icon={<Leaf className={styles.kpiIcon} />} />
+      <div className={styles.controlsBlock}>
+        <HeaderNavActions items={items} selectedId={shipment.id} mode={mode} onSelectShipment={props.onSelectShipment} onToggleMode={props.onToggleMode} />
+        <DemoControls role={role} scenario={scenario} isBusy={isBusy} canRunScenario={props.canRunScenario} onChangeRole={props.onChangeRole} onSelectScenario={props.onSelectScenario} />
       </div>
-      <DemoControls role={role} scenario={scenario} canRunScenario={shipment.allowed_actions.includes('run_scenario')} isBusy={isBusy} onChangeRole={onChangeRole} onSelectScenario={onSelectScenario} />
     </header>
   );
 }
