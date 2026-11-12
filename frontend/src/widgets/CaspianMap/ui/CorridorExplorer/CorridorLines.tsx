@@ -8,8 +8,8 @@ import { useCorridors } from '../../model/useCorridors';
 
 export function CorridorLines({ highlighted }: { highlighted: string[] }) {
   const network = useCorridors();
-  const accent = getCssVarColor('--map-route', 'transparent');
-  const corridor = getCssVarColor('--map-route-alt', 'transparent');
+  const accent = getCssVarColor('--primary', 'transparent');
+  const corridor = getCssVarColor('--accent-cyan', 'transparent');
   const data: FeatureCollection<LineString> = {
     type: 'FeatureCollection',
     features: (network.data?.items ?? []).flatMap((edge) => {

@@ -48,10 +48,3 @@
 @media (max-width: 768px) {
   .container { padding: 16px 16px 40px; gap: 22px; }
 }
-
-.sectionLead { grid-column: 1 / -1; padding: 8px 0 14px; border-bottom: 1px solid var(--border-strong); }
-.sectionTitle { font-family: var(--font-serif); font-size: clamp(30px, 3.5vw, 44px); font-weight: 400; letter-spacing: -.035em; line-height: 1.1; margin-top: 6px; }
-.sectionLead p { margin-top: 8px; font-size: 13px; color: var(--muted-foreground); }
-.colophon { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 20px; margin-top: 20px; border-top: 1px solid var(--border-strong); font: 10px var(--font-mono); color: var(--muted-foreground); flex-wrap: wrap; }
-.colophon em { font-family: var(--font-serif); font-size: 18px; color: var(--primary); }
-.printerMarks { color: var(--primary); font-size: 22px; letter-spacing: 5px; }

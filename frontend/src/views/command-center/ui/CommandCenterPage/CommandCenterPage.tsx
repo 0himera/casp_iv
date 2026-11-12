@@ -28,7 +28,7 @@ export function CommandCenterPage() {
         <HeroTelemetry shipment={s.shipment} stormActive={stormActive} />
         <section className={styles.mapSection}>
           <div className={styles.sectionHeader}>
-            <div><span className={styles.sectionStamp}>01 / КАРТОГРАФИЯ</span><h2 className={styles.sectionTitle}>Между берегами</h2></div>
+            <span className={styles.sectionStamp}>{'[ FIG. 01 // CASPIAN HYDRO-CORRIDORS & TELEMETRY ]'}</span>
             <Button type="button" size="sm" variant={l.xrayMode ? 'default' : 'outline'} onClick={l.toggleXray}>
               <Layers className={styles.btnIcon} /> {l.xrayMode ? 'X-RAY ВКЛ' : 'X-RAY РЕНТГЕН'}
             </Button>
@@ -38,16 +38,13 @@ export function CommandCenterPage() {
         <DraughtSimulator shipment={s.shipment} />
         <PlanningControls key={s.shipment.forecast.id} shipment={s.shipment} isBusy={s.isBusy} onCalculate={s.recalculate} />
         <section id="route-section" className={styles.bentoRow}>
-          <div className={styles.sectionLead}><span className={styles.sectionStamp}>02 / ПЛАНИРОВАНИЕ</span><h2 className={styles.sectionTitle}>До отправления</h2><p>Готовность груза, погодные окна и варианты пути.</p></div>
           <div className={styles.bentoCell}><RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} /></div>
           <div className={styles.bentoCell}><PredictiveChart shipment={s.shipment} stormActive={stormActive} /></div>
         </section>
         <section id="ledger-section" className={styles.bentoRow}>
-          <div className={styles.sectionLead}><span className={styles.sectionStamp}>03 / СОГЛАСОВАНИЕ</span><h2 className={styles.sectionTitle}>Один комплект документов</h2><p>Версии, решения участников и след маршрута.</p></div>
           <div className={styles.bentoCell}><PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} /></div>
           <div className={styles.bentoCell}><EsgWidget shipment={s.shipment} /></div>
         </section>
-        <footer className={styles.colophon}><span>CASPIAN <em>Transit</em> · ВЫПУСК 01</span><span>Маршрутный журнал / МТК «Север–Юг»</span><span className={styles.printerMarks} aria-hidden="true">▮ ▮ ▮</span></footer>
       </main>
     </div>
   );

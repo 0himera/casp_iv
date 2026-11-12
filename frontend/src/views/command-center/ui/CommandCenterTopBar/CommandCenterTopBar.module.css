@@ -1,3 +1,28 @@
-.topBar { position: sticky; top: 0; z-index: 40; width: 100%; border-top: 3px solid var(--primary); border-bottom: 1px solid var(--border-strong); background: #f8f1e4; background-image: var(--paper-fiber); }
-.inner { max-width: 1512px; margin: 0 auto; padding: 12px 34px; }
-@media (max-width: 768px) { .inner { padding: 10px 16px; } }
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--surface-default);
+}
+
+.inner {
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 13px 34px;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .topBar {
+    left: 54px;
+    right: 8px;
+    top: 8px;
+  }
+}

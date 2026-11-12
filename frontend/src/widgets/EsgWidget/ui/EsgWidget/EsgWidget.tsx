@@ -16,7 +16,7 @@ export function EsgWidget({ shipment }: EsgWidgetProps) {
   const esg = recalculateEsg(shipment);
 
   return (
-    <ViewfinderFrame tone="sage" stamp="ESG: расчёт и журнал" className={styles.card}>
+    <ViewfinderFrame stamp="ESG: расчёт и журнал" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
           <PixelMarker variant="verified" />

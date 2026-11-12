@@ -1,13 +1,23 @@
-.grid { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: calc(100% + 72px); margin: 0 -36px; border-top: 1px solid var(--border-strong); background: #f7f0e2; }
-.card { display: flex; flex-direction: column; gap: 8px; padding: 18px 22px; border-right: 1px solid var(--border); min-width: 0; background-image: var(--paper-fiber); }
-.card:last-child { border-right: none; }
-.card:nth-child(2) { background-color: #eee4ec; }
-.card:nth-child(4) { background-color: #e4ebdf; }
-.label { font: 9px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: #626158; }
-.value { font-family: var(--font-serif); font-size: clamp(21px, 2.1vw, 29px); font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1.12; color: #282c29; }
-.sub { font: 10px var(--font-mono); color: #626158; overflow-wrap: anywhere; line-height: 1.4; }
-.thermal { color: #a8392d; }
-.cyan { color: #256870; }
-.eco { color: #3e6744; }
-@media (max-width: 1000px) { .grid { width: calc(100% + 48px); margin: 0 -24px; grid-template-columns: repeat(2, minmax(0, 1fr)); } .card { border-bottom: 1px solid var(--border); } }
-@media (max-width: 700px) { .grid { width: calc(100% + 36px); margin: 0 -18px; } .card { padding: 14px 12px; } .value { font-size: 21px; } }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; width: 100%; border-top: 1px solid var(--border-strong); }
+
+.card {
+  display: flex; flex-direction: column; gap: 7px; padding: 16px 18px 5px 0; border-radius: 0;
+  background-color: transparent; border: 0; text-align: left;
+  transition: color 0.2s ease;
+}
+.card:hover {
+  color: var(--primary);
+}
+
+.label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-foreground); }
+.value {
+  font-family: var(--font-serif); font-size: 25px; font-weight: 500; font-variant-numeric: tabular-nums;
+  line-height: 1.1; color: var(--foreground);
+}
+.sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thermal { color: var(--primary); }
+.cyan { color: var(--accent-cyan); }
+.eco { color: var(--status-success); }
+
+@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .card { padding: 12px 8px 6px 0; } }

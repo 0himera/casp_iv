@@ -1,21 +1,58 @@
-.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.brandBlock { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; }
-.controlsBlock { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; min-width: 0; }
-.brandTitleRow { display: flex; align-items: baseline; gap: 8px; max-width: 100%; }
-.brandName { font-family: var(--font-sans); font-size: 18px; font-weight: 700; letter-spacing: -.06em; color: var(--foreground); }
-.brandItalic { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 22px; color: var(--primary); }
-.stamp { font: 9px var(--font-mono); color: var(--muted-foreground); max-width: 175px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.statusBadge { gap: 6px; font-size: 9px; }
-.warnDot { width: 6px; height: 6px; border-radius: 50%; background-color: var(--status-warning); }
-.brandName::before { content: ''; display: inline-block; width: 10px; height: 14px; margin-right: 8px; background: var(--primary); transform: skewY(-15deg); }
-@media (max-width: 1100px) { .controlsBlock { justify-content: flex-start; } }
-@media (max-width: 640px) {
-  .brandBlock { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .stamp { display: none; }
-  .brandName { font-size: 16px; }
-  .brandItalic { font-size: 19px; }
-  .controlsBlock { width: 100%; }
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.controlsBlock { flex: 1 1 660px; }
-@media (max-width: 640px) { .controlsBlock { flex-basis: 100%; } }
+.brandBlock,
+.controlsBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brandTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brandName {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--foreground);
+}
+
+.brandItalic {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.stamp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+}
+
+.statusBadge { gap: 6px; }
+.warnDot { width: 6px; height: 6px; border-radius: 50%; background-color: var(--status-warning); }
+
+.brandName::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--primary);
+  transform: rotate(-45deg);
+}

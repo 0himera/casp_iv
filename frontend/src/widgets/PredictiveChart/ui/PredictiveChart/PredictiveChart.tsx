@@ -19,7 +19,7 @@ export function PredictiveChart({ shipment, stormActive }: PredictiveChartProps)
     hour: point.time.slice(11, 16), time: point.time, wind: point.wind_speed_10m, gust: point.wind_gusts_10m,
   })) ?? [];
   return (
-    <ViewfinderFrame tone="cyan" stamp="Погода · прогноз" className={styles.card}>
+    <ViewfinderFrame stamp="Погода · прогноз" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}><PixelMarker variant={stormActive ? 'alert' : 'ai'} />
           <h3 className={styles.heading}>Ветер · <em className={styles.headingItalic}>{port?.port.name ?? 'нет данных'}</em></h3>

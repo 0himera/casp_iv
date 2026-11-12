@@ -32,9 +32,9 @@ export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGr
     shore: getCssVarColor('--map-shore', 'transparent'),
     contour: getCssVarColor('--map-contour', 'transparent'),
     grid: getCssVarColor('--map-grid', 'transparent'),
-    primary: getCssVarColor('--map-route', 'transparent'),
-    warning: getCssVarColor('--map-warning', 'transparent'),
-    routeAlt: getCssVarColor('--map-route-alt', 'transparent'),
+    primary: getCssVarColor('--primary', 'transparent'),
+    warning: getCssVarColor('--status-warning', 'transparent'),
+    routeAlt: getCssVarColor('--accent-cyan', 'transparent'),
     routeCasing: getCssVarColor('--map-background', 'transparent'),
     surface: getCssVarColor('--surface-default', 'transparent'),
   }), []);
