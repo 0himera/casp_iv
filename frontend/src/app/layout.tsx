@@ -1,22 +1,20 @@
 import type { Metadata } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   variable: '--font-sans',
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  fallback: ['system-ui', 'sans-serif'],
 });
 
-const instrumentSerif = Instrument_Serif({
+const playfairDisplay = Playfair_Display({
   variable: '--font-serif',
-  weight: '400',
-  style: ['italic', 'normal'],
-  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  fallback: ['Georgia', 'serif'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -26,18 +24,18 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Smart Caspian Transit — Цифровой двойник МТК Север-Юг',
+  title: 'Smart Caspian Transit — Spectral Cartography & Digital Twin',
   description:
-    'Предиктивный цифровой двойник мультимодального транспортного коридора Север-Юг в Каспийском регионе',
+    'Спектральная картография и предиктивный цифровой двойник МТК Север-Юг с паспортом в Casper Testnet',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
+      className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} dark antialiased`}
     >
-      <body className="h-screen overflow-hidden bg-background text-foreground">
+      <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
