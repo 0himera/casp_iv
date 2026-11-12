@@ -12,7 +12,6 @@
 .selected {
   border-color: var(--primary);
   background-color: color-mix(in srgb, var(--primary) 10%, var(--surface-low));
-  box-shadow: 0 0 18px rgba(255, 59, 29, 0.14);
 }
 
 .top,

@@ -8,17 +8,13 @@ interface LivePingProps {
 }
 
 const COLORS = {
-  cyan: 'bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]',
-  red: 'bg-[#FF3B1D] shadow-[0_0_8px_#FF3B1D]',
-  emerald: 'bg-[#10B981] shadow-[0_0_8px_#10B981]',
+  cyan: 'bg-[#7EB2CC]',
+  red: 'bg-[#D94E34]',
+  emerald: 'bg-[#4E9F76]',
 };
 
-export function LivePing({ tone = 'cyan', className }: LivePingProps) {
+export function LivePing({ tone = 'emerald', className }: LivePingProps) {
   return (
-    <span className={cn('relative inline-flex h-2 w-2 shrink-0', className)}>
-      <span className={cn('absolute inline-flex h-full w-full animate-ping rounded-full opacity-75', COLORS[tone])} />
-      <span className={cn('relative inline-flex h-2 w-2 rounded-full', COLORS[tone])} />
-    </span>
+    <span className={cn('inline-block h-2 w-2 shrink-0 rounded-full', COLORS[tone], className)} />
   );
 }
-

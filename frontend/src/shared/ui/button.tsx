@@ -9,14 +9,14 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[#FF3B1D] text-white shadow-[0_0_16px_rgba(255,59,29,0.35)] hover:bg-[#E03217]',
+          'bg-[#D94E34] text-white hover:bg-[#C24129]',
         destructive:
-          'border border-[#EF4444]/40 bg-[#EF4444]/15 text-[#EF4444] hover:bg-[#EF4444]/25',
+          'border border-[#D9534F]/40 bg-[#D9534F]/15 text-[#E57368] hover:bg-[#D9534F]/25',
         outline:
-          'border border-white/15 bg-white/[0.03] text-[#CBD5E1] hover:bg-white/[0.08] hover:border-white/25',
+          'border border-white/14 bg-white/[0.03] text-[#CBD5E1] hover:bg-white/[0.07] hover:border-white/25',
         secondary:
-          'border border-[rgba(0,240,255,0.25)] bg-[rgba(0,240,255,0.06)] text-[#00F0FF] hover:bg-[rgba(0,240,255,0.12)]',
-        ghost: 'text-[#A1A6B4] hover:bg-white/[0.05] hover:text-[#F5F5F7]',
+          'border border-[rgba(126,178,204,0.28)] bg-[rgba(126,178,204,0.08)] text-[#A5C9DC] hover:bg-[rgba(126,178,204,0.14)]',
+        ghost: 'text-[#94A0B3] hover:bg-white/[0.05] hover:text-[#F5F5F7]',
       },
       size: {
         default: 'h-9 px-5 py-2.5 text-[12px]',

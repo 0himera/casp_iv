@@ -18,7 +18,7 @@ export function ViewfinderFrame({ children, stamp, className }: ViewfinderFrameP
       )}
     >
       {stamp && (
-        <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.1em] text-[#00F0FF]">
+        <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.08em] text-[#7EB2CC]">
           {stamp}
         </span>
       )}
