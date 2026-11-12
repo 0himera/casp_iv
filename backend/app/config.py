@@ -9,6 +9,18 @@ REPOSITORY_ROOT = BACKEND_ROOT.parent
 
 @dataclass(frozen=True)
 class Settings:
+    dwell_history_model_dir: Path | None = field(
+        default_factory=lambda: (
+            Path(value)
+            if (
+                value := os.getenv(
+                    "CASPIAN_DWELL_HISTORY_MODEL_DIR",
+                    str(REPOSITORY_ROOT / "models/terminal-dwell/v2"),
+                )
+            )
+            else None
+        )
+    )
     dwell_model_dir: Path | None = field(
         default_factory=lambda: (
             Path(value)

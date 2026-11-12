@@ -1,10 +1,17 @@
 # Caspian Flow backend
 
+Добавлен [CatBoost v2 с историей операций](../models/terminal-dwell/v2/README.md):
+на прежних 14 542 случаях MAE 32,10 часа вместо 48,62 у v1; покрытие P10–P90 82,3%.
+Для v2 передайте необязательный `history` со всеми известными завершёнными событиями
+(как минимум BAPLIE и VESSEL_ATB). Без истории остаётся v1, без моделей — алгоритм.
+Контракт обратно совместим; пример запроса и воспроизведение — в карточке v2.
+Это исследовательский результат на уже изученном периоде, не подтверждение для Каспия.
+
 Обучен экспериментальный CatBoost для времени от выгрузки контейнера до выезда из терминала: [веса, методика и результаты](../models/terminal-dwell/v1/README.md). После проверки масштаба массы обучение использует 21 129 июльских случаев, временная проверка — 14 542 сентябрьских. Это отдельная задача от готовности груза к исходящему парому; качество на Каспии не подтверждено.
 
 `POST /api/v1/predictions/terminal-dwell` автоматически использует модель, если пакет загрузился. При отсутствии весов, optional ML-зависимостей, ошибке пакета/инференса либо неподдержанном входе отвечает алгоритм Monte Carlo с тем же форматом результата. `method`, `trained_on_history`, `model_loaded` и `fallback_reason` показывают фактическую ветку. `GET /api/v1/models/terminal-dwell` сообщает состояние загрузки.
 
-Для ML: `uv sync --locked --group ml`, затем `uv run --group ml uvicorn app.main:app --port 8000`. Для fallback достаточно базовых зависимостей. Пакет выбирается через `CASPIAN_DWELL_MODEL_DIR`; пустое значение отключает ML. После смены весов нужен restart backend. Обучение повторяется командой `uv run --group ml python -m scripts.train_terminal_dwell`.
+Для ML: `uv sync --locked --group ml`, затем `uv run --group ml uvicorn app.main:app --port 8000`. Для fallback достаточно базовых зависимостей. `CASPIAN_DWELL_MODEL_DIR` выбирает пакет v1, `CASPIAN_DWELL_HISTORY_MODEL_DIR` — v2; пустое значение отключает соответствующий пакет. После смены весов нужен restart backend. Обучение v1: `uv run --group ml python -m scripts.train_terminal_dwell`; v2: `uv run --group ml python -m scripts.prepare_dwell_history`, затем `uv run --group ml python -m scripts.train_dwell_history`.
 
 Пример запроса:
 

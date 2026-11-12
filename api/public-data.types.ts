@@ -56,6 +56,11 @@ export type Duration = {
   maximum_hours: number;
 };
 
+export type DwellEvent = {
+  activity: string;
+  completed_at: string;
+};
+
 export type DwellHours = {
   p10: number;
   p50: number;
@@ -75,6 +80,9 @@ export type DwellModelStatus = {
   fallback_available?: true;
   load_error: string | null;
   caspian_validated?: false;
+  history_loaded?: boolean;
+  history_model_version?: string | null;
+  history_load_error?: string | null;
 };
 
 export type DwellRequest = {
@@ -86,11 +94,12 @@ export type DwellRequest = {
   fallback_duration?: Duration;
   samples?: number;
   seed?: number;
+  history?: Array<DwellEvent>;
 };
 
 export type DwellResponse = {
   task?: "terminal_release_after_discharge";
-  method: "catboost_terminal_dwell_v1" | "monte_carlo_terminal_dwell_v1";
+  method: "catboost_terminal_dwell_v1" | "catboost_terminal_dwell_v2" | "monte_carlo_terminal_dwell_v1";
   model_loaded: boolean;
   model_version: string | null;
   fallback_reason: string | null;

@@ -1940,6 +1940,29 @@
         ],
         "title": "Duration"
       },
+      "DwellEvent": {
+        "properties": {
+          "activity": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "title": "Activity"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Completed At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "activity",
+          "completed_at"
+        ],
+        "title": "DwellEvent"
+      },
       "DwellHours": {
         "properties": {
           "p10": {
@@ -2039,6 +2062,33 @@
             "const": false,
             "title": "Caspian Validated",
             "default": false
+          },
+          "history_loaded": {
+            "type": "boolean",
+            "title": "History Loaded",
+            "default": false
+          },
+          "history_model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "History Model Version"
+          },
+          "history_load_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "History Load Error"
           }
         },
         "additionalProperties": false,
@@ -2100,6 +2150,14 @@
             "minimum": 0.0,
             "title": "Seed",
             "default": 42
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/DwellEvent"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "History"
           }
         },
         "additionalProperties": false,
@@ -2124,6 +2182,7 @@
             "type": "string",
             "enum": [
               "catboost_terminal_dwell_v1",
+              "catboost_terminal_dwell_v2",
               "monte_carlo_terminal_dwell_v1"
             ],
             "title": "Method"

@@ -1,0 +1,14 @@
+{
+  "verified_at": "2026-11-12T12:43:12.985663+00:00",
+  "story": "Historical pre-discharge events -> HTTP API -> saved CatBoost weights + August calibration -> quantiles matching offline evaluation",
+  "http_cases_from_real_source": 25,
+  "max_absolute_difference_hours": 0.0,
+  "model_sha256": "2f15198f983d8c30783088c922fd74c2c4cb056f0d5600fbbfff78b298c049d4",
+  "fixtures_sha256": "47d6d7d63091dac8aa27019c95f0bfdd999bd6d3256dba543a5b9b769a7627fe",
+  "legacy_method": "catboost_terminal_dwell_v1",
+  "forced_algorithm_method": "monte_carlo_terminal_dwell_v1",
+  "future_event_status": 422,
+  "timezone_note": "Source timezone unknown; naive source timestamps represented with same synthetic +00 offset to preserve local wall time and intervals. No UTC claim for original records.",
+  "frontend_modified": false,
+  "browser_flow_verified": false
+}

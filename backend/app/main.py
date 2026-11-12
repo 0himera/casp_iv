@@ -46,7 +46,7 @@ def create_app(
         cache = SnapshotCache(settings.cache_path)
         app.state.settings = settings
         app.state.transit = Store(settings.transit_path)
-        app.state.dwell = DwellPredictor(settings.dwell_model_dir)
+        app.state.dwell = DwellPredictor(settings.dwell_model_dir, settings.dwell_history_model_dir)
         async with httpx.AsyncClient(
             transport=transport,
             timeout=httpx.Timeout(settings.request_timeout_seconds, connect=5),

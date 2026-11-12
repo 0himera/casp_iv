@@ -1,0 +1,284 @@
+{
+  "generated_at": "2026-11-12T12:41:08.797630+00:00",
+  "seed": 42,
+  "input_audit": {
+    "source_sha256": "fd4ddc8e50f57cceb84881461f85a142137785ca81f59b37165ae484412f7d8c",
+    "base_csv_sha256": "8a278ec8ff40e94c596553e76a6fe92b002ff933b340c4b6d5dd365ec6309132",
+    "history_csv_sha256": "5a19d71aa60eb3d84e2cfc087d16f62f228b3855830c01574153e92d08481e7d",
+    "rows": 95587,
+    "features_added": [
+      "hours_since_baplie",
+      "hours_since_vessel_atb",
+      "known_event_count",
+      "customs_del_seen",
+      "job_del_seen",
+      "hours_since_previous_event"
+    ],
+    "availability": "Only event ends <= DISCHARGE end; recorded_at not supplied",
+    "max_history_events": 5,
+    "preparation_script_sha256": "2ed8151264afad4f34aad8ad0f78f79aa14a323ec30578c0b00411dd4eb433b5",
+    "feature_script_sha256": "80db089c5eb4417c2de98ac063ed014d1a1afd72d6b3142581a7e5d379706cc9"
+  },
+  "training_script_sha256": "a5b24b3fa000a00029383efcb88542d54ba7a34bcb620d2dc6ee2041aa7a39c2",
+  "feature_script_sha256": "80db089c5eb4417c2de98ac063ed014d1a1afd72d6b3142581a7e5d379706cc9",
+  "features": [
+    "container_size",
+    "container_type",
+    "gross_tonnes",
+    "hour",
+    "weekday",
+    "hours_since_baplie",
+    "hours_since_vessel_atb",
+    "known_event_count",
+    "customs_del_seen",
+    "job_del_seen",
+    "hours_since_previous_event"
+  ],
+  "split": {
+    "train": {
+      "cohort_rows": 22818,
+      "used_rows": 21129,
+      "purged_unknown_outcomes": 1689,
+      "first_prediction": "2021-07-01T00:05:00",
+      "last_prediction": "2021-07-31T07:12:00",
+      "latest_outcome": "2021-07-31T23:40:00"
+    },
+    "validation": {
+      "cohort_rows": 14587,
+      "used_rows": 14548,
+      "purged_unknown_outcomes": 39,
+      "first_prediction": "2021-08-01T00:07:17",
+      "last_prediction": "2021-08-15T23:57:57",
+      "latest_outcome": "2021-08-31T23:45:52"
+    },
+    "test": {
+      "cohort_rows": 14542,
+      "used_rows": 14542,
+      "purged_unknown_outcomes": 0,
+      "first_prediction": "2021-09-01T00:03:31",
+      "last_prediction": "2021-09-15T23:14:00",
+      "latest_outcome": "2021-09-30T22:53:36"
+    },
+    "excluded_outside_prediction_windows": 25618
+  },
+  "selection_period": "2021-08-01 inclusive to 2021-08-09 exclusive",
+  "calibration_period": "2021-08-09 inclusive to 2021-08-16 exclusive",
+  "calibration_outcomes_known_before": "2021-09-01",
+  "rows": {
+    "train": 21129,
+    "test": 14542,
+    "validation": 7592,
+    "calibration": 6956
+  },
+  "selection_metric": "validation mean pinball before calibration",
+  "selected": "depth4",
+  "trees": 92,
+  "validation": {
+    "depth4": {
+      "mae_hours": 37.367361947013876,
+      "rmse_hours": 59.02862705697272,
+      "median_absolute_error_hours": 25.03191263004166,
+      "p90_absolute_error_hours": 73.32356899856408,
+      "bias_hours": 4.221399029542546,
+      "pinball_hours": {
+        "0.1": 4.987318760121855,
+        "0.5": 18.683680973506938,
+        "0.9": 13.5021144168243
+      },
+      "mean_pinball_hours": 12.391038050151032,
+      "p10_p90_coverage": 0.71390937829294,
+      "mean_interval_width_hours": 124.49757686854811,
+      "below_p10_fraction": 0.23142781875658588,
+      "above_p90_fraction": 0.05466280295047418
+    },
+    "depth6": {
+      "mae_hours": 37.51822597818136,
+      "rmse_hours": 59.11503921668963,
+      "median_absolute_error_hours": 25.620729065035768,
+      "p90_absolute_error_hours": 72.56046306873142,
+      "bias_hours": 4.780913780293485,
+      "pinball_hours": {
+        "0.1": 5.135491171707341,
+        "0.5": 18.75911298909068,
+        "0.9": 13.355903002415351
+      },
+      "mean_pinball_hours": 12.416835721071124,
+      "p10_p90_coverage": 0.6954689146469969,
+      "mean_interval_width_hours": 121.96260344978586,
+      "below_p10_fraction": 0.2503951527924131,
+      "above_p90_fraction": 0.05413593256059009
+    },
+    "v1": {
+      "mae_hours": 47.78709581605609,
+      "rmse_hours": 68.14300312721366,
+      "median_absolute_error_hours": 39.68870572457706,
+      "p90_absolute_error_hours": 77.69231206460279,
+      "bias_hours": 12.859621016677952,
+      "pinball_hours": {
+        "0.1": 5.657276528890771,
+        "0.5": 23.893547908028044,
+        "0.9": 17.7363001251948
+      },
+      "mean_pinball_hours": 15.762374854037873,
+      "p10_p90_coverage": 0.7133825079030558,
+      "mean_interval_width_hours": 174.01694450785936,
+      "below_p10_fraction": 0.24367755532139093,
+      "above_p90_fraction": 0.04293993677555322
+    },
+    "monte_carlo": {
+      "mae_hours": 46.46256340598985,
+      "rmse_hours": 67.04206908802723,
+      "median_absolute_error_hours": 39.407361111111115,
+      "p90_absolute_error_hours": 66.41145764765214,
+      "bias_hours": 9.260528584896027,
+      "pinball_hours": {
+        "0.1": 7.812695283019902,
+        "0.5": 23.231281702994924,
+        "0.9": 15.786578187966853
+      },
+      "mean_pinball_hours": 15.610185057993894,
+      "p10_p90_coverage": 0.5247629083245522,
+      "mean_interval_width_hours": 93.32991982040404,
+      "below_p10_fraction": 0.3673603793466807,
+      "above_p90_fraction": 0.10787671232876712
+    }
+  },
+  "quantile_offsets_hours": [
+    -5.0360529319572365,
+    -10.174049230284659,
+    -10.047274339005448
+  ],
+  "v1_offsets_hours": [
+    -4.522152501524245,
+    -12.977978433510916,
+    -25.912536129739635
+  ],
+  "serving_enabled": true,
+  "promotion_rule": "Validation pinball improves over v1 and MC; MAE <= best * 1.02",
+  "test": {
+    "global_median": {
+      "mae_hours": 50.2092365791042,
+      "rmse_hours": 66.27412371396288,
+      "median_absolute_error_hours": 46.468611111111116,
+      "p90_absolute_error_hours": 70.55233333333334,
+      "bias_hours": 14.433820619202619,
+      "pinball_hours": {
+        "0.1": 6.125964314094042,
+        "0.5": 25.1046182895521,
+        "0.9": 17.77520395330002
+      },
+      "mean_pinball_hours": 16.33526218564872,
+      "p10_p90_coverage": 0.7016916517672948,
+      "mean_interval_width_hours": 180.0266666666667,
+      "below_p10_fraction": 0.25484802640627147,
+      "above_p90_fraction": 0.04346032182643378
+    },
+    "monte_carlo": {
+      "mae_hours": 47.75283153632176,
+      "rmse_hours": 65.35273478575019,
+      "median_absolute_error_hours": 42.55292986987437,
+      "p90_absolute_error_hours": 67.6361561041005,
+      "bias_hours": 9.330361600188096,
+      "pinball_hours": {
+        "0.1": 8.272928136787836,
+        "0.5": 23.87641576816088,
+        "0.9": 15.602120667297608
+      },
+      "mean_pinball_hours": 15.91715485741544,
+      "p10_p90_coverage": 0.4740063265025444,
+      "mean_interval_width_hours": 93.32991982040404,
+      "below_p10_fraction": 0.4046210975106588,
+      "above_p90_fraction": 0.12137257598679686
+    },
+    "catboost_v1": {
+      "mae_hours": 48.61706424864053,
+      "rmse_hours": 65.42037737346287,
+      "median_absolute_error_hours": 41.81398983007685,
+      "p90_absolute_error_hours": 81.44933240789543,
+      "bias_hours": 15.594003562251704,
+      "pinball_hours": {
+        "0.1": 6.018655405646852,
+        "0.5": 24.308532124320266,
+        "0.9": 17.109464161373644
+      },
+      "mean_pinball_hours": 15.81221723044692,
+      "p10_p90_coverage": 0.6860129280704167,
+      "mean_interval_width_hours": 172.08105711028037,
+      "below_p10_fraction": 0.27155824508320725,
+      "above_p90_fraction": 0.042428826846376014
+    },
+    "history_raw": {
+      "mae_hours": 35.413678428264674,
+      "rmse_hours": 55.31446409513807,
+      "median_absolute_error_hours": 24.53719745679085,
+      "p90_absolute_error_hours": 66.50230942851682,
+      "bias_hours": 3.6576896579506686,
+      "pinball_hours": {
+        "0.1": 4.665140979821106,
+        "0.5": 17.706839214132337,
+        "0.9": 12.967300680228503
+      },
+      "mean_pinball_hours": 11.779760291393982,
+      "p10_p90_coverage": 0.7155824508320726,
+      "mean_interval_width_hours": 117.97179596992486,
+      "below_p10_fraction": 0.22926695090083896,
+      "above_p90_fraction": 0.05515059826708844
+    },
+    "catboost_v1_calibrated": {
+      "mae_hours": 42.52036068061485,
+      "rmse_hours": 63.58849279595308,
+      "median_absolute_error_hours": 31.99487000126578,
+      "p90_absolute_error_hours": 76.36554283513222,
+      "bias_hours": 2.6160251287407914,
+      "pinball_hours": {
+        "0.1": 5.429141138642556,
+        "0.5": 21.260180340307425,
+        "0.9": 15.782109185822932
+      },
+      "mean_pinball_hours": 14.157143554924303,
+      "p10_p90_coverage": 0.7529913354421676,
+      "mean_interval_width_hours": 150.69067348206502,
+      "below_p10_fraction": 0.19117040297070553,
+      "above_p90_fraction": 0.055838261587126944
+    },
+    "history_calibrated": {
+      "mae_hours": 32.097319617136016,
+      "rmse_hours": 55.576741417380596,
+      "median_absolute_error_hours": 18.932233167304915,
+      "p90_absolute_error_hours": 62.91340721912821,
+      "bias_hours": -6.516359572333989,
+      "pinball_hours": {
+        "0.1": 4.32629637388446,
+        "0.5": 16.048659808568008,
+        "0.9": 12.557775028678787
+      },
+      "mean_pinball_hours": 10.977577070377086,
+      "p10_p90_coverage": 0.8234768257461147,
+      "mean_interval_width_hours": 112.96057456287664,
+      "below_p10_fraction": 0.11229542016228854,
+      "above_p90_fraction": 0.06422775409159676
+    }
+  },
+  "feature_importance": {
+    "container_size": 2.5843325651604845,
+    "container_type": 8.883244731975543,
+    "gross_tonnes": 4.4964104464971415,
+    "hour": 7.704219118608525,
+    "weekday": 12.323991453559199,
+    "hours_since_baplie": 14.357778276942046,
+    "hours_since_vessel_atb": 1.408857456967032,
+    "known_event_count": 23.16321333983212,
+    "customs_del_seen": 23.573224258993413,
+    "job_del_seen": 0.0,
+    "hours_since_previous_event": 1.5047283514645253
+  },
+  "limitations": [
+    "September period already explored; results are not independent confirmation",
+    "Completed-case selection and right truncation remain unresolved",
+    "Anonymized terminal; no Caspian validation or outbound ferry target",
+    "Event ends proxy availability; source timezone/recorded_at unknown",
+    "Temporal residual calibration has no guaranteed coverage under drift",
+    "v1 had used the whole August validation period; comparison is exploratory"
+  ],
+  "elapsed_seconds": 2.7
+}

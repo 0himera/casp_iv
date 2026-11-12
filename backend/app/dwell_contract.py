@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Literal
 
-from pydantic import AwareDatetime, Field
+from pydantic import AwareDatetime, Field, model_validator
 
 from .models import Model
 from .prediction import Duration
@@ -11,6 +11,11 @@ from .prediction import Duration
 FEATURES = ("container_size", "container_type", "gross_tonnes", "hour", "weekday")
 QUANTILES = (0.1, 0.5, 0.9)
 TASK = "terminal_release_after_discharge"
+
+
+class DwellEvent(Model):
+    activity: str = Field(min_length=1, max_length=64, pattern=r"^[A-Z][A-Z0-9_]*$")
+    completed_at: AwareDatetime
 
 
 class DwellRequest(Model):
@@ -24,6 +29,23 @@ class DwellRequest(Model):
     )
     samples: int = Field(default=2000, ge=100, le=10000)
     seed: int = Field(default=42, ge=0, le=2**32 - 1)
+    history: list[DwellEvent] = Field(default_factory=list, max_length=50)
+
+    @model_validator(mode="after")
+    def past_discharge_history(self):
+        seen = set()
+        for event in self.history:
+            key = (event.activity, event.completed_at)
+            if key in seen:
+                raise ValueError("Duplicate history event")
+            seen.add(key)
+            if event.completed_at > self.observed_at:
+                raise ValueError("History cannot contain future events")
+            if event.activity == "TRUCK_OUT":
+                raise ValueError("Container has already left the terminal")
+            if event.activity == "DISCHARGE" and event.completed_at != self.observed_at:
+                raise ValueError("observed_at must be the end of DISCHARGE")
+        return self
 
 
 class DwellHours(Model):
@@ -40,7 +62,9 @@ class DwellInstants(Model):
 
 class DwellResponse(Model):
     task: Literal["terminal_release_after_discharge"] = TASK
-    method: Literal["catboost_terminal_dwell_v1", "monte_carlo_terminal_dwell_v1"]
+    method: Literal[
+        "catboost_terminal_dwell_v1", "catboost_terminal_dwell_v2", "monte_carlo_terminal_dwell_v1"
+    ]
     model_loaded: bool
     model_version: str | None
     fallback_reason: str | None
@@ -59,6 +83,9 @@ class DwellModelStatus(Model):
     fallback_available: Literal[True] = True
     load_error: str | None
     caspian_validated: Literal[False] = False
+    history_loaded: bool = False
+    history_model_version: str | None = None
+    history_load_error: str | None = None
 
 
 def feature_row(size, kind, gross, observed):
