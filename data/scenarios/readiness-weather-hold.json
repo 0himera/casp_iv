@@ -1,0 +1,55 @@
+{
+  "start_at": "2026-11-12T00:00:00Z",
+  "samples": 2000,
+  "seed": 42,
+  "routes": [
+    {
+      "id": "route_a",
+      "land_travel": {
+        "minimum_hours": 6,
+        "typical_hours": 6,
+        "maximum_hours": 6
+      },
+      "terminal_processing": {
+        "minimum_hours": 2,
+        "typical_hours": 2,
+        "maximum_hours": 2
+      },
+      "documents_ready": {
+        "minimum_hours": 8,
+        "typical_hours": 8,
+        "maximum_hours": 8
+      },
+      "weather_hold": {
+        "minimum_hours": 1,
+        "typical_hours": 2,
+        "maximum_hours": 4
+      },
+      "loading_buffer_hours": 1,
+      "sea_travel": {
+        "minimum_hours": 24,
+        "typical_hours": 24,
+        "maximum_hours": 24
+      },
+      "destination_processing": {
+        "minimum_hours": 2,
+        "typical_hours": 2,
+        "maximum_hours": 2
+      },
+      "sailings": [
+        {
+          "id": "first",
+          "cutoff_at": "2026-11-12T09:00:00Z",
+          "departure_at": "2026-11-12T10:00:00Z",
+          "capacity_confirmed": true
+        },
+        {
+          "id": "next",
+          "cutoff_at": "2026-11-13T09:00:00Z",
+          "departure_at": "2026-11-13T10:00:00Z",
+          "capacity_confirmed": true
+        }
+      ]
+    }
+  ]
+}

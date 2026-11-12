@@ -23,6 +23,7 @@ from .models import (
     SailingsResponse,
     WeatherResponse,
 )
+from .prediction import PredictionRequest, PredictionResponse, predict
 from .sailings import PORT_SOURCES
 from .service import DataService, DataUnavailable
 
@@ -59,7 +60,7 @@ def create_app(
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.cors_origins),
-        allow_methods=["GET"],
+        allow_methods=["GET", "POST"],
         allow_headers=["Content-Type"],
     )
 
@@ -71,7 +72,7 @@ def create_app(
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):
         return error(
-            422, "VALIDATION_ERROR", "Проверьте параметры запроса и допустимый диапазон дней"
+            422, "VALIDATION_ERROR", "Проверьте параметры и тело запроса"
         )
 
     @app.exception_handler(HTTPException)
@@ -156,6 +157,11 @@ def create_app(
                 },
             )
         return await request.app.state.data.sailings(port_id)
+
+    @app.post("/api/v1/predictions/readiness", response_model=PredictionResponse)
+    def readiness(body: PredictionRequest):
+        # FastAPI runs sync route functions in a thread pool; no mutation or chain call.
+        return predict(body)
 
     return app
 

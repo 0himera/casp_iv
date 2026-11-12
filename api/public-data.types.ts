@@ -24,6 +24,12 @@ export type Coordinates = {
   longitude: number;
 };
 
+export type Duration = {
+  minimum_hours: number;
+  typical_hours: number;
+  maximum_hours: number;
+};
+
 export type ErrorDetail = {
   code: string;
   message: string;
@@ -60,6 +66,23 @@ export type PortList = {
   source_url: string;
 };
 
+export type PredictionRequest = {
+  start_at: string;
+  routes: Array<RouteScenario>;
+  samples?: number;
+  seed?: number;
+};
+
+export type PredictionResponse = {
+  method?: string;
+  input_quality?: string;
+  trained_on_history?: boolean;
+  samples: number;
+  seed: number;
+  routes: Array<RoutePrediction>;
+  assumptions: Array<string>;
+};
+
 export type Provenance = {
   source_id: "open_meteo" | "imf_portwatch";
   source_url: string;
@@ -71,6 +94,31 @@ export type Provenance = {
   cache_age_seconds: number;
   stale: boolean;
   warnings: Array<string>;
+};
+
+export type RoutePrediction = {
+  route_id: string;
+  ready_at: TimeQuantiles;
+  target_sailing_id: string;
+  probability_target_cutoff_missed: number;
+  cutoff_risk_sampling_standard_error: number;
+  probability_no_confirmed_sailing_in_horizon: number;
+  delivery_eta: TimeQuantiles | null;
+  delivery_eta_is_conditional: boolean;
+  delivery_samples: number;
+  warnings: Array<string>;
+};
+
+export type RouteScenario = {
+  id: string;
+  land_travel: Duration;
+  terminal_processing: Duration;
+  documents_ready: Duration;
+  weather_hold: Duration;
+  loading_buffer_hours: number;
+  sea_travel: Duration;
+  destination_processing: Duration;
+  sailings: Array<SailingWindow>;
 };
 
 export type Sailing = {
@@ -112,12 +160,25 @@ export type SailingSourceError = {
   code?: "SOURCE_UNAVAILABLE";
 };
 
+export type SailingWindow = {
+  id: string;
+  cutoff_at: string;
+  departure_at: string;
+  capacity_confirmed: boolean | null;
+};
+
 export type SailingsResponse = {
   port_id: string;
   items: Array<Sailing>;
   sources: Array<SailingSource>;
   errors: Array<SailingSourceError>;
   partial: boolean;
+};
+
+export type TimeQuantiles = {
+  p10: string;
+  p50: string;
+  p90: string;
 };
 
 export type WeatherPoint = {

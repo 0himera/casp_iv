@@ -421,6 +421,74 @@
           }
         }
       }
+    },
+    "/api/v1/predictions/readiness": {
+      "post": {
+        "summary": "Readiness",
+        "operationId": "readiness_api_v1_predictions_readiness_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -572,6 +640,36 @@
           "longitude"
         ],
         "title": "Coordinates"
+      },
+      "Duration": {
+        "properties": {
+          "minimum_hours": {
+            "type": "number",
+            "maximum": 336.0,
+            "minimum": 0.0,
+            "title": "Minimum Hours"
+          },
+          "typical_hours": {
+            "type": "number",
+            "maximum": 336.0,
+            "minimum": 0.0,
+            "title": "Typical Hours"
+          },
+          "maximum_hours": {
+            "type": "number",
+            "maximum": 336.0,
+            "minimum": 0.0,
+            "title": "Maximum Hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "minimum_hours",
+          "typical_hours",
+          "maximum_hours"
+        ],
+        "title": "Duration"
       },
       "ErrorDetail": {
         "properties": {
@@ -763,6 +861,95 @@
         ],
         "title": "PortList"
       },
+      "PredictionRequest": {
+        "properties": {
+          "start_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start At"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/RouteScenario"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 1,
+            "title": "Routes"
+          },
+          "samples": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 100.0,
+            "title": "Samples",
+            "default": 2000
+          },
+          "seed": {
+            "type": "integer",
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "title": "Seed",
+            "default": 42
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "start_at",
+          "routes"
+        ],
+        "title": "PredictionRequest"
+      },
+      "PredictionResponse": {
+        "properties": {
+          "method": {
+            "type": "string",
+            "title": "Method",
+            "default": "monte_carlo_readiness_v1"
+          },
+          "input_quality": {
+            "type": "string",
+            "title": "Input Quality",
+            "default": "user_supplied_scenario"
+          },
+          "trained_on_history": {
+            "type": "boolean",
+            "title": "Trained On History",
+            "default": false
+          },
+          "samples": {
+            "type": "integer",
+            "title": "Samples"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/RoutePrediction"
+            },
+            "type": "array",
+            "title": "Routes"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "samples",
+          "seed",
+          "routes",
+          "assumptions"
+        ],
+        "title": "PredictionResponse"
+      },
       "Provenance": {
         "properties": {
           "source_id": {
@@ -848,6 +1035,130 @@
           "warnings"
         ],
         "title": "Provenance"
+      },
+      "RoutePrediction": {
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "title": "Route Id"
+          },
+          "ready_at": {
+            "$ref": "#/components/schemas/TimeQuantiles"
+          },
+          "target_sailing_id": {
+            "type": "string",
+            "title": "Target Sailing Id"
+          },
+          "probability_target_cutoff_missed": {
+            "type": "number",
+            "title": "Probability Target Cutoff Missed"
+          },
+          "cutoff_risk_sampling_standard_error": {
+            "type": "number",
+            "title": "Cutoff Risk Sampling Standard Error"
+          },
+          "probability_no_confirmed_sailing_in_horizon": {
+            "type": "number",
+            "title": "Probability No Confirmed Sailing In Horizon"
+          },
+          "delivery_eta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TimeQuantiles"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "delivery_eta_is_conditional": {
+            "type": "boolean",
+            "title": "Delivery Eta Is Conditional"
+          },
+          "delivery_samples": {
+            "type": "integer",
+            "title": "Delivery Samples"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "route_id",
+          "ready_at",
+          "target_sailing_id",
+          "probability_target_cutoff_missed",
+          "cutoff_risk_sampling_standard_error",
+          "probability_no_confirmed_sailing_in_horizon",
+          "delivery_eta",
+          "delivery_eta_is_conditional",
+          "delivery_samples",
+          "warnings"
+        ],
+        "title": "RoutePrediction"
+      },
+      "RouteScenario": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "land_travel": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "terminal_processing": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "documents_ready": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "weather_hold": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "loading_buffer_hours": {
+            "type": "number",
+            "maximum": 72.0,
+            "minimum": 0.0,
+            "title": "Loading Buffer Hours"
+          },
+          "sea_travel": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "destination_processing": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "sailings": {
+            "items": {
+              "$ref": "#/components/schemas/SailingWindow"
+            },
+            "type": "array",
+            "maxItems": 30,
+            "minItems": 1,
+            "title": "Sailings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "land_travel",
+          "terminal_processing",
+          "documents_ready",
+          "weather_hold",
+          "loading_buffer_hours",
+          "sea_travel",
+          "destination_processing",
+          "sailings"
+        ],
+        "title": "RouteScenario"
       },
       "Sailing": {
         "properties": {
@@ -1151,6 +1462,46 @@
         ],
         "title": "SailingSourceError"
       },
+      "SailingWindow": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "cutoff_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Cutoff At"
+          },
+          "departure_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Departure At"
+          },
+          "capacity_confirmed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capacity Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "cutoff_at",
+          "departure_at",
+          "capacity_confirmed"
+        ],
+        "title": "SailingWindow"
+      },
       "SailingsResponse": {
         "properties": {
           "port_id": {
@@ -1193,6 +1544,33 @@
           "partial"
         ],
         "title": "SailingsResponse"
+      },
+      "TimeQuantiles": {
+        "properties": {
+          "p10": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P10"
+          },
+          "p50": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P50"
+          },
+          "p90": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P90"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p10",
+          "p50",
+          "p90"
+        ],
+        "title": "TimeQuantiles"
       },
       "WeatherPoint": {
         "properties": {

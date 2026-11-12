@@ -1,4 +1,4 @@
-import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse } from './public-data.types';
+import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse, PredictionRequest, PredictionResponse } from './public-data.types';
 
 export class PublicDataError extends Error {
   constructor(public status: number, public code: string, message: string) {
@@ -10,8 +10,10 @@ export class PublicDataError extends Error {
 /** Public read-only API: no wallet, bearer token or provider key required. */
 export function createPublicDataClient(baseUrl = 'http://localhost:8000/api/v1') {
   const base = baseUrl.replace(/\/$/, '');
-  async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
-    const response = await fetch(base + path, { cache: 'no-store', signal });
+  async function get<T>(path: string, signal?: AbortSignal, body?: unknown): Promise<T> {
+    const response = await fetch(base + path, { cache: 'no-store', signal,
+      ...(body === undefined ? {} : {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)}),
+    });
     const value = await response.json();
     if (!response.ok) throw new PublicDataError(
       response.status, value.error?.code ?? 'HTTP_ERROR', value.error?.message ?? 'Ошибка источника',
@@ -29,5 +31,7 @@ export function createPublicDataClient(baseUrl = 'http://localhost:8000/api/v1')
       get<ActivityResponse>(`${portPath(id)}/activity?days=${days}`, signal),
     sailings: (portId: string, signal?: AbortSignal) =>
       get<SailingsResponse>(`/sailings?port_id=${encodeURIComponent(portId)}`, signal),
+    predictReadiness: (body: PredictionRequest, signal?: AbortSignal) =>
+      get<PredictionResponse>('/predictions/readiness', signal, body),
   };
 }
