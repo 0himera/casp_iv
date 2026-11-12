@@ -22,7 +22,6 @@ export interface RouteDecisionOverlayProps {
 
 export function RouteDecisionOverlay({
   shipment,
-  stormActive = false,
   activeOperation,
   operationTimedOut,
   errorBanner,
@@ -38,7 +37,7 @@ export function RouteDecisionOverlay({
     <ViewfinderFrame stamp="[ 01-ROUTE / MTC-PREDICTIVE ]" className={styles.overlayCard}>
       <div className={styles.content}>
         <ForecastMetaBlock forecast={forecast} />
-        <RecommendationBanner stormActive={stormActive} selectedRouteId={selected_route_id} canSelectRoute={canSelect} isBusy={isBusy} onRerouteAlternative={onRerouteAlternative} />
+        <RecommendationBanner shipment={shipment} canSelectRoute={canSelect} isBusy={isBusy} onRerouteAlternative={onRerouteAlternative} />
         <OperationBanner activeOperation={activeOperation} operationTimedOut={operationTimedOut} errorBanner={errorBanner} onRecheckOperation={onRecheckOperation} />
         <div className={styles.routesList}>
           {routes.map((route) => (

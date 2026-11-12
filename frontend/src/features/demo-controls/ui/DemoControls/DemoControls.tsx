@@ -45,10 +45,10 @@ export function DemoControls({
       </div>
       <div className={styles.group}>
         <Button type="button" size="sm" variant={scenario === 'normal' ? 'secondary' : 'outline'} disabled={!canRunScenario || isBusy} onClick={() => onSelectScenario('normal')}>
-          <ShieldCheck className={styles.icon} /> Штатный
+          <ShieldCheck className={styles.icon} /> Открытая погода
         </Button>
         <Button type="button" size="sm" variant={scenario === 'storm' ? 'destructive' : 'outline'} disabled={!canRunScenario || isBusy} onClick={() => onSelectScenario('storm')}>
-          <AlertTriangle className={styles.icon} /> Шторм
+          <AlertTriangle className={styles.icon} /> Шторм (сценарий)
         </Button>
         <Button type="button" size="sm" variant={scenario === 'missing_data' ? 'secondary' : 'outline'} disabled={!canRunScenario || isBusy} onClick={() => onSelectScenario('missing_data')}>
           <CloudOff className={styles.icon} /> Нет данных

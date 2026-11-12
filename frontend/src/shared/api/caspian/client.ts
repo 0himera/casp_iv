@@ -8,6 +8,7 @@ import type {
   ScenarioRequest,
   Shipment,
   ShipmentList,
+  RecalculateRequest,
 } from './types';
 import { getRoleToken } from './tokens';
 
@@ -20,12 +21,12 @@ export class ApiError extends Error {
 
 export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
   const base = baseUrl.replace(/\/$/, '');
-  async function request<T>(path: string, body?: unknown, idempotencyKey?: string, overrideRole?: Role): Promise<T> {
-    const role = overrideRole ?? getDemoRole();
+  async function request<T>(path: string, body?: unknown, idempotencyKey?: string): Promise<T> {
+    const role = getDemoRole();
     const response = await fetch(base + path, {
       method: body === undefined ? 'GET' : 'POST',
       cache: 'no-store',
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(path.endsWith('/recalculate') ? 45000 : 15000),
       headers: {
         Authorization: `Bearer ${getRoleToken(role)}`,
         ...(body === undefined
@@ -50,11 +51,13 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
     getShipment: (id: string) => request<Shipment>(shipmentPath(id)),
     getOperation: (id: string) => request<Operation>(`/operations/${encodeURIComponent(id)}`),
     selectRoute: (id: string, body: RouteSelectionRequest, key: string) =>
-      request<Operation>(`${shipmentPath(id)}/route-selection`, body, key, 'logistician'),
+      request<Operation>(`${shipmentPath(id)}/route-selection`, body, key),
     replaceDocument: (id: string, body: DocumentRevisionRequest, key: string) =>
-      request<Operation>(`${shipmentPath(id)}/document-revisions`, body, key, 'logistician'),
+      request<Operation>(`${shipmentPath(id)}/document-revisions`, body, key),
     attest: (id: string, body: AttestationRequest, key: string) =>
       request<Operation>(`${shipmentPath(id)}/attestations`, body, key),
     setScenario: (body: ScenarioRequest, key: string) => request<Shipment>('/demo/scenarios', body, key),
+    recalculate: (id: string, body: RecalculateRequest, key: string) =>
+      request<Shipment>(`${shipmentPath(id)}/recalculate`, body, key),
   };
 }

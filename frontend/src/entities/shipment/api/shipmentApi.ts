@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { SEED_SHIPMENT } from '@/data/caspianSnapshots';
 import { createCaspianClient, type Role, type Shipment, type ShipmentSummary } from '@/shared/api/caspian';
-import { enrichShipmentWithCorridors } from '../lib/enrichShipment';
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '/api/backend';
 
@@ -45,9 +44,11 @@ export function useShipmentDetailQuery(id: string, role: Role) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   const query = useQuery({
     queryKey: shipmentKeys.detail(id, role),
-    queryFn: async () => enrichShipmentWithCorridors(await client.getShipment(id)),
-    placeholderData: enrichShipmentWithCorridors(SEED_SHIPMENT),
+    staleTime: 0,
+    refetchOnMount: 'always',
+    queryFn: () => client.getShipment(id),
+    placeholderData: SEED_SHIPMENT,
     enabled: Boolean(id),
   });
-  return { ...query, data: query.data ?? enrichShipmentWithCorridors(SEED_SHIPMENT) };
+  return { ...query, data: query.data ?? SEED_SHIPMENT };
 }

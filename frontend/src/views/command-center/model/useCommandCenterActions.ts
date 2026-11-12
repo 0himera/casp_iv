@@ -13,9 +13,8 @@ interface CommandCenterStateActions {
 }
 
 export function useCommandCenterActions(s: CommandCenterStateActions) {
-  const altRoute = s.shipment.routes.find(
-    (r) => r.id !== s.shipment.selected_route_id && r.feasible
-  ) ?? s.shipment.routes.find((r) => r.id !== s.shipment.selected_route_id);
+  const altRoute = s.shipment.routes.filter((r) => r.id !== s.shipment.selected_route_id && r.feasible && r.miss_probability !== null)
+    .sort((a, b) => a.miss_probability! - b.miss_probability!)[0];
 
   return {
     canRunScenario: s.shipment.allowed_actions.includes('run_scenario'),

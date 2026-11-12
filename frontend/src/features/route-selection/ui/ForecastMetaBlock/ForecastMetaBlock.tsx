@@ -35,8 +35,9 @@ export function ForecastMetaBlock({ forecast }: ForecastMetaBlockProps) {
       <div className={styles.metaRow}>
         <span>Готовность P50: {formatMskDateTime(forecast.ready_at.p50)}</span>
         <span>Cutoff: {formatMskDateTime(forecast.cargo_cutoff)}</span>
+        <span>Действует до: {formatMskDateTime(forecast.valid_until)}</span>
       </div>
-      {forecast.reasons[0] && <p className={styles.reason}>{forecast.reasons[0]}</p>}
+      {forecast.reasons.map((reason) => <p key={reason} className={styles.reason}>{reason}</p>)}
     </div>
   );
 }

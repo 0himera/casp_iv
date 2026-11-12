@@ -12,7 +12,7 @@ interface HeroKpiGridProps {
 
 export function HeroKpiGrid({ shipment, selectedRoute, stormActive }: HeroKpiGridProps) {
   const riskValue = formatProbability(shipment.forecast.miss_probability);
-  const costValue = selectedRoute ? formatRubFromMinor(selectedRoute.cost.amount_minor) : '—';
+  const costValue = selectedRoute && selectedRoute.cost.amount_minor > 0 ? formatRubFromMinor(selectedRoute.cost.amount_minor) : 'Тариф не подтверждён';
   const ecoValue =
     selectedRoute && selectedRoute.emissions_kg_co2e !== null
       ? `${selectedRoute.emissions_kg_co2e} кг CO₂e`
@@ -26,12 +26,12 @@ export function HeroKpiGrid({ shipment, selectedRoute, stormActive }: HeroKpiGri
         <span className={styles.sub}>{shipment.title} · {shipment.mass_tonnes} т</span>
       </div>
       <div className={styles.card}>
-        <span className={styles.label}>{'[ MISS RISK // P50 ]'}</span>
+        <span className={styles.label}>{'[ РИСК ПРОПУСКА CUTOFF ]'}</span>
         <span className={`${styles.value} ${stormActive ? styles.thermal : styles.cyan}`}>{riskValue}</span>
-        <span className={styles.sub}>{stormActive ? 'CRITICAL STORM ANOMALY' : 'NOMINAL HYDRO-REGIME'}</span>
+        <span className={styles.sub}>{stormActive ? 'Шторм · сценарий' : 'Расчёт по условиям сценария'}</span>
       </div>
       <div className={styles.card}>
-        <span className={styles.label}>[ FREIGHT TARIFF ]</span>
+        <span className={styles.label}>[ ТАРИФ · СЦЕНАРИЙ ]</span>
         <span className={styles.value}>{costValue}</span>
         <span className={styles.sub}>{selectedRoute ? selectedRoute.name : 'Маршрут не выбран'}</span>
       </div>

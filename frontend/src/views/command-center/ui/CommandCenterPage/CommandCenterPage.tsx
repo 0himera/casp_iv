@@ -12,6 +12,7 @@ import { SpatialCore } from '@/widgets/SpatialCore';
 import { useCommandCenterActions } from '../../model/useCommandCenterActions';
 import { useCommandCenterState } from '../../model/useCommandCenterState';
 import { useLayoutState } from '../../model/useLayoutState';
+import { PlanningControls } from '@/features/route-selection/ui/PlanningControls';
 import { CommandCenterTopBar } from '../CommandCenterTopBar';
 import styles from './CommandCenterPage.module.css';
 
@@ -36,6 +37,7 @@ export function CommandCenterPage() {
           <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole} onAttest={s.attest} />
         </section>
         <DraughtSimulator shipment={s.shipment} />
+        <PlanningControls key={s.shipment.forecast.id} shipment={s.shipment} isBusy={s.isBusy} onCalculate={s.recalculate} />
         <section id="route-section" className={styles.bentoRow}>
           <div className={styles.bentoCell}><RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} /></div>
           <div className={styles.bentoCell}><PredictiveChart shipment={s.shipment} stormActive={stormActive} /></div>

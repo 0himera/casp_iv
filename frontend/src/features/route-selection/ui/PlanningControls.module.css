@@ -1,0 +1,8 @@
+.frame { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; color: var(--muted-foreground); font-size: 12px; }
+.frame summary { cursor: pointer; color: var(--foreground); }
+.frame form { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.frame p { line-height: 1.5; }
+.frame a { text-decoration: underline; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.grid label { display: flex; flex-direction: column; gap: 5px; }
+.grid input { width: 100%; background: var(--background); color: var(--foreground); border: 1px solid var(--border); padding: 6px; border-radius: 4px; }
