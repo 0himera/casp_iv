@@ -1,24 +1,28 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, IBM_Plex_Mono, Manrope } from 'next/font/google';
+import { Instrument_Serif, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const manrope = Manrope({
+const spaceGrotesk = Space_Grotesk({
   variable: '--font-sans',
-  subsets: ['latin', 'cyrillic'],
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  fallback: ['system-ui', 'sans-serif'],
 });
 
-const cormorant = Cormorant_Garamond({
+const instrumentSerif = Instrument_Serif({
   variable: '--font-serif',
-  weight: ['400', '500'],
+  weight: '400',
   style: ['italic', 'normal'],
-  subsets: ['latin', 'cyrillic'],
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['Georgia', 'serif'],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
-  weight: ['400', '500'],
   subsets: ['latin', 'cyrillic'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -31,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${manrope.variable} ${cormorant.variable} ${ibmPlexMono.variable} dark h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
       <body className="h-screen overflow-hidden bg-background text-foreground">
         <QueryProvider>{children}</QueryProvider>
