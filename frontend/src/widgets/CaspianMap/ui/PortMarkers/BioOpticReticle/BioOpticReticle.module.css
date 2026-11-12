@@ -6,7 +6,6 @@
   height: 0;
   pointer-events: none;
 }
-
 .reticleSvg {
   position: absolute;
   top: -28px;
@@ -15,7 +14,6 @@
   height: 56px;
   overflow: visible;
 }
-
 .orbitInner {
   fill: none;
   stroke: var(--primary);
@@ -23,7 +21,6 @@
   stroke-dasharray: 2 3;
   opacity: 0.8;
 }
-
 .orbitOuter {
   fill: none;
   stroke: var(--primary);
@@ -31,36 +28,18 @@
   stroke-dasharray: 3 4;
   opacity: 0.5;
 }
-
 .tick,
 .crosshair {
   stroke: var(--primary);
   stroke-width: 1;
   opacity: 0.9;
 }
-
-.centerDot {
-  fill: var(--primary);
-}
-
-.danger .orbitInner,
-.danger .orbitOuter,
-.danger .tick,
-.danger .crosshair {
+.centerDot { fill: var(--primary); }
+.danger :is(.orbitInner, .orbitOuter, .tick, .crosshair) {
   stroke: var(--status-danger);
 }
-
-.danger .centerDot {
-  fill: var(--status-danger);
-}
-
-.xray .orbitInner,
-.xray .orbitOuter,
-.xray .tick,
-.xray .crosshair {
+.danger .centerDot { fill: var(--status-danger); }
+.xray :is(.orbitInner, .orbitOuter, .tick, .crosshair) {
   stroke: var(--accent-lavender);
 }
-
-.xray .centerDot {
-  fill: var(--accent-lavender);
-}
+.xray .centerDot { fill: var(--accent-lavender); }
