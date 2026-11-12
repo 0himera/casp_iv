@@ -25,12 +25,27 @@
   color: #CBD5E1;
 }
 
+.toggleItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+}
+.on { color: #CBD5E1; border-color: rgba(126, 178, 204, 0.35); }
+.off { color: #6E7787; opacity: 0.6; }
+
 .line { display: inline-block; width: 16px; height: 2px; border-radius: 1px; }
-.rail { background-color: #FF3B1D; box-shadow: 0 0 8px rgba(255, 59, 29, 0.7); }
-.sea { border-bottom: 2px dashed #00F0FF; height: 0; }
+.rail { background-color: var(--primary); }
+.sea { border-bottom: 2px dashed var(--cyan); height: 0; }
 .zone { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
-.storm { background-color: rgba(255, 59, 29, 0.35); border: 1px solid #FF3B1D; }
-.calm { background-color: rgba(245, 158, 11, 0.25); border: 1px solid #F59E0B; }
+.storm { background-color: rgba(217, 78, 52, 0.3); border: 1px solid var(--primary); }
+.calm { background-color: rgba(217, 138, 60, 0.22); border: 1px solid var(--status-warning); }
 
 .schematicTag {
   font-family: var(--font-mono), monospace;

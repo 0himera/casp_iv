@@ -1,36 +1,22 @@
-.wrap {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: #0A0E17;
-  overflow: hidden;
-}
+.wrap { position: relative; height: 100%; width: 100%; background: #0A0E17; overflow: hidden; }
+.img { width: 100%; height: 100%; object-fit: cover; object-position: center 88%; filter: contrast(1.05); }
+.overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 14, 23, 0.72) 0%, rgba(10, 14, 23, 0.08) 38%, rgba(10, 14, 23, 0.78) 100%); pointer-events: none; }
 
-.img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 88%;
-  filter: contrast(1.06) saturate(1.08);
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(10, 14, 23, 0.78) 0%, rgba(10, 14, 23, 0.08) 38%, rgba(10, 14, 23, 0.62) 100%);
-  pointer-events: none;
+.bottomBar {
+  position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 2;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
 }
 
 .caption {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: rgba(15, 19, 28, 0.88);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: #00F0FF;
+  padding: 5px 9px; border-radius: 4px; background: rgba(15, 19, 28, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14); font-family: var(--font-mono); font-size: 10px; color: #CBD5E1;
 }
 
+.portBar { display: flex; flex-wrap: wrap; gap: 4px; }
+.portChip {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; cursor: pointer;
+  background: rgba(15, 19, 28, 0.9); border: 1px solid rgba(255, 255, 255, 0.16);
+  font-family: var(--font-mono); font-size: 10px; color: #E2E8F0;
+}
+.portChip:hover { border-color: var(--cyan); }
+.icon { width: 11px; height: 11px; color: var(--cyan); }

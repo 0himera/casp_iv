@@ -37,3 +37,4 @@ export function smoothSeaArc(coords: number[][], bend = 0.08): number[][] {
   }
   return out;
 }
+

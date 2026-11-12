@@ -32,9 +32,9 @@
 }
 
 .active {
-  color: #00F0FF;
-  border-color: rgba(0, 240, 255, 0.35);
-  background-color: rgba(0, 240, 255, 0.08);
+  color: #E2E8F0;
+  border-color: rgba(126, 178, 204, 0.35);
+  background-color: rgba(126, 178, 204, 0.1);
 }
 
 .divider {

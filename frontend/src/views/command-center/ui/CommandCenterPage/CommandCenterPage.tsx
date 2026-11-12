@@ -4,6 +4,7 @@ import { Layers } from 'lucide-react';
 import { PassportPanel } from '@/features/passport-attestation';
 import { RouteDecisionOverlay } from '@/features/route-selection';
 import { Button, FilmGrainOverlay } from '@/shared/ui';
+import { DraughtSimulator } from '@/widgets/DraughtSimulator';
 import { EsgWidget } from '@/widgets/EsgWidget';
 import { HeroTelemetry } from '@/widgets/HeroTelemetry';
 import { PredictiveChart } from '@/widgets/PredictiveChart';
@@ -32,8 +33,9 @@ export function CommandCenterPage() {
               <Layers className={styles.btnIcon} /> {l.xrayMode ? 'X-RAY ВКЛ' : 'X-RAY РЕНТГЕН'}
             </Button>
           </div>
-          <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} onSelectRoute={s.selectRoute} />
+          <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole} onAttest={s.attest} />
         </section>
+        <DraughtSimulator shipment={s.shipment} />
         <section id="route-section" className={styles.bentoRow}>
           <div className={styles.bentoCell}><RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} /></div>
           <div className={styles.bentoCell}><PredictiveChart shipment={s.shipment} stormActive={stormActive} /></div>

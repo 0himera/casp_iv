@@ -1,55 +1,44 @@
 'use client';
 
 import { useState } from 'react';
-import { Anchor, ArrowRight, Check, Route as RouteIcon, X } from 'lucide-react';
+import { Anchor, ArrowRight, Route as RouteIcon, ShieldCheck, X } from 'lucide-react';
 import type { CaspianPort } from '@/entities/cargo';
-import type { Shipment } from '@/shared/api/caspian';
-import { formatMskDateTime, formatProbability, formatRubFromMinor } from '@/shared/lib/formatters';
-import { Badge, Button } from '@/shared/ui';
+import type { Role, Shipment } from '@/shared/api/caspian';
+import { DockPassportTab } from './DockPassportTab';
+import { DockRoutesList } from './DockRoutesList';
 import styles from './MapQuickDock.module.css';
 
 interface MapQuickDockProps {
-  shipment: Shipment; ports: CaspianPort[];
-  onSelectRoute?: (routeId: string) => void; onSelectPort: (port: CaspianPort) => void; onCollapse: () => void;
+  shipment: Shipment; ports: CaspianPort[]; role?: Role; isBusy?: boolean;
+  onSelectRoute?: (routeId: string) => void; onHoverRoute?: (routeId: string | null) => void;
+  onSelectPort: (port: CaspianPort) => void; onChangeRole?: (role: Role) => void;
+  onAttest?: (decision: 'approved' | 'rejected') => void; onCollapse: () => void;
 }
 
-export function MapQuickDock({ shipment, ports, onSelectRoute, onSelectPort, onCollapse }: MapQuickDockProps) {
-  const [tab, setTab] = useState<'routes' | 'ports'>('routes');
-  const canSelect = shipment.allowed_actions.includes('select_route');
+export function MapQuickDock(p: MapQuickDockProps) {
+  const [tab, setTab] = useState<'routes' | 'ports' | 'passport'>('routes');
   return (
     <div className={styles.wrap}>
       <div className={styles.tabsRow}>
         <div className={styles.tabs}>
           <button type="button" onClick={() => setTab('routes')} className={`${styles.tabBtn} ${tab === 'routes' ? styles.activeTab : ''}`}><RouteIcon className={styles.icon} /> Маршруты</button>
-          <button type="button" onClick={() => setTab('ports')} className={`${styles.tabBtn} ${tab === 'ports' ? styles.activeTab : ''}`}><Anchor className={styles.icon} /> Порты ({ports.length})</button>
+          <button type="button" onClick={() => setTab('ports')} className={`${styles.tabBtn} ${tab === 'ports' ? styles.activeTab : ''}`}><Anchor className={styles.icon} /> Порты</button>
+          <button type="button" onClick={() => setTab('passport')} className={`${styles.tabBtn} ${tab === 'passport' ? styles.activeTab : ''}`}><ShieldCheck className={styles.icon} /> eCMR</button>
         </div>
-        <button type="button" onClick={onCollapse} className={styles.closeBtn} aria-label="Скрыть меню"><X className={styles.icon} /></button>
+        <button type="button" onClick={p.onCollapse} className={styles.closeBtn} aria-label="Скрыть меню"><X className={styles.icon} /></button>
       </div>
-      {tab === 'routes' ? (
+      {tab === 'routes' && <DockRoutesList shipment={p.shipment} role={p.role} onSelectRoute={p.onSelectRoute} onHoverRoute={p.onHoverRoute} onChangeRole={p.onChangeRole} />}
+      {tab === 'ports' && (
         <div className={styles.list}>
-          {shipment.routes.map((r) => {
-            const active = r.id === shipment.selected_route_id;
-            return (
-              <div key={r.id} className={`${styles.card} ${active ? styles.cardActive : ''}`}>
-                <div className={styles.rowBetween}><span className={styles.title}>{r.name}</span><Badge variant={r.feasible ? 'secondary' : 'destructive'}>Риск: {formatProbability(r.miss_probability)}</Badge></div>
-                <span className={styles.meta}>ETA: {formatMskDateTime(r.eta.p50)} · {formatRubFromMinor(r.cost.amount_minor)}</span>
-                {active ? <span className={styles.activeTag}><Check className={styles.icon} /> Активный маршрут</span>
-                  : r.feasible ? <Button type="button" size="sm" disabled={!canSelect} onClick={() => onSelectRoute?.(r.id)}>Выбрать <ArrowRight className={styles.icon} /></Button>
-                  : <span className={styles.warn}>{r.infeasibility_reason ?? 'Недоступно'}</span>}
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className={styles.list}>
-          {ports.map((p) => (
-            <button key={p.id} type="button" className={styles.portRow} onClick={() => onSelectPort(p)}>
-              <div><div className={styles.title}>{p.name}</div><div className={styles.meta}>{p.country} · {p.lat.toFixed(2)}°N, {p.lng.toFixed(2)}°E</div></div>
+          {p.ports.map((port) => (
+            <button key={port.id} type="button" className={styles.portRow} onClick={() => p.onSelectPort(port)}>
+              <div><div className={styles.title}>{port.name}</div><div className={styles.meta}>{port.country} · {port.lat.toFixed(2)}°N, {port.lng.toFixed(2)}°E</div></div>
               <ArrowRight className={styles.icon} />
             </button>
           ))}
         </div>
       )}
+      {tab === 'passport' && <DockPassportTab shipment={p.shipment} role={p.role} isBusy={p.isBusy} onAttest={p.onAttest} />}
     </div>
   );
 }
