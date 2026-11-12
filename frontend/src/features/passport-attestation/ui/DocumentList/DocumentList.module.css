@@ -1,8 +1,4 @@
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+.list { display: flex; flex-direction: column; gap: 5px; }
 
 .docRow {
   display: flex;
@@ -11,25 +7,20 @@
   gap: 8px;
   min-height: 44px;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: 7px;
   border: 1px solid var(--border);
   background-color: var(--surface-default);
+  transition: transform 0.18s ease, border-color 0.18s ease;
 }
 
-.docInfo {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
+.docRow:hover {
+  transform: translateX(2px);
+  border-color: var(--border-strong);
 }
 
-.docIcon { width: 13px; height: 13px; color: var(--primary); flex-shrink: 0; }
-
-.meta {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
+.docInfo { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.docIcon { width: 13px; height: 13px; color: var(--muted-foreground); flex-shrink: 0; }
+.meta { display: flex; flex-direction: column; min-width: 0; }
 
 .name {
   font-size: 11px;
@@ -46,12 +37,17 @@
   display: inline-flex;
   align-items: center;
   padding: 4px;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid var(--border);
   cursor: pointer;
   color: var(--foreground);
+  transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.uploadLabel:hover { background-color: var(--accent); }
+.uploadLabel:hover {
+  background-color: var(--accent);
+  transform: scale(1.08);
+}
+
 .uploadIcon { width: 12px; height: 12px; }
 .fileInput { display: none; }
