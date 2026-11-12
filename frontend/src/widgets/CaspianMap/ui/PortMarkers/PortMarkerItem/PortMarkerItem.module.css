@@ -1,20 +1,31 @@
+@keyframes beaconRipple {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
 .container { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
 
 .beacon {
-  width: 8px; height: 8px; border-radius: 9999px;
+  position: relative;
+  width: 9px; height: 9px; border-radius: 9999px;
   background-color: var(--cyan);
   border: 1.5px solid #080C14;
-  outline: 1px solid rgba(126, 178, 204, 0.4);
-  outline-offset: 3px;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.beaconDanger {
-  background-color: var(--primary);
-  outline-color: rgba(217, 78, 52, 0.5);
+.beacon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  color: var(--cyan);
+  animation: beaconRipple 2.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
-.beaconSelected { transform: scale(1.35); outline: 2px solid #ffffff; outline-offset: 2px; }
+.beaconDanger { background-color: var(--primary); }
+.beaconDanger::after { color: var(--primary); animation-duration: 1.6s; }
+.beaconSelected { transform: scale(1.4); outline: 2px solid #F4F1EA; outline-offset: 2px; }
 
 .pill {
   position: absolute; display: inline-flex; align-items: center; gap: 5px;
@@ -22,13 +33,12 @@
   background: rgba(15, 19, 28, 0.92); border: 1px solid rgba(255, 255, 255, 0.14);
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--foreground); white-space: nowrap;
-  backdrop-filter: blur(6px); transition: border-color 0.15s ease;
+  backdrop-filter: blur(6px); transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
 .container:hover .pill,
 .pillSelected { border-color: var(--cyan); background: rgba(24, 27, 37, 0.98); z-index: 30; }
-
-.pillDanger { border-color: rgba(255, 59, 29, 0.6); color: #FF8A00; }
+.pillDanger { border-color: rgba(217, 78, 52, 0.6); color: #E89476; }
 .left { right: 14px; }
 .right { left: 14px; }
 .downRight { left: 14px; top: 8px; }
