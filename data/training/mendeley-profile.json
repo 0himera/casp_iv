@@ -1,0 +1,116 @@
+{
+  "event_rows": 952069,
+  "unique_cases": 95648,
+  "activities": {
+    "BAPLIE": 95648,
+    "VESSEL_ATB": 95648,
+    "DISCHARGE": 95648,
+    "STACK": 95624,
+    "HAS_QUARANTINE_FLAG": 26940,
+    "FIRST_STACK_QUARANTINE_BLK": 13639,
+    "CUSTOMS_DEL": 95648,
+    "QUARANTINE_RELEASE": 26940,
+    "JOB_DEL": 95147,
+    "TRUCK_IN ": 1,
+    "UNSTACK_TO_TRUCK": 95540,
+    "TRUCK_OUT": 95647,
+    "SP_RED_FLAG_PIB": 5155,
+    "TRUCK_IN": 95646,
+    "FIRST_JOB_CUSTOMS_BEHANDLE": 3924,
+    "FIRST_STACK_BEHANDLE": 4032,
+    "LAST_COMPLETE_BEHANDLE": 3924,
+    "STACK_TRK_BF_MAIN_YARD": 2951,
+    "STACK_MAIN_YARD": 3844,
+    "JOB_PLP": 505,
+    "BEHANDLE_QUARANTINE_JOB": 18
+  },
+  "event_quality": {
+    "invalid_or_missing_start": 54,
+    "timestamp_outside_stated_2021_collection_year": 7
+  },
+  "end_timestamp_year_counts": {
+    "2021": 952062,
+    "1954": 6,
+    "2022": 1
+  },
+  "timestamp_anomaly_examples": [
+    {
+      "case_key": "45a81bab6ca75e7c0c8c9eb7",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    },
+    {
+      "case_key": "02e29225a1a5778d1ea20f37",
+      "activity": "CUSTOMS_DEL",
+      "start": "2022-01-02 22:29:08.636000",
+      "end": "2022-01-03 00:00:00"
+    },
+    {
+      "case_key": "bb8859ad72d7fb317d03a61b",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    },
+    {
+      "case_key": "3d6c75974d90940da7541787",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    },
+    {
+      "case_key": "30e012d1da7eca35ce8e3917",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    },
+    {
+      "case_key": "616a9bd2c70c71891f17b33f",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    },
+    {
+      "case_key": "11363fc58d1029c8d76aa03b",
+      "activity": "CUSTOMS_DEL",
+      "start": "1954-04-02 07:26:27.249000",
+      "end": "1954-07-14 00:00:00"
+    }
+  ],
+  "first_event_end_local": "1954-07-14T00:00:00",
+  "last_event_end_local": "2022-01-03T00:00:00",
+  "source": "https://data.mendeley.com/datasets/yvp2b4rtp3/2",
+  "doi": "10.17632/yvp2b4rtp3.2",
+  "license": "CC-BY-4.0",
+  "source_sha256": "fd4ddc8e50f57cceb84881461f85a142137785ca81f59b37165ae484412f7d8c",
+  "training_csv_sha256": "8a278ec8ff40e94c596553e76a6fe92b002ff933b340c4b6d5dd365ec6309132",
+  "eligible_cases": 95587,
+  "rejected_cases": {
+    "case_contains_timestamp_quality_issue": 61
+  },
+  "candidate_status": "basic_cleaning_complete_for_terminal_dwell_experiment",
+  "learning_target": "Hours from DISCHARGE end to TRUCK_OUT end",
+  "feature_missing_counts": {
+    "container_size": 0,
+    "container_type": 0,
+    "gross_tonnes": 0
+  },
+  "duration_hours": {
+    "min": 0.1875,
+    "p10": 13.29861111111111,
+    "median": 53.53333333333333,
+    "p90": 171.51666666666668,
+    "max": 2590.7669444444446
+  },
+  "limitations": [
+    "Terminal identity anonymized; not Caspian training/validation",
+    "Inbound container release, not outbound readiness or missed ferry cutoff",
+    "Source timezone and information recording/publication times not provided",
+    "Whole cases with missing event times, backwards events or non-2021 dates excluded",
+    "Excluding incomplete or anomalous cases can introduce selection bias",
+    "Event end time is only an assumed feature availability boundary",
+    "Do not use case_key, truck_out_at_local or terminal_dwell_hours as model features",
+    "Case IDs contain dates; future customs/quarantine events are excluded from inputs",
+    "Do not attach Caspian weather to anonymized foreign terminal events"
+  ]
+}

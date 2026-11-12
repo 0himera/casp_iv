@@ -6,6 +6,7 @@
 
 | Файл | Назначение |
 | --- | --- |
+| [data/training/README.md](data/training/README.md) | Найденная операционная история: 95 587 подготовленных примеров терминальной обработки; источники и воспроизведение |
 | [data/validation/2026-11-12/report.md](data/validation/2026-11-12/report.md) | Реальные архивные данные: проверка погодного входа и доступности меток задержек |
 | [docs/TRANSIT_API.md](docs/TRANSIT_API.md) | Текущий backend: worker, API отправок и задача интеграции Next.js |
 | [api/transit.client.ts](api/transit.client.ts) | TypeScript-клиент постоянных отправок и Casper операций |
