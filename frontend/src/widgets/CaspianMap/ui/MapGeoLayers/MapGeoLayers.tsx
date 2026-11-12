@@ -26,3 +26,4 @@ export function MapGeoLayers({ stormActive, routeGeoJson, palette }: MapGeoLayer
     </>
   );
 }
+

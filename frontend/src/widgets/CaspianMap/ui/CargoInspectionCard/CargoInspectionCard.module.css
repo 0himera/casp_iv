@@ -1,7 +1,7 @@
 .card {
   position: absolute;
   top: 104px;
-  right: 56px;
+  left: 64px;
   z-index: 25;
   width: 290px;
   display: flex;

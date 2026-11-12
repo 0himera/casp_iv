@@ -40,3 +40,4 @@ export function CargoInspectionCard({ shipment, onClose }: CargoInspectionCardPr
     </ViewfinderFrame>
   );
 }
+

@@ -28,8 +28,8 @@ export function CommandCenterPage() {
       <CargoSidebar isOpen={l.manifestOpen} onClose={l.closeManifest} items={s.items} shipment={s.shipment} onSelectShipment={s.setSelectedId} />
       <CommandCenterTopBar shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} isBusy={s.isBusy} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />
       <RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} />
-      <CustomsOverlay shipment={s.shipment} role={s.role} isBusy={s.isBusy} isOpen={l.customsOpen} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />
-      <AnalyticsPanel shipment={s.shipment} stormActive={stormActive} isOpen={l.analyticsOpen} />
+      <CustomsOverlay shipment={s.shipment} role={s.role} isBusy={s.isBusy} isOpen={l.customsOpen} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} onClose={l.closeCustoms} />
+      <AnalyticsPanel shipment={s.shipment} stormActive={stormActive} isOpen={l.analyticsOpen} onClose={l.closeAnalytics} />
       <CommandCenterActions stormActive={stormActive} xrayMode={l.xrayMode} isBusy={s.isBusy} onToggleXray={l.toggleXray} {...a} />
     </div>
   );
