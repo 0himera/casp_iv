@@ -6,10 +6,19 @@ from datetime import UTC, date, datetime, timedelta
 import httpx
 from pydantic import ValidationError
 
-from . import providers
+from . import providers, sailings
 from .cache import Snapshot, SnapshotCache
 from .config import Settings
-from .models import ActivityResponse, Port, Provenance, WeatherResponse
+from .models import (
+    ActivityResponse,
+    Port,
+    Provenance,
+    Sailing,
+    SailingSource,
+    SailingSourceError,
+    SailingsResponse,
+    WeatherResponse,
+)
 
 log = logging.getLogger(__name__)
 
@@ -161,4 +170,67 @@ class DataService:
                 warnings,
                 lag is None or lag > 3,
             ),
+        )
+
+    async def sailings(self, port_id: str):
+        async def load(source):
+            try:
+                snapshot, status = await self.snapshot(
+                    f"v1:sailings:{source}",
+                    self.settings.sailings_ttl_seconds,
+                    lambda: sailings.fetch(self.client, source),
+                )
+                return source, snapshot, status
+            except DataUnavailable:
+                return source, None, None
+
+        results = await asyncio.gather(*(load(s) for s in sailings.PORT_SOURCES[port_id]))
+        items, sources, errors = [], [], []
+        for source, snapshot, status in results:
+            if snapshot is None:
+                errors.append(SailingSourceError(source_id=source))
+                continue
+            payload = snapshot.payload
+            reported = date.fromisoformat(payload["reported_date"])
+            lag = (self.clock().date() - reported).days
+            warnings = ["SOURCE_TIMEZONE_UNVERIFIED", "PUBLISHED_DISPOSITION_NOT_A_BOOKING"]
+            if source == "kuryk":
+                warnings.extend(["ROW_YEAR_INFERRED_FROM_PUBLICATION", "PUBLICATION_HAS_DATE_ONLY"])
+            if not payload["items"]:
+                warnings.append("NO_PUBLISHED_ROWS")
+            if status == "stale":
+                warnings.append("UPSTREAM_UNAVAILABLE_USING_LAST_SNAPSHOT")
+            if lag > 1:
+                warnings.append("PUBLICATION_OLDER_THAN_ONE_DAY")
+            if lag < -1:
+                warnings.append("PUBLICATION_DATE_IN_FUTURE")
+            if source == "asco" and any(
+                item[field] and item[field] not in sailings.PORT_NAMES
+                for item in payload["items"]
+                for field in ("departure_port_raw", "destination_port_raw")
+            ):
+                warnings.append("UNRECOGNIZED_PORT_NAMES_PRESERVED")
+            sources.append(
+                SailingSource(
+                    source_id=source,
+                    source_url=snapshot.source_url,
+                    fetched_at=snapshot.fetched_at,
+                    source_updated_at=None,
+                    reported_date=reported,
+                    reported_at_local=payload["reported_at_local"],
+                    timezone=None,
+                    cache_status=status,
+                    stale=status == "stale" or lag > 1 or lag < -1,
+                    warnings=warnings,
+                )
+            )
+            items.extend(
+                Sailing.model_validate(item)
+                for item in payload["items"]
+                if port_id in item["port_ids"]
+            )
+        if not sources:
+            raise DataUnavailable()
+        return SailingsResponse(
+            port_id=port_id, items=items, sources=sources, errors=errors, partial=bool(errors)
         )

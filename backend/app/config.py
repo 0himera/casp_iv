@@ -35,11 +35,19 @@ class Settings:
     retry_cooldown_seconds: int = field(
         default_factory=lambda: int(os.getenv("CASPIAN_RETRY_COOLDOWN_SECONDS", "60"))
     )
+    sailings_ttl_seconds: int = field(
+        default_factory=lambda: int(os.getenv("CASPIAN_SAILINGS_TTL_SECONDS", "900"))
+    )
 
     def __post_init__(self):
         if (
             self.request_timeout_seconds <= 0
-            or min(self.weather_ttl_seconds, self.activity_ttl_seconds, self.retry_cooldown_seconds)
+            or min(
+                self.weather_ttl_seconds,
+                self.activity_ttl_seconds,
+                self.retry_cooldown_seconds,
+                self.sailings_ttl_seconds,
+            )
             <= 0
         ):
             raise ValueError("Timeout, cache TTLs and retry cooldown must be positive")

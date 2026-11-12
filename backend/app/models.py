@@ -112,3 +112,50 @@ class ErrorDetail(Model):
 
 class ErrorResponse(Model):
     error: ErrorDetail
+
+
+class Sailing(Model):
+    id: str
+    source_id: Literal["kuryk", "asco"]
+    vessel_name: str
+    port_ids: list[str]
+    departure_port_raw: str | None
+    destination_port_raw: str | None
+    berth: str | None
+    category: Literal["berth", "anchorage", "expected", "underway", "in_port"]
+    status_raw: str
+    weather_related: bool
+    event_time_raw: str | None
+    event_at_local: str | None
+    departure_time_raw: str | None
+    departure_at_local: str | None
+    arrival_time_raw: str | None
+    arrival_at_local: str | None
+    timezone: str | None
+    year_inferred: bool
+
+
+class SailingSource(Model):
+    source_id: Literal["kuryk", "asco"]
+    source_url: str
+    fetched_at: datetime
+    source_updated_at: datetime | None
+    reported_date: date
+    reported_at_local: str | None
+    timezone: str | None
+    cache_status: Literal["live", "cached", "stale"]
+    stale: bool
+    warnings: list[str]
+
+
+class SailingSourceError(Model):
+    source_id: Literal["kuryk", "asco"]
+    code: Literal["SOURCE_UNAVAILABLE"] = "SOURCE_UNAVAILABLE"
+
+
+class SailingsResponse(Model):
+    port_id: str
+    items: list[Sailing]
+    sources: list[SailingSource]
+    errors: list[SailingSourceError]
+    partial: bool

@@ -73,6 +73,53 @@ export type Provenance = {
   warnings: Array<string>;
 };
 
+export type Sailing = {
+  id: string;
+  source_id: "kuryk" | "asco";
+  vessel_name: string;
+  port_ids: Array<string>;
+  departure_port_raw: string | null;
+  destination_port_raw: string | null;
+  berth: string | null;
+  category: "berth" | "anchorage" | "expected" | "underway" | "in_port";
+  status_raw: string;
+  weather_related: boolean;
+  event_time_raw: string | null;
+  event_at_local: string | null;
+  departure_time_raw: string | null;
+  departure_at_local: string | null;
+  arrival_time_raw: string | null;
+  arrival_at_local: string | null;
+  timezone: string | null;
+  year_inferred: boolean;
+};
+
+export type SailingSource = {
+  source_id: "kuryk" | "asco";
+  source_url: string;
+  fetched_at: string;
+  source_updated_at: string | null;
+  reported_date: string;
+  reported_at_local: string | null;
+  timezone: string | null;
+  cache_status: "live" | "cached" | "stale";
+  stale: boolean;
+  warnings: Array<string>;
+};
+
+export type SailingSourceError = {
+  source_id: "kuryk" | "asco";
+  code?: "SOURCE_UNAVAILABLE";
+};
+
+export type SailingsResponse = {
+  port_id: string;
+  items: Array<Sailing>;
+  sources: Array<SailingSource>;
+  errors: Array<SailingSourceError>;
+  partial: boolean;
+};
+
 export type WeatherPoint = {
   time: string;
   wind_speed_10m: number | null;

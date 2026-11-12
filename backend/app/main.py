@@ -14,7 +14,16 @@ from starlette.exceptions import HTTPException
 from .cache import SnapshotCache
 from .catalog import load_catalog
 from .config import Settings
-from .models import ActivityResponse, ErrorResponse, Health, Port, PortList, WeatherResponse
+from .models import (
+    ActivityResponse,
+    ErrorResponse,
+    Health,
+    Port,
+    PortList,
+    SailingsResponse,
+    WeatherResponse,
+)
+from .sailings import PORT_SOURCES
 from .service import DataService, DataUnavailable
 
 
@@ -134,6 +143,19 @@ def create_app(
                 },
             )
         return await request.app.state.data.activity(port, days)
+
+    @app.get("/api/v1/sailings", response_model=SailingsResponse)
+    async def sailings(request: Request, port_id: str):
+        get_port(port_id)
+        if port_id not in PORT_SOURCES:
+            raise HTTPException(
+                422,
+                {
+                    "code": "SOURCE_NOT_COVERED",
+                    "message": "Диспозиции доступны для kuryk, alat, turkmenbashi",
+                },
+            )
+        return await request.app.state.data.sailings(port_id)
 
     return app
 

@@ -1,4 +1,4 @@
-import type { ActivityResponse, Health, Port, PortList, WeatherResponse } from './public-data.types';
+import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse } from './public-data.types';
 
 export class PublicDataError extends Error {
   constructor(public status: number, public code: string, message: string) {
@@ -27,5 +27,7 @@ export function createPublicDataClient(baseUrl = 'http://localhost:8000/api/v1')
       get<WeatherResponse>(`${portPath(id)}/weather?forecast_days=${forecastDays}`, signal),
     activity: (id: string, days = 30, signal?: AbortSignal) =>
       get<ActivityResponse>(`${portPath(id)}/activity?days=${days}`, signal),
+    sailings: (portId: string, signal?: AbortSignal) =>
+      get<SailingsResponse>(`/sailings?port_id=${encodeURIComponent(portId)}`, signal),
   };
 }

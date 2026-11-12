@@ -352,6 +352,75 @@
           }
         }
       }
+    },
+    "/api/v1/sailings": {
+      "get": {
+        "summary": "Sailings",
+        "operationId": "sailings_api_v1_sailings_get",
+        "parameters": [
+          {
+            "name": "port_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Port Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SailingsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -779,6 +848,351 @@
           "warnings"
         ],
         "title": "Provenance"
+      },
+      "Sailing": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source_id": {
+            "type": "string",
+            "enum": [
+              "kuryk",
+              "asco"
+            ],
+            "title": "Source Id"
+          },
+          "vessel_name": {
+            "type": "string",
+            "title": "Vessel Name"
+          },
+          "port_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Port Ids"
+          },
+          "departure_port_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departure Port Raw"
+          },
+          "destination_port_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Destination Port Raw"
+          },
+          "berth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Berth"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "berth",
+              "anchorage",
+              "expected",
+              "underway",
+              "in_port"
+            ],
+            "title": "Category"
+          },
+          "status_raw": {
+            "type": "string",
+            "title": "Status Raw"
+          },
+          "weather_related": {
+            "type": "boolean",
+            "title": "Weather Related"
+          },
+          "event_time_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Time Raw"
+          },
+          "event_at_local": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event At Local"
+          },
+          "departure_time_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departure Time Raw"
+          },
+          "departure_at_local": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departure At Local"
+          },
+          "arrival_time_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrival Time Raw"
+          },
+          "arrival_at_local": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrival At Local"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "year_inferred": {
+            "type": "boolean",
+            "title": "Year Inferred"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "source_id",
+          "vessel_name",
+          "port_ids",
+          "departure_port_raw",
+          "destination_port_raw",
+          "berth",
+          "category",
+          "status_raw",
+          "weather_related",
+          "event_time_raw",
+          "event_at_local",
+          "departure_time_raw",
+          "departure_at_local",
+          "arrival_time_raw",
+          "arrival_at_local",
+          "timezone",
+          "year_inferred"
+        ],
+        "title": "Sailing"
+      },
+      "SailingSource": {
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "enum": [
+              "kuryk",
+              "asco"
+            ],
+            "title": "Source Id"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fetched At"
+          },
+          "source_updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Updated At"
+          },
+          "reported_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Reported Date"
+          },
+          "reported_at_local": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported At Local"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "cache_status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "cached",
+              "stale"
+            ],
+            "title": "Cache Status"
+          },
+          "stale": {
+            "type": "boolean",
+            "title": "Stale"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_id",
+          "source_url",
+          "fetched_at",
+          "source_updated_at",
+          "reported_date",
+          "reported_at_local",
+          "timezone",
+          "cache_status",
+          "stale",
+          "warnings"
+        ],
+        "title": "SailingSource"
+      },
+      "SailingSourceError": {
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "enum": [
+              "kuryk",
+              "asco"
+            ],
+            "title": "Source Id"
+          },
+          "code": {
+            "type": "string",
+            "const": "SOURCE_UNAVAILABLE",
+            "title": "Code",
+            "default": "SOURCE_UNAVAILABLE"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_id"
+        ],
+        "title": "SailingSourceError"
+      },
+      "SailingsResponse": {
+        "properties": {
+          "port_id": {
+            "type": "string",
+            "title": "Port Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Sailing"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SailingSource"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/SailingSourceError"
+            },
+            "type": "array",
+            "title": "Errors"
+          },
+          "partial": {
+            "type": "boolean",
+            "title": "Partial"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "port_id",
+          "items",
+          "sources",
+          "errors",
+          "partial"
+        ],
+        "title": "SailingsResponse"
       },
       "WeatherPoint": {
         "properties": {
