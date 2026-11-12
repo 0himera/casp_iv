@@ -1,10 +1,11 @@
 'use client';
 
 import { Marker } from 'react-map-gl/maplibre';
-import { Anchor, Navigation } from 'lucide-react';
 import type { CaspianPort } from '@/entities/cargo';
+import { resolvePortTelemetry } from '@/entities/cargo';
 import type { Shipment } from '@/shared/api/caspian';
-import { PixelMarker } from '@/shared/ui';
+import { CargoMarkerItem } from './CargoMarkerItem';
+import { PortMarkerItem } from './PortMarkerItem';
 import styles from './PortMarkers.module.css';
 
 interface PortMarkersProps {
@@ -14,33 +15,41 @@ interface PortMarkersProps {
   xrayMode?: boolean;
 }
 
-export function PortMarkers({ ports, shipment, stormActive, xrayMode = false }: PortMarkersProps) {
+export function PortMarkers({
+  ports,
+  shipment,
+  stormActive,
+  xrayMode = false,
+}: PortMarkersProps) {
   const { current_location: curr } = shipment;
+
   return (
-    <>
-      {ports.map((port) => {
+    <div className={styles.layer}>
+      {ports.map((rawPort) => {
+        const port = resolvePortTelemetry(rawPort, stormActive);
         const isDanger = port.id === 'anzali' && stormActive;
         return (
-          <Marker key={port.id} longitude={port.lng} latitude={port.lat} anchor="center">
-            <div className={styles.portMarker}>
-              <span className={`${styles.portReticle} ${isDanger ? styles.portDanger : ''} ${xrayMode ? styles.portXray : ''}`}>
-                <Anchor className={styles.portIcon} />
-              </span>
-              <span className={styles.portLabel}>{port.name}</span>
-              {xrayMode && <span className={styles.coordTag}>{port.lat.toFixed(2)}°N {port.lng.toFixed(2)}°E</span>}
-            </div>
+          <Marker
+            key={port.id}
+            longitude={port.lng}
+            latitude={port.lat}
+            anchor="center"
+          >
+            <PortMarkerItem
+              port={port}
+              isDanger={isDanger}
+              xrayMode={xrayMode}
+            />
           </Marker>
         );
       })}
-      <Marker longitude={curr.longitude} latitude={curr.latitude} anchor="center">
-        <div className={styles.cargoMarker}>
-          <span className={styles.cargoCore}><Navigation className={styles.cargoIcon} /></span>
-          <span className={styles.cargoBadge}>
-            <PixelMarker variant="telemetry" />
-            <span>{curr.name}</span>
-          </span>
-        </div>
+      <Marker
+        longitude={curr.longitude}
+        latitude={curr.latitude}
+        anchor="center"
+      >
+        <CargoMarkerItem locationName={curr.name} />
       </Marker>
-    </>
+    </div>
   );
 }
