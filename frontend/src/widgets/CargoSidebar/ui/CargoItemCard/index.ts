@@ -1,0 +1,2 @@
+export { CargoItemCard } from './CargoItemCard';
+

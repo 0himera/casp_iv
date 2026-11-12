@@ -1,0 +1,51 @@
+.legend {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: color-mix(in oklch, var(--card) 90%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--foreground);
+}
+
+.line {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.rail { background-color: var(--mode-rail); }
+.sea { background-color: var(--mode-sea); }
+.road { background-color: var(--mode-road); }
+
+.zone {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.storm {
+  background-color: color-mix(in oklch, var(--status-danger) 55%, transparent);
+  border: 1px solid var(--status-danger);
+}
+
+.calm {
+  background-color: color-mix(in oklch, var(--status-warning) 35%, transparent);
+  border: 1px solid var(--status-warning);
+}
+

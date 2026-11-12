@@ -1,0 +1,29 @@
+.idleTrigger {
+  border-color: color-mix(in oklch, var(--status-warning) 50%, transparent);
+}
+
+.activeTrigger {
+  animation: pulseAlert 2s infinite;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.iconWarning {
+  width: 14px;
+  height: 14px;
+  color: var(--status-warning);
+}
+
+@keyframes pulseAlert {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+

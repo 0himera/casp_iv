@@ -1,0 +1,2 @@
+export { ForceMajeureButton } from './ForceMajeureButton';
+

@@ -1,0 +1,50 @@
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.label {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+.value {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.default {
+  color: var(--foreground);
+}
+
+.success {
+  color: var(--status-success);
+}
+
+.warning {
+  color: var(--status-warning);
+}
+
+.danger {
+  color: var(--status-danger);
+}
+

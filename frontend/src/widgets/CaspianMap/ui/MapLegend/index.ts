@@ -1,0 +1,2 @@
+export { MapLegend } from './MapLegend';
+

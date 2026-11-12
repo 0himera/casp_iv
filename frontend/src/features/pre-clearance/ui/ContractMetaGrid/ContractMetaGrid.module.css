@@ -1,0 +1,29 @@
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.metaBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background-color: var(--muted);
+}
+
+.metaLabel { font-size: 10px; color: var(--muted-foreground); }
+.hashValue { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+
+.timerValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--status-success);
+}
+
+.miniIcon { width: 13px; height: 13px; }
+

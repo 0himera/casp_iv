@@ -1,0 +1,2 @@
+export { MultimodalGraph } from './MultimodalGraph';
+

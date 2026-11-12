@@ -1,0 +1,53 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.header {
+  padding-bottom: 6px;
+}
+
+.titleRow,
+.titleWrap,
+.reductionPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.titleRow { justify-content: space-between; }
+.icon, .trendIcon { width: 14px; height: 14px; color: var(--status-success); }
+
+.content,
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summaryBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: var(--muted);
+}
+
+.summaryLabel { font-size: 10px; color: var(--muted-foreground); }
+.summaryValue { font-size: 15px; font-weight: 700; color: var(--foreground); }
+
+.reductionPill {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--status-success);
+  background-color: color-mix(in oklch, var(--status-success) 15%, transparent);
+}
+
+.savedNote { font-size: 11px; color: var(--muted-foreground); }
+.savedNote strong { color: var(--status-success); }
+
