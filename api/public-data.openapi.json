@@ -1570,6 +1570,65 @@
         }
       }
     },
+    "/api/v1/live-overview": {
+      "get": {
+        "summary": "Live Overview",
+        "description": "One map payload from the same public providers; preserve missing and stale data.",
+        "operationId": "live_overview_api_v1_live_overview_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LiveOverview"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/ports/{port_id}": {
       "get": {
         "summary": "Read Port",
@@ -3187,6 +3246,123 @@
           "catalog_ports"
         ],
         "title": "Health"
+      },
+      "LiveOverview": {
+        "properties": {
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LivePortOverview"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "generated_at",
+          "items"
+        ],
+        "title": "LiveOverview"
+      },
+      "LivePortOverview": {
+        "properties": {
+          "port": {
+            "$ref": "#/components/schemas/Port"
+          },
+          "weather": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WeatherResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "weather_error": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "COORDINATES_UNVERIFIED",
+                  "SOURCE_UNAVAILABLE"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Error"
+          },
+          "activity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActivityResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "activity_error": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SOURCE_NOT_COVERED",
+                  "SOURCE_UNAVAILABLE"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activity Error"
+          },
+          "sailings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SailingsResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sailings_error": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SOURCE_NOT_COVERED",
+                  "SOURCE_UNAVAILABLE"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sailings Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "port",
+          "weather",
+          "weather_error",
+          "activity",
+          "activity_error",
+          "sailings",
+          "sailings_error"
+        ],
+        "title": "LivePortOverview"
       },
       "Location": {
         "properties": {

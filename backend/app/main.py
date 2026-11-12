@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from collections.abc import Callable
 from contextlib import asynccontextmanager
@@ -21,6 +22,8 @@ from .models import (
     ActivityResponse,
     ErrorResponse,
     Health,
+    LiveOverview,
+    LivePortOverview,
     Port,
     PortList,
     SailingsResponse,
@@ -121,6 +124,53 @@ def create_app(
     @app.get("/api/v1/corridors", response_model=CorridorList)
     async def list_corridors():
         return CORRIDORS
+
+    @app.get("/api/v1/live-overview", response_model=LiveOverview)
+    async def live_overview(request: Request):
+        """One map payload from the same public providers; preserve missing and stale data."""
+        service = request.app.state.data
+
+        async def read(available, missing_code, fetch):
+            if not available:
+                return None, missing_code
+            try:
+                return await fetch(), None
+            except DataUnavailable:
+                return None, "SOURCE_UNAVAILABLE"
+
+        async def one(port):
+            (
+                (weather, weather_error),
+                (activity, activity_error),
+                (sailings, sailings_error),
+            ) = await asyncio.gather(
+                read(
+                    port.weather_available,
+                    "COORDINATES_UNVERIFIED",
+                    lambda: service.weather(port, 1),
+                ),
+                read(
+                    port.activity_available,
+                    "SOURCE_NOT_COVERED",
+                    lambda: service.activity(port, 30),
+                ),
+                read(
+                    port.id in PORT_SOURCES, "SOURCE_NOT_COVERED", lambda: service.sailings(port.id)
+                ),
+            )
+            return LivePortOverview(
+                port=port,
+                weather=weather,
+                weather_error=weather_error,
+                activity=activity,
+                activity_error=activity_error,
+                sailings=sailings,
+                sailings_error=sailings_error,
+            )
+
+        return LiveOverview(
+            generated_at=clock(), items=await asyncio.gather(*(one(port) for port in catalog.items))
+        )
 
     @app.get("/api/v1/ports/{port_id}", response_model=Port)
     async def read_port(port_id: str):

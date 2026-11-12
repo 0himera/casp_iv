@@ -159,3 +159,18 @@ class SailingsResponse(Model):
     sources: list[SailingSource]
     errors: list[SailingSourceError]
     partial: bool
+
+
+class LivePortOverview(Model):
+    port: Port
+    weather: WeatherResponse | None
+    weather_error: Literal["COORDINATES_UNVERIFIED", "SOURCE_UNAVAILABLE"] | None
+    activity: ActivityResponse | None
+    activity_error: Literal["SOURCE_NOT_COVERED", "SOURCE_UNAVAILABLE"] | None
+    sailings: SailingsResponse | None
+    sailings_error: Literal["SOURCE_NOT_COVERED", "SOURCE_UNAVAILABLE"] | None
+
+
+class LiveOverview(Model):
+    generated_at: datetime
+    items: list[LivePortOverview]
