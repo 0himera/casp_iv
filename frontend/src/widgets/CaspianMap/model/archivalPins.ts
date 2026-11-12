@@ -1,21 +1,49 @@
-export interface ArchivalPinPos {
+import archivalGeo from '@/data/archivalVectorMap.json';
+import type { CaspianPort } from '@/entities/cargo';
+
+export interface ArchivalPortGeo {
   id: string;
+  name: string;
+  country: string;
+  lng: number;
+  lat: number;
   x: number;
   y: number;
-  peers: string[];
+  labelDx: number;
+  labelDy: number;
+  anchor: 'start' | 'end';
 }
 
-export const ARCHIVAL_PINS: ArchivalPinPos[] = [
-  { id: 'astrakhan', x: 17, y: 60, peers: ['aktau', 'makhachkala', 'baku'] },
-  { id: 'makhachkala', x: 34, y: 68, peers: ['astrakhan', 'aktau', 'anzali'] },
-  { id: 'baku', x: 19, y: 82, peers: ['aktau', 'turkmenbashi', 'anzali'] },
-  { id: 'aktau', x: 45, y: 63, peers: ['astrakhan', 'makhachkala', 'baku', 'kuryk'] },
-  { id: 'kuryk', x: 58, y: 60, peers: ['aktau', 'baku', 'amirabad'] },
-  { id: 'turkmenbashi', x: 68, y: 57, peers: ['baku', 'anzali', 'amirabad'] },
-  { id: 'anzali', x: 55, y: 84, peers: ['baku', 'makhachkala', 'turkmenbashi'] },
-  { id: 'amirabad', x: 86, y: 62, peers: ['aktau', 'turkmenbashi', 'anzali'] },
-];
+export const ARCHIVAL_GEO = archivalGeo;
+export const ARCHIVAL_PORTS = archivalGeo.ports as ArchivalPortGeo[];
 
-export function getArchivalPin(id: string) {
-  return ARCHIVAL_PINS.find((p) => p.id === id);
+export function projectArchivalCoord(lng: number, lat: number) {
+  const { latMax, lngMax, cosLat, scale, ox, oy } = archivalGeo.projParams;
+  return {
+    x: Number((ox + (latMax - lat) * scale).toFixed(1)),
+    y: Number((oy + (lngMax - lng) * cosLat * scale).toFixed(1)),
+  };
+}
+
+export function resolveArchivalPort(geo: ArchivalPortGeo, livePorts: CaspianPort[]): CaspianPort {
+  const found = livePorts.find((p) => p.id === geo.id);
+  if (found) return found;
+  return {
+    id: geo.id,
+    name: geo.name,
+    country: geo.country,
+    lat: geo.lat,
+    lng: geo.lng,
+    loadPercent: 54,
+    berthsAvailable: 4,
+    totalBerths: 10,
+    vesselsInRoadstead: 3,
+    waveHeightM: 1.0,
+    windSpeedKmh: 15,
+    windDirectionDeg: 315,
+    windDirectionLabel: 'NW',
+    waterDepthM: 7.5,
+    status: 'operational',
+    archiveIndex: `[ ARCH // ${geo.id.toUpperCase()} ]`,
+  };
 }
