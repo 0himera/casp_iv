@@ -1,0 +1,225 @@
+{
+  "id": "shp_demo_001",
+  "revision": 1,
+  "title": "Контейнер с оборудованием",
+  "mass_tonnes": 20,
+  "origin": {
+    "id": "volgograd",
+    "name": "Волгоград",
+    "latitude": 48.7,
+    "longitude": 44.5
+  },
+  "destination": {
+    "id": "anzali",
+    "name": "Энзели",
+    "latitude": 37.47,
+    "longitude": 49.46
+  },
+  "current_location": {
+    "id": "volgograd",
+    "name": "Терминал Волгоград",
+    "latitude": 48.7,
+    "longitude": 44.5
+  },
+  "movement_status": "in_transit",
+  "scenario_time": "2026-11-12T08:00:00Z",
+  "updated_at": "2026-11-12T08:00:00Z",
+  "data_mode": "synthetic",
+  "selected_route_id": "route_astra",
+  "forecast": {
+    "id": "forecast_seed",
+    "generated_at": "2026-11-12T08:00:00Z",
+    "valid_until": "2026-11-12T08:15:00Z",
+    "method": "scenario_fixture",
+    "quality": "synthetic",
+    "ready_at": {
+      "p10": "2026-11-13T06:00:00Z",
+      "p50": "2026-11-13T08:00:00Z",
+      "p90": "2026-11-13T12:00:00Z"
+    },
+    "cargo_cutoff": "2026-11-13T11:00:00Z",
+    "miss_probability": 0.16,
+    "reasons": [
+      "Запас до закрытия приёма груза — 3 часа по медианному сценарию"
+    ]
+  },
+  "routes": [
+    {
+      "id": "route_astra",
+      "name": "Через Астрахань",
+      "ports": [
+        "Астрахань",
+        "Энзели"
+      ],
+      "modes": [
+        "rail",
+        "sea"
+      ],
+      "distance_km": 1500,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            44.5,
+            48.7
+          ],
+          [
+            48.04,
+            46.35
+          ],
+          [
+            50,
+            43
+          ],
+          [
+            49.46,
+            37.47
+          ]
+        ]
+      },
+      "geometry_kind": "schematic",
+      "eta": {
+        "p10": "2026-11-15T06:00:00Z",
+        "p50": "2026-11-15T08:00:00Z",
+        "p90": "2026-11-15T12:00:00Z"
+      },
+      "miss_probability": 0.16,
+      "cost": {
+        "amount_minor": 24000000,
+        "currency": "RUB"
+      },
+      "emissions_kg_co2e": 540,
+      "emissions_method": "Условные коэффициенты; перевозка без терминальных операций",
+      "feasible": true,
+      "infeasibility_reason": null,
+      "capacity_status": "synthetic",
+      "requires_reapproval": false,
+      "source_ids": [
+        "demo"
+      ]
+    },
+    {
+      "id": "route_makh",
+      "name": "Через Махачкалу",
+      "ports": [
+        "Махачкала",
+        "Энзели"
+      ],
+      "modes": [
+        "road",
+        "sea"
+      ],
+      "distance_km": 1700,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            44.5,
+            48.7
+          ],
+          [
+            47.5,
+            42.98
+          ],
+          [
+            49.46,
+            37.47
+          ]
+        ]
+      },
+      "geometry_kind": "schematic",
+      "eta": {
+        "p10": "2026-11-15T18:00:00Z",
+        "p50": "2026-11-15T20:00:00Z",
+        "p90": "2026-11-16T00:00:00Z"
+      },
+      "miss_probability": 0.22,
+      "cost": {
+        "amount_minor": 31000000,
+        "currency": "RUB"
+      },
+      "emissions_kg_co2e": 760,
+      "emissions_method": "Условные коэффициенты; перевозка без терминальных операций",
+      "feasible": true,
+      "infeasibility_reason": null,
+      "capacity_status": "synthetic",
+      "requires_reapproval": true,
+      "source_ids": [
+        "demo"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc_invoice",
+      "kind": "invoice",
+      "filename": "invoice-demo.txt",
+      "version": 1,
+      "sha256": "9d7550706a863c5b07e92e568ab17c045db13950f1c1e7135451569f10b97848"
+    },
+    {
+      "id": "doc_packing",
+      "kind": "packing_list",
+      "filename": "packing-demo.txt",
+      "version": 1,
+      "sha256": "86c95f6f13bbee6d0c91c8c8edbbe37565f12eeac2e26cb7eeee53d7c05cb22d"
+    }
+  ],
+  "passport": {
+    "version": 1,
+    "status": "collecting",
+    "documents_hash": "ae071df63416a55449e6b2f755ac92a31f6530cb90a6d7d481428fa9a25db6e3",
+    "route_hash": "b00adcd0fdfdd44f07cb7293de04389924e499ff79a5d51d3dfbf39c7f5e1e39",
+    "required_roles": [
+      "logistician",
+      "carrier",
+      "customs"
+    ],
+    "attestations": [
+      {
+        "role": "logistician",
+        "version": 1,
+        "decision": "approved",
+        "status": "active",
+        "valid_until": "2026-11-14T08:00:00Z"
+      },
+      {
+        "role": "carrier",
+        "version": 1,
+        "decision": "approved",
+        "status": "active",
+        "valid_until": "2026-11-14T08:00:00Z"
+      }
+    ],
+    "network": "mock",
+    "contract_address": null,
+    "transaction_hash": null,
+    "explorer_url": null
+  },
+  "timeline": [
+    {
+      "id": "evt_seed",
+      "occurred_at": "2026-11-12T08:00:00Z",
+      "actor": "system",
+      "title": "Создан демонстрационный паспорт",
+      "passport_version": 1
+    }
+  ],
+  "sources": [
+    {
+      "id": "demo",
+      "name": "Воспроизводимый сценарий",
+      "url": null,
+      "quality": "synthetic",
+      "observed_at": null,
+      "note": "Расписание, очередь, прогноз, стоимость, вместимость и выбросы условные; это не live данные"
+    }
+  ],
+  "allowed_actions": [
+    "select_route",
+    "replace_document",
+    "attest",
+    "run_scenario"
+  ],
+  "pending_operation_id": null
+}

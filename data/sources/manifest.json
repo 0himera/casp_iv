@@ -1,0 +1,28 @@
+[
+  {
+    "file": "open-meteo-weather.json",
+    "url": "https://api.open-meteo.com/v1/forecast?latitude=46.35&longitude=48.04&hourly=wind_speed_10m,wind_gusts_10m,precipitation,visibility&forecast_days=1&timezone=UTC",
+    "fetched_at": "2026-11-12T08:30:36.902667+00:00",
+    "sha256": "fd98bac1fb4c5c0eab383edef3cf11617c9c6005b73921a5696c249781ce837a",
+    "quality": "forecast",
+    "grid_coordinates": {
+      "latitude": 46.365242,
+      "longitude": 48.028374
+    },
+    "hours": 24,
+    "attribution": "Open-Meteo and its weather/marine model providers; see API documentation"
+  },
+  {
+    "file": "open-meteo-marine.json",
+    "url": "https://marine-api.open-meteo.com/v1/marine?latitude=43&longitude=50&hourly=wave_height,wave_period&forecast_days=1&timezone=UTC",
+    "fetched_at": "2026-11-12T08:30:36.959802+00:00",
+    "sha256": "ec246de82d99e12ee2a382b9a6ee46412565a96212c88a267e563e15553e7cb0",
+    "quality": "forecast",
+    "grid_coordinates": {
+      "latitude": 43.041664,
+      "longitude": 49.958344
+    },
+    "hours": 24,
+    "attribution": "Open-Meteo and its weather/marine model providers; see API documentation"
+  }
+]
