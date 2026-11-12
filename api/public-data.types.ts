@@ -37,6 +37,21 @@ export type Coordinates = {
   longitude: number;
 };
 
+export type Corridor = {
+  id: string;
+  port_ids: Array<string>;
+  source_url: string;
+  evidence: string;
+  service_status?: "unverified";
+  scheduled_sailing_confirmed?: false;
+  capacity_confirmed?: false;
+};
+
+export type CorridorList = {
+  items: Array<Corridor>;
+  note?: string;
+};
+
 export type CreateDemoShipment = {
   template: "demo";
   title?: string;
@@ -375,6 +390,13 @@ export type Shipment = {
   sources: Array<Source>;
   allowed_actions: Array<"select_route" | "replace_document" | "attest" | "run_scenario">;
   pending_operation_id: string | null;
+};
+
+export type ShipmentComparison = {
+  shipment_id: string;
+  shipment_revision: number;
+  forecast: PredictionResponse;
+  note?: string;
 };
 
 export type ShipmentList = {

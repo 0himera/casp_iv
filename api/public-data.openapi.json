@@ -6,6 +6,88 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/v1/shipments/{shipment_id}/route-comparison": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Compare Routes",
+        "operationId": "compare_routes_api_v1_shipments__shipment_id__route_comparison_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShipmentComparison"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/shipments": {
       "get": {
         "tags": [
@@ -1130,6 +1212,64 @@
         }
       }
     },
+    "/api/v1/corridors": {
+      "get": {
+        "summary": "List Corridors",
+        "operationId": "list_corridors_api_v1_corridors_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorridorList"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/ports/{port_id}": {
       "get": {
         "summary": "Read Port",
@@ -1848,6 +1988,80 @@
           "longitude"
         ],
         "title": "Coordinates"
+      },
+      "Corridor": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "port_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Port Ids"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          },
+          "evidence": {
+            "type": "string",
+            "title": "Evidence"
+          },
+          "service_status": {
+            "type": "string",
+            "const": "unverified",
+            "title": "Service Status",
+            "default": "unverified"
+          },
+          "scheduled_sailing_confirmed": {
+            "type": "boolean",
+            "const": false,
+            "title": "Scheduled Sailing Confirmed",
+            "default": false
+          },
+          "capacity_confirmed": {
+            "type": "boolean",
+            "const": false,
+            "title": "Capacity Confirmed",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "port_ids",
+          "source_url",
+          "evidence"
+        ],
+        "title": "Corridor"
+      },
+      "CorridorList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Corridor"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "Published corridors are not evidence of current sailings or capacity."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CorridorList"
       },
       "CreateDemoShipment": {
         "properties": {
@@ -3897,6 +4111,33 @@
           "pending_operation_id"
         ],
         "title": "Shipment"
+      },
+      "ShipmentComparison": {
+        "properties": {
+          "shipment_id": {
+            "type": "string",
+            "title": "Shipment Id"
+          },
+          "shipment_revision": {
+            "type": "integer",
+            "title": "Shipment Revision"
+          },
+          "forecast": {
+            "$ref": "#/components/schemas/PredictionResponse"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "User-supplied scenario; not saved, booked or validated against actual sailings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "shipment_id",
+          "shipment_revision",
+          "forecast"
+        ],
+        "title": "ShipmentComparison"
       },
       "ShipmentList": {
         "properties": {

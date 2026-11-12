@@ -4,8 +4,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, Request
 from fastapi.responses import Response
+from pydantic import BaseModel
 
 from .casper import Casper
+from .prediction import PredictionRequest, PredictionResponse, predict
 from .shipment_dto import Shipment, ShipmentList
 from .transit import Transit, fail
 from .transit_models import (
@@ -18,6 +20,26 @@ from .transit_models import (
 )
 
 router = APIRouter(prefix="/api/v1", tags=["shipments"])
+
+
+class ShipmentComparison(BaseModel):
+    shipment_id: str
+    shipment_revision: int
+    forecast: PredictionResponse
+    note: str = "User-supplied scenario; not saved, booked or validated against actual sailings"
+
+
+@router.post("/shipments/{shipment_id}/route-comparison", response_model=ShipmentComparison)
+def compare_routes(shipment_id: str, body: PredictionRequest, request: Request):
+    shipment = Transit(request.app.state.transit).read(shipment_id)
+    known = {route["id"] for route in shipment["routes"]}
+    if not {route.id for route in body.routes} <= known:
+        fail(422, "ROUTE_NOT_IN_SHIPMENT", "Маршрут отсутствует в карточке отправки")
+    return ShipmentComparison(
+        shipment_id=shipment_id,
+        shipment_revision=shipment["revision"],
+        forecast=predict(body),
+    )
 
 
 def service(request: Request):

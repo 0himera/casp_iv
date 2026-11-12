@@ -14,6 +14,7 @@ from starlette.exceptions import HTTPException
 from .cache import SnapshotCache
 from .catalog import load_catalog
 from .config import Settings
+from .corridors import CORRIDORS, CorridorList
 from .dwell import DwellPredictor
 from .dwell_contract import DwellModelStatus, DwellRequest, DwellResponse
 from .models import (
@@ -79,9 +80,7 @@ def create_app(
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request, exc):
-        return error(
-            422, "VALIDATION_ERROR", "Проверьте параметры и тело запроса"
-        )
+        return error(422, "VALIDATION_ERROR", "Проверьте параметры и тело запроса")
 
     @app.exception_handler(HTTPException)
     async def http_error(request, exc):
@@ -118,6 +117,10 @@ def create_app(
     @app.get("/api/v1/ports", response_model=PortList)
     async def list_ports():
         return catalog
+
+    @app.get("/api/v1/corridors", response_model=CorridorList)
+    async def list_corridors():
+        return CORRIDORS
 
     @app.get("/api/v1/ports/{port_id}", response_model=Port)
     async def read_port(port_id: str):

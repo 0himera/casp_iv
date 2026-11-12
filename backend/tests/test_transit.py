@@ -449,3 +449,58 @@ def test_route_revision_uses_same_document_commitment(rig):
     assert updated["passport"]["version"] == 2
     assert updated["passport"]["documents_hash"] == snapshot["passport"]["documents_hash"]
     assert updated["passport"]["route_hash"] != snapshot["passport"]["route_hash"]
+
+
+def test_shipment_scenario_comparison_is_read_only_and_checks_route_ids(rig):
+    client, svc, worker, _, _ = rig
+    shipment_id = create(rig)
+    shipment = client.get(f"/api/v1/shipments/{shipment_id}").json()
+    duration = {"minimum_hours": 1, "typical_hours": 1, "maximum_hours": 1}
+    route_id = shipment["routes"][0]["id"]
+    body = {
+        "start_at": "2026-11-12T00:00:00Z",
+        "samples": 100,
+        "routes": [
+            {
+                "id": route_id,
+                "land_travel": duration,
+                "terminal_processing": duration,
+                "documents_ready": duration,
+                "weather_hold": duration,
+                "loading_buffer_hours": 0,
+                "sea_travel": duration,
+                "destination_processing": duration,
+                "sailings": [
+                    {
+                        "id": "scenario",
+                        "cutoff_at": "2026-11-12T09:00:00Z",
+                        "departure_at": "2026-11-12T10:00:00Z",
+                        "capacity_confirmed": None,
+                    }
+                ],
+            }
+        ],
+    }
+    response = client.post(f"/api/v1/shipments/{shipment_id}/route-comparison", json=body)
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result["shipment_revision"] == shipment["revision"]
+    assert result["forecast"]["routes"][0]["delivery_eta"] is None
+    assert client.get(f"/api/v1/shipments/{shipment_id}").json() == shipment
+    body["routes"][0]["id"] = "unknown"
+    assert (
+        client.post(f"/api/v1/shipments/{shipment_id}/route-comparison", json=body).status_code
+        == 422
+    )
+
+
+def test_corridors_are_sourced_and_do_not_claim_available_sailings(rig):
+    client, *_ = rig
+    corridors = client.get("/api/v1/corridors").json()["items"]
+    port_ids = {p["id"] for p in client.get("/api/v1/ports").json()["items"]}
+    assert len(corridors) == 3
+    for corridor in corridors:
+        assert set(corridor["port_ids"]) <= port_ids
+        assert corridor["source_url"].startswith("https://")
+        assert not corridor["scheduled_sailing_confirmed"]
+        assert not corridor["capacity_confirmed"]

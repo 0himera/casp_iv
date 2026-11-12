@@ -127,13 +127,13 @@
       "name_ru": "Курык",
       "country_iso3": "KAZ",
       "region": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 43.26666667,
+      "longitude": 51.75,
       "portwatch_id": null,
-      "coordinate_source": null,
+      "coordinate_source": "https://portkuryk.kz/ru/port/tarihy",
       "operator_source": "https://portkuryk.kz/ru/dispoziciya-sudov",
       "coverage": {
-        "weather": "not_probed",
+        "weather": "operator_coordinates_not_probed",
         "port_activity": "operator_html_verified",
         "live_ais": "unverified"
       }
