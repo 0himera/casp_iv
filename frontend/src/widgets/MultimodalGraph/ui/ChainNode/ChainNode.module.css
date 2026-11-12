@@ -1,0 +1,45 @@
+.node {
+  width: 205px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ok {
+  border-color: color-mix(in oklch, var(--status-success) 45%, var(--border));
+}
+
+.warning {
+  border-color: var(--status-warning);
+  background-color: color-mix(in oklch, var(--status-warning) 10%, var(--card));
+}
+
+.critical {
+  border-color: var(--status-danger);
+  background-color: color-mix(in oklch, var(--status-danger) 14%, var(--card));
+}
+
+.topRow,
+.titleWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.icon { width: 13px; height: 13px; color: var(--primary); flex-shrink: 0; }
+.label { font-size: 11px; font-weight: 700; color: var(--foreground); }
+.location { font-size: 11px; color: var(--foreground); }
+.eta { font-size: 10px; color: var(--muted-foreground); }
+
+.handle {
+  width: 7px;
+  height: 7px;
+  background-color: var(--primary);
+  border-color: var(--card);
+}
+

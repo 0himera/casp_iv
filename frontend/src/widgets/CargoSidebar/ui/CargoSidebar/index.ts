@@ -1,0 +1,2 @@
+export { CargoSidebar } from './CargoSidebar';
+

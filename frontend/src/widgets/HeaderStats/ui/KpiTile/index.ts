@@ -1,0 +1,2 @@
+export { KpiTile } from './KpiTile';
+
