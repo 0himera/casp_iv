@@ -1,11 +1,13 @@
 'use client';
 
 import { ExternalLink, ShieldCheck } from 'lucide-react';
-import { getPassportStatusLabel, getRoleLabel } from '@/entities/shipment';
+import { getPassportStatusLabel } from '@/entities/shipment';
 import type { Role, Shipment } from '@/shared/api/caspian';
-import { Badge, Button, PixelMarker, Separator, ViewfinderFrame } from '@/shared/ui';
+import { Badge, PixelMarker, Separator, ViewfinderFrame } from '@/shared/ui';
 import { AttestationRow } from '../AttestationRow';
 import { DocumentList } from '../DocumentList';
+import { PassportActions } from '../PassportActions';
+import { PassportHashes } from '../PassportHashes';
 import styles from './PassportPanel.module.css';
 
 interface PassportPanelProps {
@@ -13,10 +15,18 @@ interface PassportPanelProps {
   role: Role;
   isBusy: boolean;
   onAttest: (decision: 'approved' | 'rejected') => void;
+  onVerifyEcmr?: () => void;
   onReplaceDocument: (docId: string, filename: string, contentBase64: string) => void;
 }
 
-export function PassportPanel({ shipment, role, isBusy, onAttest, onReplaceDocument }: PassportPanelProps) {
+export function PassportPanel({
+  shipment,
+  role,
+  isBusy,
+  onAttest,
+  onVerifyEcmr,
+  onReplaceDocument,
+}: PassportPanelProps) {
   const { passport, documents, allowed_actions } = shipment;
   const canAttest = allowed_actions.includes('attest') && !isBusy;
   const canReplace = allowed_actions.includes('replace_document') && !isBusy;
@@ -39,16 +49,11 @@ export function PassportPanel({ shipment, role, isBusy, onAttest, onReplaceDocum
         {passport.explorer_url && <a href={passport.explorer_url} target="_blank" rel="noreferrer" className={styles.link}>Explorer <ExternalLink className={styles.miniIcon} /></a>}
       </div>
       <div className={styles.content}>
-        <div className={styles.hashes}><span>Docs: {passport.documents_hash.slice(0, 10)}…</span><span>Route: {passport.route_hash.slice(0, 10)}…</span></div>
+        <PassportHashes passport={passport} documents={documents} />
         <div className={styles.rows}>
           {passport.required_roles.map((r) => <AttestationRow key={r} role={r} currentRole={role} version={passport.version} attestations={passport.attestations} />)}
         </div>
-        <div className={styles.actions}>
-          <Button type="button" size="sm" disabled={!canAttest} onClick={() => onAttest('approved')} className={styles.actionBtn}>
-            Подтвердить ({getRoleLabel(role)})
-          </Button>
-          <Button type="button" size="sm" variant="outline" disabled={!canAttest} onClick={() => onAttest('rejected')}>Отклонить</Button>
-        </div>
+        <PassportActions passport={passport} role={role} canAttest={canAttest} isBusy={isBusy} onAttest={onAttest} onVerifyEcmr={onVerifyEcmr} />
         <Separator />
         <DocumentList documents={documents} canReplace={canReplace} isBusy={isBusy} onReplaceDocument={onReplaceDocument} />
       </div>

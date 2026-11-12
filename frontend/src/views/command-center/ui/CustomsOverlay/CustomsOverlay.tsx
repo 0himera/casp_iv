@@ -10,6 +10,7 @@ interface CustomsOverlayProps {
   isBusy: boolean;
   isOpen: boolean;
   onAttest: (decision: 'approved' | 'rejected') => void;
+  onVerifyEcmr?: () => void;
   onReplaceDocument: (docId: string, filename: string, contentBase64: string) => void;
 }
 
@@ -19,6 +20,7 @@ export function CustomsOverlay({
   isBusy,
   isOpen,
   onAttest,
+  onVerifyEcmr,
   onReplaceDocument,
 }: CustomsOverlayProps) {
   if (!isOpen) return null;
@@ -30,6 +32,7 @@ export function CustomsOverlay({
         role={role}
         isBusy={isBusy}
         onAttest={onAttest}
+        onVerifyEcmr={onVerifyEcmr}
         onReplaceDocument={onReplaceDocument}
       />
     </div>
