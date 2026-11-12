@@ -3,7 +3,7 @@
   height: 100%;
   background-color: var(--surface-low);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 12px;
 }
 
 .content,

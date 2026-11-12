@@ -1,6 +1,6 @@
 .errorBox {
   padding: 5px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 11px;
   color: var(--status-danger);
   background-color: color-mix(in srgb, var(--status-danger) 12%, transparent);
@@ -11,7 +11,7 @@
   align-items: center;
   gap: 6px;
   padding: 5px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 11px;
   color: var(--primary);
   background-color: color-mix(in srgb, var(--primary) 12%, transparent);
