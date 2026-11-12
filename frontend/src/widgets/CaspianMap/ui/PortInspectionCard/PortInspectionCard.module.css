@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #181B25;
+  background-color: var(--surface-default);
 }
 .header, .titleWrap {
   display: flex;

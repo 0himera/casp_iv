@@ -22,7 +22,7 @@ export function DockPassportTab({ shipment, role, isBusy, onAttest }: DockPasspo
       <div className={styles.card}>
         <div className={styles.rowBetween}>
           <span className={styles.title}><ShieldCheck className={styles.icon} /> Паспорт V{passport.version}</span>
-          <Badge variant={passport.status === 'ready' ? 'success' : 'warning'}>{passport.status.toUpperCase()}</Badge>
+          <Badge variant={passport.status === 'ready' ? 'success' : 'secondary'}>{passport.status.toUpperCase()}</Badge>
         </div>
         <span className={styles.meta}>DOC: {passport.documents_hash.slice(0, 14)}…</span>
         <span className={styles.meta}>RTE: {passport.route_hash.slice(0, 14)}…</span>
@@ -39,8 +39,9 @@ export function DockPassportTab({ shipment, role, isBusy, onAttest }: DockPasspo
         );
       })}
       {onAttest && (
-        <Button type="button" size="sm" disabled={!canAttest || isBusy} onClick={() => onAttest('approved')}>
-          Подписать ({role ? ROLE_NAMES[role] : 'роль'})
+        <Button type="button" size="sm" variant="default" disabled={!canAttest || isBusy} onClick={() => onAttest('approved')}>
+          <CheckCircle2 className={styles.icon} />
+          <span>Подписать смарт-контракт · {role ? ROLE_NAMES[role] : 'Сеть'}</span>
         </Button>
       )}
       {passport.explorer_url && (

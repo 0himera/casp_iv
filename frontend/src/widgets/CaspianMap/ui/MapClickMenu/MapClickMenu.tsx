@@ -36,7 +36,7 @@ export function MapClickMenu({ point, ports, shipment, role, onInspectPort, onSe
       <div className={styles.sectionTitle}>ВЫБОР МАРШРУТА</div>
       {!canSelect && onChangeRole && role !== 'logistician' && (
         <button type="button" className={styles.roleBtn} onClick={() => onChangeRole('logistician')}>
-          <Lock className={styles.icon} /> Переключить на «Логист»
+          <Lock className={styles.icon} /> Активировать роль: Логист
         </button>
       )}
       <div className={styles.routeList}>

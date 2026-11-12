@@ -1,9 +1,9 @@
 .wrap { display: flex; flex-direction: column; gap: 10px; height: 100%; }
 .tabsRow { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-.tabs { display: flex; gap: 3px; padding: 3px; border-radius: 5px; background: var(--surface-default); border: 1px solid var(--border); }
+.tabs { display: flex; gap: 3px; padding: 3px; border-radius: 8px; background: var(--surface-default); border: 1px solid var(--border); }
 
 .tabBtn {
-  display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; border-radius: 4px; border: none;
+  display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; border-radius: 6px; border: none;
   background: transparent; cursor: pointer; font-size: 11px; font-weight: 500; color: var(--muted-foreground);
 }
 .activeTab { background: var(--card-elevated); color: var(--foreground); }
@@ -13,16 +13,16 @@
 
 .stageBar {
   display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 6px 8px;
-  border-radius: 4px; background: var(--surface-default); border: 1px solid var(--border);
+  border-radius: 6px; background: var(--surface-default); border: 1px solid var(--border);
   font-family: var(--font-mono); font-size: 10px; color: var(--cyan);
 }
 .roleHint {
   display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 6px 8px;
-  border-radius: 4px; background: rgba(217, 138, 60, 0.1); border: 1px solid rgba(217, 138, 60, 0.3); font-size: 10px; color: #E2A96F;
+  border-radius: var(--radius-sm); background: color-mix(in srgb, var(--status-warning) 10%, transparent); border: 1px solid color-mix(in srgb, var(--status-warning) 30%, transparent); font-size: 10px; color: var(--status-warning);
 }
 
-.card { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-low); }
-.cardActive { border-color: var(--primary); background: rgba(217, 78, 52, 0.08); }
+.card { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-low); }
+.cardActive { border-color: var(--border-strong); background: var(--card-elevated); }
 .rowBetween { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
 .title { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--foreground); }
 .meta { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
@@ -31,6 +31,6 @@
 .warn { font-size: 10px; color: var(--status-danger); }
 .link { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; color: var(--cyan); text-decoration: none; }
 .link:hover { text-decoration: underline; }
-.portRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 11px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-low); color: var(--foreground); text-align: left; cursor: pointer; }
+.portRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border); background: var(--surface-low); color: var(--foreground); text-align: left; cursor: pointer; }
 .portRow:hover { border-color: var(--cyan); }
 .icon { width: 13px; height: 13px; flex-shrink: 0; }

@@ -28,7 +28,7 @@ export function DockRoutesList({ shipment, role, onSelectRoute, onHoverRoute, on
       {!canSelect && onChangeRole && role !== 'logistician' && (
         <div className={styles.roleHint}>
           <span><Lock className={styles.icon} /> Выбор маршрута доступен роли «Логист»</span>
-          <Button type="button" size="sm" variant="outline" onClick={() => onChangeRole('logistician')}>Переключить</Button>
+          <Button type="button" size="sm" variant="outline" onClick={() => onChangeRole('logistician')}>Стать Логистом</Button>
         </div>
       )}
       {shipment.routes.map((r) => {

@@ -35,7 +35,7 @@ export function StormInspectionCard({
       </div>
       {altRoute && (
         <Button type="button" size="sm" onClick={() => onSelectRoute?.(altRoute.id)} className={styles.rerouteBtn}>
-          Объехать через {altRoute.name} <ArrowRight className={styles.arrow} />
+          Следовать в обход через {altRoute.name} <ArrowRight className={styles.arrow} />
         </Button>
       )}
     </ViewfinderFrame>
