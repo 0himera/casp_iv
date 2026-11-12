@@ -31,10 +31,10 @@ export function buildFlowElements(items: MultimodalNodeData[]): {
       source: item.id,
       target: next.id,
       type: 'default',
-      animated: hasRisk,
+      animated: true,
       style: {
         stroke: hasRisk ? 'var(--status-danger)' : 'var(--accent-lavender)',
-        strokeWidth: 1.5,
+        strokeWidth: 1.6,
       },
     };
   });
