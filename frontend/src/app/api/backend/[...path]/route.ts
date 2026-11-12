@@ -15,9 +15,9 @@ async function proxy(request: Request, context: { params: Promise<{ path: string
   if (token) headers.set('Authorization', `Bearer ${token}`);
   else if (authorization?.startsWith('Bearer ')) headers.set('Authorization', authorization);
   const contentType = request.headers.get('content-type');
-  const idempotency = request.headers.get('idempotency-key');
+  const idempotency = request.headers.get('idempotency-key') ?? crypto.randomUUID();
   if (contentType) headers.set('Content-Type', contentType);
-  if (idempotency) headers.set('Idempotency-Key', idempotency);
+  headers.set('Idempotency-Key', idempotency);
   try {
     const response = await fetch(url, {
       method: request.method, headers, cache: 'no-store',

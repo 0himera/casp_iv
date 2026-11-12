@@ -8,6 +8,44 @@
 .archivalWrap { position: relative; height: 580px; width: 100%; background-color: var(--map-background); overflow: hidden; }
 .archivalImg { width: 100%; height: 100%; object-fit: cover; object-position: bottom center; opacity: 0.92; }
 
+.frame :global(.maplibregl-ctrl-group) {
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-default);
+  box-shadow: none;
+}
+.frame :global(.maplibregl-ctrl-group button) {
+  background-color: var(--surface-default);
+}
+.frame :global(.maplibregl-ctrl-group button + button) {
+  border-top: 1px solid var(--border);
+}
+.frame :global(.maplibregl-ctrl-group button:not(:disabled):hover),
+.frame :global(.maplibregl-ctrl-group button:not(:disabled):active) {
+  background-color: var(--surface-raised);
+}
+.frame :global(.maplibregl-ctrl-group button:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: -3px;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon),
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon) {
+  display: grid;
+  place-items: center;
+  background-image: none !important;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon)::before,
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon)::before {
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+.frame :global(.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon)::before { content: "+"; }
+.frame :global(.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon)::before { content: "−"; }
+
 .dock {
   height: 580px; padding: 12px; border-left: 1px solid var(--border);
   background-color: var(--surface-low); overflow-y: auto;

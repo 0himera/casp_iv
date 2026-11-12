@@ -23,18 +23,31 @@ export function buildCommandHandlers({
     },
     selectRoute: (routeId: string) => {
       setErrorBanner(null);
-      if (realCard) runRemote(() => client.selectRoute(id, { route_id: routeId, forecast_id: shipment.forecast.id, expected_revision: shipment.revision }, crypto.randomUUID()));
-      else updateLocal(applyRouteSwitchTransition(shipment, routeId));
+      updateLocal(applyRouteSwitchTransition(shipment, routeId));
+      const isBackendRoute = routeId === 'route_astra' || routeId === 'route_makh';
+      if (realCard && isBackendRoute) {
+        runRemote(() =>
+          client.selectRoute(
+            id,
+            {
+              route_id: routeId,
+              forecast_id: shipment.forecast.id,
+              expected_revision: shipment.revision,
+            },
+            crypto.randomUUID()
+          )
+        );
+      }
     },
     attest: (decision: 'approved' | 'rejected') => {
       setErrorBanner(null);
+      updateLocal(applyAttestationTransition(shipment, decision, role, false));
       if (realCard) runRemote(() => client.attest(id, { decision, expected_revision: shipment.revision }, crypto.randomUUID()));
-      else updateLocal(applyAttestationTransition(shipment, decision, role, false));
     },
     verifyEcmr: () => {
       setErrorBanner(null);
+      updateLocal(applyAttestationTransition(shipment, 'approved', 'customs', true));
       if (realCard) runRemote(() => client.attest(id, { decision: 'approved', expected_revision: shipment.revision }, crypto.randomUUID()));
-      else updateLocal(applyAttestationTransition(shipment, 'approved', 'customs', true));
     },
   };
 }
