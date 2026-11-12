@@ -1,22 +1,21 @@
+@keyframes scanSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(400%); } }
+@keyframes arcDash { to { stroke-dashoffset: -24; } }
+@keyframes pinPulse { 0% { transform: scale(1); opacity: 0.75; } 100% { transform: scale(2.8); opacity: 0; } }
+
 .wrap { position: relative; height: 100%; width: 100%; background: #0A0E17; overflow: hidden; }
-.img { width: 100%; height: 100%; object-fit: cover; object-position: center 88%; filter: contrast(1.05); }
-.overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 14, 23, 0.72) 0%, rgba(10, 14, 23, 0.08) 38%, rgba(10, 14, 23, 0.78) 100%); pointer-events: none; }
+.img { width: 100%; height: 100%; object-fit: cover; object-position: center 96%; transform: scale(1.12); filter: contrast(1.06); }
+.scanLine { position: absolute; inset: 0; width: 25%; background: linear-gradient(90deg, transparent, rgba(126, 178, 204, 0.14), transparent); animation: scanSweep 5.5s linear infinite; pointer-events: none; z-index: 2; }
+.svgOverlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+.vectorArc { fill: none; stroke: #D94E34; stroke-width: 0.45; stroke-dasharray: 2 1.5; opacity: 0.9; animation: arcDash 1.8s linear infinite; }
 
-.bottomBar {
-  position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 2;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
-}
+.pinBtn { position: absolute; z-index: 4; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 5px; background: transparent; border: none; cursor: pointer; padding: 4px; }
+.pinDot { position: relative; width: 10px; height: 10px; border-radius: 9999px; background: #7EB2CC; border: 1.5px solid #080C14; }
+.pinActive .pinDot { background: #D94E34; transform: scale(1.25); }
+.pinActive .pinDot::after { content: ''; position: absolute; inset: -4px; border-radius: 9999px; border: 1.5px solid #D94E34; animation: pinPulse 1.8s ease-out infinite; }
+.pinLabel { padding: 2px 6px; border-radius: 3px; background: rgba(10, 14, 23, 0.9); border: 1px solid rgba(255, 255, 255, 0.18); font-family: var(--font-mono); font-size: 10px; color: #F5F5F7; white-space: nowrap; }
+.pinActive .pinLabel { border-color: #D94E34; color: #FFFFFF; }
 
-.caption {
-  padding: 5px 9px; border-radius: 4px; background: rgba(15, 19, 28, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.14); font-family: var(--font-mono); font-size: 10px; color: #CBD5E1;
-}
-
-.portBar { display: flex; flex-wrap: wrap; gap: 4px; }
-.portChip {
-  display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; cursor: pointer;
-  background: rgba(15, 19, 28, 0.9); border: 1px solid rgba(255, 255, 255, 0.16);
-  font-family: var(--font-mono); font-size: 10px; color: #E2E8F0;
-}
-.portChip:hover { border-color: var(--cyan); }
-.icon { width: 11px; height: 11px; color: var(--cyan); }
+.callout { position: absolute; z-index: 5; padding: 7px 10px; border-radius: 4px; background: rgba(15, 19, 28, 0.95); border: 1px solid #D94E34; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65); pointer-events: none; }
+.calloutHead { font-size: 11px; font-weight: 600; color: #F5F5F7; }
+.calloutMeta { font-family: var(--font-mono); font-size: 10px; color: var(--cyan); }
+.caption { position: absolute; left: 14px; top: 14px; z-index: 5; padding: 5px 9px; border-radius: 4px; background: rgba(15, 19, 28, 0.88); border: 1px solid rgba(255, 255, 255, 0.14); font-family: var(--font-mono); font-size: 10px; color: #CBD5E1; }
