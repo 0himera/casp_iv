@@ -8,9 +8,9 @@ interface LivePingProps {
 }
 
 const COLORS = {
-  cyan: 'bg-[#7EB2CC]',
-  red: 'bg-[#D94E34]',
-  emerald: 'bg-[#4E9F76]',
+  cyan: 'bg-[#5CE1E6]',
+  red: 'bg-[#FFB800]',
+  emerald: 'bg-[#4ADE80]',
 };
 
 export function LivePing({ tone = 'emerald', className }: LivePingProps) {

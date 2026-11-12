@@ -31,9 +31,11 @@ html,
 body {
   background-color: var(--background);
   background-image:
+    radial-gradient(ellipse 90% 65% at 50% -10%, rgba(225, 29, 72, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 85% 75%, rgba(190, 18, 60, 0.16) 0%, transparent 65%),
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;

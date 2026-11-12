@@ -18,8 +18,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(80% 70% at 50% 35%, rgba(18, 34, 58, 0.32), rgba(10, 14, 23, 0.88) 78%),
-    linear-gradient(180deg, rgba(10, 14, 23, 0.52) 0%, #0A0E17 95%);
+    radial-gradient(80% 70% at 50% 35%, rgba(225, 29, 72, 0.28), rgba(23, 2, 5, 0.88) 78%),
+    linear-gradient(180deg, rgba(23, 2, 5, 0.45) 0%, var(--background) 95%);
 }
 
 .content {
