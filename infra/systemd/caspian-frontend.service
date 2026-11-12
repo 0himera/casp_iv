@@ -1,0 +1,16 @@
+[Unit]
+Description=caspian-frontend
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/himera/projects/casp_iv_frontend_live/frontend
+Environment=PATH=/home/himera/.cargo/bin:/home/himera/.local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start --port 3100
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

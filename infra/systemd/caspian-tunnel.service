@@ -1,0 +1,13 @@
+[Unit]
+Description=Caspian frontend and backend reverse tunnel
+After=network-online.target caspian-backend.service caspian-frontend.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh -NT -F /dev/null -i /home/himera/.ssh/caspian-preview-tunnel -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ConnectTimeout=10 -p 9344 -R 127.0.0.1:18080:127.0.0.1:8000 -R 127.0.0.1:18082:127.0.0.1:3100 root@150.251.112.240
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

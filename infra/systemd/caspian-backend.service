@@ -1,0 +1,16 @@
+[Unit]
+Description=caspian-backend
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/himera/projects/casp_iv/backend
+Environment=PATH=/home/himera/.cargo/bin:/home/himera/.local/bin:/usr/bin:/bin
+ExecStart=/home/himera/.local/bin/uv run --no-sync --group ml --env-file ../contracts/.local/backend.env uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target
