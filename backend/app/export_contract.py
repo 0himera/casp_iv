@@ -17,6 +17,8 @@ def typescript(schema: dict) -> str:
         return " | ".join(json.dumps(value, ensure_ascii=False) for value in schema["enum"])
     kind = schema.get("type")
     if kind == "object":
+        if not schema.get("properties") and isinstance(schema.get("additionalProperties"), dict):
+            return f"Record<string, {typescript(schema['additionalProperties'])}>"
         fields = []
         for name, child in schema.get("properties", {}).items():
             optional = "" if name in schema.get("required", []) else "?"

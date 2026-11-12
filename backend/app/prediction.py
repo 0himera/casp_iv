@@ -60,7 +60,7 @@ class RouteScenario(Model):
 
 class PredictionRequest(Model):
     start_at: AwareDatetime
-    routes: list[RouteScenario] = Field(min_length=1, max_length=5)
+    routes: list[RouteScenario] = Field(min_length=1, max_length=20)
     samples: int = Field(default=2000, ge=100, le=10000)
     seed: int = Field(default=42, ge=0, le=2**32 - 1)
 

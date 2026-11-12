@@ -94,7 +94,8 @@ def test_catalog_covers_five_countries_and_never_invents_coordinates(rig):
     makh = client.get("/api/v1/ports/makhachkala").json()
     assert makh["region"] == "Дагестан"
     kuryk = client.get("/api/v1/ports/kuryk").json()
-    assert kuryk["coordinates"] is None and not kuryk["weather_available"]
+    assert kuryk["coordinates"] == {"latitude": 43.26666667, "longitude": 51.75}
+    assert kuryk["weather_available"]
     assert client.get("/api/v1/health").json()["mode"] == "public_data"
     assert calls == []
 
@@ -152,7 +153,7 @@ def test_no_snapshot_is_503_and_cooldown_is_advertised(rig):
     "path,code",
     [
         ("/ports/unknown", "PORT_NOT_FOUND"),
-        ("/ports/kuryk/weather", "COORDINATES_UNVERIFIED"),
+        ("/ports/olya/weather", "COORDINATES_UNVERIFIED"),
         ("/ports/kuryk/activity", "SOURCE_NOT_COVERED"),
         ("/ports/makhachkala/activity?days=1000", "VALIDATION_ERROR"),
         ("/ports/makhachkala/activity?days=0", "VALIDATION_ERROR"),

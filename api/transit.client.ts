@@ -1,6 +1,7 @@
 import type {
   Attest, CreateDemoShipment, Operation, ReplaceDocument, RevisionInput,
-  SelectRoute, Shipment, ShipmentList,
+  SelectRoute, Shipment, ShipmentList, PredictionRequest, ShipmentComparison,
+  UpdateForecast, EmissionsRequest, EmissionsComparison, AddRouteCandidate,
 } from './public-data.types';
 
 export class TransitError extends Error {
@@ -33,6 +34,14 @@ export function createTransitClient(baseUrl = 'http://localhost:8000/api/v1', to
     shipments: (signal?: AbortSignal) => request<ShipmentList>('/shipments', undefined, undefined, signal),
     shipment: (id: string, signal?: AbortSignal) =>
       request<Shipment>(shipment(id), undefined, undefined, signal),
+    compareRoutes: (id: string, body: PredictionRequest, signal?: AbortSignal) =>
+      request<ShipmentComparison>(`${shipment(id)}/route-comparison`, body, undefined, signal),
+    updateForecast: (id: string, body: UpdateForecast, key: string) =>
+      request<Shipment>(`${shipment(id)}/forecast`, body, key),
+    addRouteCandidate: (id: string, body: AddRouteCandidate, key: string) =>
+      request<Shipment>(`${shipment(id)}/route-candidates`, body, key),
+    compareEmissions: (id: string, body: EmissionsRequest, signal?: AbortSignal) =>
+      request<EmissionsComparison>(`${shipment(id)}/emissions-comparison`, body, undefined, signal),
     operation: (id: string, signal?: AbortSignal) =>
       request<Operation>(`/operations/${encodeURIComponent(id)}`, undefined, undefined, signal),
     create: (body: CreateDemoShipment, key: string) => request<Operation>('/shipments', body, key),
