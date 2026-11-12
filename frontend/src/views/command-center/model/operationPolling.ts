@@ -18,9 +18,8 @@ export function useOperationPolling(
 
   const startTracking = useCallback((op: Operation) => {
     startedAtRef.current = Date.now();
-    setTimedOut(false); setPollError(null);
-    missingIdRef.current = null; setOperation(op);
-    sessionStorage.setItem(STORAGE_KEY, op.id);
+    setTimedOut(false); setPollError(null); missingIdRef.current = null;
+    setOperation(op); sessionStorage.setItem(STORAGE_KEY, op.id);
   }, []);
 
   const pollOnce = useCallback(async (opId: string) => {
