@@ -6,6 +6,7 @@
 
 | Файл | Назначение |
 | --- | --- |
+| [data/validation/2026-11-12/report.md](data/validation/2026-11-12/report.md) | Реальные архивные данные: проверка погодного входа и доступности меток задержек |
 | [docs/TRANSIT_API.md](docs/TRANSIT_API.md) | Текущий backend: worker, API отправок и задача интеграции Next.js |
 | [api/transit.client.ts](api/transit.client.ts) | TypeScript-клиент постоянных отправок и Casper операций |
 | [contracts/README.md](contracts/README.md) | TransitPassport на Rust/Odra: WASM, 11 тестов и проверенное развёртывание в Casper testnet |

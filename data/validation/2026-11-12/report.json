@@ -1,0 +1,207 @@
+{
+  "generated_at": "2026-11-12T11:05:06.912141+00:00",
+  "period": {
+    "start": "2026-10-07",
+    "end": "2026-11-05"
+  },
+  "logistics_model": {
+    "method": "monte_carlo_readiness_v1",
+    "status": "not_validated_on_real_shipments",
+    "eligible_backtest_cases": 0,
+    "eta_mae_hours": null,
+    "cutoff_brier_score": null,
+    "missing_fields": [
+      "shipment_id",
+      "prediction_issued_at",
+      "input_available_at",
+      "cargo_cutoff_at_with_timezone",
+      "actual_cargo_ready_at_with_timezone",
+      "actual_cargo_arrival_at_with_timezone",
+      "confirmed_cargo_capacity"
+    ],
+    "reason": "Public operator snapshots contain vessel states and expected times, not paired cargo forecasts and observed outcomes"
+  },
+  "weather_input_comparison": {
+    "status": "evaluated",
+    "units": "m/s",
+    "forecast": "Open-Meteo ECMWF IFS 0.25 degrees, previous_day1 (24h lead)",
+    "reference": "Open-Meteo ERA5 reanalysis, not instrument observations",
+    "is_logistics_model_accuracy": false,
+    "is_independent_station_validation": false,
+    "aggregate": {
+      "pairs": 5760,
+      "missing_pairs": 0,
+      "mae_ms": 0.9539409722222222,
+      "rmse_ms": 1.2447786645067112,
+      "bias_ms": -0.061982638888888886
+    },
+    "ports": {
+      "aktau": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 1.3317916666666667,
+        "rmse_ms": 1.577422519667941,
+        "bias_ms": -1.0735416666666668,
+        "expected_hours": 720
+      },
+      "amirabad": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 0.7354166666666667,
+        "rmse_ms": 0.924710314999604,
+        "bias_ms": 0.009222222222222215,
+        "expected_hours": 720
+      },
+      "anzali": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 0.8418611111111111,
+        "rmse_ms": 1.1168841827950549,
+        "bias_ms": 0.06041666666666667,
+        "expected_hours": 720
+      },
+      "astrakhan": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 0.427625,
+        "rmse_ms": 0.5778192960510136,
+        "bias_ms": 0.10695833333333334,
+        "expected_hours": 720
+      },
+      "baku": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 1.3253333333333333,
+        "rmse_ms": 1.5448193889398347,
+        "bias_ms": -0.3175277777777778,
+        "expected_hours": 720
+      },
+      "makhachkala": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 0.7295972222222223,
+        "rmse_ms": 0.9218443921472502,
+        "bias_ms": 0.24818055555555554,
+        "expected_hours": 720
+      },
+      "nowshahr": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 1.2762499999999999,
+        "rmse_ms": 1.6144918361171385,
+        "bias_ms": 0.870361111111111,
+        "expected_hours": 720
+      },
+      "turkmenbashi": {
+        "pairs": 720,
+        "missing_pairs": 0,
+        "mae_ms": 0.9636527777777778,
+        "rmse_ms": 1.276043527209528,
+        "bias_ms": -0.39993055555555557,
+        "expected_hours": 720
+      }
+    },
+    "limitations": [
+      "The selected fixed weather model does not evaluate every live best_match model",
+      "ERA5 and IFS are related weather model products, not independent ground truth",
+      "Coastal port measurements and sea-state/operating limits are not validated",
+      "Port-hour samples are correlated; no independent-sample confidence claim",
+      "No threshold or conversion from wind to cargo delay has been calibrated"
+    ],
+    "requested_ports": [
+      "amirabad",
+      "nowshahr",
+      "astrakhan",
+      "aktau",
+      "turkmenbashi",
+      "anzali",
+      "makhachkala",
+      "baku"
+    ]
+  },
+  "operators": {
+    "sources": [
+      {
+        "source_id": "asco",
+        "source_url": "https://cabinet.asco.az/passenger-ticket",
+        "fetched_at": "2026-11-12T11:03:56.435198+00:00",
+        "reported_at_local": "2026-11-12T15:03:00",
+        "reported_date": "2026-11-12",
+        "records": 6,
+        "categories": {
+          "underway": 1,
+          "in_port": 5
+        },
+        "weather_status_records": 3,
+        "published_expected_arrivals": 1,
+        "expected_approach_records": 0,
+        "timezone_confirmed": false,
+        "actual_cargo_ready_labels": 0,
+        "actual_cargo_arrival_labels": 0
+      },
+      {
+        "source_id": "asco_ships",
+        "source_url": "https://ships.asco.az/",
+        "fetched_at": "2026-11-12T11:03:59.396073+00:00",
+        "reported_at_local": null,
+        "reported_date": null,
+        "records": 13,
+        "categories": {
+          "underway": 9,
+          "in_port": 4
+        },
+        "weather_status_records": 6,
+        "published_expected_arrivals": 7,
+        "expected_approach_records": 0,
+        "timezone_confirmed": false,
+        "actual_cargo_ready_labels": 0,
+        "actual_cargo_arrival_labels": 0
+      },
+      {
+        "source_id": "kuryk",
+        "source_url": "https://portkuryk.kz/ru/dispoziciya-sudov",
+        "fetched_at": "2026-11-12T11:03:57.159141+00:00",
+        "reported_at_local": null,
+        "reported_date": "2026-11-12",
+        "records": 9,
+        "categories": {
+          "berth": 4,
+          "anchorage": 2,
+          "expected": 3
+        },
+        "weather_status_records": 6,
+        "published_expected_arrivals": 0,
+        "expected_approach_records": 3,
+        "timezone_confirmed": false,
+        "actual_cargo_ready_labels": 0,
+        "actual_cargo_arrival_labels": 0
+      }
+    ],
+    "cross_page_category_differences": [
+      {
+        "vessel_name": "Akademik Həsən Əliyev",
+        "cabinet_category": "in_port",
+        "ships_category": "underway"
+      },
+      {
+        "vessel_name": "Professor Gül",
+        "cabinet_category": "in_port",
+        "ships_category": "underway"
+      },
+      {
+        "vessel_name": "Zərifə Əliyeva",
+        "cabinet_category": "in_port",
+        "ships_category": "underway"
+      },
+      {
+        "vessel_name": "Şəki",
+        "cabinet_category": "in_port",
+        "ships_category": "underway"
+      }
+    ],
+    "category_difference_is_not_ground_truth": true,
+    "snapshots_may_have_different_scope_and_update_times": true
+  },
+  "download_failures": [],
+  "collection_status": "complete"
+}

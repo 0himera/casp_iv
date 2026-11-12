@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-11-12T11:05:06.912141+00:00",
+  "period": {
+    "start": "2026-10-07",
+    "end": "2026-11-05"
+  },
+  "requested_ports": [
+    "amirabad",
+    "nowshahr",
+    "astrakhan",
+    "aktau",
+    "turkmenbashi",
+    "anzali",
+    "makhachkala",
+    "baku"
+  ],
+  "sources": [
+    {
+      "source_id": "kuryk",
+      "url": "https://portkuryk.kz/ru/dispoziciya-sudov",
+      "fetched_at": "2026-11-12T11:03:57.159141+00:00",
+      "raw_sha256": "ece3d5d6225daf9e0203b9d76f78bdb0e7ed2c9dd26a7e311c1195c2f9eb6f93",
+      "http_status": 200,
+      "reused_local_snapshot": true
+    },
+    {
+      "source_id": "asco",
+      "url": "https://cabinet.asco.az/passenger-ticket",
+      "fetched_at": "2026-11-12T11:03:56.435198+00:00",
+      "raw_sha256": "259bea1b5be92f81de47e711bff47583b07a03178b05222d9bb598685a0a118f",
+      "http_status": 200,
+      "reused_local_snapshot": true
+    },
+    {
+      "source_id": "asco_ships",
+      "url": "https://ships.asco.az/",
+      "fetched_at": "2026-11-12T11:03:59.396073+00:00",
+      "raw_sha256": "d0c39f57795fb5e337ebc4a3f8f328719be6b5b527c15f95b9c29bbb4c1a5f79",
+      "http_status": 200,
+      "reused_local_snapshot": true
+    },
+    {
+      "source_id": "amirabad:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=36.85068189&longitude=53.365271129999996&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:03:58.100745+00:00",
+      "raw_sha256": "7926e859ff1e9d16bab522ae9e61e40f8cb03b4ba9d1ccda89c3fefef01ea7ea",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        36.85068189,
+        53.365271129999996
+      ],
+      "grid_location": [
+        36.75,
+        53.25
+      ]
+    },
+    {
+      "source_id": "amirabad:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=36.85068189&longitude=53.365271129999996&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:03:59.163352+00:00",
+      "raw_sha256": "02de17c4cb2321c7027db314f7da6fea26bdc930cba296916198866961f57dd3",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        36.85068189,
+        53.365271129999996
+      ],
+      "grid_location": [
+        36.75,
+        53.25
+      ]
+    },
+    {
+      "source_id": "nowshahr:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=36.65505162&longitude=51.50857211&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:03:59.366624+00:00",
+      "raw_sha256": "aa2f00a1a3834bb334d9dd2c15a1489a2a31586e1f1ba8795bb2e708a1c21158",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        36.65505162,
+        51.50857211
+      ],
+      "grid_location": [
+        36.75,
+        51.5
+      ]
+    },
+    {
+      "source_id": "nowshahr:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=36.65505162&longitude=51.50857211&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:03:59.512155+00:00",
+      "raw_sha256": "1bc71481dba47470e4385211755e6bac4274501788aa47f8c0c750eb796126d0",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        36.65505162,
+        51.50857211
+      ],
+      "grid_location": [
+        36.75,
+        51.5
+      ]
+    },
+    {
+      "source_id": "astrakhan:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=46.38467723&longitude=48.02158851&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:03:59.615096+00:00",
+      "raw_sha256": "3562ae192866fba24316c0ed12557b0ba8e00269f67179c37026549e76917fde",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        46.38467723,
+        48.02158851
+      ],
+      "grid_location": [
+        46.5,
+        48.0
+      ]
+    },
+    {
+      "source_id": "astrakhan:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=46.38467723&longitude=48.02158851&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:03:59.660147+00:00",
+      "raw_sha256": "cefb89a65c57ba449afe0ee8d672d89fc664b17d1e190d2b97898410ed1b9db6",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        46.38467723,
+        48.02158851
+      ],
+      "grid_location": [
+        46.5,
+        48.0
+      ]
+    },
+    {
+      "source_id": "aktau:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=43.60236745&longitude=51.22857007&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:03:59.831827+00:00",
+      "raw_sha256": "011a14da09c999ad24db6e91f235873014828ae02398f11ce5f23b2a3a07bc3b",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        43.60236745,
+        51.22857007
+      ],
+      "grid_location": [
+        43.75,
+        51.25
+      ]
+    },
+    {
+      "source_id": "aktau:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=43.60236745&longitude=51.22857007&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:03:59.809316+00:00",
+      "raw_sha256": "f4e708b850b60bc093d4071748378916840e223efa482066e723c1a6cfb9e085",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        43.60236745,
+        51.22857007
+      ],
+      "grid_location": [
+        43.5,
+        51.25
+      ]
+    },
+    {
+      "source_id": "turkmenbashi:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=40.00960239&longitude=53.00617704&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:04:05.749668+00:00",
+      "raw_sha256": "67cf9fefc19e6cf91d0572b6f5237aff1b74290fba4c64d8d1e411f65e31addd",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        40.00960239,
+        53.00617704
+      ],
+      "grid_location": [
+        40.0,
+        53.0
+      ]
+    },
+    {
+      "source_id": "turkmenbashi:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.00960239&longitude=53.00617704&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:04:00.119506+00:00",
+      "raw_sha256": "bdecb4d863548f31dd23ded9a85e6e0e94a552b1ecbccfb42e67af028ff9c5a1",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        40.00960239,
+        53.00617704
+      ],
+      "grid_location": [
+        40.0,
+        53.0
+      ]
+    },
+    {
+      "source_id": "anzali:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=37.47515153&longitude=49.46995908&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:04:00.425201+00:00",
+      "raw_sha256": "d215ddaeb3fdcf2fedbefdb8c21098caf43651e33a94a82100be143205369b61",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        37.47515153,
+        49.46995908
+      ],
+      "grid_location": [
+        37.5,
+        49.25
+      ]
+    },
+    {
+      "source_id": "anzali:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=37.47515153&longitude=49.46995908&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:04:00.569874+00:00",
+      "raw_sha256": "e766c7852ec8678bf263491bed00ccc993d8bfceae6caeb45f6b722ef79d14ad",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        37.47515153,
+        49.46995908
+      ],
+      "grid_location": [
+        37.5,
+        49.25
+      ]
+    },
+    {
+      "source_id": "makhachkala:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=43.00807675&longitude=47.47258052&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:04:00.717078+00:00",
+      "raw_sha256": "add9f39b46e9f5ac3e5e57dae745a175cbbdb9ab759c7e6195dc9d2c03350410",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        43.00807675,
+        47.47258052
+      ],
+      "grid_location": [
+        43.0,
+        47.5
+      ]
+    },
+    {
+      "source_id": "makhachkala:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=43.00807675&longitude=47.47258052&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:04:00.866056+00:00",
+      "raw_sha256": "1ee555a82b4428f7c354706c25cf15926c6eea97f9628e250410bfca66e497b3",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        43.00807675,
+        47.47258052
+      ],
+      "grid_location": [
+        43.0,
+        47.5
+      ]
+    },
+    {
+      "source_id": "baku:forecast24h",
+      "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=40.28461052&longitude=49.73252397&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m_previous_day1&models=ecmwf_ifs025",
+      "fetched_at": "2026-11-12T11:04:01.011534+00:00",
+      "raw_sha256": "9ff09d149c70472dcef3ab7e59baeca2a735e0d3df26e1d08feac82612314fb2",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        40.28461052,
+        49.73252397
+      ],
+      "grid_location": [
+        40.5,
+        49.75
+      ]
+    },
+    {
+      "source_id": "baku:era5",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.28461052&longitude=49.73252397&start_date=2026-10-07&end_date=2026-11-05&timezone=UTC&wind_speed_unit=ms&hourly=wind_speed_10m&models=era5",
+      "fetched_at": "2026-11-12T11:04:01.310676+00:00",
+      "raw_sha256": "bdf3f66a2a8ff31c7792e5ca1f268b5d92c15e0c57d9709a052641437e573881",
+      "http_status": 200,
+      "reused_local_snapshot": true,
+      "requested_location": [
+        40.28461052,
+        49.73252397
+      ],
+      "grid_location": [
+        40.25,
+        49.5
+      ]
+    }
+  ],
+  "failures": [],
+  "files": {
+    "wind-pairs.csv": "a41f221866d4f8c203b229f58787b957dd0fd0f4396334710f38d859b436c151",
+    "operator-snapshots.json": "e8fadcdbea358bc003930056a77344027674de221e0210b3733917c519b321b8"
+  }
+}
