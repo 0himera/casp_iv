@@ -1,0 +1,54 @@
+.bar {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 100px);
+  overflow-x: auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.presetBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.presetBtn:hover {
+  color: var(--foreground);
+  background-color: var(--accent);
+}
+
+.active {
+  color: var(--foreground);
+  border-color: var(--border-strong);
+  background-color: var(--secondary);
+}
+
+.divider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--border);
+  margin: 0 2px;
+}
+
+.icon {
+  width: 12px;
+  height: 12px;
+}

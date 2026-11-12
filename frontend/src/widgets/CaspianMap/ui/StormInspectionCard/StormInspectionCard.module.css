@@ -1,0 +1,41 @@
+.card {
+  position: absolute;
+  top: 104px;
+  left: 64px;
+  z-index: 25;
+  width: 290px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: color-mix(in srgb, var(--card) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+.header, .titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header { justify-content: space-between; }
+.icon {
+  width: 16px;
+  height: 16px;
+  color: var(--status-danger);
+  flex-shrink: 0;
+}
+.name { font-size: 13px; font-weight: 600; color: var(--status-danger); }
+.meta { font-family: var(--font-mono), monospace; font-size: 10px; color: var(--muted-foreground); }
+.closeBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--muted-foreground);
+}
+.closeIcon, .arrow { width: 13px; height: 13px; }
+.desc {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--foreground);
+  padding: 4px 0;
+  border-top: 1px dashed var(--border);
+}
+.rerouteBtn { width: 100%; }

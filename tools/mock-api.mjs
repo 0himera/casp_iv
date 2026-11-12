@@ -148,6 +148,16 @@ export function createMockServer({ operationDelayMs = 1000 } = {}) {
       settle();
       if(req.method==='GET') {
         if(relative==='/health') return send(200,{status:'ok',mode:'mock',api_version:'1.0.0'});
+        if(relative==='/corridors') return send(200,{items:[
+          {id:'alat-aktau',port_ids:['alat','aktau'],evidence:'East-West corridor connects Baku/Alat and Aktau'},
+          {id:'alat-kuryk',port_ids:['alat','kuryk'],evidence:'East-West corridor connects Baku/Alat and Kuryk'},
+          {id:'alat-turkmenbashi',port_ids:['alat','turkmenbashi'],evidence:'East-West corridor connects Baku/Alat and Turkmenbashi'},
+          {id:'aktau-amirabad',port_ids:['aktau','amirabad'],evidence:'UNECE network lists Aktau–Amirabad'},
+          {id:'aktau-makhachkala',port_ids:['aktau','makhachkala'],evidence:'UNECE network lists Aktau–Makhachkala'},
+          {id:'kuryk-amirabad',port_ids:['kuryk','amirabad'],evidence:'Port operator announced line in 2021'},
+          {id:'kuryk-anzali',port_ids:['kuryk','anzali'],evidence:'Port operator announced line in 2021'},
+          {id:'kuryk-makhachkala',port_ids:['kuryk','makhachkala'],evidence:'2026 agreement to organize ferry service'}
+        ]});
         if(relative==='/shipments') {
           const s=view(role??'logistician'), route=s.routes.find(r=>r.id===s.selected_route_id);
           return send(200,{items:[{id:s.id,title:s.title,origin:s.origin.name,destination:s.destination.name,
@@ -198,8 +208,7 @@ export function createMockServer({ operationDelayMs = 1000 } = {}) {
         return send(200,response);
       }
       if(definition[1]==='select_route') {
-        if(body.forecast_id!==shipment.forecast.id || Date.parse(shipment.forecast.valid_until)<Date.now())
-          throw err(409,'STALE_FORECAST','Прогноз устарел: обновите сценарий или расчёт');
+        if(Date.parse(shipment.forecast.valid_until)<Date.now()) refreshForecast();
         const route=shipment.routes.find(r=>r.id===body.route_id);
         if(!route) throw err(404,'NOT_FOUND','Маршрут не найден');
         if(!route.feasible) throw err(409,'ROUTE_UNAVAILABLE',route.infeasibility_reason);

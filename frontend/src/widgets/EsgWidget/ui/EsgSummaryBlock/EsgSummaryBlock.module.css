@@ -1,0 +1,50 @@
+.summaryRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+}
+
+.topValues {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.summaryLabel {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.summaryValue {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.deltaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 10px;
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--card) 60%, transparent);
+  border: 1px solid var(--border-subtle);
+}
+
+.metricLabel { color: var(--muted-foreground); font-size: 9px; }
+.metricValue { font-weight: 600; color: var(--foreground); }
+.positiveDelta { color: var(--status-success); }

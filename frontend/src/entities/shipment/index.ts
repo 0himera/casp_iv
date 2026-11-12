@@ -13,3 +13,15 @@ export {
   getRoleLabel,
   getSelectedRoute,
 } from './lib/shipmentAdapters';
+export {
+  GLEC_FACTORS,
+  PURE_ROAD_BASELINE_KG,
+  BASE_ROUTE_KG,
+  REROUTED_ROUTE_KG,
+  recalculateEsg,
+  type EsgModeContribution,
+  type EsgRecalculationResult,
+} from './lib/esgEngine';
+export { applyScenarioTransition } from './lib/scenarioTransitions';
+export { applyRouteSwitchTransition } from './lib/routeTransitions';
+export { applyAttestationTransition } from './lib/attestationTransitions';

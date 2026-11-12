@@ -9,6 +9,24 @@ __pycache__/
 *.key
 *.zip
 *.log
+.DS_Store
+
+# AI agent & IDE files
+.agents/
+.agent/
+AGENTS.md
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.gemini/
+GEMINI.md
+.aider*
+.copilot/
+.vscode/
+.idea/
 backend/var/
 .pytest_cache/
 .ruff_cache/
@@ -17,3 +35,4 @@ contracts/target/
 contracts/wasm/
 contracts/.odra/
 contracts/.local/
+

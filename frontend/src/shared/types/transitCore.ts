@@ -1,10 +1,10 @@
+import type { PortLiveMetrics } from './portLiveTypes';
+
 export type CargoStatus = 'in-transit' | 'delay-risk' | 'critical';
-
 export type TransportMode = 'rail' | 'sea' | 'road';
-
 export type NodeStatus = 'ok' | 'warning' | 'critical';
-
 export type ClearanceStepStatus = 'cleared' | 'pending' | 'verifying';
+export type PortOperationalStatus = 'operational' | 'congested' | 'storm_restricted' | 'closed';
 
 export interface CaspianPort {
   id: string;
@@ -14,7 +14,19 @@ export interface CaspianPort {
   lng: number;
   loadPercent: number;
   berthsAvailable: number;
+  totalBerths: number;
+  vesselsInRoadstead: number;
+  waveHeightM: number;
+  windSpeedKmh: number;
+  windDirectionDeg: number;
+  windDirectionLabel: string;
+  waterDepthM: number;
+  status: PortOperationalStatus;
+  archiveIndex: string;
+  live?: PortLiveMetrics;
 }
+
+export type CaspianPortTelemetry = CaspianPort;
 
 export interface RouteSegment {
   mode: TransportMode;
@@ -30,4 +42,3 @@ export interface MultimodalNodeData extends Record<string, unknown> {
   delayHours: number;
   eta: string;
 }
-

@@ -18,12 +18,14 @@ export function KpiTile({
 }: KpiTileProps) {
   return (
     <div className={styles.tile}>
-      <span className={styles.iconWrap}>{icon}</span>
-      <div className={styles.meta}>
-        <span className={styles.label}>{label}</span>
+      <span className={styles.divider} aria-hidden="true" />
+      <div className={styles.inner}>
+        <span className={styles.labelRow}>
+          <span className={styles.iconWrap}>{icon}</span>
+          <span className={styles.label}>{label}</span>
+        </span>
         <span className={`${styles.value} ${styles[tone]}`}>{value}</span>
       </div>
     </div>
   );
 }
-

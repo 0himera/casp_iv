@@ -1,0 +1,38 @@
+.bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 85%, transparent);
+  backdrop-filter: blur(12px);
+  max-width: calc(100vw - 32px);
+  overflow-x: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 6px 0 2px;
+  color: var(--muted-foreground);
+  border-right: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.leadIcon {
+  color: var(--primary);
+}
+
+.leadText {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}

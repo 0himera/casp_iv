@@ -1,50 +1,46 @@
 .tile {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background-color: var(--background);
+  gap: 12px;
+  padding: 2px 10px 2px 0;
 }
 
-.iconWrap {
-  display: flex;
-  align-items: center;
-  color: var(--primary);
+.divider {
+  width: 1px;
+  height: 22px;
+  background-color: var(--border);
 }
 
-.meta {
+.inner {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  gap: 2px;
+  line-height: 1.2;
 }
 
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconWrap { display: flex; align-items: center; }
+
 .label {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 400;
   color: var(--muted-foreground);
   white-space: nowrap;
 }
 
 .value {
+  font-family: var(--font-mono), monospace;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
-.default {
-  color: var(--foreground);
-}
-
-.success {
-  color: var(--status-success);
-}
-
-.warning {
-  color: var(--status-warning);
-}
-
-.danger {
-  color: var(--status-danger);
-}
-
+.default { color: var(--foreground); }
+.success { color: var(--status-success); }
+.warning { color: var(--status-warning); }
+.danger { color: var(--status-danger); }

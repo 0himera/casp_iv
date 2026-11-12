@@ -1,0 +1,46 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.buttonRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.primaryBtn {
+  flex: 1;
+}
+
+.verifyBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.readyBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--status-success) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+  font-size: 11px;
+  color: var(--status-success);
+  font-weight: 500;
+}
+
+.greenLight {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background-color: var(--status-success);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--status-success) 30%, transparent);
+  flex-shrink: 0;
+}
