@@ -62,6 +62,8 @@ p_miss = доля симуляций, где ready_at > cutoff выбранно�
 
 ## TransitPassport на Odra
 
+Уточнённый простой вариант описан в [contracts/README.md](../contracts/README.md): три фиксированных адреса, пять методов, одно решение роли в версии. Он заменяет предварительную идею динамического управления участниками ниже; реестр и администратор ролей в MVP не нужны. Реализация Rust пока не начата.
+
 Один контракт хранит несколько паспортов. Стек Odra поддерживает Casper backend и локальное тестирование; интеграцию с сетью выполняет Livenet backend. Зафиксировать совместимые версии после минимального deploy в первые часы. [Casper backend](https://odra.dev/docs/backends/casper/), [OdraVM](https://odra.dev/docs/backends/odra-vm/), [Livenet](https://odra.dev/docs/backends/livenet/).
 
 Предлагаемые entrypoints — это проектный интерфейс, ещё не написанный код:
