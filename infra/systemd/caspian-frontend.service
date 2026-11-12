@@ -7,6 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 WorkingDirectory=/home/himera/projects/casp_iv_frontend_live/frontend
 Environment=PATH=/home/himera/.cargo/bin:/home/himera/.local/bin:/usr/bin:/bin
+Environment=CASPIAN_API_URL=http://127.0.0.1:8000/api/v1
 ExecStart=/usr/bin/node node_modules/next/dist/bin/next start --port 3100
 Restart=always
 RestartSec=5
