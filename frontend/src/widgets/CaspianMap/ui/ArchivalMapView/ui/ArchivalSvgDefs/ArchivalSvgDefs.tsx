@@ -1,3 +1,5 @@
+import { ARCHIVAL_GEO } from '../../../../model/archivalPins';
+
 export function ArchivalSvgDefs() {
   return (
     <defs>
@@ -6,9 +8,15 @@ export function ArchivalSvgDefs() {
         <stop offset="32%" stopColor="var(--map-land)" />
         <stop offset="100%" stopColor="var(--map-background)" />
       </linearGradient>
-      <pattern id="halftoneGrid" width="4" height="4" patternUnits="userSpaceOnUse">
-        <circle cx="1.2" cy="1.2" r="0.6" fill="var(--map-contour)" fillOpacity="0.14" />
+      <filter id="risoPaper" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="12" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <pattern id="risoWaterDots" width="6" height="6" patternUnits="userSpaceOnUse">
+        <circle cx="1.1" cy="1.1" r="0.65" fill="var(--riso-water-ink)" />
+        <circle cx="4.1" cy="4.1" r="0.42" fill="var(--riso-water-ink)" />
       </pattern>
+      <clipPath id="risoWaterClip"><path d={ARCHIVAL_GEO.water} clipRule="evenodd" /></clipPath>
     </defs>
   );
 }

@@ -6,18 +6,19 @@ import { ArchivalSvgRoutes } from '../ArchivalSvgRoutes';
 import styles from './ArchivalSvgCanvas.module.css';
 
 interface ArchivalSvgCanvasProps {
+  printEnabled?: boolean;
   activePortId: string;
   cargoLng?: number;
   cargoLat?: number;
   onSelect: (geo: ArchivalPortGeo) => void;
 }
 
-export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }: ArchivalSvgCanvasProps) {
+export function ArchivalSvgCanvas({ printEnabled = true, activePortId, cargoLng, cargoLat, onSelect }: ArchivalSvgCanvasProps) {
   return (
-    <svg className={styles.svg} viewBox={ARCHIVAL_GEO.viewBox} preserveAspectRatio="xMidYMid meet">
+    <svg className={`${styles.svg} ${printEnabled ? styles.print : ''}`} viewBox={ARCHIVAL_GEO.viewBox} preserveAspectRatio="xMidYMid meet">
       <ArchivalSvgDefs />
       <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="url(#archPaperGrad)" />
-      <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="url(#halftoneGrid)" />
+      {printEnabled && <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="var(--riso-paper)" filter="url(#risoPaper)" opacity="0.14" />}
       <g>
         {ARCHIVAL_GEO.graticules.map((g) => (
           <g key={g.val}>
@@ -33,6 +34,7 @@ export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }
       {ARCHIVAL_GEO.bathymetry.map((b, i) => (
         <path key={i} d={b.path} fill={`var(--map-${b.depth <= 60 ? 'shallow' : b.depth <= 180 ? 'mid-depth' : b.depth <= 400 ? 'deep' : 'deepest'})`} className={styles.bathLayer} />
       ))}
+      {printEnabled && <g clipPath="url(#risoWaterClip)" pointerEvents="none"><rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="url(#risoWaterDots)" className={styles.waterPrint} /></g>}
       <path d={ARCHIVAL_GEO.water} className={styles.shoreInk} fillRule="evenodd" />
       <ArchivalSvgRoutes activePortId={activePortId} />
       <ArchivalSvgDecor cargoLng={cargoLng} cargoLat={cargoLat} />

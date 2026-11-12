@@ -3,7 +3,7 @@
 import { Layers } from 'lucide-react';
 import { PassportPanel } from '@/features/passport-attestation';
 import { RouteDecisionOverlay } from '@/features/route-selection';
-import { Button, FilmGrainOverlay } from '@/shared/ui';
+import { Button } from '@/shared/ui';
 import { DraughtSimulator } from '@/widgets/DraughtSimulator';
 import { EsgWidget } from '@/widgets/EsgWidget';
 import { HeroTelemetry } from '@/widgets/HeroTelemetry';
@@ -23,7 +23,6 @@ export function CommandCenterPage() {
   const a = useCommandCenterActions({ ...s, stormActive });
   return (
     <div className={styles.root}>
-      <FilmGrainOverlay />
       <CommandCenterTopBar items={s.items} shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} mode={l.mode} isBusy={s.isBusy} canRunScenario={a.canRunScenario} onSelectShipment={s.setSelectedId} onToggleMode={l.setMode} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />
       <main className={styles.container}>
         <HeroTelemetry shipment={s.shipment} stormActive={stormActive} />

@@ -58,3 +58,8 @@
   letter-spacing: 0.06em;
   color: var(--muted-foreground);
 }
+
+.inkSwatches { display: inline-flex; gap: 2px; }
+.inkSwatches i { width: 5px; height: 9px; background: var(--riso-paper); }
+.inkSwatches i:nth-child(2) { background: var(--riso-red-ink); }
+.inkSwatches i:nth-child(3) { background: var(--riso-water-ink); }

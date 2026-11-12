@@ -56,3 +56,7 @@
   .canvas, .archivalWrap { height: 420px; }
   .dock { height: auto; max-height: 420px; border-left: none; border-top: 1px solid var(--border); }
 }
+
+.riso { border-color: color-mix(in srgb, var(--riso-paper) 28%, var(--border)); }
+.riso .toolbar { background: color-mix(in srgb, var(--riso-paper) 3%, var(--surface-default)); }
+.riso .overline { color: var(--riso-paper); }

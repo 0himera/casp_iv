@@ -7,6 +7,5 @@ export { ScrollArea } from './scroll-area';
 export { Separator } from './separator';
 export { PixelMarker } from './pixel-marker';
 export { LivePing } from './live-ping';
-export { FilmGrainOverlay } from './film-grain-overlay';
 export { ViewfinderFrame } from './viewfinder-frame';
 export { AsciiCaspianBackground } from './ascii-caspian-background';
