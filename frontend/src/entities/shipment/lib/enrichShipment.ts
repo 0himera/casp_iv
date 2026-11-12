@@ -7,3 +7,4 @@ export function enrichShipmentWithCorridors(shipment: Shipment): Shipment {
   if (!routes.some((r) => r.id === 'route_turkmen')) routes.push(TURKMEN_ROUTE);
   return { ...shipment, routes };
 }
+
