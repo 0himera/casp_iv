@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
+import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   variable: '--font-sans',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
 
-const playfairDisplay = Playfair_Display({
+const plexSerif = IBM_Plex_Serif({
   variable: '--font-serif',
   weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
@@ -17,23 +18,24 @@ const playfairDisplay = Playfair_Display({
   display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-mono',
+  weight: ['400', '500', '600'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Smart Caspian Transit — Spectral Cartography & Digital Twin',
+  title: 'Caspian Transit — маршрутный журнал',
   description:
-    'Спектральная картография и предиктивный цифровой двойник МТК Север-Юг с паспортом в Casper Testnet',
+    'Маршруты, погодные окна и цифровые паспорта грузов Каспийского бассейна',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} dark antialiased`}
+      className={`${plexSans.variable} ${plexSerif.variable} ${ibmPlexMono.variable} dark antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <QueryProvider>{children}</QueryProvider>
