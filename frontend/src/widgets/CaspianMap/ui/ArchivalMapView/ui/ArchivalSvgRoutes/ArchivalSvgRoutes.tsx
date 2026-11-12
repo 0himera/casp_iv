@@ -17,7 +17,13 @@ export function ArchivalSvgRoutes({ activePortId }: ArchivalSvgRoutesProps) {
       {ARCHIVAL_GEO.routes.map((r) => {
         const isActive = r.from === activePortId || r.to === activePortId;
         if (!isActive) return null;
-        return <path key={r.id} d={r.d} className={styles.activeLine} />;
+        return (
+          <g key={r.id}>
+            <path d={r.d} className={styles.activeHalo} />
+            <path d={r.d} className={styles.activeLine} />
+            <circle r="3.2" fill="var(--foreground)" stroke="var(--primary)" strokeWidth="1.4" />
+          </g>
+        );
       })}
     </g>
   );

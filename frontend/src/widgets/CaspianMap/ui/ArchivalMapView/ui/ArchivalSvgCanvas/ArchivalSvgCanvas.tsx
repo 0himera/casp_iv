@@ -16,7 +16,7 @@ export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }
   return (
     <svg className={styles.svg} viewBox={ARCHIVAL_GEO.viewBox} preserveAspectRatio="xMidYMid meet">
       <ArchivalSvgDefs />
-      <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="#200308" />
+      <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="url(#archPaperGrad)" />
       <rect width={ARCHIVAL_GEO.width} height={ARCHIVAL_GEO.height} fill="url(#halftoneGrid)" />
       <g>
         {ARCHIVAL_GEO.graticules.map((g) => (
@@ -31,7 +31,7 @@ export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }
       <path d={ARCHIVAL_GEO.water} className={styles.shoreBuffer} />
       <path d={ARCHIVAL_GEO.water} className={styles.waterBase} fillRule="evenodd" />
       {ARCHIVAL_GEO.bathymetry.map((b, i) => (
-        <path key={i} d={b.path} fill={b.color} className={styles.bathLayer} />
+        <path key={i} d={b.path} fill={`var(--map-${b.depth <= 60 ? 'shallow' : b.depth <= 180 ? 'mid-depth' : b.depth <= 400 ? 'deep' : 'deepest'})`} className={styles.bathLayer} />
       ))}
       <path d={ARCHIVAL_GEO.water} className={styles.shoreInk} fillRule="evenodd" />
       <ArchivalSvgRoutes activePortId={activePortId} />
@@ -40,3 +40,4 @@ export function ArchivalSvgCanvas({ activePortId, cargoLng, cargoLat, onSelect }
     </svg>
   );
 }
+

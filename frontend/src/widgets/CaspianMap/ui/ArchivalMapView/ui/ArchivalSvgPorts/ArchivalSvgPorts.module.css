@@ -1,58 +1,39 @@
-.pinGroup {
-  cursor: pointer;
-}
+.pinGroup { cursor: pointer; }
+.leader { stroke: var(--map-shore); stroke-width: 1; }
+.leaderActive { stroke: var(--primary); stroke-width: 1.3; }
 
-.leader {
-  stroke: rgba(255, 180, 195, 0.55);
-  stroke-width: 1;
-}
-
-.leaderActive {
-  stroke: #FFB800;
-  stroke-width: 1.4;
-}
-
-.pulseRing {
-  fill: none;
-  stroke: #FFB800;
-  stroke-width: 1.4;
-}
+.pulseRing,
+.pulseRingOuter { fill: none; stroke: var(--primary); }
+.pulseRing { stroke-width: 1.4; }
+.pulseRingOuter { stroke-width: 0.9; stroke-dasharray: 2 2; }
 
 .dot {
-  fill: #5CE1E6;
-  stroke: #170205;
+  fill: var(--accent-cyan);
+  stroke: var(--map-background);
   stroke-width: 1.5;
-  transition: transform 0.2s ease;
+  transition: fill 0.18s ease, stroke 0.18s ease;
 }
 
-.dotActive {
-  fill: #FFB800;
-  stroke: #FFF5F5;
-  stroke-width: 1.7;
-}
+.dotActive,
+.pinGroup:hover .dot { fill: var(--primary); stroke: var(--foreground); }
 
 .box {
-  fill: rgba(37, 4, 9, 0.92);
-  stroke: rgba(255, 90, 120, 0.32);
+  fill: var(--map-marker-surface);
+  stroke: var(--border-strong);
   stroke-width: 0.9;
+  transition: stroke 0.18s ease, fill 0.18s ease;
 }
 
-.boxActive {
-  fill: #440710;
-  stroke: #FFB800;
-  stroke-width: 1.3;
-}
+.boxActive,
+.pinGroup:hover .box { fill: var(--surface-raised); stroke: var(--primary); stroke-width: 1.2; }
 
 .label {
-  fill: #FFF5F5;
+  fill: var(--map-marker-text);
   font-family: var(--font-mono);
   font-size: 9.5px;
   font-weight: 500;
+  transition: fill 0.18s ease;
 }
 
-.labelActive {
-  fill: #FFFFFF;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  font-weight: 700;
-}
+.labelActive,
+.pinGroup:hover .label { fill: var(--foreground); font-weight: 700; }

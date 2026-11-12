@@ -1,13 +1,19 @@
+@keyframes calloutPop {
+  0% { opacity: 0; transform: translateY(6px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .callout {
   position: absolute;
   z-index: 6;
   padding: 9px 12px;
-  border-radius: 4px;
-  background: #250409;
-  border: 1px solid #FFB800;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border-radius: var(--radius-md);
+  background: var(--map-overlay);
+  border: 1px solid var(--primary);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--background) 72%, transparent);
   pointer-events: none;
   min-width: 196px;
+  animation: calloutPop 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .header {
@@ -18,25 +24,21 @@
   margin-bottom: 3px;
 }
 
-.title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #FFF5F5;
-}
+.title { font-size: 12px; font-weight: 600; color: var(--foreground); }
 
 .tag {
   font-family: var(--font-mono);
   font-size: 10px;
   padding: 1px 5px;
-  border-radius: 3px;
-  background: rgba(255, 184, 0, 0.18);
-  color: #FFD15C;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--primary) 16%, transparent);
+  color: var(--primary);
 }
 
 .coord {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: #5CE1E6;
+  color: var(--accent-cyan);
   margin-bottom: 5px;
 }
 
@@ -46,5 +48,5 @@
   gap: 8px;
   font-family: var(--font-mono);
   font-size: 10px;
-  color: #E8CCD2;
+  color: var(--muted-foreground);
 }

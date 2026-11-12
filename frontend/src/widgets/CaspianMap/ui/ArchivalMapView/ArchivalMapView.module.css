@@ -5,7 +5,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: #170205;
+  background: radial-gradient(circle at 48% 50%, var(--map-land-use) 0%, var(--map-background) 68%, var(--background) 100%);
   overflow: hidden;
 }
 
@@ -15,6 +15,16 @@
   aspect-ratio: 1200 / 620;
   max-height: 100%;
   overflow: hidden;
+  border-radius: 2px;
+}
+
+.scanLine {
+  position: absolute;
+  inset: 0;
+  width: 20%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .caption {
@@ -23,10 +33,10 @@
   top: 12px;
   z-index: 5;
   padding: 5px 9px;
-  border-radius: 4px;
-  background: #250409;
-  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--surface-low);
+  border: 1px solid var(--border-strong);
   font-family: var(--font-mono);
   font-size: 10px;
-  color: #FFF5F5;
+  color: var(--foreground);
 }

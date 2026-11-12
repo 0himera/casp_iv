@@ -37,6 +37,7 @@ export function ArchivalMapView({
           cargoLat={shipment?.current_location.latitude}
           onSelect={(geo) => onSelectPort?.(resolveArchivalPort(geo, ports))}
         />
+        <div className={styles.scanLine} aria-hidden="true" />
         <ArchivalCallout
           port={activePort}
           xPercent={(activeGeo.x / ARCHIVAL_GEO.width) * 100}

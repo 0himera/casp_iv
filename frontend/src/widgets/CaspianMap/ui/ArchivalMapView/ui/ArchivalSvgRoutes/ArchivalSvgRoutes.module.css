@@ -1,29 +1,29 @@
-@keyframes arcFlow {
-  to {
-    stroke-dashoffset: -28;
-  }
-}
-
 .canal {
   fill: none;
-  stroke: #FFB800;
-  stroke-width: 1.6;
+  stroke: var(--primary);
+  stroke-width: 1.5;
   stroke-dasharray: 4 3;
-  opacity: 0.82;
+  opacity: 0.72;
 }
 
 .passive {
   fill: none;
-  stroke: #5CE1E6;
+  stroke: var(--map-shore);
   stroke-width: 0.9;
   stroke-dasharray: 2.5 3.5;
-  opacity: 0.38;
+  opacity: 0.34;
+}
+
+.activeHalo {
+  fill: none;
+  stroke: var(--map-background);
+  stroke-width: 3.8;
+  opacity: 0.9;
 }
 
 .activeLine {
   fill: none;
-  stroke: #FFD15C;
+  stroke: var(--primary);
   stroke-width: 1.8;
-  stroke-dasharray: 6 4;
-  animation: arcFlow 1.6s linear infinite;
+  stroke-dasharray: none;
 }
