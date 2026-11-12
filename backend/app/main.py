@@ -14,6 +14,8 @@ from starlette.exceptions import HTTPException
 from .cache import SnapshotCache
 from .catalog import load_catalog
 from .config import Settings
+from .dwell import DwellPredictor
+from .dwell_contract import DwellModelStatus, DwellRequest, DwellResponse
 from .models import (
     ActivityResponse,
     ErrorResponse,
@@ -44,6 +46,7 @@ def create_app(
         cache = SnapshotCache(settings.cache_path)
         app.state.settings = settings
         app.state.transit = Store(settings.transit_path)
+        app.state.dwell = DwellPredictor(settings.dwell_model_dir)
         async with httpx.AsyncClient(
             transport=transport,
             timeout=httpx.Timeout(settings.request_timeout_seconds, connect=5),
@@ -167,6 +170,14 @@ def create_app(
     def readiness(body: PredictionRequest):
         # FastAPI runs sync route functions in a thread pool; no mutation or chain call.
         return predict(body)
+
+    @app.get("/api/v1/models/terminal-dwell", response_model=DwellModelStatus)
+    def dwell_model_status(request: Request):
+        return request.app.state.dwell.status()
+
+    @app.post("/api/v1/predictions/terminal-dwell", response_model=DwellResponse)
+    def terminal_dwell(body: DwellRequest, request: Request):
+        return request.app.state.dwell.predict(body)
 
     return app
 

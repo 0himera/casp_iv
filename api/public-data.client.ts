@@ -1,4 +1,4 @@
-import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse, PredictionRequest, PredictionResponse } from './public-data.types';
+import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse, PredictionRequest, PredictionResponse, DwellRequest, DwellResponse, DwellModelStatus } from './public-data.types';
 
 export class PublicDataError extends Error {
   constructor(public status: number, public code: string, message: string) {
@@ -33,5 +33,9 @@ export function createPublicDataClient(baseUrl = 'http://localhost:8000/api/v1')
       get<SailingsResponse>(`/sailings?port_id=${encodeURIComponent(portId)}`, signal),
     predictReadiness: (body: PredictionRequest, signal?: AbortSignal) =>
       get<PredictionResponse>('/predictions/readiness', signal, body),
+    predictTerminalDwell: (body: DwellRequest, signal?: AbortSignal) =>
+      get<DwellResponse>('/predictions/terminal-dwell', signal, body),
+    terminalDwellModel: (signal?: AbortSignal) =>
+      get<DwellModelStatus>('/models/terminal-dwell', signal),
   };
 }

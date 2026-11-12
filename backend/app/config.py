@@ -9,6 +9,17 @@ REPOSITORY_ROOT = BACKEND_ROOT.parent
 
 @dataclass(frozen=True)
 class Settings:
+    dwell_model_dir: Path | None = field(
+        default_factory=lambda: (
+            Path(value)
+            if (
+                value := os.getenv(
+                    "CASPIAN_DWELL_MODEL_DIR", str(REPOSITORY_ROOT / "models/terminal-dwell/v1")
+                )
+            )
+            else None
+        )
+    )
     transit_path: Path = field(
         default_factory=lambda: Path(
             os.getenv("CASPIAN_TRANSIT_PATH", str(BACKEND_ROOT / "var/transit.sqlite3"))

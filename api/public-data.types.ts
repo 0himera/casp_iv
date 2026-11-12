@@ -56,6 +56,52 @@ export type Duration = {
   maximum_hours: number;
 };
 
+export type DwellHours = {
+  p10: number;
+  p50: number;
+  p90: number;
+};
+
+export type DwellInstants = {
+  p10: string;
+  p50: string;
+  p90: string;
+};
+
+export type DwellModelStatus = {
+  loaded: boolean;
+  model_version: string | null;
+  task?: "terminal_release_after_discharge";
+  fallback_available?: true;
+  load_error: string | null;
+  caspian_validated?: false;
+};
+
+export type DwellRequest = {
+  observed_at: string;
+  container_size: number;
+  container_type: string;
+  gross_tonnes: number;
+  mode?: "auto" | "algorithm";
+  fallback_duration?: Duration;
+  samples?: number;
+  seed?: number;
+};
+
+export type DwellResponse = {
+  task?: "terminal_release_after_discharge";
+  method: "catboost_terminal_dwell_v1" | "monte_carlo_terminal_dwell_v1";
+  model_loaded: boolean;
+  model_version: string | null;
+  fallback_reason: string | null;
+  trained_on_history: boolean;
+  caspian_validated?: false;
+  remaining_hours: DwellHours;
+  release_at: DwellInstants;
+  samples: number | null;
+  warnings: Array<string>;
+};
+
 export type ErrorDetail = {
   code: string;
   message: string;

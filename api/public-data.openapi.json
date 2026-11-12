@@ -1497,6 +1497,132 @@
           }
         }
       }
+    },
+    "/api/v1/models/terminal-dwell": {
+      "get": {
+        "summary": "Dwell Model Status",
+        "operationId": "dwell_model_status_api_v1_models_terminal_dwell_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DwellModelStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/predictions/terminal-dwell": {
+      "post": {
+        "summary": "Terminal Dwell",
+        "operationId": "terminal_dwell_api_v1_predictions_terminal_dwell_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DwellRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DwellResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1813,6 +1939,270 @@
           "maximum_hours"
         ],
         "title": "Duration"
+      },
+      "DwellHours": {
+        "properties": {
+          "p10": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "P10"
+          },
+          "p50": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "P50"
+          },
+          "p90": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "P90"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p10",
+          "p50",
+          "p90"
+        ],
+        "title": "DwellHours"
+      },
+      "DwellInstants": {
+        "properties": {
+          "p10": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P10"
+          },
+          "p50": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P50"
+          },
+          "p90": {
+            "type": "string",
+            "format": "date-time",
+            "title": "P90"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p10",
+          "p50",
+          "p90"
+        ],
+        "title": "DwellInstants"
+      },
+      "DwellModelStatus": {
+        "properties": {
+          "loaded": {
+            "type": "boolean",
+            "title": "Loaded"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "task": {
+            "type": "string",
+            "const": "terminal_release_after_discharge",
+            "title": "Task",
+            "default": "terminal_release_after_discharge"
+          },
+          "fallback_available": {
+            "type": "boolean",
+            "const": true,
+            "title": "Fallback Available",
+            "default": true
+          },
+          "load_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Load Error"
+          },
+          "caspian_validated": {
+            "type": "boolean",
+            "const": false,
+            "title": "Caspian Validated",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "loaded",
+          "model_version",
+          "load_error"
+        ],
+        "title": "DwellModelStatus"
+      },
+      "DwellRequest": {
+        "properties": {
+          "observed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Observed At"
+          },
+          "container_size": {
+            "type": "integer",
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Container Size"
+          },
+          "container_type": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Container Type"
+          },
+          "gross_tonnes": {
+            "type": "number",
+            "maximum": 1000.0,
+            "minimum": 0.0,
+            "title": "Gross Tonnes"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "algorithm"
+            ],
+            "title": "Mode",
+            "default": "auto"
+          },
+          "fallback_duration": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "samples": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 100.0,
+            "title": "Samples",
+            "default": 2000
+          },
+          "seed": {
+            "type": "integer",
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "title": "Seed",
+            "default": 42
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "observed_at",
+          "container_size",
+          "container_type",
+          "gross_tonnes"
+        ],
+        "title": "DwellRequest"
+      },
+      "DwellResponse": {
+        "properties": {
+          "task": {
+            "type": "string",
+            "const": "terminal_release_after_discharge",
+            "title": "Task",
+            "default": "terminal_release_after_discharge"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "catboost_terminal_dwell_v1",
+              "monte_carlo_terminal_dwell_v1"
+            ],
+            "title": "Method"
+          },
+          "model_loaded": {
+            "type": "boolean",
+            "title": "Model Loaded"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "fallback_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback Reason"
+          },
+          "trained_on_history": {
+            "type": "boolean",
+            "title": "Trained On History"
+          },
+          "caspian_validated": {
+            "type": "boolean",
+            "const": false,
+            "title": "Caspian Validated",
+            "default": false
+          },
+          "remaining_hours": {
+            "$ref": "#/components/schemas/DwellHours"
+          },
+          "release_at": {
+            "$ref": "#/components/schemas/DwellInstants"
+          },
+          "samples": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Samples"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "method",
+          "model_loaded",
+          "model_version",
+          "fallback_reason",
+          "trained_on_history",
+          "remaining_hours",
+          "release_at",
+          "samples",
+          "warnings"
+        ],
+        "title": "DwellResponse"
       },
       "ErrorDetail": {
         "properties": {
