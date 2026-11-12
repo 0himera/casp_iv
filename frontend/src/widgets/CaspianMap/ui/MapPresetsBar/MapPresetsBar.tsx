@@ -8,6 +8,7 @@ interface MapPresetsBarProps {
   onSelectPreset: (id: string) => void;
   onReset: () => void;
   onFocusCargo: () => void;
+  onToggleNetwork?: () => void;
 }
 
 const PRESETS = [
@@ -25,6 +26,7 @@ export function MapPresetsBar({
   onSelectPreset,
   onReset,
   onFocusCargo,
+  onToggleNetwork,
 }: MapPresetsBarProps) {
   return (
     <div className={styles.bar}>
@@ -37,6 +39,7 @@ export function MapPresetsBar({
         <span>Обзор</span>
       </button>
       <div className={styles.divider} />
+      {onToggleNetwork && <button type="button" className={styles.presetBtn} onClick={onToggleNetwork}>Сеть портов</button>}
       {PRESETS.map((p) => (
         <button
           key={p.id}
