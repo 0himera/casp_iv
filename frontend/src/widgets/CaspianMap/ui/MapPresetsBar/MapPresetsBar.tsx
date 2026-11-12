@@ -1,6 +1,6 @@
 'use client';
 
-import { Compass, Navigation } from 'lucide-react';
+import { Compass, Layers, Navigation } from 'lucide-react';
 import { MAP_PRESETS } from './presetsData';
 import styles from './MapPresetsBar.module.css';
 
@@ -10,10 +10,11 @@ interface MapPresetsBarProps {
   onReset: () => void;
   onFocusCargo: () => void;
   onToggleNetwork?: () => void;
+  onToggleArchival?: () => void;
 }
 
 export function MapPresetsBar({
-  activeId, onSelectPreset, onReset, onFocusCargo, onToggleNetwork,
+  activeId, onSelectPreset, onReset, onFocusCargo, onToggleNetwork, onToggleArchival,
 }: MapPresetsBarProps) {
   return (
     <div className={styles.bar}>
@@ -23,6 +24,13 @@ export function MapPresetsBar({
       </button>
       <div className={styles.divider} />
       {onToggleNetwork && <button type="button" className={styles.presetBtn} onClick={onToggleNetwork}>Сеть портов</button>}
+      {onToggleArchival && (
+        <button type="button" className={`${styles.presetBtn} ${activeId === 'archival' ? styles.active : ''}`} onClick={onToggleArchival}>
+          <Layers className={styles.icon} />
+          <span>Чертёж</span>
+        </button>
+      )}
+      <div className={styles.divider} />
       {MAP_PRESETS.map((p) => (
         <button key={p.id} type="button" onClick={() => onSelectPreset(p.id)} className={`${styles.presetBtn} ${activeId === p.id ? styles.active : ''}`}>
           {p.label}

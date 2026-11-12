@@ -1,58 +1,40 @@
 .legend {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 10;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background-color: color-mix(in srgb, var(--card) 86%, transparent);
-  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #0F131C;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--foreground);
+  color: #CBD5E1;
 }
 
-.line {
-  display: inline-block;
-  width: 14px;
-  height: 2px;
-  border-radius: 1px;
-}
-
-.rail { background-color: var(--mode-rail); }
-.sea { background-color: var(--mode-sea); }
-.road { background-color: var(--mode-road); }
-
-.zone {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-}
-
-.storm {
-  background-color: color-mix(in srgb, var(--status-danger) 40%, transparent);
-  border: 1px solid var(--status-danger);
-}
-
-.calm {
-  background-color: color-mix(in srgb, var(--status-warning) 30%, transparent);
-  border: 1px solid var(--status-warning);
-}
+.line { display: inline-block; width: 16px; height: 2px; border-radius: 1px; }
+.rail { background-color: #FF3B1D; box-shadow: 0 0 8px rgba(255, 59, 29, 0.7); }
+.sea { border-bottom: 2px dashed #00F0FF; height: 0; }
+.zone { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+.storm { background-color: rgba(255, 59, 29, 0.35); border: 1px solid #FF3B1D; }
+.calm { background-color: rgba(245, 158, 11, 0.25); border: 1px solid #F59E0B; }
 
 .schematicTag {
   font-family: var(--font-mono), monospace;
   font-size: 10px;
-  color: var(--muted-foreground);
-  border-left: 1px solid var(--border);
-  padding-left: 8px;
+  letter-spacing: 0.06em;
+  color: #6E717A;
 }

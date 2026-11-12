@@ -1,14 +1,9 @@
 .card {
-  position: absolute;
-  top: 104px;
-  left: 64px;
-  z-index: 25;
-  width: 290px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background-color: color-mix(in srgb, var(--card) 92%, transparent);
-  backdrop-filter: blur(10px);
+  gap: 10px;
+  background-color: #181B25;
 }
 .header, .titleWrap {
   display: flex;

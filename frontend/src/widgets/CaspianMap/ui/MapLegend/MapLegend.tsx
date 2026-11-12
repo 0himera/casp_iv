@@ -12,18 +12,21 @@ export function MapLegend({ stormActive }: MapLegendProps) {
   const missing = live.data?.items.filter((item) => !item.port.coordinates).map((item) => item.port.name) ?? [];
   return (
     <div className={styles.legend}>
-      <span className={styles.item}>
-        <i className={`${styles.line} ${styles.rail}`} /> Выбранный маршрут
+      <div className={styles.items}>
+        <span className={styles.item}>
+          <i className={`${styles.line} ${styles.rail}`} /> Выбранный вектор
+        </span>
+        <span className={styles.item}>
+          <i className={`${styles.line} ${styles.sea}`} /> Альтернатива / маска воды
+        </span>
+        <span className={styles.item}>
+          <i className={`${styles.zone} ${stormActive ? styles.storm : styles.calm}`} />
+          {stormActive ? 'Шторм (термальная аномалия)' : 'Акватория Энзели'}
+        </span>
+      </div>
+      <span className={styles.schematicTag}>
+        SCALE 1:2,500,000 · BATHYMETRIC OPTICAL{missing.length ? ` · НЕТ КООРДИНАТ: ${missing.join(', ')}` : ''}
       </span>
-      <span className={styles.item}>
-        <i className={`${styles.line} ${styles.sea}`} /> Альтернатива
-      </span>
-      <span className={styles.schematicTag}>Пунктир: связи по маске воды</span>
-      <span className={styles.item}>
-        <i className={`${styles.zone} ${stormActive ? styles.storm : styles.calm}`} />
-        {stormActive ? 'Шторм (сценарий)' : 'Акватория Энзели (схема)'}
-      </span>
-      <span className={styles.schematicTag}>Схема · речные подходы не рассчитаны{missing.length ? ` · нет координат: ${missing.join(", ")}` : ""}</span>
     </div>
   );
 }
