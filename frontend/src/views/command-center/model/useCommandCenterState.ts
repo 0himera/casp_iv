@@ -3,8 +3,9 @@
 import { useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCaspianPortsQuery } from '@/entities/cargo';
-import { applyAttestationTransition, applyRouteSwitchTransition, applyScenarioTransition, shipmentKeys, useHealthQuery, useShipmentDetailQuery, useShipmentsListQuery, API_BASE_URL } from '@/entities/shipment';
+import { shipmentKeys, useHealthQuery, useShipmentDetailQuery, useShipmentsListQuery, API_BASE_URL } from '@/entities/shipment';
 import { createCaspianClient, type Role, type ScenarioRequest } from '@/shared/api/caspian';
+import { buildCommandHandlers } from './commandCenterRemote';
 import { useOperationPolling } from './operationPolling';
 
 export function useCommandCenterState() {
@@ -29,28 +30,21 @@ export function useCommandCenterState() {
     if (apiOnline) void fn().catch((e: Error) => { setErrorBanner(e.message); refreshAll(); });
   };
 
+  const handlers = buildCommandHandlers({
+    shipment, role, client, updateLocal, runRemote, setErrorBanner, setScenario,
+  });
+
   return {
     items: listData.items, shipment, ports, apiOnline, role, scenario, errorBanner,
     isBusy: Boolean(polling.activeOperation), ...polling,
     setRole, setSelectedId,
-    selectScenario: (next: ScenarioRequest['scenario']) => {
-      setErrorBanner(null); setScenario(next);
-      updateLocal(applyScenarioTransition(shipment, next));
-      runRemote(() => client.setScenario({ shipment_id: activeId, scenario: next, expected_revision: shipment.revision }, crypto.randomUUID()));
-    },
+    selectScenario: handlers.selectScenario,
     selectRoute: (routeId: string) => {
       if (routeId === shipment.selected_route_id || polling.activeOperation) return;
-      setErrorBanner(null); updateLocal(applyRouteSwitchTransition(shipment, routeId));
-      runRemote(() => client.selectRoute(activeId, { route_id: routeId, forecast_id: shipment.forecast.id, expected_revision: shipment.revision }, crypto.randomUUID()));
+      handlers.selectRoute(routeId);
     },
-    attest: (decision: 'approved' | 'rejected') => {
-      setErrorBanner(null); updateLocal(applyAttestationTransition(shipment, decision, role, false));
-      runRemote(() => client.attest(activeId, { decision, expected_revision: shipment.revision }, crypto.randomUUID()));
-    },
-    verifyEcmr: () => {
-      setErrorBanner(null); updateLocal(applyAttestationTransition(shipment, 'approved', 'customs', true));
-      runRemote(() => client.attest(activeId, { decision: 'approved', expected_revision: shipment.revision }, crypto.randomUUID()));
-    },
+    attest: handlers.attest,
+    verifyEcmr: handlers.verifyEcmr,
     replaceDocument: () => setErrorBanner('Замена документов доступна в режиме онлайн'),
   };
 }
