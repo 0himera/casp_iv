@@ -9,3 +9,21 @@ __pycache__/
 *.key
 *.zip
 *.log
+.DS_Store
+
+# AI agent & IDE files
+.agents/
+.agent/
+AGENTS.md
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.gemini/
+GEMINI.md
+.aider*
+.copilot/
+.vscode/
+.idea/
