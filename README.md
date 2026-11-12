@@ -10,6 +10,7 @@
 | [docs/PLAN.md](docs/PLAN.md) | Объём MVP, распределение работы, этапы и критерии готовности |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Компоненты, прогноз, хранение, роли и контракт Odra |
 | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) | Проверенные источники и пробелы в данных |
+| [data/ports.json](data/ports.json) | Покрытие портов России, Ирана, Казахстана, Азербайджана и Туркменистана |
 | [api/openapi.json](api/openapi.json) | Источник истины для API v1, OpenAPI 3.1 |
 | [api/types.ts](api/types.ts) | TypeScript DTO, сгенерированные из схем OpenAPI |
 | [api/client.ts](api/client.ts) | Готовый fetch adapter для Next.js |

@@ -1,0 +1,174 @@
+{
+  "checked_on": "2026-11-12",
+  "catalog_source": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0",
+  "ports": [
+    {
+      "id": "amirabad",
+      "name_ru": "Амирабад",
+      "country_iso3": "IRN",
+      "region": null,
+      "latitude": 36.85068189,
+      "longitude": 53.365271129999996,
+      "portwatch_id": "port43",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "nowshahr",
+      "name_ru": "Ноушехр",
+      "country_iso3": "IRN",
+      "region": null,
+      "latitude": 36.65505162,
+      "longitude": 51.50857211,
+      "portwatch_id": "port834",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "astrakhan",
+      "name_ru": "Астрахань",
+      "country_iso3": "RUS",
+      "region": null,
+      "latitude": 46.38467723,
+      "longitude": 48.02158851,
+      "portwatch_id": "port76",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "aktau",
+      "name_ru": "Актау",
+      "country_iso3": "KAZ",
+      "region": null,
+      "latitude": 43.60236745,
+      "longitude": 51.22857007,
+      "portwatch_id": "port16",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "turkmenbashi",
+      "name_ru": "Туркменбаши",
+      "country_iso3": "TKM",
+      "region": null,
+      "latitude": 40.00960239,
+      "longitude": 53.00617704,
+      "portwatch_id": "port1330",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "anzali",
+      "name_ru": "Энзели",
+      "country_iso3": "IRN",
+      "region": null,
+      "latitude": 37.47515153,
+      "longitude": 49.46995908,
+      "portwatch_id": "port58",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "makhachkala",
+      "name_ru": "Махачкала",
+      "country_iso3": "RUS",
+      "region": "Дагестан",
+      "latitude": 43.00807675,
+      "longitude": 47.47258052,
+      "portwatch_id": "port684",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "baku",
+      "name_ru": "Баку",
+      "country_iso3": "AZE",
+      "region": null,
+      "latitude": 40.28461052,
+      "longitude": 49.73252397,
+      "portwatch_id": "port100",
+      "coordinate_source": "IMF PortWatch ports database",
+      "coverage": {
+        "weather": "verified_24_hourly_values",
+        "port_activity": "verified_latest_row_2026-11-06",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "kuryk",
+      "name_ru": "Курык",
+      "country_iso3": "KAZ",
+      "region": null,
+      "latitude": null,
+      "longitude": null,
+      "portwatch_id": null,
+      "coordinate_source": null,
+      "operator_source": "https://portkuryk.kz/ru/dispoziciya-sudov",
+      "coverage": {
+        "weather": "not_probed",
+        "port_activity": "operator_html_verified",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "alat",
+      "name_ru": "Алят",
+      "country_iso3": "AZE",
+      "region": null,
+      "latitude": null,
+      "longitude": null,
+      "portwatch_id": null,
+      "coordinate_source": null,
+      "operator_source": "https://cabinet.asco.az/passenger-ticket",
+      "coverage": {
+        "weather": "not_probed",
+        "port_activity": "operator_html_verified",
+        "live_ais": "unverified"
+      }
+    },
+    {
+      "id": "olya",
+      "name_ru": "Оля",
+      "country_iso3": "RUS",
+      "region": null,
+      "latitude": null,
+      "longitude": null,
+      "portwatch_id": null,
+      "coordinate_source": null,
+      "operator_source": "https://ampastra.ru/",
+      "coverage": {
+        "weather": "not_probed",
+        "port_activity": "unverified",
+        "live_ais": "unverified"
+      }
+    }
+  ]
+}

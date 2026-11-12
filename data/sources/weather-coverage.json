@@ -1,0 +1,53 @@
+{
+  "url": "https://api.open-meteo.com/v1/forecast?latitude=36.85068189%2C36.65505162%2C46.38467723%2C43.60236745%2C40.00960239%2C37.47515153%2C43.00807675%2C40.28461052&longitude=53.365271129999996%2C51.50857211%2C48.02158851%2C51.22857007%2C53.00617704%2C49.46995908%2C47.47258052%2C49.73252397&hourly=wind_speed_10m%2Cprecipitation&forecast_days=1&timezone=UTC",
+  "coverage": [
+    {
+      "portid": "port43",
+      "portname": "Amirabad Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port834",
+      "portname": "Nowshahr Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port76",
+      "portname": "Astrakhan Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port16",
+      "portname": "Aktau Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port1330",
+      "portname": "Turkmenbashi Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port58",
+      "portname": "Bandar-e Anzali",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port684",
+      "portname": "Makhachkala",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    },
+    {
+      "portid": "port100",
+      "portname": "Baku Port",
+      "weather_hours": 24,
+      "wind_non_null": 24
+    }
+  ]
+}
