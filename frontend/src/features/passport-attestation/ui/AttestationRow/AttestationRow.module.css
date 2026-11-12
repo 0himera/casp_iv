@@ -1,0 +1,26 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background-color: var(--secondary);
+  font-size: 11px;
+}
+
+.activeRole {
+  border-color: color-mix(in oklch, var(--primary) 50%, var(--border));
+}
+
+.roleWrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.okIcon { width: 13px; height: 13px; color: var(--status-success); }
+.badIcon { width: 13px; height: 13px; color: var(--status-danger); }
+.waitIcon { width: 13px; height: 13px; color: var(--status-warning); }

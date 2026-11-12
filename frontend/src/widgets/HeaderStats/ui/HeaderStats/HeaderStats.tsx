@@ -1,48 +1,47 @@
 'use client';
 
-import { Anchor, Clock, Container, Leaf, Waves } from 'lucide-react';
-import { ForceMajeureButton } from '@/features/force-majeure';
+import { Anchor, Clock, Leaf, Scale, Waves } from 'lucide-react';
+import { getSelectedRoute } from '@/entities/shipment';
+import { DemoControls } from '@/features/demo-controls';
+import type { Role, ScenarioRequest, Shipment } from '@/shared/api/caspian';
+import { formatMskDateTime, formatProbability } from '@/shared/lib/formatters';
 import { Badge } from '@/shared/ui';
 import { KpiTile } from '../KpiTile';
 import styles from './HeaderStats.module.css';
 
 interface HeaderStatsProps {
-  stormActive: boolean;
-  avgHubHours: number;
-  savedCo2Tons: number;
-  activeContainers: number;
-  onToggleStorm: () => void;
+  shipment: Shipment;
+  apiOnline: boolean;
+  role: Role;
+  scenario: ScenarioRequest['scenario'];
+  isBusy: boolean;
+  onChangeRole: (role: Role) => void;
+  onSelectScenario: (scenario: ScenarioRequest['scenario']) => void;
 }
 
-export function HeaderStats({
-  stormActive,
-  avgHubHours,
-  savedCo2Tons,
-  activeContainers,
-  onToggleStorm,
-}: HeaderStatsProps) {
-  const stormValue = stormActive ? '8.9 / 10 (Шторм)' : '3.2 / 10 (Умер.)';
+export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onChangeRole, onSelectScenario }: HeaderStatsProps) {
+  const route = getSelectedRoute(shipment);
+  const prob = shipment.forecast.miss_probability;
+  const probTone = prob === null ? 'warning' : prob >= 0.5 ? 'danger' : prob >= 0.2 ? 'warning' : 'success';
   return (
     <header className={styles.header}>
       <div className={styles.brandBlock}>
-        <div className={styles.logoIcon}>
-          <Anchor className={styles.anchor} />
-        </div>
+        <div className={styles.logoIcon}><Anchor className={styles.anchor} /></div>
         <div className={styles.brandMeta}>
           <span className={styles.brandName}>Smart Caspian Transit</span>
-          <Badge variant={stormActive ? 'destructive' : 'success'}>
+          <Badge variant={apiOnline ? 'success' : 'warning'}>
             <span className={styles.dot} />
-            МТК Север-Юг · Каспийский узел: Онлайн
+            {apiOnline ? 'API: Mock :4010' : 'Офлайн-резерв'}
           </Badge>
         </div>
       </div>
       <div className={styles.kpiRow}>
-        <KpiTile label="Активные контейнеры" value={`${activeContainers} TEU`} icon={<Container className={styles.kpiIcon} />} />
-        <KpiTile label="Ср. время в хабе" value={`${avgHubHours} ч`} tone={stormActive ? 'warning' : 'default'} icon={<Clock className={styles.kpiIcon} />} />
-        <KpiTile label="Штормовая опасность" value={stormValue} tone={stormActive ? 'danger' : 'success'} icon={<Waves className={styles.kpiIcon} />} />
-        <KpiTile label="Сэкономлено CO₂" value={`${savedCo2Tons.toFixed(1)} т`} tone="success" icon={<Leaf className={styles.kpiIcon} />} />
+        <KpiTile label="Масса груза" value={`${shipment.mass_tonnes} т`} icon={<Scale className={styles.kpiIcon} />} />
+        <KpiTile label="Риск срыва" value={formatProbability(prob)} tone={probTone} icon={<Waves className={styles.kpiIcon} />} />
+        <KpiTile label="ETA (P50)" value={formatMskDateTime(route.eta.p50)} icon={<Clock className={styles.kpiIcon} />} />
+        <KpiTile label="Выбросы CO₂e" value={route.emissions_kg_co2e !== null ? `${route.emissions_kg_co2e} кг` : 'Нет данных'} tone="success" icon={<Leaf className={styles.kpiIcon} />} />
       </div>
-      <ForceMajeureButton stormActive={stormActive} onToggle={onToggleStorm} />
+      <DemoControls role={role} scenario={scenario} canRunScenario={shipment.allowed_actions.includes('run_scenario')} isBusy={isBusy} onChangeRole={onChangeRole} onSelectScenario={onSelectScenario} />
     </header>
   );
 }

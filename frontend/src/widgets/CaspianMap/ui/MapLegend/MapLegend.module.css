@@ -49,3 +49,10 @@
   border: 1px solid var(--status-warning);
 }
 
+.schematicTag {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  border-left: 1px solid var(--border);
+  padding-left: 8px;
+}
+

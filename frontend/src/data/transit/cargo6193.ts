@@ -8,8 +8,7 @@ export const CARGO_6193: CargoItem = {
   weightTons: 25.5,
   status: 'delay-risk',
   delayHours: 8,
-  bottleneckReason:
-    'Высокая загрузка причала Энзели (89%). Прогнозируется ожидание разгрузки',
+  bottleneckReason: 'Высокая загрузка причала Энзели (89%). Прогнозируется ожидание разгрузки',
   segments: [
     { mode: 'rail', coordinates: [[30.33, 59.93], [44.51, 48.7], [48.03, 46.34]] },
     { mode: 'sea', coordinates: [[48.03, 46.34], [49.2, 41.5], [49.46, 37.47]] },

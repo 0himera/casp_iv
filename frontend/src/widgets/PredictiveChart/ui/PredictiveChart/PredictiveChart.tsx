@@ -11,49 +11,50 @@ import {
   YAxis,
 } from 'recharts';
 import { Activity } from 'lucide-react';
-import type { ForecastPoint } from '@/entities/cargo';
+import { CASPIAN_WEATHER_SERIES } from '@/data/caspianSnapshots';
+import type { Shipment } from '@/shared/api/caspian';
+import { formatMskDateTime } from '@/shared/lib/formatters';
 import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import styles from './PredictiveChart.module.css';
 
 interface PredictiveChartProps {
-  forecast: ForecastPoint[];
+  shipment: Shipment;
   stormActive: boolean;
 }
 
-export function PredictiveChart({ forecast, stormActive }: PredictiveChartProps) {
+export function PredictiveChart({ shipment, stormActive }: PredictiveChartProps) {
+  const { forecast } = shipment;
   return (
     <Card className={styles.card}>
       <CardHeader className={styles.header}>
         <div className={styles.titleRow}>
-          <div className={styles.titleWrap}>
+          <span className={styles.titleWrap}>
             <Activity className={styles.icon} />
-            <CardTitle>Прогноз задержек и загрузки (7 дн)</CardTitle>
-          </div>
+            <CardTitle>Погода Каспия (Open-Meteo, 24 ч)</CardTitle>
+          </span>
           <Badge variant={stormActive ? 'destructive' : 'secondary'}>
-            {stormActive ? 'Шторм фактор' : 'Штатный режим'}
+            {forecast.quality === 'missing' ? 'Нет данных' : stormActive ? 'Шторм' : 'Штатно'}
           </Badge>
         </div>
       </CardHeader>
       <CardContent className={styles.content}>
         <div className={styles.chartBox}>
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={forecast} margin={{ top: 6, right: 6, left: -24, bottom: 0 }}>
+            <ComposedChart data={CASPIAN_WEATHER_SERIES} margin={{ top: 6, right: 6, left: -24, bottom: 0 }}>
               <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="day" tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis yAxisId="left" tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 100]} />
-              <YAxis yAxisId="right" orientation="right" hide domain={[0, 30]} />
+              <XAxis dataKey="hour" interval={5} tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis yAxisId="left" tick={{ fill: 'var(--muted-foreground)', fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 45]} />
+              <YAxis yAxisId="right" orientation="right" hide domain={[0, 5]} />
               <Tooltip contentStyle={{ backgroundColor: 'var(--popover)', borderColor: 'var(--border)', fontSize: 11, borderRadius: 6 }} />
-              <Area yAxisId="left" type="monotone" dataKey="portLoad" name="Загрузка (%)" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.18} strokeWidth={2} />
-              <Bar yAxisId="right" dataKey="predictedDelay" name="Задержка (ч)" fill={stormActive ? 'var(--chart-4)' : 'var(--chart-3)'} radius={[3, 3, 0, 0]} barSize={14} />
+              <Area yAxisId="left" type="monotone" dataKey="windGusts" name="Порывы (км/ч)" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.18} strokeWidth={2} />
+              <Bar yAxisId="right" dataKey="waveHeight" name="Волна (м)" fill={stormActive ? 'var(--chart-4)' : 'var(--chart-3)'} radius={[2, 2, 0, 0]} barSize={6} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
         <div className={styles.legend}>
-          <span><i className={`${styles.dot} ${styles.loadDot}`} /> Загрузка причалов (%)</span>
-          <span><i className={`${styles.dot} ${stormActive ? styles.stormDot : styles.delayDot}`} /> Прогноз задержки (ч)</span>
+          <span>P10–P90: {formatMskDateTime(forecast.ready_at.p10)} — {formatMskDateTime(forecast.ready_at.p90)}</span>
         </div>
       </CardContent>
     </Card>
   );
 }
-

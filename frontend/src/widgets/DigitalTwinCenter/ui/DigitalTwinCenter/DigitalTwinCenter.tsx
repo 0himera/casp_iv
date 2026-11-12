@@ -1,9 +1,11 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { CheckCircle2, Map as MapIcon, Network } from 'lucide-react';
-import type { CargoItem, CaspianPort } from '@/entities/cargo';
-import { AiDecisionCard } from '@/features/route-optimization';
+import { Map as MapIcon, Network } from 'lucide-react';
+import type { CaspianPort } from '@/entities/cargo';
+import { RouteDecisionOverlay } from '@/features/route-selection';
+import type { Operation, Shipment } from '@/shared/api/caspian';
+import { formatMskDateTime } from '@/shared/lib/formatters';
 import { Badge, Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui';
 import styles from './DigitalTwinCenter.module.css';
 
@@ -18,41 +20,38 @@ const MultimodalGraph = dynamic(() => import('@/widgets/MultimodalGraph').then((
 
 interface DigitalTwinCenterProps {
   ports: CaspianPort[];
-  selectedCargo: CargoItem;
+  shipment: Shipment;
   stormActive: boolean;
-  onReroute: (cargoId: string) => void;
+  activeOperation: Operation | null;
+  operationTimedOut: boolean;
+  errorBanner: string | null;
+  isBusy: boolean;
+  onSelectRoute: (routeId: string) => void;
+  onRecheckOperation: () => void;
 }
-export function DigitalTwinCenter({ ports, selectedCargo, stormActive, onReroute }: DigitalTwinCenterProps) {
+export function DigitalTwinCenter({ ports, shipment, stormActive, activeOperation, operationTimedOut, errorBanner, isBusy, onSelectRoute, onRecheckOperation }: DigitalTwinCenterProps) {
   return (
     <section className={styles.center}>
       <Tabs defaultValue="map" className={styles.tabsRoot}>
         <div className={styles.toolbar}>
           <TabsList>
-            <TabsTrigger value="map">
-              <MapIcon className={styles.tabIcon} /> <span>Геокарта Каспия</span>
-            </TabsTrigger>
-            <TabsTrigger value="graph">
-              <Network className={styles.tabIcon} /> <span>Граф цепочки</span>
-            </TabsTrigger>
+            <TabsTrigger value="map"><MapIcon className={styles.tabIcon} /> <span>Геокарта Каспия</span></TabsTrigger>
+            <TabsTrigger value="graph"><Network className={styles.tabIcon} /> <span>Граф цепочки</span></TabsTrigger>
           </TabsList>
           <div className={styles.cargoPill}>
-            <span className={styles.cargoCode}>{selectedCargo.code}</span>
-            <span className={styles.cargoRoute}>{selectedCargo.routeTitle}</span>
-            {selectedCargo.isRerouted && (
-              <Badge variant="success">
-                <CheckCircle2 className={styles.tabIcon} /> Оптимизирован
-              </Badge>
-            )}
+            <span className={styles.cargoCode}>{shipment.id}</span>
+            <span className={styles.cargoRoute}>{shipment.origin.name} → {shipment.destination.name}</span>
+            <Badge variant="outline">{formatMskDateTime(shipment.scenario_time)}</Badge>
           </div>
         </div>
         <div className={styles.viewport}>
           <TabsContent value="map" className={styles.tabPane}>
-            <CaspianMap ports={ports} selectedCargo={selectedCargo} stormActive={stormActive} />
+            <CaspianMap ports={ports} shipment={shipment} stormActive={stormActive} />
           </TabsContent>
           <TabsContent value="graph" className={styles.tabPane}>
-            <MultimodalGraph selectedCargo={selectedCargo} />
+            <MultimodalGraph shipment={shipment} />
           </TabsContent>
-          <AiDecisionCard cargo={selectedCargo} onReroute={onReroute} />
+          <RouteDecisionOverlay shipment={shipment} activeOperation={activeOperation} operationTimedOut={operationTimedOut} errorBanner={errorBanner} isBusy={isBusy} onSelectRoute={onSelectRoute} onRecheckOperation={onRecheckOperation} />
         </div>
       </Tabs>
     </section>

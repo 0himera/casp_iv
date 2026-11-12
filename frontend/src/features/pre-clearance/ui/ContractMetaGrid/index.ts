@@ -1,2 +1,0 @@
-export { ContractMetaGrid } from './ContractMetaGrid';
-

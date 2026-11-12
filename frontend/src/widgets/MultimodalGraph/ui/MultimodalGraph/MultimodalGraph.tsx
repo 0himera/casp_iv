@@ -3,22 +3,23 @@
 import { useMemo } from 'react';
 import { Background, Controls, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import type { CargoItem } from '@/entities/cargo';
+import { buildGraphNodesFromShipment, getSelectedRoute } from '@/entities/shipment';
+import type { Shipment } from '@/shared/api/caspian';
 import { buildFlowElements } from '../../model/buildFlowElements';
 import { ChainNode } from '../ChainNode';
 import styles from './MultimodalGraph.module.css';
 
 interface MultimodalGraphProps {
-  selectedCargo: CargoItem;
+  shipment: Shipment;
 }
 
 const NODE_TYPES = { chainNode: ChainNode };
 
-export function MultimodalGraph({ selectedCargo }: MultimodalGraphProps) {
-  const { nodes, edges } = useMemo(
-    () => buildFlowElements(selectedCargo.graphNodes),
-    [selectedCargo.graphNodes]
-  );
+export function MultimodalGraph({ shipment }: MultimodalGraphProps) {
+  const { nodes, edges } = useMemo(() => {
+    const route = getSelectedRoute(shipment);
+    return buildFlowElements(buildGraphNodesFromShipment(shipment, route));
+  }, [shipment]);
 
   return (
     <div className={styles.wrapper}>
@@ -39,4 +40,3 @@ export function MultimodalGraph({ selectedCargo }: MultimodalGraphProps) {
     </div>
   );
 }
-

@@ -9,37 +9,44 @@ import { useCommandCenterState } from '../../model/useCommandCenterState';
 import styles from './CommandCenterPage.module.css';
 
 export function CommandCenterPage() {
-  const state = useCommandCenterState();
+  const s = useCommandCenterState();
+  const stormActive = s.scenario === 'storm';
 
   return (
     <div className={styles.shell}>
       <HeaderStats
-        stormActive={state.stormActive}
-        avgHubHours={state.avgHubHours}
-        savedCo2Tons={state.savedCo2Tons}
-        activeContainers={1284}
-        onToggleStorm={state.toggleStorm}
+        shipment={s.shipment}
+        apiOnline={s.apiOnline}
+        role={s.role}
+        scenario={s.scenario}
+        isBusy={s.isBusy}
+        onChangeRole={s.setRole}
+        onSelectScenario={s.selectScenario}
       />
       <main className={styles.grid}>
         <CargoSidebar
-          cargos={state.cargos}
-          selectedCargo={state.selectedCargo}
-          verifyingId={state.verifyingId}
-          onSelectCargo={state.setSelectedId}
-          onRunPreClearance={state.runPreClearance}
+          items={s.items}
+          shipment={s.shipment}
+          role={s.role}
+          isBusy={s.isBusy}
+          onSelectShipment={s.setSelectedId}
+          onAttest={s.attest}
+          onReplaceDocument={s.replaceDocument}
         />
         <DigitalTwinCenter
-          ports={state.ports}
-          selectedCargo={state.selectedCargo}
-          stormActive={state.stormActive}
-          onReroute={state.rerouteCargo}
+          ports={s.ports}
+          shipment={s.shipment}
+          stormActive={stormActive}
+          activeOperation={s.activeOperation}
+          operationTimedOut={s.operationTimedOut}
+          errorBanner={s.errorBanner}
+          isBusy={s.isBusy}
+          onSelectRoute={s.selectRoute}
+          onRecheckOperation={s.recheckNow}
         />
         <aside className={styles.rightPanel}>
-          <PredictiveChart
-            forecast={state.forecast}
-            stormActive={state.stormActive}
-          />
-          <EsgWidget selectedCargo={state.selectedCargo} />
+          <PredictiveChart shipment={s.shipment} stormActive={stormActive} />
+          <EsgWidget shipment={s.shipment} />
         </aside>
       </main>
     </div>
