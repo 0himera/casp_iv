@@ -6,7 +6,7 @@
 
 | Файл | Назначение |
 | --- | --- |
-| [contracts/README.md](contracts/README.md) | Исследование и простой дизайн TransitPassport на Odra; контракт пока не реализован |
+| [contracts/README.md](contracts/README.md) | TransitPassport на Rust/Odra: сборка WASM и 11 тестов в OdraVM/Casper VM; testnet ещё впереди |
 | [backend/README.md](backend/README.md) | Запуск реального API погоды и активности портов на 8000; стек, кэш, ошибки |
 | [api/public-data.client.ts](api/public-data.client.ts) | Отдельный TypeScript-клиент реальных данных, без ключей |
 | [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md) | Проверка frontend, исправления интеграции и следующий этап с реальными данными |

@@ -1,6 +1,26 @@
 # TransitPassport простой контракт согласования перевозки
 
-Проектное решение после исследования Casper/Odra, 12.11.2026. Это спецификация для реализации; Rust-контракт пока не написан и в testnet не развёрнут.
+Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. В testnet контракт пока не развёрнут, backend signer ещё не подключён.
+
+## Сборка и тесты
+
+Из корня репозитория:
+
+```bash
+cd contracts
+cargo test --lib --locked
+cargo odra schema
+cargo odra build
+cargo odra test -b casper
+```
+
+Нужны Cargo Odra (`cargo install cargo-odra --locked`), wasm-strip и wasm-opt. `rust-toolchain.toml` фиксирует nightly-2026-06-06 и wasm32 target: nightly требуется макросам Odra. Все Odra-зависимости согласованы на 2.10.1; точные зависимости сохранены в Cargo.lock. Проверен cargo-odra 0.1.7.
+
+`.cargo/config.toml` разрешает импорт host-функций Casper при WASM linking и отключает расширения WASM, несовместимые с выбранным execution engine. Валидность результата проверена исполнением в Casper VM. Полученный файл: `wasm/TransitPassport.wasm`; он не хранится в Git и воспроизводится сборкой. ABI со всеми аргументами, типами и событиями: `resources/casper_contract_schemas/transit_passport_schema.json`.
+
+В тестах контракт устанавливается с `InstallConfig::new::<TransitPassport>(false, false)`: без обновления и перезаписи package named key. Такие же флаги нужно явно передать при testnet deploy. Наличие готового WASM ещё не означает, что он установлен в сети с этими параметрами.
+
+Проверены native events с содержимым actor/role, отсутствие прав у deployer, не являющегося участником, одно решение в версии, отзыв, граница expiry, повторное согласование с теми же hashes, история, изоляция отправок и ошибки ввода. Есть защитный checked_add версии; достижение u32::MAX не воспроизводилось миллиардами транзакций. Зависимость proc-macro-error2 выдаёт предупреждение о совместимости с будущими версиями Rust; на зафиксированном toolchain сборка и тесты проходят.
 
 ## Назначение
 
@@ -108,7 +128,7 @@ Operation flow: queued → submitted → confirmed/failed. После submit с�
 
 ## Реализация и проверка
 
-Кандидат toolchain — Odra 2.9.0: проверены версия в release manifest и соответствующая документация. Rust и wasm32 target доступны локально. Сборка проекта и совместимость зависимостей ещё не проверялись; версии фиксируются Cargo.lock при реализации. [Release source](https://github.com/odradev/odra/blob/release/2.9.0/Cargo.toml).
+Исследование опиралось на документацию Odra 2.9; при реализации выбрана согласованная доступная версия 2.10.1 и зафиксирован nightly toolchain. Реальная совместимость проверена локальной сборкой и execution-engine тестами, а не только примерами из документации.
 
 Порядок: cargo odra scaffold → локальные OdraVM тесты → Casper execution-engine тесты → WASM → testnet → backend adapter. Для реальной сети Odra предлагает Livenet backend, отдельные key paths и chain name casper-test. Нужны testnet CSPR и доступный RPC; открытые данные без ключа не отменяют необходимость ключей для подписания chain-транзакций. [Testing](https://odra.dev/docs/2.9/basics/testing/), [Casper backend](https://odra.dev/docs/2.9/backends/casper/), [Livenet](https://odra.dev/docs/2.9/backends/livenet/).
 
@@ -128,4 +148,4 @@ Operation flow: queued → submitted → confirmed/failed. После submit с�
 - Правильные caller и native events проверяются в Casper VM, затем на testnet.
 - Повтор HTTP-запроса, timeout RPC, failed execution и сбой записи БД не создают ложного confirmed.
 
-Следующий конкретный шаг — реализовать эти пять entrypoints и локальные тесты в `contracts/`, затем подключать сеть. Реестр организаций и сложное управление участниками не входят в этот вариант.
+Следующий конкретный шаг — testnet deploy с тремя разными demo-аккаунтами, фиксация адреса/транзакции и подключение Rust adapter к backend Operation flow. Реестр организаций и сложное управление участниками не входят в этот вариант.

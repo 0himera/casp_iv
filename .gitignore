@@ -12,3 +12,6 @@ __pycache__/
 backend/var/
 .pytest_cache/
 .ruff_cache/
+contracts/target/
+contracts/wasm/
+contracts/.odra/
