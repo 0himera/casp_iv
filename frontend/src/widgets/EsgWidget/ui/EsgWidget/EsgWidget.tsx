@@ -20,7 +20,7 @@ export function EsgWidget({ shipment }: EsgWidgetProps) {
   const savedPercent = currentKg !== null && maxKg > 0 ? Math.round(((maxKg - currentKg) / maxKg) * 100) : 0;
 
   return (
-    <ViewfinderFrame stamp="[ 03-E / BIO-OPTICS ]" className={styles.card}>
+    <ViewfinderFrame stamp="ESG и журнал" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
           <PixelMarker variant="verified" />

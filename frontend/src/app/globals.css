@@ -38,5 +38,5 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
   height: 100%;
   overflow: hidden;
-  --font-editorial: var(--font-serif), Georgia, 'Times New Roman', serif;
+  --font-editorial: var(--font-serif), Georgia, serif;
 }

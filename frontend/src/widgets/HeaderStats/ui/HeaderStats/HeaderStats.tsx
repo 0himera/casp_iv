@@ -33,11 +33,11 @@ export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onCha
             <span className={styles.brandName}>
               Smart Caspian <em className={styles.brandItalic}>Transit</em>
             </span>
-            <span className={styles.stamp}>[ 00-019 / MTC-NORTH-SOUTH ]</span>
+            <span className={styles.stamp}>МТК Север–Юг</span>
           </div>
           <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
             <span className={styles.squareDot} />
-            {apiOnline ? 'API: Mock :4010' : 'Офлайн-резерв'}
+            {apiOnline ? 'Mock API :4010' : 'Офлайн-резерв'}
           </Badge>
         </div>
       </div>

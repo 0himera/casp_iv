@@ -41,3 +41,4 @@ export function PixelMarker({ variant = 'telemetry', className }: PixelMarkerPro
     </span>
   );
 }
+

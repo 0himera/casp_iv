@@ -33,7 +33,7 @@ export function RouteDecisionOverlay({ shipment, activeOperation, operationTimed
           </span>
           <div className={styles.badges}>
             <Badge variant={forecast.quality === 'missing' ? 'warning' : 'lavender'} className={styles.collageBadge}>
-              {forecast.quality === 'missing' ? 'Нет данных' : 'AI // Синтетический'}
+              {forecast.quality === 'missing' ? 'Нет данных' : 'Синтетический'}
             </Badge>
             <Badge variant={probVariant} className={styles.collageBadge}>Срыв: {formatProbability(forecast.miss_probability)}</Badge>
           </div>

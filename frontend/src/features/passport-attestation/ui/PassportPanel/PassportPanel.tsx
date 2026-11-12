@@ -23,7 +23,7 @@ export function PassportPanel({ shipment, role, isBusy, onAttest, onReplaceDocum
   const variant = passport.status === 'ready' ? 'success' : passport.status === 'blocked' ? 'destructive' : 'warning';
 
   return (
-    <ViewfinderFrame stamp="[ 02-A / PRE-CLEARANCE ]" className={styles.card}>
+    <ViewfinderFrame stamp="Pre-clearance" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
           <PixelMarker variant={passport.status === 'ready' ? 'verified' : 'telemetry'} />

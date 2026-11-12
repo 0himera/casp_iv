@@ -1,22 +1,23 @@
 import type { Metadata } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { Cormorant_Garamond, IBM_Plex_Mono, Manrope } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
+const manrope = Manrope({
   variable: '--font-sans',
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin', 'cyrillic'],
 });
 
-const instrumentSerif = Instrument_Serif({
+const cormorant = Cormorant_Garamond({
   variable: '--font-serif',
-  weight: '400',
+  weight: ['400', '500'],
   style: ['italic', 'normal'],
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin', 'cyrillic'],
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-mono',
+  weight: ['400', '500'],
   subsets: ['latin', 'cyrillic'],
 });
 
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
-      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
+      className={`${manrope.variable} ${cormorant.variable} ${ibmPlexMono.variable} dark h-full antialiased`}
     >
       <body className="h-screen overflow-hidden bg-background text-foreground">
         <QueryProvider>{children}</QueryProvider>

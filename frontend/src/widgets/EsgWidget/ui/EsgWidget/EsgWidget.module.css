@@ -16,8 +16,8 @@
 
 .titleRow { justify-content: space-between; }
 .heading { font-size: 13px; font-weight: 500; color: var(--foreground); }
-.headingItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 16px; color: var(--status-success); }
-.collageBadge { transform: translateY(-4px); }
+.headingItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 18px; color: var(--status-success); }
+.collageBadge { transform: translateY(-1px); }
 .trendIcon { width: 13px; height: 13px; color: var(--status-success); }
 .bars { display: flex; flex-direction: column; gap: 7px; }
 

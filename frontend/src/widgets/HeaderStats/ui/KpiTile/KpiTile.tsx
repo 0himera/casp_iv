@@ -23,7 +23,6 @@ export function KpiTile({
         <span className={styles.labelRow}>
           <span className={styles.iconWrap}>{icon}</span>
           <span className={styles.label}>{label}</span>
-          <span className={styles.aster}>*</span>
         </span>
         <span className={`${styles.value} ${styles[tone]}`}>{value}</span>
       </div>

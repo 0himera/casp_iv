@@ -13,8 +13,8 @@
 }
 
 .portXray {
-  outline: 1px dashed var(--accent-lavender);
-  outline-offset: 4px;
+  border-color: var(--accent-lavender);
+  background-color: color-mix(in srgb, var(--accent-lavender) 14%, var(--card));
 }
 
 .portDanger {

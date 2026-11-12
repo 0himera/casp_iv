@@ -30,7 +30,6 @@ export function SlashCommandBar({
 }: SlashCommandBarProps) {
   return (
     <div className={styles.bar}>
-      <span className={styles.prefix}>✦ CMD</span>
       <Button type="button" size="sm" variant={stormActive ? 'destructive' : 'outline'} disabled={!canRunScenario || isBusy} onClick={onToggleStorm} className={styles.cmdBtn}>
         /simulate-storm
       </Button>
@@ -46,3 +45,4 @@ export function SlashCommandBar({
     </div>
   );
 }
+

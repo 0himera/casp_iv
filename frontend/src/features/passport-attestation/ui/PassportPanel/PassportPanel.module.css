@@ -19,7 +19,7 @@
 
 .titleWrap { justify-content: flex-start; }
 .title { font-size: 12px; font-weight: 500; color: var(--foreground); }
-.collageBadge { transform: translateY(-6px); }
+.collageBadge { transform: translateY(-1px); }
 .icon { width: 13px; height: 13px; color: var(--status-success); }
 .miniIcon { width: 11px; height: 11px; }
 

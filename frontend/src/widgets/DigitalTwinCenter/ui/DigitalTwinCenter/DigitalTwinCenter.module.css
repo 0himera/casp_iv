@@ -22,9 +22,9 @@
   writing-mode: vertical-rl;
   font-family: var(--font-mono), monospace;
   font-size: 9px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   color: var(--muted-foreground);
-  opacity: 0.72;
+  opacity: 0.42;
   user-select: none;
   align-self: center;
 }

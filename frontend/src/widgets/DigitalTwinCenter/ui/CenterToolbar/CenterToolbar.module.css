@@ -10,8 +10,9 @@
 
 .titleBlock { justify-content: flex-start; }
 .heading { font-size: 14px; font-weight: 500; color: var(--foreground); white-space: nowrap; }
-.headingItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 17px; color: var(--primary); }
+.headingItalic { font-family: var(--font-editorial); font-style: italic; font-weight: 400; font-size: 19px; color: var(--primary); }
 .tabIcon { width: 13px; height: 13px; }
 .cargoMeta { min-width: 0; gap: 8px; font-size: 11px; }
 .cargoCode { font-family: var(--font-mono), monospace; font-weight: 600; color: var(--primary); }
 .cargoRoute { color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+

@@ -32,7 +32,7 @@
 .titleWrap,
 .opBox { justify-content: flex-start; }
 
-.collageBadge { transform: translateY(-6px); }
+.collageBadge { transform: translateY(-2px); }
 .aiIcon { width: 13px; height: 13px; color: var(--accent-lavender); }
 .miniIcon { width: 12px; height: 12px; }
 .spinIcon { width: 13px; height: 13px; color: var(--primary); animation: spin 1s linear infinite; }

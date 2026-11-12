@@ -16,7 +16,7 @@ export function PredictiveChart({ shipment, stormActive }: PredictiveChartProps)
   const { forecast } = shipment;
   const waveColor = stormActive ? 'var(--chart-4)' : 'var(--chart-1)';
   return (
-    <ViewfinderFrame stamp="✦ TELEMETRY // 24H" className={styles.card}>
+    <ViewfinderFrame stamp="Телеметрия · 24 ч" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
           <PixelMarker variant={stormActive ? 'alert' : 'ai'} />

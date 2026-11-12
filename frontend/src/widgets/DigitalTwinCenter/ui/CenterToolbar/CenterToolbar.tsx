@@ -32,3 +32,4 @@ export function CenterToolbar({ shipment, xrayMode }: CenterToolbarProps) {
     </div>
   );
 }
+
