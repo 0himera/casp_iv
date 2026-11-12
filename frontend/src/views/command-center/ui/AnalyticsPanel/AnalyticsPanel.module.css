@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background-color: color-mix(in srgb, var(--card) 90%, transparent);
 }
