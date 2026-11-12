@@ -1,0 +1,10 @@
+{
+  "name": "caspian-psychaos-api",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-12",
+  "compatibility_flags": ["allow_custom_ports"],
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "caspian.psychaos.art", "custom_domain": true }
+  ]
+}
