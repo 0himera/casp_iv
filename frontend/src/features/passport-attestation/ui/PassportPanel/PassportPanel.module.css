@@ -45,3 +45,7 @@
 }
 
 .actionBtn { flex: 1; }
+
+.title { font: 400 26px var(--font-serif); }
+.subRow { flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px dashed var(--border-strong); }
+.rows { padding: 8px 0; }

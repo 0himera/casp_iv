@@ -33,7 +33,7 @@ export function PassportPanel({
   const variant = passport.status === 'ready' ? 'success' : passport.status === 'blocked' ? 'destructive' : 'secondary';
 
   return (
-    <ViewfinderFrame stamp="Pre-clearance" className={styles.card}>
+    <ViewfinderFrame tone="lavender" stamp="Pre-clearance" className={styles.card}>
       <div className={styles.titleRow}>
         <span className={styles.titleWrap}>
           <ShieldCheck className={styles.icon} />

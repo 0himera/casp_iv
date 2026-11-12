@@ -27,7 +27,7 @@ export function MultimodalGraph({ shipment }: MultimodalGraphProps) {
         nodes={nodes}
         edges={edges}
         nodeTypes={NODE_TYPES}
-        colorMode="dark"
+        colorMode="light"
         fitView
         fitViewOptions={{ padding: 0.25 }}
         nodesDraggable={false}
