@@ -1,4 +1,4 @@
-import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse, PredictionRequest, PredictionResponse, DwellRequest, DwellResponse, DwellModelStatus, CorridorList } from './public-data.types';
+import type { ActivityResponse, Health, Port, PortList, WeatherResponse, SailingsResponse, PredictionRequest, PredictionResponse, DwellRequest, DwellResponse, DwellModelStatus, CorridorList, LiveOverview } from './public-data.types';
 
 export class PublicDataError extends Error {
   constructor(public status: number, public code: string, message: string) {
@@ -25,6 +25,7 @@ export function createPublicDataClient(baseUrl = 'http://localhost:8000/api/v1')
     health: (signal?: AbortSignal) => get<Health>('/health', signal),
     ports: (signal?: AbortSignal) => get<PortList>('/ports', signal),
     corridors: (signal?: AbortSignal) => get<CorridorList>('/corridors', signal),
+    liveOverview: (signal?: AbortSignal) => get<LiveOverview>('/live-overview', signal),
     port: (id: string, signal?: AbortSignal) => get<Port>(portPath(id), signal),
     weather: (id: string, forecastDays = 3, signal?: AbortSignal) =>
       get<WeatherResponse>(`${portPath(id)}/weather?forecast_days=${forecastDays}`, signal),

@@ -30,6 +30,7 @@ GEMINI.md
 backend/var/
 .pytest_cache/
 .ruff_cache/
+.wrangler/
 contracts/target/
 contracts/wasm/
 contracts/.odra/
