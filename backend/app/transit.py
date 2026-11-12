@@ -13,6 +13,7 @@ from fastapi import HTTPException
 
 from .casper import MANIFEST
 from .config import REPOSITORY_ROOT
+from .prediction import predict
 
 
 def now():
@@ -129,6 +130,139 @@ class Transit:
         if not row:
             fail(404, "OPERATION_NOT_FOUND", "Операция не найдена")
         return json.loads(row["public"])
+
+    def update_forecast(self, role, shipment_id, body, idem):
+        if role != "logistician":
+            fail(403, "FORBIDDEN", "Прогноз обновляет логист")
+        data = body.model_dump(mode="json")
+        digest = hashlib.sha256(rfc8785.dumps(data)).hexdigest()
+        result = predict(body.scenario).model_dump(mode="json")
+        with self.store.connect(write=True) as db:
+            previous = db.execute(
+                "SELECT digest,response FROM forecast_requests WHERE shipment_id=? AND idem=?",
+                (shipment_id, idem),
+            ).fetchone()
+            if previous:
+                if previous["digest"] != digest:
+                    fail(409, "IDEMPOTENCY_CONFLICT", "Ключ уже использован с другим телом")
+                return json.loads(previous["response"])
+            row = db.execute("SELECT * FROM shipments WHERE id=?", (shipment_id,)).fetchone()
+            if not row:
+                fail(404, "SHIPMENT_NOT_FOUND", "Отправка не найдена")
+            snapshot = json.loads(row["snapshot"])
+            if row["pending"]:
+                fail(409, "OPERATION_PENDING", "Дождитесь текущей операции")
+            if snapshot["revision"] != body.expected_revision:
+                fail(409, "REVISION_CONFLICT", "Отправка изменилась; обновите её")
+            if snapshot["passport"]["version"] == 0:
+                fail(409, "PASSPORT_NOT_REGISTERED", "Паспорт ещё не создан")
+            if {r.id for r in body.scenario.routes} != {r["id"] for r in snapshot["routes"]}:
+                fail(422, "ROUTES_MISMATCH", "Нужны сценарии для всех маршрутов карточки")
+            selected = snapshot["selected_route_id"]
+            selected_scenario = next(r for r in body.scenario.routes if r.id == selected)
+            cutoff = selected_scenario.sailings[0].cutoff_at
+            first_cutoff = min(r.sailings[0].cutoff_at for r in body.scenario.routes)
+            if first_cutoff <= now():
+                fail(422, "CUTOFF_IN_PAST", "Cutoff одного из маршрутов уже прошёл")
+            by_id = {r["route_id"]: r for r in result["routes"]}
+            for route in snapshot["routes"]:
+                values = by_id[route["id"]]
+                route["miss_probability"] = values["probability_target_cutoff_missed"]
+                route["eta"] = values["delivery_eta"] or {"p10": None, "p50": None, "p90": None}
+            values = by_id[selected]
+            snapshot["forecast"] = {
+                "id": "forecast_" + uuid.uuid4().hex,
+                "generated_at": iso(),
+                "valid_until": iso(min(now() + timedelta(hours=1), first_cutoff)),
+                "method": "monte_carlo",
+                "quality": "synthetic",
+                "ready_at": values["ready_at"],
+                "cargo_cutoff": iso(cutoff),
+                "miss_probability": values["probability_target_cutoff_missed"],
+                "reasons": ["Сценарный расчёт: параметры переданы пользователем."]
+                + values["warnings"],
+            }
+            snapshot["revision"] += 1
+            snapshot["updated_at"] = iso()
+            db.execute(
+                "UPDATE shipments SET snapshot=? WHERE id=?", (json.dumps(snapshot), shipment_id)
+            )
+            db.execute(
+                "INSERT INTO forecast_requests VALUES (?,?,?,?)",
+                (shipment_id, idem, digest, json.dumps(snapshot)),
+            )
+            db.execute(
+                "INSERT INTO forecast_runs VALUES (?,?,?,?)",
+                (
+                    snapshot["forecast"]["id"],
+                    shipment_id,
+                    json.dumps(data["scenario"]),
+                    json.dumps(result),
+                ),
+            )
+        return snapshot
+
+    def add_route_candidate(self, role, shipment_id, body, idem):
+        if role != "logistician":
+            fail(403, "FORBIDDEN", "Маршруты добавляет логист")
+        data = body.model_dump(mode="json")
+        digest = hashlib.sha256(rfc8785.dumps(data)).hexdigest()
+        route = data["route"]
+        catalog = json.loads((REPOSITORY_ROOT / "data/ports.json").read_text())
+        known_ports = {p["id"] for p in catalog["ports"]}
+        if len(route["ports"]) < 2 or not set(route["ports"]) <= known_ports:
+            fail(422, "INVALID_ROUTE_PORTS", "Укажите не менее двух портов из каталога")
+        coordinates = route["geometry"]["coordinates"]
+        if (
+            len(coordinates) < 2
+            or len(coordinates) > 1000
+            or any(
+                len(point) != 2 or not -180 <= point[0] <= 180 or not -90 <= point[1] <= 90
+                for point in coordinates
+            )
+        ):
+            fail(422, "INVALID_ROUTE_GEOMETRY", "Нужны координаты [долгота, широта]")
+        route["geometry_kind"] = "schematic"
+        route["capacity_status"] = "synthetic"
+        route["miss_probability"] = None
+        route["eta"] = {"p10": None, "p50": None, "p90": None}
+        route["emissions_method"] = "user-supplied scenario: " + route["emissions_method"]
+        with self.store.connect(write=True) as db:
+            previous = db.execute(
+                "SELECT digest,response FROM candidate_requests WHERE shipment_id=? AND idem=?",
+                (shipment_id, idem),
+            ).fetchone()
+            if previous:
+                if previous["digest"] != digest:
+                    fail(409, "IDEMPOTENCY_CONFLICT", "Ключ уже использован с другим телом")
+                return json.loads(previous["response"])
+            row = db.execute("SELECT * FROM shipments WHERE id=?", (shipment_id,)).fetchone()
+            if not row:
+                fail(404, "SHIPMENT_NOT_FOUND", "Отправка не найдена")
+            snapshot = json.loads(row["snapshot"])
+            if row["pending"]:
+                fail(409, "OPERATION_PENDING", "Дождитесь текущей операции")
+            if snapshot["revision"] != body.expected_revision:
+                fail(409, "REVISION_CONFLICT", "Отправка изменилась; обновите её")
+            if snapshot["passport"]["version"] == 0:
+                fail(409, "PASSPORT_NOT_REGISTERED", "Паспорт ещё не создан")
+            if any(r["id"] == route["id"] for r in snapshot["routes"]):
+                fail(409, "ROUTE_EXISTS", "Маршрут с таким id уже существует")
+            if len(snapshot["routes"]) >= 20:
+                fail(422, "TOO_MANY_ROUTES", "Не более 20 вариантов в одной отправке")
+            snapshot["routes"].append(route)
+            snapshot["data_mode"] = "synthetic"
+            snapshot["forecast"]["valid_until"] = iso()
+            snapshot["revision"] += 1
+            snapshot["updated_at"] = iso()
+            db.execute(
+                "UPDATE shipments SET snapshot=? WHERE id=?", (json.dumps(snapshot), shipment_id)
+            )
+            db.execute(
+                "INSERT INTO candidate_requests VALUES (?,?,?,?)",
+                (shipment_id, idem, digest, json.dumps(snapshot)),
+            )
+        return snapshot
 
     def listing(self):
         with self.store.connect() as db:
@@ -253,6 +387,31 @@ class Transit:
                     if route["id"] == candidate["selected_route_id"]:
                         fail(409, "NO_CHANGE", "Этот маршрут уже выбран")
                     candidate["selected_route_id"] = route["id"]
+                    if forecast["method"] == "monte_carlo":
+                        run = db.execute(
+                            "SELECT scenario,result FROM forecast_runs "
+                            "WHERE id=? AND shipment_id=?",
+                            (forecast["id"], shipment_id),
+                        ).fetchone()
+                        if run is None:
+                            fail(409, "FORECAST_STALE", "Расчёт не найден; обновите прогноз")
+                        scenario = next(
+                            r
+                            for r in json.loads(run["scenario"])["routes"]
+                            if r["id"] == route["id"]
+                        )
+                        values = next(
+                            r
+                            for r in json.loads(run["result"])["routes"]
+                            if r["route_id"] == route["id"]
+                        )
+                        forecast.update(
+                            ready_at=values["ready_at"],
+                            cargo_cutoff=scenario["sailings"][0]["cutoff_at"],
+                            miss_probability=values["probability_target_cutoff_missed"],
+                            reasons=["Сценарный расчёт: параметры переданы пользователем."]
+                            + values["warnings"],
+                        )
                 elif kind == "replace_document":
                     document = next(
                         (d for d in candidate["documents"] if d["id"] == body["document_id"]), None

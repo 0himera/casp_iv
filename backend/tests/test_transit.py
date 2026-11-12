@@ -498,9 +498,151 @@ def test_corridors_are_sourced_and_do_not_claim_available_sailings(rig):
     client, *_ = rig
     corridors = client.get("/api/v1/corridors").json()["items"]
     port_ids = {p["id"] for p in client.get("/api/v1/ports").json()["items"]}
-    assert len(corridors) == 3
+    assert len(corridors) == 8
     for corridor in corridors:
         assert set(corridor["port_ids"]) <= port_ids
         assert corridor["source_url"].startswith("https://")
         assert not corridor["scheduled_sailing_confirmed"]
         assert not corridor["capacity_confirmed"]
+
+
+def test_forecast_persists_without_chain_and_enforces_revision_idempotency(rig):
+    client, svc, worker, chain, _ = rig
+    shipment_id = create(rig)
+    original = client.get(f"/api/v1/shipments/{shipment_id}").json()
+    start = now()
+    departure = start + timedelta(days=2)
+    cutoff = start + timedelta(days=1)
+    duration = {"minimum_hours": 1, "typical_hours": 1, "maximum_hours": 1}
+    routes = [
+        {
+            "id": r["id"],
+            "land_travel": duration,
+            "terminal_processing": duration,
+            "documents_ready": duration,
+            "weather_hold": duration,
+            "loading_buffer_hours": 0,
+            "sea_travel": duration,
+            "destination_processing": duration,
+            "sailings": [
+                {
+                    "id": "hypothetical",
+                    "cutoff_at": cutoff.isoformat(),
+                    "departure_at": departure.isoformat(),
+                    "capacity_confirmed": None,
+                }
+            ],
+        }
+        for r in original["routes"]
+    ]
+    body = {
+        "expected_revision": original["revision"],
+        "scenario": {"start_at": start.isoformat(), "routes": routes, "samples": 100},
+    }
+    body["scenario"]["routes"][1]["terminal_processing"] = {
+        "minimum_hours": 12,
+        "typical_hours": 12,
+        "maximum_hours": 12,
+    }
+    body["scenario"]["routes"][1]["sailings"][0]["cutoff_at"] = (
+        cutoff + timedelta(hours=2)
+    ).isoformat()
+    target = f"/api/v1/shipments/{shipment_id}/forecast"
+    broadcasts = len(chain.broadcasts)
+    response = client.post(target, json=body, headers=headers(key="forecast-1"))
+    assert response.status_code == 200, response.text
+    new = response.json()
+    assert new["revision"] == original["revision"] + 1
+    assert new["forecast"]["method"] == "monte_carlo"
+    assert new["forecast"]["quality"] == "synthetic"
+    assert all(r["eta"]["p50"] is None for r in new["routes"])
+    assert new["passport"] == original["passport"]
+    assert len(chain.broadcasts) == broadcasts
+    assert client.post(target, json=body, headers=headers(key="forecast-1")).json() == new
+    assert client.post(target, json=body, headers=headers(key="forecast-2")).status_code == 409
+    changed = body | {"expected_revision": new["revision"]}
+    assert client.post(target, json=changed, headers=headers(key="forecast-1")).status_code == 409
+    assert (
+        client.post(target, json=changed, headers=headers(role="carrier", key="f3")).status_code
+        == 403
+    )
+    assert client.get(f"/api/v1/shipments/{shipment_id}").json()["forecast"] == new["forecast"]
+    target_route = original["routes"][1]["id"]
+    change = client.post(
+        f"/api/v1/shipments/{shipment_id}/route-selection",
+        json={
+            "route_id": target_route,
+            "forecast_id": new["forecast"]["id"],
+            "expected_revision": new["revision"],
+        },
+        headers=headers(key="select-forecast-route"),
+    )
+    assert change.status_code == 202, change.text
+    complete(worker)
+    changed_shipment = client.get(f"/api/v1/shipments/{shipment_id}").json()
+    assert changed_shipment["selected_route_id"] == target_route
+    assert changed_shipment["forecast"]["cargo_cutoff"] == (
+        cutoff + timedelta(hours=2)
+    ).isoformat().replace("+00:00", "Z")
+    assert changed_shipment["forecast"]["ready_at"]["p50"] != new["forecast"]["ready_at"]["p50"]
+
+
+def test_emissions_comparison_uses_mass_and_requires_supplied_factors(rig):
+    client, *_ = rig
+    shipment_id = create(rig)
+    shipment = client.get(f"/api/v1/shipments/{shipment_id}").json()
+    body = {
+        "factors_kg_per_tonne_km": {"road": 0.1, "sea": 0.02},
+        "factor_source": "test assumptions",
+        "routes": [
+            {
+                "route_id": shipment["routes"][0]["id"],
+                "legs": [{"mode": "road", "distance_km": 100}, {"mode": "sea", "distance_km": 500}],
+            }
+        ],
+    }
+    response = client.post(f"/api/v1/shipments/{shipment_id}/emissions-comparison", json=body)
+    assert response.status_code == 200
+    result = response.json()
+    assert result["routes"][0]["total_kg_co2e"] == pytest.approx(shipment["mass_tonnes"] * 20)
+    assert result["input_quality"] == "user_supplied_scenario"
+    body["factors_kg_per_tonne_km"].pop("sea")
+    assert (
+        client.post(f"/api/v1/shipments/{shipment_id}/emissions-comparison", json=body).status_code
+        == 422
+    )
+    assert client.get(f"/api/v1/shipments/{shipment_id}").json() == shipment
+
+
+def test_add_candidate_is_scenario_invalidates_forecast_and_keeps_passport(rig):
+    client, _, _, chain, _ = rig
+    shipment_id = create(rig)
+    original = client.get(f"/api/v1/shipments/{shipment_id}").json()
+    candidate = copy.deepcopy(original["routes"][0])
+    candidate.update(
+        id="kuryk-anzali-demo",
+        ports=["kuryk", "anzali"],
+        geometry={"type": "LineString", "coordinates": [[51.75, 43.2667], [49.47, 37.47]]},
+        capacity_status="confirmed",
+        geometry_kind="measured",
+        miss_probability=0.1,
+    )
+    body = {"expected_revision": original["revision"], "route": candidate}
+    target = f"/api/v1/shipments/{shipment_id}/route-candidates"
+    count = len(chain.broadcasts)
+    response = client.post(target, json=body, headers=headers(key="route-1"))
+    assert response.status_code == 200, response.text
+    result = response.json()
+    route = result["routes"][-1]
+    assert route["capacity_status"] == "synthetic"
+    assert route["geometry_kind"] == "schematic" and route["miss_probability"] is None
+    assert result["revision"] == original["revision"] + 1
+    assert result["passport"] == original["passport"]
+    assert result["forecast"]["valid_until"] <= result["updated_at"]
+    assert len(chain.broadcasts) == count
+    assert client.post(target, json=body, headers=headers(key="route-1")).json() == result
+    assert client.post(target, json=body, headers=headers(key="route-2")).status_code == 409
+    invalid = copy.deepcopy(body)
+    invalid["expected_revision"] = result["revision"]
+    invalid["route"]["ports"] = ["kuryk", "not-a-port"]
+    assert client.post(target, json=invalid, headers=headers(key="route-3")).status_code == 422

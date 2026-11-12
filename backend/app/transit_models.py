@@ -4,6 +4,9 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from .prediction import PredictionRequest
+from .shipment_dto import Route
+
 Role = Literal["logistician", "carrier", "customs"]
 
 
@@ -33,6 +36,14 @@ class ReplaceDocument(RevisionInput):
 
 class Attest(RevisionInput):
     decision: Literal["approved", "rejected"]
+
+
+class UpdateForecast(RevisionInput):
+    scenario: PredictionRequest
+
+
+class AddRouteCandidate(RevisionInput):
+    route: Route
 
 
 class Operation(Input):

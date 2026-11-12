@@ -88,6 +88,88 @@
         }
       }
     },
+    "/api/v1/shipments/{shipment_id}/emissions-comparison": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Compare Emissions",
+        "operationId": "compare_emissions_api_v1_shipments__shipment_id__emissions_comparison_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmissionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmissionsComparison"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/shipments": {
       "get": {
         "tags": [
@@ -344,6 +426,224 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{shipment_id}/forecast": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Update Forecast",
+        "operationId": "update_forecast_api_v1_shipments__shipment_id__forecast_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateForecast"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{shipment_id}/route-candidates": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Add Route Candidate",
+        "operationId": "add_route_candidate_api_v1_shipments__shipment_id__route_candidates_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddRouteCandidate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
                 }
               }
             }
@@ -1892,6 +2192,25 @@
         ],
         "title": "ActivityResponse"
       },
+      "AddRouteCandidate": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "route": {
+            "$ref": "#/components/schemas/Route"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "route"
+        ],
+        "title": "AddRouteCandidate"
+      },
       "Attest": {
         "properties": {
           "expected_revision": {
@@ -2476,6 +2795,181 @@
           "warnings"
         ],
         "title": "DwellResponse"
+      },
+      "EmissionsComparison": {
+        "properties": {
+          "shipment_id": {
+            "type": "string",
+            "title": "Shipment Id"
+          },
+          "shipment_revision": {
+            "type": "integer",
+            "title": "Shipment Revision"
+          },
+          "mass_tonnes": {
+            "type": "number",
+            "title": "Mass Tonnes"
+          },
+          "factor_source": {
+            "type": "string",
+            "title": "Factor Source"
+          },
+          "input_quality": {
+            "type": "string",
+            "const": "user_supplied_scenario",
+            "title": "Input Quality",
+            "default": "user_supplied_scenario"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/EmissionsResult"
+            },
+            "type": "array",
+            "title": "Routes"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": "Scenario estimate, not independently verified or a certified GLEC calculation."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "shipment_id",
+          "shipment_revision",
+          "mass_tonnes",
+          "factor_source",
+          "routes"
+        ],
+        "title": "EmissionsComparison"
+      },
+      "EmissionsLeg": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "rail",
+              "sea"
+            ],
+            "title": "Mode"
+          },
+          "distance_km": {
+            "type": "number",
+            "maximum": 100000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Distance Km"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "distance_km"
+        ],
+        "title": "EmissionsLeg"
+      },
+      "EmissionsRequest": {
+        "properties": {
+          "factors_kg_per_tonne_km": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "propertyNames": {
+              "enum": [
+                "road",
+                "rail",
+                "sea"
+              ]
+            },
+            "type": "object",
+            "title": "Factors Kg Per Tonne Km"
+          },
+          "factor_source": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Factor Source"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/EmissionsRoute"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Routes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "factors_kg_per_tonne_km",
+          "factor_source",
+          "routes"
+        ],
+        "title": "EmissionsRequest"
+      },
+      "EmissionsResult": {
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "title": "Route Id"
+          },
+          "total_kg_co2e": {
+            "type": "number",
+            "title": "Total Kg Co2E"
+          },
+          "by_mode_kg_co2e": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "propertyNames": {
+              "enum": [
+                "road",
+                "rail",
+                "sea"
+              ]
+            },
+            "type": "object",
+            "title": "By Mode Kg Co2E"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "route_id",
+          "total_kg_co2e",
+          "by_mode_kg_co2e"
+        ],
+        "title": "EmissionsResult"
+      },
+      "EmissionsRoute": {
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Route Id"
+          },
+          "legs": {
+            "items": {
+              "$ref": "#/components/schemas/EmissionsLeg"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Legs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "route_id",
+          "legs"
+        ],
+        "title": "EmissionsRoute"
       },
       "ErrorDetail": {
         "properties": {
@@ -3075,7 +3569,7 @@
               "$ref": "#/components/schemas/RouteScenario"
             },
             "type": "array",
-            "maxItems": 5,
+            "maxItems": 20,
             "minItems": 1,
             "title": "Routes"
           },
@@ -4353,6 +4847,25 @@
           "passport_version"
         ],
         "title": "TimelineEvent"
+      },
+      "UpdateForecast": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/PredictionRequest"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "scenario"
+        ],
+        "title": "UpdateForecast"
       },
       "WeatherPoint": {
         "properties": {

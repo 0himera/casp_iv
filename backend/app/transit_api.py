@@ -7,16 +7,19 @@ from fastapi.responses import Response
 from pydantic import BaseModel
 
 from .casper import Casper
+from .emissions import EmissionsComparison, EmissionsRequest, calculate
 from .prediction import PredictionRequest, PredictionResponse, predict
 from .shipment_dto import Shipment, ShipmentList
 from .transit import Transit, fail
 from .transit_models import (
+    AddRouteCandidate,
     Attest,
     CreateDemoShipment,
     Operation,
     ReplaceDocument,
     RevisionInput,
     SelectRoute,
+    UpdateForecast,
 )
 
 router = APIRouter(prefix="/api/v1", tags=["shipments"])
@@ -40,6 +43,14 @@ def compare_routes(shipment_id: str, body: PredictionRequest, request: Request):
         shipment_revision=shipment["revision"],
         forecast=predict(body),
     )
+
+
+@router.post("/shipments/{shipment_id}/emissions-comparison", response_model=EmissionsComparison)
+def compare_emissions(shipment_id: str, body: EmissionsRequest, request: Request):
+    shipment = Transit(request.app.state.transit).read(shipment_id)
+    if not {route.route_id for route in body.routes} <= {r["id"] for r in shipment["routes"]}:
+        fail(422, "ROUTE_NOT_IN_SHIPMENT", "Маршрут отсутствует в карточке отправки")
+    return calculate(shipment, body)
 
 
 def service(request: Request):
@@ -91,6 +102,20 @@ def operation(operation_id: str, svc: Service):
 @router.post("/shipments", status_code=202, response_model=Operation)
 def create(body: CreateDemoShipment, svc: Service, role: Actor, idem: Idempotency):
     return svc.enqueue(role, "create", None, body.model_dump(), idem)
+
+
+@router.post("/shipments/{shipment_id}/forecast", response_model=Shipment)
+def update_forecast(
+    shipment_id: str, body: UpdateForecast, svc: Service, role: Actor, idem: Idempotency
+):
+    return svc.update_forecast(role, shipment_id, body, idem)
+
+
+@router.post("/shipments/{shipment_id}/route-candidates", response_model=Shipment)
+def add_route_candidate(
+    shipment_id: str, body: AddRouteCandidate, svc: Service, role: Actor, idem: Idempotency
+):
+    return svc.add_route_candidate(role, shipment_id, body, idem)
 
 
 @router.post("/shipments/{shipment_id}/route-selection", status_code=202, response_model=Operation)

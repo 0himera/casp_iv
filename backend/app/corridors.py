@@ -43,5 +43,35 @@ CORRIDORS = CorridorList(
             source_url=SOURCE,
             evidence="East-West corridor connects Baku/Alat and Turkmenbashi",
         ),
+        Corridor(
+            id="aktau-amirabad",
+            port_ids=["aktau", "amirabad"],
+            source_url="https://unece.org/sites/default/files/2023-10/ECE-TRANS-WP.24-153e%20.pdf",
+            evidence="UNECE international combined transport network lists Aktau–Amirabad",
+        ),
+        Corridor(
+            id="aktau-makhachkala",
+            port_ids=["aktau", "makhachkala"],
+            source_url="https://unece.org/sites/default/files/2023-10/ECE-TRANS-WP.24-153e%20.pdf",
+            evidence="UNECE international combined transport network lists Aktau–Makhachkala",
+        ),
+        Corridor(
+            id="kuryk-amirabad",
+            port_ids=["kuryk", "amirabad"],
+            source_url="https://portkuryk.kz/en/media/123/novayaparomnayaliniyanovievozmoznosti121",
+            evidence="Port operator announced the line in 2021; present service unverified",
+        ),
+        Corridor(
+            id="kuryk-anzali",
+            port_ids=["kuryk", "anzali"],
+            source_url="https://portkuryk.kz/en/media/123/novayaparomnayaliniyanovievozmoznosti121",
+            evidence="Port operator announced the line in 2021; present service unverified",
+        ),
+        Corridor(
+            id="kuryk-makhachkala",
+            port_ids=["kuryk", "makhachkala"],
+            source_url="https://portkuryk.kz/en/media/930/quryq-porty-phef-2026-forumynda",
+            evidence="2026 agreement to organize ferry service; opening not verified",
+        ),
     ]
 )

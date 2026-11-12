@@ -19,6 +19,11 @@ export type ActivityResponse = {
   meta: Provenance;
 };
 
+export type AddRouteCandidate = {
+  expected_revision: number;
+  route: Route;
+};
+
 export type Attest = {
   expected_revision: number;
   decision: "approved" | "rejected";
@@ -124,6 +129,38 @@ export type DwellResponse = {
   release_at: DwellInstants;
   samples: number | null;
   warnings: Array<string>;
+};
+
+export type EmissionsComparison = {
+  shipment_id: string;
+  shipment_revision: number;
+  mass_tonnes: number;
+  factor_source: string;
+  input_quality?: "user_supplied_scenario";
+  routes: Array<EmissionsResult>;
+  note?: string;
+};
+
+export type EmissionsLeg = {
+  mode: "road" | "rail" | "sea";
+  distance_km: number;
+};
+
+export type EmissionsRequest = {
+  factors_kg_per_tonne_km: Record<string, number>;
+  factor_source: string;
+  routes: Array<EmissionsRoute>;
+};
+
+export type EmissionsResult = {
+  route_id: string;
+  total_kg_co2e: number;
+  by_mode_kg_co2e: Record<string, number>;
+};
+
+export type EmissionsRoute = {
+  route_id: string;
+  legs: Array<EmissionsLeg>;
 };
 
 export type ErrorDetail = {
@@ -435,6 +472,11 @@ export type TimelineEvent = {
   actor: string;
   title: string;
   passport_version: number;
+};
+
+export type UpdateForecast = {
+  expected_revision: number;
+  scenario: PredictionRequest;
 };
 
 export type WeatherPoint = {

@@ -35,6 +35,18 @@ class Store:
                     snapshot TEXT NOT NULL, proof TEXT NOT NULL,
                     PRIMARY KEY(shipment_id, version)
                 );
+                CREATE TABLE IF NOT EXISTS forecast_requests (
+                    shipment_id TEXT NOT NULL, idem TEXT NOT NULL, digest TEXT NOT NULL,
+                    response TEXT NOT NULL, PRIMARY KEY(shipment_id, idem)
+                );
+                CREATE TABLE IF NOT EXISTS forecast_runs (
+                    id TEXT PRIMARY KEY, shipment_id TEXT NOT NULL,
+                    scenario TEXT NOT NULL, result TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS candidate_requests (
+                    shipment_id TEXT NOT NULL, idem TEXT NOT NULL, digest TEXT NOT NULL,
+                    response TEXT NOT NULL, PRIMARY KEY(shipment_id, idem)
+                );
             """)
         os.chmod(path, 0o600)
 
