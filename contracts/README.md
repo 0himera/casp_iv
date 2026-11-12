@@ -1,6 +1,6 @@
 # TransitPassport простой контракт согласования перевозки
 
-Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. В testnet контракт пока не развёрнут, backend signer ещё не подключён.
+Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. Контракт развёрнут и проверен в Casper testnet; backend signer к интерфейсу ещё не подключён.
 
 ## Сборка и тесты
 
@@ -148,4 +148,27 @@ Operation flow: queued → submitted → confirmed/failed. После submit с�
 - Правильные caller и native events проверяются в Casper VM, затем на testnet.
 - Повтор HTTP-запроса, timeout RPC, failed execution и сбой записи БД не создают ложного confirmed.
 
-Следующий конкретный шаг — testnet deploy с тремя разными demo-аккаунтами, фиксация адреса/транзакции и подключение Rust adapter к backend Operation flow. Реестр организаций и сложное управление участниками не входят в этот вариант.
+Testnet deploy и проверка трёх подтверждений выполнены. Следующий шаг — подключение signer adapter к backend Operation flow. Реестр организаций и сложное управление участниками не входят в этот вариант.
+
+## Проверенное развёртывание в testnet
+
+12.11.2026 контракт установлен в `casper-test` и проверен чтением состояния на одном state root. Публичная конфигурация и hashes транзакций — [deployments/testnet.json](deployments/testnet.json).
+
+- [Контракт в explorer](https://testnet.cspr.live/contract/d84a3277dd3077e9afbf88464ead500cd163af4472528237987821dac77d3b4a).
+- [Установка](https://testnet.cspr.live/deploy/d09fc89cde619aee820815698d07b8abd14c6842329ac0cf60c53c0269ea80a7): успешна, block height 9806708.
+- Package `492043502f483de422dac6bf161ef0423e0d4d6ae1e4cdebc0492fdca1fba0e1`: `Locked`, constructor/upgrader groups пусты.
+- Использованы три разных существующих testnet-аккаунта из локального проекта команды. Логист также оплатил установку. Key paths и секреты в manifest не включены.
+- Создан отдельный демонстрационный паспорт; create и три attest успешно исполнены. Прочитаны действующие решения и подтверждено `ready` на записанном блоке. Approval действуют 24 часа от начала проверки, поэтому позднее тот же паспорт закономерно станет collecting.
+
+Проверка без ключей, из корня репозитория:
+
+```bash
+python3 contracts/scripts/verify_testnet.py
+python3 contracts/scripts/verify_testnet.py --shipment-id 0d408d5e3108b8c8c5fbbf7d50f666b02caed5e828da70cfbef17438b7e18e2a
+```
+
+Это небольшой read-only verifier для зафиксированного ABI/раскладки Odra 2.10.1. Он проверяет сеть, package, адреса и, для полностью заполненной smoke-версии, три решения на одном state root. Это ещё не универсальный backend reader для всех состояний паспорта. При изменении layout его нужно обновить.
+
+Установка выполнена `casper-client 5.0.1 put-deploy` с payment limit 700 test CSPR. Текущий RPC отклонил оба проверенных варианта TransactionV1 как invalid pricing mode; legacy Deploy был принят. Для повторной установки сначала сверять существующие named keys и hashes, а не пересылать установщик вслепую. Значения cost/consumed/refund сохранены отдельно: cost нельзя трактовать как сумму после возврата.
+
+Рабочие данные запуска находятся в игнорируемом `contracts/.local/`. Секретные ключи использовались по исходным локальным путям и в Git не добавлялись. Next.js пока продолжает вызывать mock операций; наличие контракта в сети само по себе не переключает UI.

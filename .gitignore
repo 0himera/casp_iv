@@ -15,3 +15,4 @@ backend/var/
 contracts/target/
 contracts/wasm/
 contracts/.odra/
+contracts/.local/

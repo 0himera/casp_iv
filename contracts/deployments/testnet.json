@@ -1,0 +1,71 @@
+{
+  "network": "casper-test",
+  "rpc_url": "https://node.testnet.casper.network/rpc",
+  "contract_name": "TransitPassport",
+  "contract_version": "0.1.0",
+  "contract_hash": "hash-d84a3277dd3077e9afbf88464ead500cd163af4472528237987821dac77d3b4a",
+  "package_hash": "hash-492043502f483de422dac6bf161ef0423e0d4d6ae1e4cdebc0492fdca1fba0e1",
+  "package_lock_status": "Locked",
+  "named_key": "CaspianTransitPassport_v1",
+  "install_deploy_hash": "d09fc89cde619aee820815698d07b8abd14c6842329ac0cf60c53c0269ea80a7",
+  "install_block_hash": "f82c2b5f05a99b15a32d2b4b7b6b0e065dd6b140f4152a252898be2e6d69f5a5",
+  "install_block_height": 9806708,
+  "wasm_sha256": "d84af670f9938e4d7b266a7b8b96db2f2ffd2b40b8ead3c238031d226f630c26",
+  "actors": {
+    "logistician": {
+      "public_key": "02038c8905e1cdcf933936e04e0017829506e46762e3ebe8aa08e80e339fb5c72473",
+      "account_hash": "account-hash-ac7a93e16ccf32fa9d91d387c9fb84521e23fdae8ce57263d173beafab5fc1b8"
+    },
+    "carrier": {
+      "public_key": "0202f8a5ecce1d0dec2d331b77727421ebeaa515238e7fdcb5b4e087f70157089791",
+      "account_hash": "account-hash-d4f47fab1e99143d1cb32d90a4004732fe782ef088c6c3545fce33dfef558b42"
+    },
+    "clearance": {
+      "public_key": "0203421720ca5416632f48f7b7d913e471979ae20f9aa34bc3bc9356137ddb43ff57",
+      "account_hash": "account-hash-bad4de01164b7a4c90eb19bec1b218092ce000bb3bbbf09cc15b0f94da56ac75"
+    }
+  },
+  "execution": {
+    "error_message": null,
+    "cost": "700000000000",
+    "consumed": "325535014781",
+    "refund": "280848738914"
+  },
+  "verified_at": "2026-11-12T10:20:01.571723+00:00",
+  "explorer_url": "https://testnet.cspr.live/contract/d84a3277dd3077e9afbf88464ead500cd163af4472528237987821dac77d3b4a",
+  "install_explorer_url": "https://testnet.cspr.live/deploy/d09fc89cde619aee820815698d07b8abd14c6842329ac0cf60c53c0269ea80a7",
+  "smoke_test": {
+    "shipment_id": "0d408d5e3108b8c8c5fbbf7d50f666b02caed5e828da70cfbef17438b7e18e2a",
+    "version": 1,
+    "status_at_verification": "ready",
+    "valid_until_ms": 1794565201653,
+    "transactions": {
+      "create": {
+        "deploy_hash": "8e8f5b6fb0f78ef3371528f3a5998d3028b94c0fa9d6c9c420005a5e8391ea87",
+        "block_hash": "b9de6283468c18c8dc54ae4c00ab9446a29f0032e0d3ec461cb4e455cc71f8e1",
+        "cost": "50000000000",
+        "refund": "37098700408"
+      },
+      "logistician": {
+        "deploy_hash": "6c2e8a8fa1f6215ac0003eff7b6bd1a1dc7e385bbcd7aa0dd6314ebe56c73789",
+        "block_hash": "444f6b8d61ed7d38c5a9279657396715c8e951b995e0dabcb0d7e517a45380cf",
+        "cost": "50000000000",
+        "refund": "37261712808"
+      },
+      "carrier": {
+        "deploy_hash": "2ca0eb05a0bd14abe355127d81464eb2a50470f25dd5f4bb4f659ca3dad0e56e",
+        "block_hash": "c6f67b7d85240b616c6464678c05db19dcf510d46bf06276d35e94454cad1f53",
+        "cost": "50000000000",
+        "refund": "37258945398"
+      },
+      "clearance": {
+        "deploy_hash": "50e2fc19ce828f90562146e8f9e51e390391ba9bf13363c78c9c1abd5e8cda6b",
+        "block_hash": "444f6b8d61ed7d38c5a9279657396715c8e951b995e0dabcb0d7e517a45380cf",
+        "cost": "50000000000",
+        "refund": "37256179236"
+      }
+    },
+    "verification_block_hash": "ca0de184fb4eac58a1d00f55537037abe5885faf5c3130039e370a670a75dcb0",
+    "verification_state_root_hash": "5525b31a4b6e939cbc17df42c0c6a0ec2160c05cba95dac346a6b6af6c82e20b"
+  }
+}

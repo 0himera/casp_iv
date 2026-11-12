@@ -2,11 +2,11 @@
 
 Пакет для старта хакатонного MVP по [case.md](case.md): прогноз риска пропустить судно, выбор маршрута и версионируемый паспорт согласований на Casper / Odra.
 
-Сейчас готовы **Next.js frontend, FastAPI backend открытых данных, Monte Carlo baseline готовности, API-контракты и локальный mock перевозок**. Backend получает погоду Open-Meteo, активность IMF PortWatch и диспозиции Курык/ASCO без ключей. Модель готовности вычисляет риск из заданных сценарных параметров; обучение на истории и контракт в testnet ещё впереди.
+Сейчас готовы **Next.js frontend, FastAPI backend открытых данных, Monte Carlo baseline готовности, API-контракты и локальный mock перевозок**. Backend получает погоду Open-Meteo, активность IMF PortWatch и диспозиции Курык/ASCO без ключей. Модель готовности вычисляет риск из заданных сценарных параметров. TransitPassport развёрнут и проверен в Casper testnet; обучение модели на истории и подключение UI к chain ещё впереди.
 
 | Файл | Назначение |
 | --- | --- |
-| [contracts/README.md](contracts/README.md) | TransitPassport на Rust/Odra: сборка WASM и 11 тестов в OdraVM/Casper VM; testnet ещё впереди |
+| [contracts/README.md](contracts/README.md) | TransitPassport на Rust/Odra: WASM, 11 тестов и проверенное развёртывание в Casper testnet |
 | [backend/README.md](backend/README.md) | Запуск реального API погоды и активности портов на 8000; стек, кэш, ошибки |
 | [api/public-data.client.ts](api/public-data.client.ts) | Отдельный TypeScript-клиент реальных данных, без ключей |
 | [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md) | Проверка frontend, исправления интеграции и следующий этап с реальными данными |
