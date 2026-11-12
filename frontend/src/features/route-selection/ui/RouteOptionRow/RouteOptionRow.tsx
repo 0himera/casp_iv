@@ -25,7 +25,7 @@ export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: Route
           </Badge>
         </div>
       </div>
-      <div className={styles.metrics}>
+      <div className={styles.metrics}><span>{route.modes.map((mode) => ({ rail: 'Ж/д', road: 'Авто', sea: 'Море' })[mode]).join(' → ')}</span>
         <span>ETA: {formatMskDateTime(route.eta.p50)}</span>
         <span>{route.cost.amount_minor > 0 ? formatRubFromMinor(route.cost.amount_minor) : 'Тариф не подтверждён'}</span>
         <span>{route.emissions_kg_co2e !== null ? `${route.emissions_kg_co2e} кг CO₂e` : 'Нет данных'}</span>

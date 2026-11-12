@@ -6,13 +6,14 @@ import { Button } from '@/shared/ui';
 import styles from './PlanningControls.module.css';
 
 const defaults: PlanningAssumptions = {
-  terminal_hours: 8, rail_delay_hours: 0, wind_limit_kmh: 40,
+  terminal_hours: 8, rail_delay_hours: 0, road_delay_hours: 0, wind_limit_kmh: 40,
   cutoff_in_hours: 24, sailing_interval_hours: 24, assume_capacity: true,
   rail_kg_per_tonne_km: 0.022, road_kg_per_tonne_km: 0.062, sea_kg_per_tonne_km: 0.015,
 };
 const fields = [
   ['terminal_hours', 'Очередь и обработка, ч', 0, 72],
   ['rail_delay_hours', 'Задержка ж/д, ч', 0, 72],
+  ['road_delay_hours', 'Задержка авто, ч', 0, 72],
   ['wind_limit_kmh', 'Сценарный порог ветра, км/ч', 1, 150],
   ['cutoff_in_hours', 'Базовый cutoff, ч', 2, 96],
   ['sailing_interval_hours', 'Интервал условных рейсов, ч', 6, 72],

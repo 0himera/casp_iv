@@ -259,6 +259,7 @@ export type Passport = {
 export type PlanningAssumptions = {
   terminal_hours?: number;
   rail_delay_hours?: number;
+  road_delay_hours?: number;
   wind_limit_kmh?: number;
   cutoff_in_hours?: number;
   sailing_interval_hours?: number;

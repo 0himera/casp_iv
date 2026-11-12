@@ -34,9 +34,10 @@ export function buildGraphNodesFromShipment(shipment: Shipment, route: Route): M
   const input = shipment.planning?.inputs.find((x) => x.route_id === route.id);
   const firstPort = route.ports[0] ?? 'Порт погрузки';
   const lastPort = route.ports.at(-1) ?? shipment.destination.name;
-  const landMode = route.modes[0] === 'road' ? 'road' : 'rail';
+  const landMode = route.modes.includes('rail') ? 'rail' : 'road';
+  const landDelay = (landMode === 'rail' ? shipment.planning?.assumptions.rail_delay_hours : shipment.planning?.assumptions.road_delay_hours) ?? 0;
   return [
-    { id: 'n1', label: landMode === 'road' ? 'Автотерминал' : 'Ж/Д терминал', location: shipment.origin.name, mode: landMode, status: 'ok', delayHours: 0, eta: formatMskDateTime(shipment.scenario_time) },
+    { id: 'n1', label: landMode === 'road' ? 'Авто до порта' : 'Ж/д до порта', location: shipment.current_location.name, mode: landMode, status: landDelay > 0 ? 'warning' : 'ok', delayHours: landDelay, eta: input ? `${input.land_hours} ч до ${firstPort}` : formatMskDateTime(shipment.scenario_time) },
     { id: 'n2', label: 'Порт погрузки', location: firstPort, mode: 'sea', status: riskStatus, delayHours: input?.terminal_hours ?? 0, eta: formatMskDateTime(shipment.forecast.ready_at.p50) },
     { id: 'n3', label: 'Морской паром', location: `${firstPort} → ${lastPort}`, mode: 'sea', status: riskStatus, delayHours: input?.weather_hold_hours ?? 0, eta: formatMskDateTime(shipment.forecast.cargo_cutoff) },
     { id: 'n4', label: 'Паспорт / Pre-clearance', location: `v${shipment.passport.version} (${getPassportStatusLabel(shipment.passport.status)})`, mode: 'customs', status: shipment.passport.status === 'ready' ? 'ok' : shipment.passport.status === 'blocked' ? 'critical' : 'warning', delayHours: 0, eta: formatMskDateTime(shipment.updated_at) },

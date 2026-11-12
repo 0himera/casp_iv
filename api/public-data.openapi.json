@@ -3737,6 +3737,13 @@
             "title": "Rail Delay Hours",
             "default": 0
           },
+          "road_delay_hours": {
+            "type": "number",
+            "maximum": 72.0,
+            "minimum": 0.0,
+            "title": "Road Delay Hours",
+            "default": 0
+          },
           "wind_limit_kmh": {
             "type": "number",
             "maximum": 150.0,

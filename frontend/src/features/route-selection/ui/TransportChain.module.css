@@ -1,0 +1,6 @@
+.frame { display: flex; flex-direction: column; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; color: var(--foreground); }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.step { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: var(--surface-default); border: 1px solid var(--border); border-radius: 6px; }
+.step svg { color: var(--primary); }
+.step span, .frame p { color: var(--muted-foreground); font-size: 11px; line-height: 1.5; }
+@media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
