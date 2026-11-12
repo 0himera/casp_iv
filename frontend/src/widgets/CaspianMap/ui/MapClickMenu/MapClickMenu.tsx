@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, ArrowRight, Check, Compass, Lock, Navigation, X } from 'lucide-react';
+import { Anchor, ArrowRight, Check, Compass, Loader2, Lock, Navigation, X } from 'lucide-react';
 import type { CaspianPort } from '@/entities/cargo';
 import type { Role, Shipment } from '@/shared/api/caspian';
 import { formatProbability, formatRubFromMinor } from '@/shared/lib/formatters';
@@ -10,13 +10,13 @@ import styles from './MapClickMenu.module.css';
 
 export interface MapClickPoint { x: number; y: number; lng: number; lat: number; width: number; height: number; }
 interface MapClickMenuProps {
-  point: MapClickPoint; ports: CaspianPort[]; shipment: Shipment; role?: Role;
+  point: MapClickPoint; ports: CaspianPort[]; shipment: Shipment; role?: Role; isBusy?: boolean;
   onInspectPort: (port: CaspianPort) => void; onSelectRoute?: (routeId: string) => void;
   onHoverRoute?: (routeId: string | null) => void; onChangeRole?: (role: Role) => void;
   onFocusCargo: () => void; onResetView: () => void; onClose: () => void;
 }
 
-export function MapClickMenu({ point, ports, shipment, role, onInspectPort, onSelectRoute, onHoverRoute, onChangeRole, onFocusCargo, onResetView, onClose }: MapClickMenuProps) {
+export function MapClickMenu({ point, ports, shipment, role, isBusy, onInspectPort, onSelectRoute, onHoverRoute, onChangeRole, onFocusCargo, onResetView, onClose }: MapClickMenuProps) {
   const nearest = findNearestPort(point.lng, point.lat, ports);
   const canSelect = shipment.allowed_actions.includes('select_route');
   const left = Math.min(Math.max(12, point.x + 12), Math.max(12, point.width - 296));
@@ -43,8 +43,8 @@ export function MapClickMenu({ point, ports, shipment, role, onInspectPort, onSe
         {shipment.routes.map((r) => {
           const active = r.id === shipment.selected_route_id;
           return (
-            <button key={r.id} type="button" disabled={!canSelect || !r.feasible || active} onMouseEnter={() => onHoverRoute?.(r.id)} onMouseLeave={() => onHoverRoute?.(null)} onClick={() => { onSelectRoute?.(r.id); onHoverRoute?.(null); onClose(); }} className={`${styles.routeItem} ${active ? styles.routeActive : ''}`}>
-              <div className={styles.routeTop}><span className={styles.routeName}>{r.name}</span>{active ? <Check className={styles.okIcon} /> : <span className={styles.risk}>{formatProbability(r.miss_probability)}</span>}</div>
+            <button key={r.id} type="button" disabled={!canSelect || !r.feasible || active || isBusy} onMouseEnter={() => onHoverRoute?.(r.id)} onMouseLeave={() => onHoverRoute?.(null)} onClick={() => { onSelectRoute?.(r.id); onHoverRoute?.(null); onClose(); }} className={`${styles.routeItem} ${active ? styles.routeActive : ''}`}>
+              <div className={styles.routeTop}><span className={styles.routeName}>{r.name}</span>{active ? (isBusy ? <Loader2 className={styles.spinIcon} /> : <Check className={styles.okIcon} />) : <span className={styles.risk}>{formatProbability(r.miss_probability)}</span>}</div>
               <span className={styles.routeMeta}>{formatRubFromMinor(r.cost.amount_minor)} · {r.distance_km} км</span>
             </button>
           );

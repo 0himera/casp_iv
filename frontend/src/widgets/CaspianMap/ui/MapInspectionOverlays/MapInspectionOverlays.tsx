@@ -11,6 +11,7 @@ interface MapInspectionOverlaysProps {
   selectedPort: CaspianPort | null;
   cargoSelected: boolean;
   stormSelected: boolean;
+  isBusy?: boolean;
   onSelectRoute?: (routeId: string) => void;
   onClose: () => void;
 }
@@ -20,19 +21,20 @@ export function MapInspectionOverlays({
   selectedPort,
   cargoSelected,
   stormSelected,
+  isBusy,
   onSelectRoute,
   onClose,
 }: MapInspectionOverlaysProps) {
   return (
     <>
       {selectedPort && (
-        <PortInspectionCard port={selectedPort} shipment={shipment} onSelectRoute={onSelectRoute} onClose={onClose} />
+        <PortInspectionCard port={selectedPort} shipment={shipment} isBusy={isBusy} onSelectRoute={onSelectRoute} onClose={onClose} />
       )}
       {cargoSelected && (
         <CargoInspectionCard shipment={shipment} onClose={onClose} />
       )}
       {stormSelected && (
-        <StormInspectionCard shipment={shipment} onSelectRoute={onSelectRoute} onClose={onClose} />
+        <StormInspectionCard shipment={shipment} isBusy={isBusy} onSelectRoute={onSelectRoute} onClose={onClose} />
       )}
     </>
   );

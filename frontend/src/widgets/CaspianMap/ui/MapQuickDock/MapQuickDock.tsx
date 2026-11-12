@@ -27,7 +27,7 @@ export function MapQuickDock(p: MapQuickDockProps) {
         </div>
         <button type="button" onClick={p.onCollapse} className={styles.closeBtn} aria-label="Скрыть меню"><X className={styles.icon} /></button>
       </div>
-      {tab === 'routes' && <DockRoutesList shipment={p.shipment} role={p.role} onSelectRoute={p.onSelectRoute} onHoverRoute={p.onHoverRoute} onChangeRole={p.onChangeRole} />}
+      {tab === 'routes' && <DockRoutesList shipment={p.shipment} role={p.role} isBusy={p.isBusy} onSelectRoute={p.onSelectRoute} onHoverRoute={p.onHoverRoute} onChangeRole={p.onChangeRole} />}
       {tab === 'ports' && (
         <div className={styles.list}>
           {p.ports.map((port) => (
