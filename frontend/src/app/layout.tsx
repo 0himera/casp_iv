@@ -16,6 +16,7 @@ const plexSerif = IBM_Plex_Serif({
   style: ['normal', 'italic'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
+  preload: false,
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -23,6 +24,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ['400', '500', '600'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {

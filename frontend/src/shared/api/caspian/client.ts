@@ -24,6 +24,7 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
     const response = await fetch(base + path, {
       method: body === undefined ? 'GET' : 'POST',
       cache: 'no-store',
+      signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: `Bearer ${getRoleToken(getDemoRole())}`,
         ...(body === undefined

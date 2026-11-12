@@ -31,24 +31,23 @@ export function useHealthQuery() {
   });
 }
 
-export function useShipmentsListQuery(role: Role, apiOnline: boolean) {
+export function useShipmentsListQuery(role: Role) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   const query = useQuery({
     queryKey: shipmentKeys.list(role),
-    queryFn: async () => (apiOnline ? client.listShipments() : { items: [buildFallbackSummary(SEED_SHIPMENT)] }),
+    queryFn: () => client.listShipments(),
     placeholderData: { items: [buildFallbackSummary(SEED_SHIPMENT)] },
-    enabled: apiOnline,
   });
   return { ...query, data: query.data ?? { items: [buildFallbackSummary(SEED_SHIPMENT)] } };
 }
 
-export function useShipmentDetailQuery(id: string, role: Role, apiOnline: boolean) {
+export function useShipmentDetailQuery(id: string, role: Role) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   const query = useQuery({
     queryKey: shipmentKeys.detail(id, role),
-    queryFn: async () => enrichShipmentWithCorridors(apiOnline ? await client.getShipment(id) : SEED_SHIPMENT),
+    queryFn: async () => enrichShipmentWithCorridors(await client.getShipment(id)),
     placeholderData: enrichShipmentWithCorridors(SEED_SHIPMENT),
-    enabled: apiOnline && Boolean(id),
+    enabled: Boolean(id),
   });
   return { ...query, data: query.data ?? enrichShipmentWithCorridors(SEED_SHIPMENT) };
 }

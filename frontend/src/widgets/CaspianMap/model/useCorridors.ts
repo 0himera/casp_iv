@@ -5,7 +5,7 @@ export function useCorridors() {
   return useQuery({
     queryKey: ['port-corridors'],
     queryFn: async (): Promise<CorridorList> => {
-      const r = await fetch('/api/backend/corridors', { cache: 'no-store' });
+      const r = await fetch('/api/backend/corridors', { cache: 'no-store', signal: AbortSignal.timeout(15000) });
       if (!r.ok) throw new Error('Сеть портов недоступна');
       return r.json();
     },

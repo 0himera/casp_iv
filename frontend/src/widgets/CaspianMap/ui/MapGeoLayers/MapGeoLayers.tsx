@@ -53,7 +53,7 @@ export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGr
           type="symbol"
           layout={{
             'text-field': ['get', 'label'],
-            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-font': ['Montserrat SemiBold', 'Open Sans Bold', 'Noto Sans Regular', 'Noto Sans CJK JP Regular'],
             'text-size': ['interpolate', ['linear'], ['zoom'], 3, 10, 6, 13, 9, 15],
             'text-letter-spacing': 0.06,
             'text-max-width': 10,

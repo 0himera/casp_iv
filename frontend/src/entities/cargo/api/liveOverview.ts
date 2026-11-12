@@ -5,7 +5,7 @@ export function useLiveOverview() {
   return useQuery({
     queryKey: ['live-overview'],
     queryFn: async (): Promise<LiveOverview> => {
-      const response = await fetch('/api/backend/live-overview', { cache: 'no-store' });
+      const response = await fetch('/api/backend/live-overview', { cache: 'no-store', signal: AbortSignal.timeout(15000) });
       if (!response.ok) throw new Error('Данные портов временно недоступны');
       return response.json();
     },
