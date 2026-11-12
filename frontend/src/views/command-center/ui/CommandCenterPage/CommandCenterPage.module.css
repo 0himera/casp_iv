@@ -1,7 +1,50 @@
 .root {
   position: relative;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--background);
   color: var(--foreground);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mapSection,
+.bentoRow { width: 100%; }
+
+.bentoRow {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.bentoCell { display: flex; flex-direction: column; min-width: 0; }
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.sectionStamp { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--cyan); }
+.btnIcon { width: 14px; height: 14px; }
+
+@media (max-width: 1024px) {
+  .bentoRow { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px 16px 40px; gap: 18px; }
 }
