@@ -20,7 +20,6 @@ describe('backend proxy authentication', () => {
     }), context());
     expect(response.status).toBe(200);
     const headers = new Headers(upstream.mock.calls[0][1]?.headers);
-    // Compare booleans to keep preview credentials out of test failure output.
     expect(headers.get('Authorization') === expected).toBe(true);
   });
 

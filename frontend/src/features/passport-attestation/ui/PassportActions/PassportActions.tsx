@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, ShieldCheck, X } from 'lucide-react';
+import { CheckCircle2, Loader2, ShieldCheck, X } from 'lucide-react';
 import { getRoleLabel } from '@/entities/shipment';
 import type { Role, Shipment } from '@/shared/api/caspian';
 import { Button } from '@/shared/ui';
@@ -42,8 +42,8 @@ export function PassportActions({
       )}
       <div className={styles.buttonRow}>
         <Button type="button" size="sm" variant="default" disabled={!canAttest} onClick={() => onAttest('approved')} className={styles.primaryBtn}>
-          <CheckCircle2 size={13} />
-          <span>Заверить манифест · {getRoleLabel(role)}</span>
+          {isBusy ? <Loader2 size={13} className={styles.spinIcon} /> : <CheckCircle2 size={13} />}
+          <span>{isBusy ? 'Согласование...' : `Заверить манифест · ${getRoleLabel(role)}`}</span>
         </Button>
         <Button type="button" size="sm" variant="outline" disabled={!canAttest} onClick={() => onAttest('rejected')} className={styles.rejectBtn}>
           <X size={13} />
