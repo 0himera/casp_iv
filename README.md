@@ -140,7 +140,7 @@ bun run lint
 bun run build
 ```
 
-На 13.11.2026 проверены **104 backend-теста и 22 frontend-теста**, Ruff, ESLint,
+На 13.11.2026 проверены **104 backend-теста и 23 frontend-теста**, Ruff, ESLint,
 TypeScript и production build. Браузерный сценарий прошёл создание паспорта,
 смену маршрута, три согласования и замену файла через настоящий Casper testnet;
 хеши документов и маршрута сверены с chain state. См. [протокол](backend/evidence/case-flow-2026-11-13.json).
