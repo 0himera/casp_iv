@@ -14,14 +14,13 @@ interface RouteOptionRowProps {
 }
 
 export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: RouteOptionRowProps) {
+  const isBackend = route.id === 'route_astra' || route.id === 'route_makh';
   return (
     <div className={`${styles.row} ${isSelected ? styles.selected : ''}`}>
       <div className={styles.top}>
         <span className={styles.name}>{route.name}</span>
         <div className={styles.badges}>
-          {route.capacity_status !== 'confirmed' && (
-            <Badge variant="outline">Ёмкость: {route.capacity_status === 'unknown' ? 'неизв.' : 'синтет.'}</Badge>
-          )}
+          {!isBackend && <Badge variant="outline">Симуляция</Badge>}
           <Badge variant={route.feasible ? 'secondary' : 'destructive'}>
             Риск: {formatProbability(route.miss_probability)}
           </Badge>
@@ -41,7 +40,7 @@ export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: Route
             <span className={styles.reapproval}>Потребуется повторное согласование документов и маршрута</span>
           )}
           <Button type="button" size="sm" disabled={!canSelect} onClick={() => onSelect(route.id)}>
-            Выбрать <ArrowRight className={styles.icon} />
+            {isBackend ? 'Выбрать' : 'Симулировать'} <ArrowRight className={styles.icon} />
           </Button>
         </div>
       )}
