@@ -582,6 +582,115 @@
         }
       }
     },
+    "/api/v1/shipments/{shipment_id}/recalculate": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Recalculate",
+        "operationId": "recalculate_api_v1_shipments__shipment_id__recalculate_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecalculateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/shipments/{shipment_id}/route-candidates": {
       "post": {
         "tags": [
@@ -3612,6 +3721,271 @@
         ],
         "title": "Passport"
       },
+      "PlanningAssumptions": {
+        "properties": {
+          "terminal_hours": {
+            "type": "number",
+            "maximum": 72.0,
+            "minimum": 0.0,
+            "title": "Terminal Hours",
+            "default": 8
+          },
+          "rail_delay_hours": {
+            "type": "number",
+            "maximum": 72.0,
+            "minimum": 0.0,
+            "title": "Rail Delay Hours",
+            "default": 0
+          },
+          "wind_limit_kmh": {
+            "type": "number",
+            "maximum": 150.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Wind Limit Kmh",
+            "default": 40
+          },
+          "cutoff_in_hours": {
+            "type": "number",
+            "maximum": 96.0,
+            "minimum": 2.0,
+            "title": "Cutoff In Hours",
+            "default": 24
+          },
+          "sailing_interval_hours": {
+            "type": "number",
+            "maximum": 72.0,
+            "minimum": 6.0,
+            "title": "Sailing Interval Hours",
+            "default": 24
+          },
+          "assume_capacity": {
+            "type": "boolean",
+            "title": "Assume Capacity",
+            "default": true
+          },
+          "rail_kg_per_tonne_km": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Rail Kg Per Tonne Km",
+            "default": 0.022
+          },
+          "road_kg_per_tonne_km": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Road Kg Per Tonne Km",
+            "default": 0.062
+          },
+          "sea_kg_per_tonne_km": {
+            "type": "number",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Sea Kg Per Tonne Km",
+            "default": 0.015
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PlanningAssumptions"
+      },
+      "PlanningInput": {
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "title": "Route Id"
+          },
+          "port_id": {
+            "type": "string",
+            "title": "Port Id"
+          },
+          "weather_status": {
+            "type": "string",
+            "enum": [
+              "forecast",
+              "stale",
+              "missing",
+              "scenario"
+            ],
+            "title": "Weather Status"
+          },
+          "weather_source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Source Url"
+          },
+          "weather_fetched_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weather Fetched At"
+          },
+          "wind_max_kmh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind Max Kmh"
+          },
+          "weather_hold_hours": {
+            "type": "number",
+            "title": "Weather Hold Hours"
+          },
+          "activity_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activity Date"
+          },
+          "activity_source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activity Source Url"
+          },
+          "activity_stale": {
+            "type": "boolean",
+            "title": "Activity Stale"
+          },
+          "port_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Port Calls"
+          },
+          "median_port_calls": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median Port Calls"
+          },
+          "queue_factor": {
+            "type": "number",
+            "title": "Queue Factor"
+          },
+          "land_hours": {
+            "type": "number",
+            "title": "Land Hours"
+          },
+          "terminal_hours": {
+            "type": "number",
+            "title": "Terminal Hours"
+          },
+          "cutoff_at": {
+            "type": "string",
+            "title": "Cutoff At"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "route_id",
+          "port_id",
+          "weather_status",
+          "weather_source_url",
+          "weather_fetched_at",
+          "wind_max_kmh",
+          "weather_hold_hours",
+          "activity_date",
+          "activity_source_url",
+          "activity_stale",
+          "port_calls",
+          "median_port_calls",
+          "queue_factor",
+          "land_hours",
+          "terminal_hours",
+          "cutoff_at",
+          "warnings"
+        ],
+        "title": "PlanningInput"
+      },
+      "PlanningSummary": {
+        "properties": {
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "storm",
+              "missing_data"
+            ],
+            "title": "Scenario"
+          },
+          "assumptions": {
+            "$ref": "#/components/schemas/PlanningAssumptions"
+          },
+          "inputs": {
+            "items": {
+              "$ref": "#/components/schemas/PlanningInput"
+            },
+            "type": "array",
+            "title": "Inputs"
+          },
+          "emissions": {
+            "$ref": "#/components/schemas/EmissionsComparison"
+          },
+          "road_baseline_kg_co2e": {
+            "type": "number",
+            "title": "Road Baseline Kg Co2E"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario",
+          "assumptions",
+          "inputs",
+          "emissions",
+          "road_baseline_kg_co2e",
+          "note"
+        ],
+        "title": "PlanningSummary"
+      },
       "Port": {
         "properties": {
           "id": {
@@ -3907,6 +4281,34 @@
           "warnings"
         ],
         "title": "Provenance"
+      },
+      "RecalculateRequest": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "storm",
+              "missing_data"
+            ],
+            "title": "Scenario",
+            "default": "normal"
+          },
+          "assumptions": {
+            "$ref": "#/components/schemas/PlanningAssumptions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision"
+        ],
+        "title": "RecalculateRequest"
       },
       "ReplaceDocument": {
         "properties": {
@@ -4754,6 +5156,16 @@
               }
             ],
             "title": "Pending Operation Id"
+          },
+          "planning": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PlanningSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,

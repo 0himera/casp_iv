@@ -1,6 +1,6 @@
 # TransitPassport простой контракт согласования перевозки
 
-Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. Контракт развёрнут в Casper testnet, подключён к постоянному backend и проверен через HTTP API → worker → chain. [API и запуск](../docs/TRANSIT_API.md), [подтверждённые операции](../backend/evidence/testnet-transit.json). Frontend пока использует mock.
+Rust-контракт реализован в `src/passport.rs`. Пять методов прошли 11 тестов в OdraVM и Casper Execution Engine; WASM собран. Контракт развёрнут в Casper testnet, подключён к постоянному backend и проверен через HTTP API → worker → chain. [API и запуск](../docs/TRANSIT_API.md), [подтверждённые операции](../backend/evidence/testnet-transit.json). Next.js подключён к API; паспорт отображается только из подтверждённой серверной проекции.
 
 ## Сборка и тесты
 
@@ -124,7 +124,7 @@ Adapter реализован в `backend/app/casper.py`: Python вызывает
 
 Operation flow: queued → submitted → confirmed/failed. После submit сохраняется hash; при timeout сначала сверка того же hash и state. Confirmed ставится после successful execution и проверки expected version/decision. Сбой БД после chain execution восстанавливается сверкой, не повторной подписью вслепую. Idempotency на backend не заменяет проверку версии в контракте.
 
-Текущий frontend DTO уже подходит для трёх статусов и сроков. Нужно добавить revoke API/кнопку, отдавать старые attestations как invalidated относительно current_version и обновить текст «Готов к выпуску». Повторное attest той же роли в mock сейчас разрешено; до переключения на chain согласовать поведение mock с этим правилом.
+Backend имеет revoke API и отдаёт старые attestations как invalidated относительно current_version. Frontend показывает «Комплект согласован», допускает одно решение роли за версию и ожидает подтверждения worker. Для отзыва используется API; отдельной кнопки отзыва в основном экране пока нет. Таможенная роль имитирует согласование, а не реальный выпуск груза.
 
 ## Реализация и проверка
 
@@ -148,7 +148,7 @@ Operation flow: queued → submitted → confirmed/failed. После submit с�
 - Правильные caller и native events проверяются в Casper VM, затем на testnet.
 - Повтор HTTP-запроса, timeout RPC, failed execution и сбой записи БД не создают ложного confirmed.
 
-Testnet deploy, backend Operation flow и проверка трёх подтверждений через настоящий HTTP API выполнены. Следующий шаг — подключение Next.js к этому API. Реестр организаций и сложное управление участниками не входят в этот вариант.
+Testnet deploy, backend Operation flow и проверка трёх подтверждений через настоящий HTTP API выполнены. Next.js подключён к этому API, включая замену документов и polling операций. Реестр организаций и сложное управление участниками не входят в этот вариант.
 
 ## Проверенное развёртывание в testnet
 
@@ -171,4 +171,4 @@ python3 contracts/scripts/verify_testnet.py --shipment-id 0d408d5e3108b8c8c5fbbf
 
 Установка выполнена `casper-client 5.0.1 put-deploy` с payment limit 700 test CSPR. Текущий RPC отклонил оба проверенных варианта TransactionV1 как invalid pricing mode; legacy Deploy был принят. Для повторной установки сначала сверять существующие named keys и hashes, а не пересылать установщик вслепую. Значения cost/consumed/refund сохранены отдельно: cost нельзя трактовать как сумму после возврата.
 
-Рабочие данные запуска находятся в игнорируемом `contracts/.local/`. Секретные ключи использовались по исходным локальным путям и в Git не добавлялись. Next.js пока продолжает вызывать mock операций; наличие контракта в сети само по себе не переключает UI.
+Рабочие данные запуска находятся в игнорируемом `contracts/.local/`. Секретные ключи использовались по исходным локальным путям и в Git не добавлялись. Next.js вызывает постоянный API и ожидает подтверждения worker; клиент не создаёт подписи или версии локально.

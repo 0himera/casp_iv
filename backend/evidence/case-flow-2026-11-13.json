@@ -1,0 +1,370 @@
+{
+  "verified_at": "2026-11-12T22:27:04.059770+00:00",
+  "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+  "network": "casper-test",
+  "flow": "Browser -> Next proxy -> FastAPI -> SQLite outbox -> worker -> verified Casper state",
+  "normal_forecast": {
+    "id": "forecast_b0b81f75107541b78fcdea29f9366b9b",
+    "generated_at": "2026-11-12T22:17:08.255390Z",
+    "valid_until": "2026-11-12T23:17:08.255393Z",
+    "method": "monte_carlo",
+    "quality": "synthetic",
+    "ready_at": {
+      "p10": "2026-11-13T19:21:59.689937Z",
+      "p50": "2026-11-13T22:35:44.095649Z",
+      "p90": "2026-11-14T02:04:01.828478Z"
+    },
+    "cargo_cutoff": "2026-11-13T22:17:07.113160Z",
+    "miss_probability": 0.541,
+    "reasons": [
+      "Monte Carlo: открытая погода + явные сценарные параметры.",
+      "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+      "Свежая активность недоступна: очередь взята из допущений."
+    ]
+  },
+  "storm_forecast": {
+    "id": "forecast_613e21c5608944caa405a294cffc7340",
+    "generated_at": "2026-11-12T22:17:55.710375Z",
+    "valid_until": "2026-11-12T23:17:55.710378Z",
+    "method": "monte_carlo",
+    "quality": "synthetic",
+    "ready_at": {
+      "p10": "2026-11-14T18:26:58.782907Z",
+      "p50": "2026-11-15T00:08:11.183859Z",
+      "p90": "2026-11-15T06:32:16.812685Z"
+    },
+    "cargo_cutoff": "2026-11-13T22:17:55.673932Z",
+    "miss_probability": 1.0,
+    "reasons": [
+      "Monte Carlo: открытая погода + явные сценарные параметры.",
+      "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+      "Добавлен сценарный шторм: +24 ч; это не наблюдение Open-Meteo.",
+      "Свежая активность недоступна: очередь взята из допущений."
+    ]
+  },
+  "inputs": {
+    "scenario": "normal",
+    "assumptions": {
+      "terminal_hours": 8.0,
+      "rail_delay_hours": 0.0,
+      "wind_limit_kmh": 40.0,
+      "cutoff_in_hours": 24.0,
+      "sailing_interval_hours": 24.0,
+      "assume_capacity": true,
+      "rail_kg_per_tonne_km": 0.022,
+      "road_kg_per_tonne_km": 0.062,
+      "sea_kg_per_tonne_km": 0.015
+    },
+    "inputs": [
+      {
+        "route_id": "route_astra",
+        "port_id": "astrakhan",
+        "weather_status": "forecast",
+        "weather_source_url": "https://api.open-meteo.com/v1/forecast?latitude=46.38467723&longitude=48.02158851&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=3&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "weather_fetched_at": "2026-11-12T22:17:08.178755+00:00",
+        "wind_max_kmh": 12.2,
+        "weather_hold_hours": 0.0,
+        "activity_date": "2026-11-06",
+        "activity_source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port76%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json",
+        "activity_stale": true,
+        "port_calls": 0,
+        "median_port_calls": 0.0,
+        "queue_factor": 1.0,
+        "land_hours": 12.91,
+        "terminal_hours": 8.0,
+        "cutoff_at": "2026-11-13T22:17:07.113160+00:00",
+        "warnings": [
+          "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+          "Свежая активность недоступна: очередь взята из допущений."
+        ]
+      },
+      {
+        "route_id": "route_makh",
+        "port_id": "makhachkala",
+        "weather_status": "forecast",
+        "weather_source_url": "https://api.open-meteo.com/v1/forecast?latitude=43.00807675&longitude=47.47258052&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=3&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "weather_fetched_at": "2026-11-12T22:17:07.840245+00:00",
+        "wind_max_kmh": 17.1,
+        "weather_hold_hours": 0.0,
+        "activity_date": "2026-11-06",
+        "activity_source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port684%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json",
+        "activity_stale": true,
+        "port_calls": 0,
+        "median_port_calls": 0.0,
+        "queue_factor": 1.0,
+        "land_hours": 23.57,
+        "terminal_hours": 8.0,
+        "cutoff_at": "2026-11-14T10:17:07.113160+00:00",
+        "warnings": [
+          "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+          "Свежая активность недоступна: очередь взята из допущений."
+        ]
+      },
+      {
+        "route_id": "route_aktau",
+        "port_id": "aktau",
+        "weather_status": "forecast",
+        "weather_source_url": "https://api.open-meteo.com/v1/forecast?latitude=43.60236745&longitude=51.22857007&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=3&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "weather_fetched_at": "2026-11-12T22:17:07.923312+00:00",
+        "wind_max_kmh": 33.2,
+        "weather_hold_hours": 0.0,
+        "activity_date": "2026-11-06",
+        "activity_source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port16%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json",
+        "activity_stale": true,
+        "port_calls": 2,
+        "median_port_calls": 4.0,
+        "queue_factor": 1.0,
+        "land_hours": 26.86,
+        "terminal_hours": 8.0,
+        "cutoff_at": "2026-11-15T10:17:07.113160+00:00",
+        "warnings": [
+          "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+          "Свежая активность недоступна: очередь взята из допущений."
+        ]
+      },
+      {
+        "route_id": "route_turkmen",
+        "port_id": "turkmenbashi",
+        "weather_status": "forecast",
+        "weather_source_url": "https://api.open-meteo.com/v1/forecast?latitude=40.00960239&longitude=53.00617704&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=3&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "weather_fetched_at": "2026-11-12T22:17:07.957430+00:00",
+        "wind_max_kmh": 19.7,
+        "weather_hold_hours": 0.0,
+        "activity_date": "2026-11-06",
+        "activity_source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port1330%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json",
+        "activity_stale": true,
+        "port_calls": 2,
+        "median_port_calls": 3.0,
+        "queue_factor": 1.0,
+        "land_hours": 41.23,
+        "terminal_hours": 8.0,
+        "cutoff_at": "2026-11-16T10:17:07.113160+00:00",
+        "warnings": [
+          "Расписание, места и длительности — допущения; судозаходы не равны очереди.",
+          "Свежая активность недоступна: очередь взята из допущений."
+        ]
+      }
+    ],
+    "emissions": {
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "shipment_revision": 2,
+      "mass_tonnes": 20.0,
+      "factor_source": "Сценарные коэффициенты, кг CO₂e/(т·км); не сертификация GLEC",
+      "input_quality": "user_supplied_scenario",
+      "routes": [
+        {
+          "route_id": "route_astra",
+          "total_kg_co2e": 556.7032078461725,
+          "by_mode_kg_co2e": {
+            "rail": 227.25275341873842,
+            "sea": 329.45045442743407
+          }
+        },
+        {
+          "route_id": "route_makh",
+          "total_kg_co2e": 1379.6058360090115,
+          "by_mode_kg_co2e": {
+            "road": 1168.921052211903,
+            "sea": 210.68478379710828
+          }
+        },
+        {
+          "route_id": "route_aktau",
+          "total_kg_co2e": 703.1171156677469,
+          "by_mode_kg_co2e": {
+            "rail": 472.76856971166865,
+            "sea": 230.34854595607834
+          }
+        },
+        {
+          "route_id": "route_turkmen",
+          "total_kg_co2e": 863.3311569093128,
+          "by_mode_kg_co2e": {
+            "rail": 725.5649643796759,
+            "sea": 137.76619252963695
+          }
+        }
+      ],
+      "note": "Scenario estimate, not independently verified or a certified GLEC calculation."
+    },
+    "road_baseline_kg_co2e": 2276.49,
+    "note": "Груз сценарный. Погода — открытый прогноз. Активность — оценка AIS, не загрузка причалов. Расстояния приближены от текущей точки; скорости, очередь, расписание, места и ESG-коэффициенты заданы допущениями. CatBoost выпуска входящего контейнера не применяется к исходящему парому."
+  },
+  "operations": [
+    {
+      "id": "op_ad809aaf7087423b8108259f379f5234",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "create",
+      "network": "casper-test",
+      "transaction_hash": "95597118dac5677506367b15c911557e72aeb183e5ff94af35948576e26a64a9",
+      "explorer_url": "https://testnet.cspr.live/deploy/95597118dac5677506367b15c911557e72aeb183e5ff94af35948576e26a64a9",
+      "created_at": "2026-11-12T22:16:16.065791Z",
+      "result_revision": 1,
+      "error_code": null
+    },
+    {
+      "id": "op_1c80d7fcb6c64d0eb92978886d948c38",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "select_route",
+      "network": "casper-test",
+      "transaction_hash": "18855941279591b7ee1d2e8cc4bd3fbfbf5ec3d522f2b2448a83f13ff526fb6c",
+      "explorer_url": "https://testnet.cspr.live/deploy/18855941279591b7ee1d2e8cc4bd3fbfbf5ec3d522f2b2448a83f13ff526fb6c",
+      "created_at": "2026-11-12T22:18:01.911218Z",
+      "result_revision": 4,
+      "error_code": null
+    },
+    {
+      "id": "op_d71f28e4d26e4030b1735f43827b625f",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "attest",
+      "network": "casper-test",
+      "transaction_hash": "8d85eba163dac35668cebc1da363814e39e8171118b693ef3b9af32efefb7271",
+      "explorer_url": "https://testnet.cspr.live/deploy/8d85eba163dac35668cebc1da363814e39e8171118b693ef3b9af32efefb7271",
+      "created_at": "2026-11-12T22:18:49.400090Z",
+      "result_revision": 5,
+      "error_code": null
+    },
+    {
+      "id": "op_1e297b5347f44c208299f02da6474920",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "attest",
+      "network": "casper-test",
+      "transaction_hash": "a643fe0d10668af4c5c9954a839652083228f44bbddf92dc7a5aeae69e451eca",
+      "explorer_url": "https://testnet.cspr.live/deploy/a643fe0d10668af4c5c9954a839652083228f44bbddf92dc7a5aeae69e451eca",
+      "created_at": "2026-11-12T22:19:39.744525Z",
+      "result_revision": 6,
+      "error_code": null
+    },
+    {
+      "id": "op_b1d9e04a2fd34459bae804598e547f64",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "attest",
+      "network": "casper-test",
+      "transaction_hash": "9bb3fb711fdf77fe9b27e9c680df2ff0aaef269567687cbaa0bd48664fa0e3f2",
+      "explorer_url": "https://testnet.cspr.live/deploy/9bb3fb711fdf77fe9b27e9c680df2ff0aaef269567687cbaa0bd48664fa0e3f2",
+      "created_at": "2026-11-12T22:20:30.706873Z",
+      "result_revision": 7,
+      "error_code": null
+    },
+    {
+      "id": "op_3fa4a4f8fb794f70b170dc5957e2877e",
+      "shipment_id": "shp_7addd5149e544c75a6d4eab97f02868a",
+      "status": "confirmed",
+      "kind": "replace_document",
+      "network": "casper-test",
+      "transaction_hash": "ee02215f44aac645fd77ccc4ecb20336dbc16d6c65ae6a615118c89dbafe88c5",
+      "explorer_url": "https://testnet.cspr.live/deploy/ee02215f44aac645fd77ccc4ecb20336dbc16d6c65ae6a615118c89dbafe88c5",
+      "created_at": "2026-11-12T22:24:36.601305Z",
+      "result_revision": 8,
+      "error_code": null
+    }
+  ],
+  "ready_before_document": {
+    "version": 2,
+    "status": "ready",
+    "documents_hash": "491faee93b308b142460ab15afe20490a63a86e92beef730cdab7925fe0a094e",
+    "route_hash": "32344c0630031626a0d781d6f46d58b6496e5941d55eb261c2d6125c7585e2ff",
+    "required_roles": [
+      "logistician",
+      "carrier",
+      "customs"
+    ],
+    "attestations": [
+      {
+        "role": "logistician",
+        "version": 2,
+        "decision": "approved",
+        "status": "active",
+        "valid_until": "2026-11-13T22:18:49.400000Z"
+      },
+      {
+        "role": "carrier",
+        "version": 2,
+        "decision": "approved",
+        "status": "active",
+        "valid_until": "2026-11-13T22:19:39.744000Z"
+      },
+      {
+        "role": "customs",
+        "version": 2,
+        "decision": "approved",
+        "status": "active",
+        "valid_until": "2026-11-13T22:20:30.706000Z"
+      }
+    ],
+    "network": "casper-test",
+    "contract_address": "hash-d84a3277dd3077e9afbf88464ead500cd163af4472528237987821dac77d3b4a",
+    "transaction_hash": "9bb3fb711fdf77fe9b27e9c680df2ff0aaef269567687cbaa0bd48664fa0e3f2",
+    "explorer_url": "https://testnet.cspr.live/deploy/9bb3fb711fdf77fe9b27e9c680df2ff0aaef269567687cbaa0bd48664fa0e3f2"
+  },
+  "after_document": {
+    "version": 3,
+    "status": "collecting",
+    "documents_hash": "d0d94e24491beb1c7fd12a36021ace3409462a0a1e6a02b76c07ee3cdd9e98d1",
+    "route_hash": "32344c0630031626a0d781d6f46d58b6496e5941d55eb261c2d6125c7585e2ff",
+    "required_roles": [
+      "logistician",
+      "carrier",
+      "customs"
+    ],
+    "attestations": [
+      {
+        "role": "logistician",
+        "version": 2,
+        "decision": "approved",
+        "status": "invalidated",
+        "valid_until": "2026-11-13T22:18:49.400000Z"
+      },
+      {
+        "role": "carrier",
+        "version": 2,
+        "decision": "approved",
+        "status": "invalidated",
+        "valid_until": "2026-11-13T22:19:39.744000Z"
+      },
+      {
+        "role": "customs",
+        "version": 2,
+        "decision": "approved",
+        "status": "invalidated",
+        "valid_until": "2026-11-13T22:20:30.706000Z"
+      }
+    ],
+    "network": "casper-test",
+    "contract_address": "hash-d84a3277dd3077e9afbf88464ead500cd163af4472528237987821dac77d3b4a",
+    "transaction_hash": "ee02215f44aac645fd77ccc4ecb20336dbc16d6c65ae6a615118c89dbafe88c5",
+    "explorer_url": "https://testnet.cspr.live/deploy/ee02215f44aac645fd77ccc4ecb20336dbc16d6c65ae6a615118c89dbafe88c5"
+  },
+  "chain_verification": {
+    "chain_shipment_id": "3a1a9d6a7f0f8f50ea738c4b42a2901cc60394c74f30b050acda447274994223",
+    "passport": {
+      "version": 3,
+      "current_version": 3,
+      "documents_hash": "d0d94e24491beb1c7fd12a36021ace3409462a0a1e6a02b76c07ee3cdd9e98d1",
+      "route_hash": "32344c0630031626a0d781d6f46d58b6496e5941d55eb261c2d6125c7585e2ff",
+      "decisions": {},
+      "evaluated_at_ms": 1794522404876,
+      "status": "collecting",
+      "block_hash": "c97bf46269a562619e10155f3f2415993b8da1242bb68f415f49f4d4e2809c94",
+      "state_root_hash": "eaa1f164094f8b39e1d043b483f62eb746c816376933d4603eb1414978258762"
+    }
+  },
+  "checks": {
+    "role_cache_blocks_writes": true,
+    "no_optimistic_document_version": true,
+    "document_replacement_confirmed": true,
+    "old_signatures_invalidated": true,
+    "esg_matches_server": true
+  },
+  "page_errors": [],
+  "network_errors": [],
+  "limitations": [
+    "Synthetic cargo and timetable; assumed queue/capacity and emission factors.",
+    "Public weather and port-call history do not validate forecast accuracy on Caspian shipments."
+  ]
+}

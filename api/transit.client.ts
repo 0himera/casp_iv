@@ -2,6 +2,7 @@ import type {
   Attest, CreateDemoShipment, Operation, ReplaceDocument, RevisionInput,
   SelectRoute, Shipment, ShipmentList, PredictionRequest, ShipmentComparison,
   UpdateForecast, EmissionsRequest, EmissionsComparison, AddRouteCandidate,
+  RecalculateRequest,
 } from './public-data.types';
 
 export class TransitError extends Error {
@@ -38,6 +39,8 @@ export function createTransitClient(baseUrl = 'http://localhost:8000/api/v1', to
       request<ShipmentComparison>(`${shipment(id)}/route-comparison`, body, undefined, signal),
     updateForecast: (id: string, body: UpdateForecast, key: string) =>
       request<Shipment>(`${shipment(id)}/forecast`, body, key),
+    recalculate: (id: string, body: RecalculateRequest, key: string) =>
+      request<Shipment>(`${shipment(id)}/recalculate`, body, key),
     addRouteCandidate: (id: string, body: AddRouteCandidate, key: string) =>
       request<Shipment>(`${shipment(id)}/route-candidates`, body, key),
     compareEmissions: (id: string, body: EmissionsRequest, signal?: AbortSignal) =>

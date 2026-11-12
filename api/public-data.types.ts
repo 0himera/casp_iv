@@ -256,6 +256,47 @@ export type Passport = {
   explorer_url: string | null;
 };
 
+export type PlanningAssumptions = {
+  terminal_hours?: number;
+  rail_delay_hours?: number;
+  wind_limit_kmh?: number;
+  cutoff_in_hours?: number;
+  sailing_interval_hours?: number;
+  assume_capacity?: boolean;
+  rail_kg_per_tonne_km?: number;
+  road_kg_per_tonne_km?: number;
+  sea_kg_per_tonne_km?: number;
+};
+
+export type PlanningInput = {
+  route_id: string;
+  port_id: string;
+  weather_status: "forecast" | "stale" | "missing" | "scenario";
+  weather_source_url: string | null;
+  weather_fetched_at: string | null;
+  wind_max_kmh: number | null;
+  weather_hold_hours: number;
+  activity_date: string | null;
+  activity_source_url: string | null;
+  activity_stale: boolean;
+  port_calls: number | null;
+  median_port_calls: number | null;
+  queue_factor: number;
+  land_hours: number;
+  terminal_hours: number;
+  cutoff_at: string;
+  warnings: Array<string>;
+};
+
+export type PlanningSummary = {
+  scenario: "normal" | "storm" | "missing_data";
+  assumptions: PlanningAssumptions;
+  inputs: Array<PlanningInput>;
+  emissions: EmissionsComparison;
+  road_baseline_kg_co2e: number;
+  note: string;
+};
+
 export type Port = {
   id: string;
   name: string;
@@ -303,6 +344,12 @@ export type Provenance = {
   cache_age_seconds: number;
   stale: boolean;
   warnings: Array<string>;
+};
+
+export type RecalculateRequest = {
+  expected_revision: number;
+  scenario?: "normal" | "storm" | "missing_data";
+  assumptions?: PlanningAssumptions;
 };
 
 export type ReplaceDocument = {
@@ -442,6 +489,7 @@ export type Shipment = {
   sources: Array<Source>;
   allowed_actions: Array<"select_route" | "replace_document" | "attest" | "run_scenario">;
   pending_operation_id: string | null;
+  planning?: PlanningSummary | null;
 };
 
 export type ShipmentComparison = {

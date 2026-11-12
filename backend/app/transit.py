@@ -121,7 +121,7 @@ class Transit:
         snapshot["allowed_actions"] = (
             []
             if row["pending"] or not fresh(snapshot)
-            else ["select_route", "replace_document", "attest"]
+            else ["select_route", "replace_document", "attest", "run_scenario"]
         )
         return snapshot
 
@@ -131,12 +131,33 @@ class Transit:
             fail(404, "OPERATION_NOT_FOUND", "Операция не найдена")
         return json.loads(row["public"])
 
-    def update_forecast(self, role, shipment_id, body, idem):
+    def cached_forecast(self, shipment_id, data, idem):
+        digest = hashlib.sha256(rfc8785.dumps(data)).hexdigest()
+        with self.store.connect() as db:
+            row = db.execute(
+                "SELECT digest,response FROM forecast_requests WHERE shipment_id=? AND idem=?",
+                (shipment_id, idem),
+            ).fetchone()
+        if row:
+            if row["digest"] != digest:
+                fail(409, "IDEMPOTENCY_CONFLICT", "Ключ уже использован с другим телом")
+            return json.loads(row["response"])
+        return None
+
+    def update_forecast(self, role, shipment_id, body, idem, *, prepared=None, request_data=None):
         if role != "logistician":
             fail(403, "FORBIDDEN", "Прогноз обновляет логист")
         data = body.model_dump(mode="json")
-        digest = hashlib.sha256(rfc8785.dumps(data)).hexdigest()
+        digest = hashlib.sha256(rfc8785.dumps(request_data or data)).hexdigest()
         result = predict(body.scenario).model_dump(mode="json")
+        if prepared:
+            for values in result["routes"]:
+                if values["route_id"] in prepared["missing"]:
+                    values.update(
+                        ready_at=dict.fromkeys(("p10", "p50", "p90")),
+                        probability_target_cutoff_missed=None,
+                        delivery_eta=None,
+                    )
         with self.store.connect(write=True) as db:
             previous = db.execute(
                 "SELECT digest,response FROM forecast_requests WHERE shipment_id=? AND idem=?",
@@ -156,6 +177,23 @@ class Transit:
                 fail(409, "REVISION_CONFLICT", "Отправка изменилась; обновите её")
             if snapshot["passport"]["version"] == 0:
                 fail(409, "PASSPORT_NOT_REGISTERED", "Паспорт ещё не создан")
+            if prepared:
+                snapshot["routes"] = prepared["routes"]
+                snapshot["planning"] = prepared["planning"]
+                snapshot["planning"]["emissions"]["shipment_revision"] = snapshot["revision"] + 1
+                snapshot["data_mode"] = "mixed"
+                snapshot["scenario_time"] = iso(body.scenario.start_at)
+                snapshot["sources"] = [s for s in snapshot["sources"] if s["id"] != "planning"]
+                snapshot["sources"].append(
+                    {
+                        "id": "planning",
+                        "name": "Расчёт по погоде и сценарным условиям",
+                        "url": None,
+                        "quality": "synthetic",
+                        "observed_at": iso(),
+                        "note": snapshot["planning"]["note"],
+                    }
+                )
             if {r.id for r in body.scenario.routes} != {r["id"] for r in snapshot["routes"]}:
                 fail(422, "ROUTES_MISMATCH", "Нужны сценарии для всех маршрутов карточки")
             selected = snapshot["selected_route_id"]
@@ -182,6 +220,16 @@ class Transit:
                 "reasons": ["Сценарный расчёт: параметры переданы пользователем."]
                 + values["warnings"],
             }
+            if prepared:
+                summary = snapshot["planning"]
+                observed = next(x for x in summary["inputs"] if x["route_id"] == selected)
+                snapshot["forecast"]["quality"] = (
+                    "missing" if selected in prepared["missing"] else "synthetic"
+                )
+                snapshot["forecast"]["reasons"] = [
+                    "Monte Carlo: открытая погода + явные сценарные параметры.",
+                    *observed["warnings"],
+                ]
             snapshot["revision"] += 1
             snapshot["updated_at"] = iso()
             db.execute(
@@ -248,6 +296,11 @@ class Transit:
                 fail(409, "PASSPORT_NOT_REGISTERED", "Паспорт ещё не создан")
             if any(r["id"] == route["id"] for r in snapshot["routes"]):
                 fail(409, "ROUTE_EXISTS", "Маршрут с таким id уже существует")
+            if route["ports"][-1] not in (
+                snapshot["destination"]["id"],
+                snapshot["destination"]["name"],
+            ):
+                fail(422, "DESTINATION_MISMATCH", "Альтернатива должна вести в то же назначение")
             if len(snapshot["routes"]) >= 20:
                 fail(422, "TOO_MANY_ROUTES", "Не более 20 вариантов в одной отправке")
             snapshot["routes"].append(route)
@@ -412,6 +465,17 @@ class Transit:
                             reasons=["Сценарный расчёт: параметры переданы пользователем."]
                             + values["warnings"],
                         )
+                        if candidate.get("planning"):
+                            source = next(
+                                x
+                                for x in candidate["planning"]["inputs"]
+                                if x["route_id"] == route["id"]
+                            )
+                            forecast["reasons"] = [
+                                "Monte Carlo: открытая погода + явные сценарные параметры.",
+                                *source["warnings"],
+                            ]
+                            forecast["quality"] = "synthetic"
                 elif kind == "replace_document":
                     document = next(
                         (d for d in candidate["documents"] if d["id"] == body["document_id"]), None

@@ -182,3 +182,39 @@ uv run --env-file ../contracts/.local/backend.env python scripts/smoke_transit.p
 Локальные тесты CSPR не тратят. Разделение make/send-deploy и проверка исполнения:
 [документация Casper](https://docs.casper.network/1.5.X/developers/cli/sending-deploys).
 Legacy deploy выбран по фактической совместимости текущего testnet RPC.
+
+## Единый расчёт с открытыми наблюдениями
+
+`POST /api/v1/shipments/{id}/recalculate`, роль `logistician`, Bearer и `Idempotency-Key`.
+
+```json
+{
+  "expected_revision": 1,
+  "scenario": "normal",
+  "assumptions": {
+    "terminal_hours": 8,
+    "rail_delay_hours": 0,
+    "wind_limit_kmh": 40,
+    "cutoff_in_hours": 24,
+    "sailing_interval_hours": 24,
+    "assume_capacity": true,
+    "rail_kg_per_tonne_km": 0.022,
+    "road_kg_per_tonne_km": 0.062,
+    "sea_kg_per_tonne_km": 0.015
+  }
+}
+```
+
+Ответ — `Shipment` с `planning`: допущения, погода/история активности по каждому
+маршруту с датами и источниками, единый ESG и его разбивка. Все кандидаты сохранены
+на backend и ведут в пункт назначения отправки. Меняется API revision, паспорт и
+его хеши остаются прежними. Повтор того же ключа/тела возвращает сохранённый ответ.
+Смена тела под тем же ключом и устаревший revision дают 409.
+
+`storm` добавляет 24 часа в выбранном коридоре, `missing_data` исключает наблюдения.
+Это сценарии, а не имитация реального предупреждения или сбоя источника. Без погоды
+риск и ETA — `null`; неизвестная вместимость не даёт ETA доставки. Логика, смещения
+демо-расписаний и ограничения подробно описаны в [архитектуре](ARCHITECTURE.md).
+
+Frontend больше не пересчитывает риски/подписи локально и не подставляет дополнительные
+маршруты. Файловый input отправляет `document-revisions`, затем ждёт Operation.

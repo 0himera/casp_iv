@@ -6,6 +6,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from .planning_models import PlanningSummary
+
 
 class DTO(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
@@ -142,6 +144,7 @@ class Shipment(DTO):
     sources: list[Source]
     allowed_actions: list[Action]
     pending_operation_id: str | None
+    planning: PlanningSummary | None = None
 
 
 class ShipmentSummary(DTO):

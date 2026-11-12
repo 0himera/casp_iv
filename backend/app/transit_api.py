@@ -8,9 +8,12 @@ from pydantic import BaseModel
 
 from .casper import Casper
 from .emissions import EmissionsComparison, EmissionsRequest, calculate
+from .planning import prepare
+from .planning_models import RecalculateRequest
 from .prediction import PredictionRequest, PredictionResponse, predict
 from .shipment_dto import Shipment, ShipmentList
 from .transit import Transit, fail
+from .transit import now as utc_now
 from .transit_models import (
     AddRouteCandidate,
     Attest,
@@ -109,6 +112,46 @@ def update_forecast(
     shipment_id: str, body: UpdateForecast, svc: Service, role: Actor, idem: Idempotency
 ):
     return svc.update_forecast(role, shipment_id, body, idem)
+
+
+@router.post("/shipments/{shipment_id}/recalculate", response_model=Shipment)
+async def recalculate(
+    shipment_id: str,
+    body: RecalculateRequest,
+    request: Request,
+    svc: Service,
+    role: Actor,
+    idem: Idempotency,
+):
+    if role != "logistician":
+        fail(403, "FORBIDDEN", "Расчёт запускает логист")
+    data = {"operation": "recalculate", **body.model_dump(mode="json")}
+    cached = svc.cached_forecast(shipment_id, data, idem)
+    if cached is not None:
+        return cached
+    shipment = svc.read(shipment_id)
+    if shipment["revision"] != body.expected_revision:
+        fail(409, "REVISION_CONFLICT", "Отправка изменилась; обновите карточку")
+    if shipment["pending_operation_id"]:
+        fail(409, "OPERATION_PENDING", "Дождитесь текущей операции")
+    try:
+        scenario, prepared = await prepare(
+            shipment,
+            body,
+            request.app.state.data,
+            request.app.state.settings,
+            utc_now(),
+        )
+    except ValueError as exc:
+        fail(422, "INVALID_PLANNING_INPUT", str(exc))
+    return svc.update_forecast(
+        role,
+        shipment_id,
+        UpdateForecast(expected_revision=body.expected_revision, scenario=scenario),
+        idem,
+        prepared=prepared,
+        request_data=data,
+    )
 
 
 @router.post("/shipments/{shipment_id}/route-candidates", response_model=Shipment)
