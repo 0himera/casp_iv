@@ -1,0 +1,21 @@
+.topBar {
+  position: fixed;
+  top: 12px;
+  left: 60px;
+  right: 16px;
+  z-index: 30;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 85%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 900px) {
+  .topBar {
+    left: 54px;
+    right: 8px;
+    top: 8px;
+  }
+}
