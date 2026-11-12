@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/shared/lib/utils';
+import { getCssVarColor } from '@/shared/lib/theme-colors';
 
 interface BioOpticOrbitsProps {
   className?: string;
@@ -8,8 +9,8 @@ interface BioOpticOrbitsProps {
 }
 
 export function BioOpticOrbits({ className, xrayMode = false }: BioOpticOrbitsProps) {
-  const stroke = xrayMode ? 'rgba(228, 225, 218, 0.14)' : 'rgba(228, 225, 218, 0.07)';
-  const dotFill = xrayMode ? 'rgba(149, 139, 168, 0.5)' : 'rgba(228, 225, 218, 0.25)';
+  const stroke = getCssVarColor(xrayMode ? '--map-grid' : '--border-subtle', 'transparent');
+  const dotFill = getCssVarColor(xrayMode ? '--accent-lavender' : '--map-label', 'transparent');
 
   return (
     <svg

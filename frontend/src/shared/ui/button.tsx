@@ -4,23 +4,19 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-[4px] font-mono text-xs font-semibold tracking-[0.04em] transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-45 cursor-pointer',
+  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-mono text-xs font-semibold tracking-[0.03em] transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-45 cursor-pointer',
   {
     variants: {
       variant: {
-        default:
-          'bg-[#FFB800] text-[#170205] font-bold hover:bg-[#E5A500]',
-        destructive:
-          'border border-[#D9534F]/40 bg-[#D9534F]/15 text-[#E57368] hover:bg-[#D9534F]/25',
-        outline:
-          'border border-white/14 bg-white/[0.03] text-[#CBD5E1] hover:bg-white/[0.07] hover:border-white/25',
-        secondary:
-          'border border-[rgba(126,178,204,0.28)] bg-[rgba(126,178,204,0.08)] text-[#A5C9DC] hover:bg-[rgba(126,178,204,0.14)]',
-        ghost: 'text-[#94A0B3] hover:bg-white/[0.05] hover:text-[#F5F5F7]',
+        default: 'bg-primary text-primary-foreground hover:bg-primary-hover',
+        destructive: 'border border-destructive/35 bg-destructive/10 text-destructive hover:bg-destructive/15',
+        outline: 'border border-border bg-transparent text-foreground hover:bg-[var(--surface-low)] hover:border-border-strong',
+        secondary: 'border border-border bg-secondary text-secondary-foreground hover:bg-accent',
+        ghost: 'text-muted-foreground hover:bg-[var(--surface-low)] hover:text-foreground',
       },
       size: {
         default: 'h-9 px-5 py-2.5 text-[12px]',
-        sm: 'h-7 px-3 text-[11px]',
+        sm: 'h-8 px-3 text-[11px]',
         lg: 'h-10 px-6 text-[13px]',
         icon: 'h-8 w-8',
       },

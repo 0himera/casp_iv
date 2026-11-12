@@ -13,12 +13,12 @@ export function ViewfinderFrame({ children, stamp, className }: ViewfinderFrameP
   return (
     <div
       className={cn(
-        'relative rounded-[6px] border border-[var(--border)] bg-[var(--card)] p-5 sm:p-6',
+        'relative rounded-lg border border-border bg-surface-default p-5 sm:p-6',
         className
       )}
     >
       {stamp && (
-        <span className="mb-3 block font-mono text-[11px] uppercase tracking-[0.08em] text-[#7EB2CC]">
+        <span className="mb-3 block font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--accent-cyan)]">
           {stamp}
         </span>
       )}

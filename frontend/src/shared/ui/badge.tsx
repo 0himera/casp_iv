@@ -3,17 +3,17 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
 
 const badgeVariants = cva(
-  'inline-flex items-center gap-1.5 rounded-[4px] border px-2 py-1 font-mono text-[11px] font-medium tracking-[0.04em] transition-colors',
+  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap leading-none select-none shrink-0 rounded-md border px-2 py-1 font-mono text-[11px] font-medium tracking-[0.02em] transition-colors',
   {
     variants: {
       variant: {
-        default: 'border-[rgba(126,178,204,0.28)] bg-[rgba(126,178,204,0.08)] text-[#A5C9DC]',
-        secondary: 'border-white/10 bg-[#1D2230] text-[#CBD5E1]',
-        destructive: 'border-[#D9534F]/35 bg-[#D9534F]/10 text-[#E57368]',
-        lavender: 'border-[#4B74B5]/35 bg-[#4B74B5]/12 text-[#8EB0E0]',
-        outline: 'border-white/12 bg-white/[0.02] text-[#94A0B3]',
-        success: 'border-[#4E9F76]/35 bg-[#4E9F76]/12 text-[#7AC49D]',
-        warning: 'border-[#D98A3C]/35 bg-[#D98A3C]/12 text-[#E2A96F]',
+        default: 'border-accent-cyan/25 bg-accent-cyan/10 text-accent-cyan',
+        secondary: 'border-border bg-surface-low text-secondary-foreground',
+        destructive: 'border-destructive/35 bg-destructive/10 text-destructive',
+        lavender: 'border-lavender/30 bg-lavender/10 text-lavender',
+        outline: 'border-border bg-transparent text-muted-foreground',
+        success: 'border-status-success/35 bg-status-success/10 text-status-success',
+        warning: 'border-status-warning/35 bg-status-warning/10 text-status-warning',
       },
     },
     defaultVariants: {
@@ -26,6 +26,10 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-export function Badge({ className, variant, ...props }: BadgeProps) {
-  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
+export function Badge({ className, variant = 'default', children, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props}>
+      {children}
+    </div>
+  );
 }
