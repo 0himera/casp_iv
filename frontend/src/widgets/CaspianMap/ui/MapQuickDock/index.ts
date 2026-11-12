@@ -1,0 +1,1 @@
+export { MapQuickDock } from './MapQuickDock';

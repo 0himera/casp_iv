@@ -1,0 +1,35 @@
+.wrap { display: flex; flex-direction: column; gap: 10px; height: 100%; }
+
+.tabsRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tabs { display: flex; gap: 4px; padding: 3px; border-radius: 5px; background: var(--surface-default); border: 1px solid var(--border); }
+
+.tabBtn {
+  display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px;
+  border-radius: 4px; border: none; background: transparent; cursor: pointer;
+  font-size: 11px; font-weight: 500; color: var(--muted-foreground);
+}
+.activeTab { background: var(--card-elevated); color: var(--foreground); }
+
+.closeBtn { padding: 4px; border: none; background: transparent; color: var(--muted-foreground); cursor: pointer; }
+.closeBtn:hover { color: var(--foreground); }
+
+.list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+
+.card {
+  display: flex; flex-direction: column; gap: 6px; padding: 10px 12px;
+  border-radius: 6px; border: 1px solid var(--border); background: var(--surface-low);
+}
+.cardActive { border-color: var(--primary); background: rgba(255, 59, 29, 0.1); }
+.rowBetween { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.title { font-size: 12px; font-weight: 600; color: var(--foreground); }
+.meta { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+.activeTag { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--status-success); }
+.warn { font-size: 10px; color: var(--status-danger); }
+
+.portRow {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 9px 11px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface-low); color: var(--foreground); text-align: left; cursor: pointer;
+}
+.portRow:hover { border-color: var(--cyan); }
+.icon { width: 13px; height: 13px; }
