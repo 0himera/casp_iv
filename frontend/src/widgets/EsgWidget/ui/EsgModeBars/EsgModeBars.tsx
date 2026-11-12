@@ -12,7 +12,7 @@ export function EsgModeBars({ modes, totalKg }: EsgModeBarsProps) {
   return (
     <div className={styles.bars}>
       {modes.map((item) => {
-        const pct = Math.round((item.kg / totalKg) * 100);
+        const pct = totalKg > 0 ? Math.round((item.kg / totalKg) * 100) : 0;
         const fillClass = item.mode === 'rail' ? styles.rail : item.mode === 'sea' ? styles.sea : styles.road;
 
         return (

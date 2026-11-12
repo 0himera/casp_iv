@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Caspian Transit frontend
 
-## Getting Started
-
-First, run the development server:
+Next.js + React + TanStack Query. Прототип кейса Smart Caspian Transit.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install --frozen-lockfile
+CASPIAN_API_URL=http://127.0.0.1:8000/api/v1 bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Браузер обращается к `/api/backend`, Next.js проксирует запросы в FastAPI.
+Сервис backend и постоянный Casper-worker запускаются отдельно: см.
+`../backend/README.md` и `../docs/TRANSIT_API.md`. Mock на 4010 для основного потока не нужен.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Источник состояния
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Карточка, маршруты, риски, ETA, ESG и паспорт приходят с backend.
+- «Пересчитать прогноз» и сценарии вызывают `/shipments/{id}/recalculate`.
+  Панель условий показывает допущения и происхождение наблюдений.
+- При смене роли действия ждут загрузки свежей ревизии карточки.
+- Выбор маршрута, загрузка документа и решение роли создают Operation.
+  `queued/submitted` не меняют согласованный паспорт локально. После `confirmed`
+  карточка перечитывается; при `failed` остаётся прежнее состояние и показывается ошибка.
+- Таможенная роль имитируется. Нет кнопки, подписывающей все роли сразу.
+- Весь грузовой сценарий демонстрационный. Открытые погодные/портовые данные
+  не превращают его в фактическое отслеживание груза оператора.
 
-## Learn More
+Preview-токены ролей опубликованы по решению команды для хакатона. Это не схема
+доступа для промышленного сервиса. Локальные signing keys остаются только у worker.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+bun test
+bun run lint
+bun run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Сквозной сценарий: `../docs/NEXT_STEPS.md`. Архитектура и ограничения:
+`../docs/ARCHITECTURE.md`. Генерируемые DTO: `../api/public-data.types.ts`.

@@ -20,9 +20,9 @@ export function AttestationRow({ role, currentRole, version, attestations }: Att
   const isRejected = current?.decision === 'rejected';
   const isInvalidated = latest?.status === 'invalidated';
 
-  const statusLabel = role === 'customs'
-    ? isApproved ? 'e-CMR верифицирован' : isInvalidated ? 'Повторная подпись' : 'Ожидает e-CMR'
-    : isApproved ? 'Согласовано' : isRejected ? 'Отклонено' : isInvalidated ? 'Повторная подпись' : 'Ожидает подписи';
+  const statusLabel = isApproved ? 'Согласовано' : isRejected ? 'Отклонено'
+    : latest?.status === 'expired' ? 'Срок истёк' : latest?.status === 'revoked' ? 'Отозвано'
+    : isInvalidated ? 'Повторная подпись' : 'Ожидает подписи';
 
   const variant = isApproved ? 'success' : isRejected ? 'destructive' : isInvalidated ? 'warning' : 'outline';
 

@@ -1,7 +1,6 @@
 import { seaRoute } from '@/entities/shipment/lib/marineGeometry';
 import { ARCHIVAL_GEO, projectArchivalCoord } from './archivalPins';
 
-// Preserve the water-validated polyline in the SVG projection as well.
 export const ARCHIVAL_MARINE_ROUTES = ARCHIVAL_GEO.routes.flatMap((route) => {
   const coordinates = seaRoute(route.from, route.to);
   if (!coordinates) return [];

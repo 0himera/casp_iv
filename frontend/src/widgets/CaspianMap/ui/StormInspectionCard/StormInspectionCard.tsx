@@ -7,12 +7,14 @@ import styles from './StormInspectionCard.module.css';
 
 interface StormInspectionCardProps {
   shipment: Shipment;
+  isBusy?: boolean;
   onSelectRoute?: (routeId: string) => void;
   onClose: () => void;
 }
 
 export function StormInspectionCard({
   shipment,
+  isBusy,
   onSelectRoute,
   onClose,
 }: StormInspectionCardProps) {
@@ -31,11 +33,11 @@ export function StormInspectionCard({
         <button type="button" onClick={onClose} className={styles.closeBtn}><X className={styles.closeIcon} /></button>
       </div>
       <div className={styles.desc}>
-        Демонстрационный сценарий: волна 3,8 м, порывы 62 км/ч и риск 84%. Это не актуальное предупреждение и не подтверждение закрытия переправы.
+        Сценарная зона на карте. Кнопка «Шторм» добавляет 24 часа ожидания в выбранном коридоре; риск рассчитывает сервер. Это не предупреждение о фактическом закрытии переправы.
       </div>
       {altRoute && (
-        <Button type="button" size="sm" onClick={() => onSelectRoute?.(altRoute.id)} className={styles.rerouteBtn}>
-          Следовать в обход через {altRoute.name} <ArrowRight className={styles.arrow} />
+        <Button type="button" size="sm" disabled={isBusy} onClick={() => onSelectRoute?.(altRoute.id)} className={styles.rerouteBtn}>
+          {isBusy ? 'Перестроение...' : `Следовать в обход через ${altRoute.name}`} <ArrowRight className={styles.arrow} />
         </Button>
       )}
     </ViewfinderFrame>

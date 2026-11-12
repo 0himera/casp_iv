@@ -6,9 +6,9 @@ import type { Shipment } from '@/shared/api/caspian';
 import { Button, ViewfinderFrame } from '@/shared/ui';
 import styles from './PortInspectionCard.module.css';
 
-interface PortInspectionCardProps { port: CaspianPort; shipment: Shipment; onSelectRoute?: (routeId: string) => void; onClose: () => void; }
+interface PortInspectionCardProps { port: CaspianPort; shipment: Shipment; isBusy?: boolean; onSelectRoute?: (routeId: string) => void; onClose: () => void; }
 
-export function PortInspectionCard({ port, shipment, onSelectRoute, onClose }: PortInspectionCardProps) {
+export function PortInspectionCard({ port, shipment, isBusy, onSelectRoute, onClose }: PortInspectionCardProps) {
   const activeRoute = shipment.routes.find((r) => r.id === shipment.selected_route_id);
   const isInActive = activeRoute?.ports.includes(port.name) || activeRoute?.ports.includes(port.id);
   const portRoute = shipment.routes.find((r) => r.ports.includes(port.name) || r.ports.includes(port.id));
@@ -47,7 +47,7 @@ export function PortInspectionCard({ port, shipment, onSelectRoute, onClose }: P
         </div>
       </>}
       {isInActive && <div className={styles.statusRow}><Check className={styles.checkIcon} /><span>Включён в текущий маршрут</span></div>}
-      {!isInActive && portRoute && <Button type="button" size="sm" onClick={() => onSelectRoute?.(portRoute.id)} className={styles.routeBtn}>Маршрут через {port.name} <ArrowRight className={styles.arrowIcon} /></Button>}
+      {!isInActive && portRoute && <Button type="button" size="sm" disabled={isBusy} onClick={() => onSelectRoute?.(portRoute.id)} className={styles.routeBtn}>{isBusy ? 'Перестроение...' : `Маршрут через ${port.name}`} <ArrowRight className={styles.arrowIcon} /></Button>}
     </ViewfinderFrame>
   );
 }

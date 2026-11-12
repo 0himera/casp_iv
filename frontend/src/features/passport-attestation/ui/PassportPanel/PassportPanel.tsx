@@ -45,6 +45,7 @@ export function PassportPanel({
         <span>{passport.network === 'mock' ? 'Симуляция согласования' : 'Casper Testnet'}</span>
         {passport.explorer_url && <a href={passport.explorer_url} target="_blank" rel="noreferrer" className={styles.link}>Explorer <ExternalLink className={styles.miniIcon} /></a>}
       </div>
+      <p>Третья роль — имитатор таможенного сервиса. Согласование комплекта не означает таможенный выпуск.</p>
       <div className={styles.content}>
         <PassportHashes passport={passport} documents={documents} />
         <div className={styles.rows}>

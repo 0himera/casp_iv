@@ -1,5 +1,7 @@
 import type { Action, Location, Role, Source } from './coreTypes';
 import type { Attestation, Document, Forecast, Route } from './routeDocTypes';
+import type { PlanningSummary } from '../../../../../api/public-data.types';
+export type { PlanningSummary, PlanningAssumptions, RecalculateRequest } from '../../../../../api/public-data.types';
 
 export type Passport = {
   version: number;
@@ -43,4 +45,5 @@ export type Shipment = {
   sources: Array<Source>;
   allowed_actions: Array<Action>;
   pending_operation_id: string | null;
+  planning?: PlanningSummary | null;
 };

@@ -28,7 +28,7 @@ export function DockPassportTab({ shipment, role, isBusy, onAttest }: DockPasspo
         <span className={styles.meta}>RTE: {passport.route_hash.slice(0, 14)}…</span>
       </div>
       {passport.required_roles.map((reqRole) => {
-        const att = passport.attestations.find((a) => a.role === reqRole && a.status === 'active');
+        const att = passport.attestations.find((a) => a.role === reqRole && a.version === passport.version && a.status === 'active' && a.decision === 'approved');
         return (
           <div key={reqRole} className={`${styles.card} ${reqRole === role ? styles.cardActive : ''}`}>
             <div className={styles.rowBetween}>

@@ -20,6 +20,7 @@
 .activeRole {
   border-color: var(--border-strong);
   background-color: var(--card-elevated);
+  box-shadow: inset 2px 0 0 var(--accent-cyan);
 }
 
 .roleWrap {

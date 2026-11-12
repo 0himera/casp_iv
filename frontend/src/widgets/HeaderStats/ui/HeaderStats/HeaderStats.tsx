@@ -33,7 +33,7 @@ export function HeaderStats(props: HeaderStatsProps) {
         </div>
         <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
           {apiOnline ? <LivePing /> : <span className={styles.warnDot} />}
-          <span>{apiOnline ? 'TELEMETRY LIVE' : 'OFFLINE'}</span>
+          <span>{apiOnline ? 'API ONLINE · груз сценарный' : 'OFFLINE'}</span>
         </Badge>
       </div>
       <div className={styles.controlsBlock}>

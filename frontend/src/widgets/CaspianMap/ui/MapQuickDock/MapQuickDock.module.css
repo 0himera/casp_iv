@@ -34,3 +34,5 @@
 .portRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border); background: var(--surface-low); color: var(--foreground); text-align: left; cursor: pointer; }
 .portRow:hover { border-color: var(--cyan); }
 .icon { width: 13px; height: 13px; flex-shrink: 0; }
+.spinIcon { width: 13px; height: 13px; flex-shrink: 0; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

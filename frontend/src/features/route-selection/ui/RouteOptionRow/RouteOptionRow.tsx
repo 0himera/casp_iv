@@ -14,13 +14,12 @@ interface RouteOptionRowProps {
 }
 
 export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: RouteOptionRowProps) {
-  const isBackend = route.id === 'route_astra' || route.id === 'route_makh';
   return (
     <div className={`${styles.row} ${isSelected ? styles.selected : ''}`}>
       <div className={styles.top}>
         <span className={styles.name}>{route.name}</span>
         <div className={styles.badges}>
-          {!isBackend && <Badge variant="outline">Симуляция</Badge>}
+          <Badge variant="outline">{route.capacity_status === 'unknown' ? 'Места не подтверждены' : 'Места: допущение'}</Badge>
           <Badge variant={route.feasible ? 'secondary' : 'destructive'}>
             Риск: {formatProbability(route.miss_probability)}
           </Badge>
@@ -28,7 +27,7 @@ export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: Route
       </div>
       <div className={styles.metrics}>
         <span>ETA: {formatMskDateTime(route.eta.p50)}</span>
-        <span>{formatRubFromMinor(route.cost.amount_minor)}</span>
+        <span>{route.cost.amount_minor > 0 ? formatRubFromMinor(route.cost.amount_minor) : 'Тариф не подтверждён'}</span>
         <span>{route.emissions_kg_co2e !== null ? `${route.emissions_kg_co2e} кг CO₂e` : 'Нет данных'}</span>
       </div>
       {!route.feasible && route.infeasibility_reason && (
@@ -40,7 +39,7 @@ export function RouteOptionRow({ route, isSelected, canSelect, onSelect }: Route
             <span className={styles.reapproval}>Потребуется повторное согласование документов и маршрута</span>
           )}
           <Button type="button" size="sm" disabled={!canSelect} onClick={() => onSelect(route.id)}>
-            {isBackend ? 'Выбрать' : 'Симулировать'} <ArrowRight className={styles.icon} />
+            Выбрать <ArrowRight className={styles.icon} />
           </Button>
         </div>
       )}

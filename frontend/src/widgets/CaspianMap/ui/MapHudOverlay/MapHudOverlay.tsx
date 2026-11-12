@@ -1,18 +1,26 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
 import styles from './MapHudOverlay.module.css';
 
 interface MapHudOverlayProps {
   stormActive: boolean;
+  isBusy?: boolean;
 }
 
-export function MapHudOverlay({ stormActive }: MapHudOverlayProps) {
+export function MapHudOverlay({ stormActive, isBusy }: MapHudOverlayProps) {
   return (
     <div className={styles.hud} aria-hidden="true">
       <div className={styles.cornerTopLeft} />
       <div className={styles.cornerTopRight} />
       <div className={styles.cornerBottomLeft} />
       <div className={styles.cornerBottomRight} />
+      {isBusy && (
+        <div className={styles.busyBanner}>
+          <Loader2 className={styles.spinIcon} />
+          <span>[ ВЕРИФИКАЦИЯ МАРШРУТА В КАСПИЙСКОЙ СЕТИ... ]</span>
+        </div>
+      )}
       <div className={styles.topStamp}>
         <span>{'LAT 36.5°N–47.2°N · LON 46.8°E–54.1°E // BATHYMETRY'}</span>
         <span className={stormActive ? styles.stormTag : styles.nominalTag}>

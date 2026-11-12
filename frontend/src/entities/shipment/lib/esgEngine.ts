@@ -1,56 +1,35 @@
+import type { Shipment } from '@/shared/api/caspian';
+
 export interface EsgModeContribution {
   mode: 'rail' | 'sea' | 'road';
   label: string;
   kg: number;
 }
-
 export interface EsgRecalculationResult {
-  totalCurrentKg: number;
-  pureRoadBaselineKg: number;
-  savedKg: number;
-  reductionPercent: number;
-  deltaVsBaseKg: number;
-  rating: 'A+' | 'B';
+  totalCurrentKg: number | null;
+  pureRoadBaselineKg: number | null;
+  savedKg: number | null;
+  reductionPercent: number | null;
+  deltaVsBaseKg: number | null;
   modesBreakdown: EsgModeContribution[];
+  source: string;
 }
+const labels = { rail: 'Ж/Д плечо', sea: 'Морское плечо', road: 'Автоплечо' };
 
-export const GLEC_FACTORS = {
-  rail: 0.022,
-  sea: 0.015,
-  road: 0.062,
-} as const;
-
-export const PURE_ROAD_BASELINE_KG = 6420;
-export const BASE_ROUTE_KG = 2880;
-export const REROUTED_ROUTE_KG = 2520;
-
-export function recalculateEsg(routeId: string): EsgRecalculationResult {
-  const isAlternative = routeId === 'route_makh';
-  const totalCurrentKg = isAlternative ? REROUTED_ROUTE_KG : BASE_ROUTE_KG;
-  const savedKg = PURE_ROAD_BASELINE_KG - totalCurrentKg;
-  const reductionPercent = Math.round((savedKg / PURE_ROAD_BASELINE_KG) * 100);
-  const deltaVsBaseKg = totalCurrentKg - BASE_ROUTE_KG;
-  const rating: 'A+' | 'B' = isAlternative ? 'A+' : 'B';
-
-  const modesBreakdown: EsgModeContribution[] = isAlternative
-    ? [
-        { mode: 'rail', label: 'Ж/Д плечо', kg: 1420 },
-        { mode: 'sea', label: 'Морской паром', kg: 890 },
-        { mode: 'road', label: 'Автодовоз', kg: 210 },
-      ]
-    : [
-        { mode: 'rail', label: 'Ж/Д плечо', kg: 1180 },
-        { mode: 'sea', label: 'Морской паром', kg: 940 },
-        { mode: 'road', label: 'Автодовоз', kg: 760 },
-      ];
-
+export function recalculateEsg(shipment: Shipment): EsgRecalculationResult {
+  const selected = shipment.routes.find((r) => r.id === shipment.selected_route_id)!;
+  const total = selected.emissions_kg_co2e;
+  const baseline = shipment.planning?.road_baseline_kg_co2e ?? null;
+  const parts = shipment.planning?.emissions.routes.find((r) => r.route_id === selected.id);
+  const base = shipment.routes[0]?.emissions_kg_co2e ?? null;
   return {
-    totalCurrentKg,
-    pureRoadBaselineKg: PURE_ROAD_BASELINE_KG,
-    savedKg,
-    reductionPercent,
-    deltaVsBaseKg,
-    rating,
-    modesBreakdown,
+    totalCurrentKg: total, pureRoadBaselineKg: baseline,
+    savedKg: baseline !== null && total !== null ? baseline - total : null,
+    reductionPercent: baseline && total !== null ? Math.round((1 - total / baseline) * 100) : null,
+    deltaVsBaseKg: total !== null && base !== null ? total - base : null,
+    modesBreakdown: parts ? Object.entries(parts.by_mode_kg_co2e).map(([mode, kg]) => ({
+      mode: mode as EsgModeContribution['mode'], label: labels[mode as keyof typeof labels], kg: Math.round(kg * 100) / 100,
+    })) : [],
+    source: shipment.planning?.emissions.factor_source ?? selected.emissions_method,
   };
 }

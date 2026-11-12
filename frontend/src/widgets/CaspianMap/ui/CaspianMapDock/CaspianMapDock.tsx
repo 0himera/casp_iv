@@ -22,7 +22,7 @@ export function CaspianMapDock(p: CaspianMapDockProps) {
     return (
       <MapInspectionOverlays
         shipment={p.shipment} selectedPort={p.selectedPort} cargoSelected={p.cargoSelected}
-        stormSelected={p.stormSelected} onSelectRoute={p.onSelectRoute} onClose={p.onCloseInspection}
+        stormSelected={p.stormSelected} isBusy={p.isBusy} onSelectRoute={p.onSelectRoute} onClose={p.onCloseInspection}
       />
     );
   }
