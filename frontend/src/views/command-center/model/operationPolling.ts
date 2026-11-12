@@ -1,39 +1,46 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { API_BASE_URL } from '@/entities/shipment';
-import { createCaspianClient, type Operation, type Role } from '@/shared/api/caspian';
+import type { Operation, Role } from '@/shared/api/caspian';
+import { fetchOperationState } from './operationFetch';
 
 const STORAGE_KEY = 'caspian_pending_op';
 
 export function useOperationPolling(
-  pendingFromServer: string | null,
-  role: Role,
-  apiOnline: boolean,
-  onSettled: (op: Operation) => void
+  pendingFromServer: string | null, role: Role, apiOnline: boolean, onSettled: (op: Operation) => void
 ) {
   const [operation, setOperation] = useState<Operation | null>(null);
   const [timedOut, setTimedOut] = useState(false);
-  const startedAtRef = useRef<number>(0);
+  const [pollError, setPollError] = useState<string | null>(null);
+  const startedAtRef = useRef(0);
+  const inFlightRef = useRef(false);
+  const missingIdRef = useRef<string | null>(null);
 
   const startTracking = useCallback((op: Operation) => {
     startedAtRef.current = Date.now();
-    setTimedOut(false);
-    setOperation(op);
+    setTimedOut(false); setPollError(null);
+    missingIdRef.current = null; setOperation(op);
     sessionStorage.setItem(STORAGE_KEY, op.id);
   }, []);
 
   const pollOnce = useCallback(async (opId: string) => {
-    const client = createCaspianClient(API_BASE_URL, () => role);
-    const next = await client.getOperation(opId);
-    if (next.status === 'confirmed' || next.status === 'simulated' || next.status === 'failed') {
-      sessionStorage.removeItem(STORAGE_KEY);
-      setOperation(null);
-      setTimedOut(false);
-      onSettled(next);
-      return;
+    if (inFlightRef.current || missingIdRef.current === opId) return;
+    inFlightRef.current = true;
+    const res = await fetchOperationState(opId, role);
+    inFlightRef.current = false;
+    if (res.isNotFound) {
+      missingIdRef.current = opId; sessionStorage.removeItem(STORAGE_KEY);
+      setPollError(res.error); return;
     }
-    setOperation(next);
+    if (res.error) { setPollError(res.error); return; }
+    if (!res.next) return;
+    setPollError(null);
+    if (['confirmed', 'simulated', 'failed'].includes(res.next.status)) {
+      sessionStorage.removeItem(STORAGE_KEY);
+      setOperation(null); setTimedOut(false);
+      onSettled(res.next); return;
+    }
+    setOperation(res.next);
     if (Date.now() - startedAtRef.current >= 30_000) setTimedOut(true);
   }, [onSettled, role]);
 
@@ -42,14 +49,13 @@ export function useOperationPolling(
     const opId = operation?.id ?? pendingFromServer ?? saved;
     if (!opId || !apiOnline) return;
     if (!startedAtRef.current) startedAtRef.current = Date.now();
-    const timer = setInterval(() => void pollOnce(opId), 1000);
+    const timer = setInterval(() => void pollOnce(opId), 5000);
     return () => clearInterval(timer);
   }, [apiOnline, operation?.id, pendingFromServer, pollOnce]);
 
   const recheckNow = () => {
     const opId = operation?.id ?? pendingFromServer;
-    if (opId && apiOnline) void pollOnce(opId);
+    if (opId && apiOnline) { missingIdRef.current = null; void pollOnce(opId); }
   };
-
-  return { activeOperation: operation, operationTimedOut: timedOut, startTracking, recheckNow };
+  return { activeOperation: operation, operationTimedOut: timedOut, pollError, startTracking, recheckNow };
 }

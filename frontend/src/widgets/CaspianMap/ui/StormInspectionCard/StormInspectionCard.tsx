@@ -24,14 +24,14 @@ export function StormInspectionCard({
         <div className={styles.titleWrap}>
           <AlertTriangle className={styles.icon} />
           <div>
-            <h4 className={styles.name}>Штормовой фронт Энзели</h4>
+            <h4 className={styles.name}>Штормовой сценарий: Энзели</h4>
             <span className={styles.meta}>Южный Каспий · 37.47°N, 49.46°E</span>
           </div>
         </div>
         <button type="button" onClick={onClose} className={styles.closeBtn}><X className={styles.closeIcon} /></button>
       </div>
       <div className={styles.desc}>
-        Высота волн достигает 3.8 м, скорость порывов ветра 62 км/ч. Морская переправа заблокирована, риск срыва 84%.
+        Демонстрационный сценарий: волна 3,8 м, порывы 62 км/ч и риск 84%. Это не актуальное предупреждение и не подтверждение закрытия переправы.
       </div>
       {altRoute && (
         <Button type="button" size="sm" onClick={() => onSelectRoute?.(altRoute.id)} className={styles.rerouteBtn}>

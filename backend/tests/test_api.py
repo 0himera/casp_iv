@@ -285,3 +285,33 @@ def test_concurrent_same_key_fetches_once(tmp_path):
         assert count == 1
 
     asyncio.run(check())
+
+
+def test_live_overview_reports_real_provider_data_and_missing_coverage(rig):
+    client, state, calls, *_ = rig
+    response = client.get("/api/v1/live-overview")
+    assert response.status_code == 200
+    result = response.json()
+    assert len(result["items"]) == 11
+    ports = {item["port"]["id"]: item for item in result["items"]}
+    assert ports["makhachkala"]["weather"]["meta"]["source_id"] == "open_meteo"
+    assert ports["makhachkala"]["activity"]["meta"]["source_id"] == "imf_portwatch"
+    assert ports["olya"]["weather"] is None
+    assert ports["olya"]["weather_error"] == "COORDINATES_UNVERIFIED"
+    assert ports["kuryk"]["activity"] is None
+    assert ports["kuryk"]["activity_error"] == "SOURCE_NOT_COVERED"
+    assert ports["anzali"]["sailings_error"] == "SOURCE_NOT_COVERED"
+    assert calls
+
+
+def test_live_overview_keeps_sources_separate_when_unavailable(rig):
+    client, state, *_ = rig
+    state["failure"] = True
+    response = client.get("/api/v1/live-overview")
+    assert response.status_code == 200
+    ports = {item["port"]["id"]: item for item in response.json()["items"]}
+    assert ports["makhachkala"]["weather"] is None
+    assert ports["makhachkala"]["weather_error"] == "SOURCE_UNAVAILABLE"
+    assert ports["makhachkala"]["activity"] is None
+    assert ports["makhachkala"]["activity_error"] == "SOURCE_UNAVAILABLE"
+    assert ports["alat"]["weather_error"] == "COORDINATES_UNVERIFIED"

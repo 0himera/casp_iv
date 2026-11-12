@@ -5,7 +5,8 @@ import type { MapRef } from 'react-map-gl/maplibre';
 import type { CaspianPort } from '@/entities/cargo';
 
 export function useMapInteractions(ports: CaspianPort[], mapRef: RefObject<MapRef | null>) {
-  const [selectedPort, setSelectedPort] = useState<CaspianPort | null>(null);
+  const [selectedPortId, setSelectedPortId] = useState<string | null>(null);
+  const selectedPort = ports.find((port) => port.id === selectedPortId) ?? null;
   const [cargoSelected, setCargoSelected] = useState(false);
   const [stormSelected, setStormSelected] = useState(false);
   const [activePreset, setActivePreset] = useState<string | null>('overview');
@@ -15,17 +16,17 @@ export function useMapInteractions(ports: CaspianPort[], mapRef: RefObject<MapRe
   };
 
   const selectPort = (port: CaspianPort) => {
-    setSelectedPort(port); setCargoSelected(false); setStormSelected(false);
+    setSelectedPortId(port.id); setCargoSelected(false); setStormSelected(false);
     setActivePreset(port.id); flyTo(port.lng, port.lat, 6.5);
   };
 
   const selectCargo = (lng: number, lat: number) => {
-    setCargoSelected(true); setSelectedPort(null); setStormSelected(false);
+    setCargoSelected(true); setSelectedPortId(null); setStormSelected(false);
     setActivePreset('cargo'); flyTo(lng, lat, 6.2);
   };
 
   const selectStorm = () => {
-    setStormSelected(true); setSelectedPort(null); setCargoSelected(false);
+    setStormSelected(true); setSelectedPortId(null); setCargoSelected(false);
     setActivePreset(null); flyTo(49.46, 37.8, 5.8);
   };
 
@@ -35,12 +36,12 @@ export function useMapInteractions(ports: CaspianPort[], mapRef: RefObject<MapRe
   };
 
   const resetView = () => {
-    setSelectedPort(null); setCargoSelected(false); setStormSelected(false);
+    setSelectedPortId(null); setCargoSelected(false); setStormSelected(false);
     setActivePreset('overview'); flyTo(48.2, 42.5, 4.6);
   };
 
   const closeAll = () => {
-    setSelectedPort(null); setCargoSelected(false); setStormSelected(false);
+    setSelectedPortId(null); setCargoSelected(false); setStormSelected(false);
   };
 
   return { selectedPort, cargoSelected, stormSelected, activePreset, selectPort, selectCargo, selectStorm, selectPreset, resetView, closeAll };

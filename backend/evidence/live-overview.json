@@ -1,0 +1,247 @@
+{
+  "verified_at": "2026-11-12T14:54:32.727510+00:00",
+  "endpoint": "/api/v1/live-overview",
+  "note": "Time-bound snapshot; provider availability and freshness can change. No specific cargo or booking is implied.",
+  "ports": [
+    {
+      "port_id": "amirabad",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.906343Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=36.85068189&longitude=53.365271129999996&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:05.076513Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port43%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "nowshahr",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.487621Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=36.65505162&longitude=51.50857211&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:04.897645Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port834%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "astrakhan",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:08.093181Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=46.38467723&longitude=48.02158851&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:04.897294Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port76%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "aktau",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.208845Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=43.60236745&longitude=51.22857007&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:05.198135Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port16%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "turkmenbashi",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.209119Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=40.00960239&longitude=53.00617704&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:04.861046Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port1330%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "count": 3,
+        "partial": false,
+        "sources": [
+          {
+            "source_id": "asco",
+            "reported_date": "2026-11-12",
+            "fetched_at": "2026-11-12T14:54:08.212216Z",
+            "stale": false,
+            "source_url": "https://cabinet.asco.az/passenger-ticket"
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "port_id": "anzali",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:08.093612Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=37.47515153&longitude=49.46995908&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:05.504574Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port58%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "makhachkala",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.487147Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=43.00807675&longitude=47.47258052&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:05.387683Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port684%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "baku",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.020042Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=40.28461052&longitude=49.73252397&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "status": "cached",
+        "stale": true,
+        "fetched_at": "2026-11-12T14:54:05.751649Z",
+        "latest_available_date": "2026-11-06",
+        "source_url": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer/0/query?where=portid%3D%27port100%27+AND+date+%3E%3D+DATE+%272026-10-13%27+AND+date+%3C%3D+DATE+%272026-11-11%27&outFields=portid%2Cdate%2Cportcalls%2Cportcalls_cargo%2Cportcalls_tanker&orderByFields=date+ASC&resultRecordCount=1000&returnGeometry=false&f=json"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    },
+    {
+      "port_id": "kuryk",
+      "weather": {
+        "status": "cached",
+        "stale": false,
+        "fetched_at": "2026-11-12T14:54:07.032048Z",
+        "source_url": "https://api.open-meteo.com/v1/forecast?latitude=43.26666667&longitude=51.75&hourly=wind_speed_10m%2Cwind_gusts_10m%2Cprecipitation%2Ctemperature_2m&forecast_days=1&timezone=UTC&wind_speed_unit=kmh&temperature_unit=celsius&precipitation_unit=mm",
+        "hours": 24
+      },
+      "activity": {
+        "error": "SOURCE_NOT_COVERED"
+      },
+      "sailings": {
+        "count": 11,
+        "partial": false,
+        "sources": [
+          {
+            "source_id": "kuryk",
+            "reported_date": "2026-11-12",
+            "fetched_at": "2026-11-12T14:54:11.108923Z",
+            "stale": false,
+            "source_url": "https://portkuryk.kz/ru/dispoziciya-sudov"
+          },
+          {
+            "source_id": "asco",
+            "reported_date": "2026-11-12",
+            "fetched_at": "2026-11-12T14:54:08.212216Z",
+            "stale": false,
+            "source_url": "https://cabinet.asco.az/passenger-ticket"
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "port_id": "alat",
+      "weather": {
+        "error": "COORDINATES_UNVERIFIED"
+      },
+      "activity": {
+        "error": "SOURCE_NOT_COVERED"
+      },
+      "sailings": {
+        "count": 6,
+        "partial": false,
+        "sources": [
+          {
+            "source_id": "asco",
+            "reported_date": "2026-11-12",
+            "fetched_at": "2026-11-12T14:54:08.212216Z",
+            "stale": false,
+            "source_url": "https://cabinet.asco.az/passenger-ticket"
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "port_id": "olya",
+      "weather": {
+        "error": "COORDINATES_UNVERIFIED"
+      },
+      "activity": {
+        "error": "SOURCE_NOT_COVERED"
+      },
+      "sailings": {
+        "error": "SOURCE_NOT_COVERED"
+      }
+    }
+  ]
+}

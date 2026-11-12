@@ -37,7 +37,7 @@ export function HeaderStats({ shipment, apiOnline, role, scenario, isBusy, onCha
           </div>
           <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
             <span className={styles.squareDot} />
-            {apiOnline ? 'Casper Live API' : 'Офлайн-резерв'}
+            {apiOnline ? (shipment.data_mode === 'synthetic' ? 'Casper Live · демо' : 'Casper Live') : 'Офлайн-резерв'}
           </Badge>
         </div>
       </div>

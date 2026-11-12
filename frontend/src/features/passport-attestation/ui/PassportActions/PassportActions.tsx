@@ -30,13 +30,13 @@ export function PassportActions({
       {isReady ? (
         <div className={styles.readyBanner}>
           <span className={styles.greenLight} />
-          <span>Допуск подтверждён (e-CMR Pre-cleared)</span>
+          <span>Комплект согласован · Casper testnet</span>
         </div>
       ) : (
         onVerifyEcmr && (
           <Button type="button" size="sm" variant="default" disabled={isBusy} onClick={onVerifyEcmr} className={styles.verifyBtn}>
             <ShieldCheck size={13} />
-            <span>Верифицировать e-CMR (/verify-ecmr)</span>
+            <span>О согласовании e-CMR</span>
           </Button>
         )
       )}

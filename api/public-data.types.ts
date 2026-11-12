@@ -203,6 +203,21 @@ export type Health = {
   upstream_checked?: false;
 };
 
+export type LiveOverview = {
+  generated_at: string;
+  items: Array<LivePortOverview>;
+};
+
+export type LivePortOverview = {
+  port: Port;
+  weather: WeatherResponse | null;
+  weather_error: "COORDINATES_UNVERIFIED" | "SOURCE_UNAVAILABLE" | null;
+  activity: ActivityResponse | null;
+  activity_error: "SOURCE_NOT_COVERED" | "SOURCE_UNAVAILABLE" | null;
+  sailings: SailingsResponse | null;
+  sailings_error: "SOURCE_NOT_COVERED" | "SOURCE_UNAVAILABLE" | null;
+};
+
 export type Location = {
   id: string;
   name: string;
