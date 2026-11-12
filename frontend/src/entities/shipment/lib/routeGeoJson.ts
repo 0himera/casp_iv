@@ -28,3 +28,4 @@ export function buildMapRoutesGeoJson(shipment: Shipment): FeatureCollection<Lin
   }
   return { type: 'FeatureCollection', features };
 }
+

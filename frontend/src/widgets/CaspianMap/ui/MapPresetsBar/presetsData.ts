@@ -7,3 +7,4 @@ export const MAP_PRESETS = [
   { id: 'anzali', label: 'Энзели' },
   { id: 'amirabad', label: 'Амирабад' },
 ];
+

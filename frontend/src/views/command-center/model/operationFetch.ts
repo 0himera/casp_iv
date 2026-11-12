@@ -19,3 +19,4 @@ export async function fetchOperationState(opId: string, role: Role): Promise<Pol
     return { next: null, error: 'Не удалось проверить операцию; повторяем.', isNotFound: false };
   }
 }
+

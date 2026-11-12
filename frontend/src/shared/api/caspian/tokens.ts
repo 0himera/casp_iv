@@ -9,3 +9,4 @@ export const PREVIEW_ROLE_TOKENS: Record<Role, string> = {
 export function getRoleToken(role: Role): string {
   return PREVIEW_ROLE_TOKENS[role] ?? `demo-${role}`;
 }
+
