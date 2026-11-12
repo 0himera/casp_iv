@@ -25,7 +25,7 @@ export function DraughtSimulator({ shipment }: DraughtSimulatorProps) {
         </div>
         <Badge variant={sim.atRisk ? 'destructive' : 'success'}>
           {sim.atRisk ? <AlertTriangle className={styles.icon} /> : <CheckCircle2 className={styles.icon} />}
-          {sim.atRisk ? 'ОГРАНИЧЕНИЕ ОСАДКИ' : 'ПРОХОД БЕЗОПАСЕН'}
+          <span>{sim.atRisk ? 'ОГРАНИЧЕНИЕ ОСАДКИ' : 'ПРОХОД БЕЗОПАСЕН'}</span>
         </Badge>
       </div>
       <div className={styles.grid}>
