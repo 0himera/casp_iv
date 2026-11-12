@@ -9,7 +9,7 @@
   padding: 6px 10px;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background-color: color-mix(in oklch, var(--card) 90%, transparent);
+  background-color: color-mix(in srgb, var(--card) 86%, transparent);
   backdrop-filter: blur(8px);
 }
 
@@ -24,8 +24,8 @@
 .line {
   display: inline-block;
   width: 14px;
-  height: 3px;
-  border-radius: 2px;
+  height: 2px;
+  border-radius: 1px;
 }
 
 .rail { background-color: var(--mode-rail); }
@@ -36,23 +36,23 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .storm {
-  background-color: color-mix(in oklch, var(--status-danger) 55%, transparent);
+  background-color: color-mix(in srgb, var(--status-danger) 40%, transparent);
   border: 1px solid var(--status-danger);
 }
 
 .calm {
-  background-color: color-mix(in oklch, var(--status-warning) 35%, transparent);
+  background-color: color-mix(in srgb, var(--status-warning) 30%, transparent);
   border: 1px solid var(--status-warning);
 }
 
 .schematicTag {
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
   color: var(--muted-foreground);
   border-left: 1px solid var(--border);
   padding-left: 8px;
 }
-

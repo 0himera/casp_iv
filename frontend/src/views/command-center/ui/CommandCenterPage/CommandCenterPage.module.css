@@ -1,16 +1,25 @@
-.shell {
-  display: flex;
-  flex-direction: column;
+.root {
+  position: relative;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--background);
   color: var(--foreground);
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: transparent;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr) 330px;
+  grid-template-columns: 320px minmax(0, 1fr) 336px;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -19,10 +28,11 @@
 .rightPanel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 12px;
+  gap: 14px;
+  padding: 14px;
   border-left: 1px solid var(--border);
-  background-color: var(--card);
+  background-color: color-mix(in srgb, var(--background) 74%, transparent);
+  backdrop-filter: blur(6px);
   height: 100%;
   min-height: 0;
   overflow-y: auto;
@@ -30,6 +40,6 @@
 
 @media (max-width: 1200px) {
   .grid {
-    grid-template-columns: 280px minmax(0, 1fr) 290px;
+    grid-template-columns: 280px minmax(0, 1fr) 295px;
   }
 }

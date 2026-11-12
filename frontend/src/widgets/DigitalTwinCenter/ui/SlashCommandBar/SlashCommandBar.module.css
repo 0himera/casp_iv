@@ -1,0 +1,33 @@
+.bar {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--card) 86%, transparent);
+  backdrop-filter: blur(10px);
+  max-width: calc(100% - 24px);
+  overflow-x: auto;
+}
+
+.prefix {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: var(--accent-lavender);
+  padding-right: 4px;
+  white-space: nowrap;
+}
+
+.cmdBtn {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 6px;
+}

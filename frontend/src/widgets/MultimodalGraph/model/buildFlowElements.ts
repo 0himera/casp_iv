@@ -4,12 +4,12 @@ import type { MultimodalNodeData } from '@/entities/cargo';
 export type ChainFlowNode = Node<MultimodalNodeData, 'chainNode'>;
 
 const POSITIONS = [
-  { x: 20, y: 30 },
-  { x: 260, y: 30 },
-  { x: 500, y: 30 },
-  { x: 20, y: 185 },
-  { x: 260, y: 185 },
-  { x: 500, y: 185 },
+  { x: 20, y: 36 },
+  { x: 265, y: 20 },
+  { x: 510, y: 42 },
+  { x: 20, y: 190 },
+  { x: 265, y: 208 },
+  { x: 510, y: 185 },
 ];
 
 export function buildFlowElements(items: MultimodalNodeData[]): {
@@ -30,15 +30,14 @@ export function buildFlowElements(items: MultimodalNodeData[]): {
       id: `e-${item.id}-${next.id}`,
       source: item.id,
       target: next.id,
-      type: 'smoothstep',
-      animated: true,
+      type: 'default',
+      animated: hasRisk,
       style: {
-        stroke: hasRisk ? 'var(--status-warning)' : 'var(--primary)',
-        strokeWidth: 2,
+        stroke: hasRisk ? 'var(--status-danger)' : 'var(--accent-lavender)',
+        strokeWidth: 1.5,
       },
     };
   });
 
   return { nodes, edges };
 }
-

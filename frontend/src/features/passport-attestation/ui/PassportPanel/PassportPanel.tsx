@@ -3,7 +3,7 @@
 import { ExternalLink, ShieldCheck } from 'lucide-react';
 import { getPassportStatusLabel, getRoleLabel } from '@/entities/shipment';
 import type { Role, Shipment } from '@/shared/api/caspian';
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Separator } from '@/shared/ui';
+import { Badge, Button, PixelMarker, Separator, ViewfinderFrame } from '@/shared/ui';
 import { AttestationRow } from '../AttestationRow';
 import { DocumentList } from '../DocumentList';
 import styles from './PassportPanel.module.css';
@@ -23,21 +23,22 @@ export function PassportPanel({ shipment, role, isBusy, onAttest, onReplaceDocum
   const variant = passport.status === 'ready' ? 'success' : passport.status === 'blocked' ? 'destructive' : 'warning';
 
   return (
-    <Card className={styles.card}>
-      <CardHeader className={styles.header}>
-        <div className={styles.titleRow}>
-          <span className={styles.titleWrap}>
-            <ShieldCheck className={styles.icon} />
-            <CardTitle>Транзитный паспорт v{passport.version}</CardTitle>
-          </span>
-          <Badge variant={variant}>{getPassportStatusLabel(passport.status)}</Badge>
-        </div>
-        <div className={styles.subRow}>
-          <span>{passport.network === 'mock' ? 'Симуляция согласования' : 'Casper Testnet'}</span>
-          {passport.explorer_url && <a href={passport.explorer_url} target="_blank" rel="noreferrer" className={styles.link}>Explorer <ExternalLink className={styles.miniIcon} /></a>}
-        </div>
-      </CardHeader>
-      <CardContent className={styles.content}>
+    <ViewfinderFrame stamp="[ 02-A / PRE-CLEARANCE ]" className={styles.card}>
+      <div className={styles.titleRow}>
+        <span className={styles.titleWrap}>
+          <PixelMarker variant={passport.status === 'ready' ? 'verified' : 'telemetry'} />
+          <ShieldCheck className={styles.icon} />
+          <span className={styles.title}>Паспорт v{passport.version}</span>
+        </span>
+        <Badge variant={variant} className={styles.collageBadge}>
+          {getPassportStatusLabel(passport.status)}
+        </Badge>
+      </div>
+      <div className={styles.subRow}>
+        <span>{passport.network === 'mock' ? 'Симуляция согласования' : 'Casper Testnet'}</span>
+        {passport.explorer_url && <a href={passport.explorer_url} target="_blank" rel="noreferrer" className={styles.link}>Explorer <ExternalLink className={styles.miniIcon} /></a>}
+      </div>
+      <div className={styles.content}>
         <div className={styles.hashes}><span>Docs: {passport.documents_hash.slice(0, 10)}…</span><span>Route: {passport.route_hash.slice(0, 10)}…</span></div>
         <div className={styles.rows}>
           {passport.required_roles.map((r) => <AttestationRow key={r} role={r} currentRole={role} version={passport.version} attestations={passport.attestations} />)}
@@ -50,7 +51,7 @@ export function PassportPanel({ shipment, role, isBusy, onAttest, onReplaceDocum
         </div>
         <Separator />
         <DocumentList documents={documents} canReplace={canReplace} isBusy={isBusy} onReplaceDocument={onReplaceDocument} />
-      </CardContent>
-    </Card>
+      </div>
+    </ViewfinderFrame>
   );
 }

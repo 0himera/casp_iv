@@ -1,60 +1,56 @@
 .portMarker,
-.cargoMarker { display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
+.cargoMarker { display: flex; flex-direction: column; align-items: center; gap: 3px; position: relative; }
 
-.portDot {
+.portReticle {
   width: 22px;
   height: 22px;
-  border-radius: 999px;
+  border-radius: 6px;
   background-color: var(--card);
-  border: 1.5px solid var(--primary);
+  border: 1px solid var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.portXray {
+  outline: 1px dashed var(--accent-lavender);
+  outline-offset: 4px;
+}
+
 .portDanger {
   border-color: var(--status-danger);
-  background-color: color-mix(in oklch, var(--status-danger) 25%, var(--card));
+  background-color: color-mix(in srgb, var(--status-danger) 18%, var(--card));
 }
 
 .portIcon { width: 11px; height: 11px; color: var(--foreground); }
 
 .portLabel,
-.cargoBadge {
-  padding: 1px 6px;
-  border-radius: 4px;
+.cargoBadge,
+.coordTag {
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: var(--font-mono), monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
-  background-color: color-mix(in oklch, var(--background) 88%, transparent);
+  background-color: color-mix(in srgb, var(--background) 88%, transparent);
   border: 1px solid var(--border);
   color: var(--foreground);
 }
 
+.cargoBadge { display: inline-flex; align-items: center; gap: 6px; }
+.coordTag { font-size: 9px; color: var(--accent-lavender); }
+
 .cargoCore {
-  width: 26px;
-  height: 26px;
-  border-radius: 999px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background-color: var(--primary);
   color: var(--primary-foreground);
+  border: 1px solid var(--border-strong);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 2;
 }
 
-.cargoIcon { width: 13px; height: 13px; }
-.pulseRing {
-  position: absolute;
-  top: -4px;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  background-color: color-mix(in oklch, var(--primary) 35%, transparent);
-  animation: radarPulse 1.8s infinite;
-}
-@keyframes radarPulse {
-  0% { transform: scale(0.9); opacity: 0.9; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
+.cargoIcon { width: 12px; height: 12px; }

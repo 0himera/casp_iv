@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import { PassportPanel } from '@/features/passport-attestation';
 import type { Role, Shipment, ShipmentSummary } from '@/shared/api/caspian';
-import { ScrollArea } from '@/shared/ui';
+import { PixelMarker, ScrollArea } from '@/shared/ui';
 import { CargoItemCard } from '../CargoItemCard';
 import styles from './CargoSidebar.module.css';
 
@@ -28,8 +28,11 @@ export function CargoSidebar({ items, shipment, role, isBusy, onSelectShipment, 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.heading}>Отправления (rev.{shipment.revision})</h2>
-        <span className={styles.counter}>{filtered.length}</span>
+        <span className={styles.titleWrap}>
+          <PixelMarker variant="telemetry" />
+          <h2 className={styles.heading}>Отправления (rev.{shipment.revision})</h2>
+        </span>
+        <span className={styles.counter}>* {filtered.length}</span>
       </div>
       <div className={styles.searchWrap}>
         <Search className={styles.searchIcon} />

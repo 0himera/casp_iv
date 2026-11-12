@@ -1,0 +1,1 @@
+export { SlashCommandBar } from './SlashCommandBar';

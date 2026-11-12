@@ -38,7 +38,7 @@
   text-overflow: ellipsis;
 }
 
-.hash { font-family: var(--font-geist-mono), monospace; font-size: 9px; color: var(--muted-foreground); }
+.hash { font-family: var(--font-mono), monospace; font-size: 9px; color: var(--muted-foreground); }
 
 .uploadLabel {
   display: inline-flex;
