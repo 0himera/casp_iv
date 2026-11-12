@@ -9,7 +9,7 @@ interface PassportHashesProps {
 }
 
 export function PassportHashes({ passport, documents }: PassportHashesProps) {
-  const ecmrDoc = documents.find((d) => d.kind === 'cmr' || d.id === 'doc_ecmr');
+  const ecmrDoc = documents.find((d) => d.id === 'doc_ecmr' || d.filename.includes('ecmr'));
   const ecmrHash = ecmrDoc?.sha256 ? `${ecmrDoc.sha256.slice(0, 10)}…` : '4f9d8a21…';
 
   return (

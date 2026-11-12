@@ -40,9 +40,7 @@ export function PassportPanel({
           <ShieldCheck className={styles.icon} />
           <span className={styles.title}>Паспорт v{passport.version}</span>
         </span>
-        <Badge variant={variant} className={styles.collageBadge}>
-          {getPassportStatusLabel(passport.status)}
-        </Badge>
+        <Badge variant={variant} className={styles.collageBadge}>{getPassportStatusLabel(passport.status)}</Badge>
       </div>
       <div className={styles.subRow}>
         <span>{passport.network === 'mock' ? 'Симуляция согласования' : 'Casper Testnet'}</span>

@@ -46,10 +46,7 @@ export function RecommendationBanner({
         <Badge variant="destructive">Риск 84%</Badge>
       </div>
       <p className={styles.body}>Волны 3.8м, ветер 62 км/ч в Энзели. Рекомендуется перестроение на Амирабад (-16 ч задержки).</p>
-      <div className={styles.metaRow}>
-        <span>Задержка: +48 ч</span>
-        <span>Альтернатива: 22% риск</span>
-      </div>
+      <div className={styles.metaRow}><span>Задержка: +48 ч</span><span>Альтернатива: 22% риск</span></div>
       {onRerouteAlternative && (
         <Button size="sm" variant="default" disabled={!canSelectRoute || isBusy} onClick={onRerouteAlternative} className={styles.actionBtn}>
           Перестроить маршрут (/reroute-amirabad) <ArrowRight size={12} />

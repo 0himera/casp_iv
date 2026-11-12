@@ -45,16 +45,6 @@
   border: 1px solid var(--border-subtle);
 }
 
-.metricLabel {
-  color: var(--muted-foreground);
-  font-size: 9px;
-}
-
-.metricValue {
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.positiveDelta {
-  color: var(--status-success);
-}
+.metricLabel { color: var(--muted-foreground); font-size: 9px; }
+.metricValue { font-weight: 600; color: var(--foreground); }
+.positiveDelta { color: var(--status-success); }
