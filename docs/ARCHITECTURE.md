@@ -2,6 +2,8 @@
 
 Решение: Next.js-клиент обращается к одному REST API. Python backend считает прогноз и маршруты, хранит рабочие данные и вызывает небольшой Rust-адаптер контракта Odra. Frontend получает готовые DTO, не вычисляет логистику и не подключается к Casper напрямую в P0.
 
+Это целевая архитектура. Первый реализованный срез находится в `backend/`: FastAPI + HTTPX + SQLite-кэш для Open-Meteo/PortWatch. Он работает на 8000 отдельно от mock перевозок на 4010. PostgreSQL для отправок, модель задержек, worker и Odra adapter пока не реализованы. Интеграция в одно API выполняется после замены mock действий; подробности запуска — [backend README](../backend/README.md).
+
 ```mermaid
 flowchart LR
     UI[Next.js: карта, груз, документы] --> API[FastAPI /api/v1]

@@ -1,0 +1,45 @@
+import os
+from dataclasses import dataclass, field
+from pathlib import Path
+
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
+REPOSITORY_ROOT = BACKEND_ROOT.parent
+
+
+@dataclass(frozen=True)
+class Settings:
+    catalog_path: Path = REPOSITORY_ROOT / "data/ports.json"
+    cache_path: Path = field(
+        default_factory=lambda: Path(
+            os.getenv("CASPIAN_CACHE_PATH", str(BACKEND_ROOT / "var/public-data.sqlite3"))
+        )
+    )
+    cors_origins: tuple[str, ...] = field(
+        default_factory=lambda: tuple(
+            origin.strip()
+            for origin in os.getenv(
+                "CASPIAN_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+            ).split(",")
+            if origin.strip()
+        )
+    )
+    request_timeout_seconds: float = field(
+        default_factory=lambda: float(os.getenv("CASPIAN_REQUEST_TIMEOUT_SECONDS", "15"))
+    )
+    weather_ttl_seconds: int = field(
+        default_factory=lambda: int(os.getenv("CASPIAN_WEATHER_TTL_SECONDS", "1800"))
+    )
+    activity_ttl_seconds: int = field(
+        default_factory=lambda: int(os.getenv("CASPIAN_ACTIVITY_TTL_SECONDS", "21600"))
+    )
+    retry_cooldown_seconds: int = field(
+        default_factory=lambda: int(os.getenv("CASPIAN_RETRY_COOLDOWN_SECONDS", "60"))
+    )
+
+    def __post_init__(self):
+        if (
+            self.request_timeout_seconds <= 0
+            or min(self.weather_ttl_seconds, self.activity_ttl_seconds, self.retry_cooldown_seconds)
+            <= 0
+        ):
+            raise ValueError("Timeout, cache TTLs and retry cooldown must be positive")
