@@ -24,27 +24,30 @@ export function useCommandCenterState() {
   const refreshAll = useCallback(() => void qc.invalidateQueries({ queryKey: shipmentKeys.all }), [qc]);
   const polling = useOperationPolling(shipment.pending_operation_id, role, apiOnline, refreshAll);
   const updateLocal = (next: typeof shipment) => qc.setQueryData(shipmentKeys.detail(shipment.id, role), next);
-  const runRemote = (fn: () => Promise<unknown>) => { if (apiOnline) void fn().catch(() => refreshAll()); };
+  const runRemote = (fn: () => Promise<unknown>) => {
+    if (apiOnline) void fn().catch((e: Error) => { setErrorBanner(e.message); refreshAll(); });
+  };
 
   return {
     items: listData.items, shipment, ports, apiOnline, role, scenario, errorBanner,
     isBusy: Boolean(polling.activeOperation), ...polling,
     setRole, setSelectedId,
     selectScenario: (next: ScenarioRequest['scenario']) => {
-      setScenario(next);
+      setErrorBanner(null); setScenario(next);
       updateLocal(applyScenarioTransition(shipment, next));
       runRemote(() => client.setScenario({ shipment_id: shipment.id, scenario: next, expected_revision: shipment.revision }, crypto.randomUUID()));
     },
     selectRoute: (routeId: string) => {
-      updateLocal(applyRouteSwitchTransition(shipment, routeId));
+      if (routeId === shipment.selected_route_id || polling.activeOperation) return;
+      setErrorBanner(null); updateLocal(applyRouteSwitchTransition(shipment, routeId));
       runRemote(() => client.selectRoute(shipment.id, { route_id: routeId, forecast_id: shipment.forecast.id, expected_revision: shipment.revision }, crypto.randomUUID()));
     },
     attest: (decision: 'approved' | 'rejected') => {
-      updateLocal(applyAttestationTransition(shipment, decision, role, false));
+      setErrorBanner(null); updateLocal(applyAttestationTransition(shipment, decision, role, false));
       runRemote(() => client.attest(shipment.id, { decision, expected_revision: shipment.revision }, crypto.randomUUID()));
     },
     verifyEcmr: () => {
-      updateLocal(applyAttestationTransition(shipment, 'approved', 'customs', true));
+      setErrorBanner(null); updateLocal(applyAttestationTransition(shipment, 'approved', 'customs', true));
       runRemote(() => client.attest(shipment.id, { decision: 'approved', expected_revision: shipment.revision }, crypto.randomUUID()));
     },
     replaceDocument: () => setErrorBanner('Замена документов доступна в режиме онлайн'),
