@@ -15,6 +15,8 @@ export interface NavigationRailProps {
   onToggleCustoms: () => void;
   analyticsOpen: boolean;
   onToggleAnalytics: () => void;
+  stormActive?: boolean;
+  onToggleStorm?: () => void;
 }
 
 export function NavigationRail({
@@ -26,6 +28,8 @@ export function NavigationRail({
   onToggleCustoms,
   analyticsOpen,
   onToggleAnalytics,
+  stormActive,
+  onToggleStorm,
 }: NavigationRailProps) {
   return (
     <aside className={styles.rail}>
@@ -42,6 +46,8 @@ export function NavigationRail({
           onToggleCustoms={onToggleCustoms}
           analyticsOpen={analyticsOpen}
           onToggleAnalytics={onToggleAnalytics}
+          stormActive={stormActive}
+          onToggleStorm={onToggleStorm}
         />
       </div>
       <RailSignature />

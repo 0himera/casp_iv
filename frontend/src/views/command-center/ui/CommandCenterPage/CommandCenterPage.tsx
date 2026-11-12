@@ -24,11 +24,11 @@ export function CommandCenterPage() {
     <div className={styles.root}>
       <AsciiCaspianBackground />
       <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} />
-      <NavigationRail mode={l.mode} onToggleMode={l.setMode} manifestOpen={l.manifestOpen} onToggleManifest={l.toggleManifest} customsOpen={l.customsOpen} onToggleCustoms={l.toggleCustoms} analyticsOpen={l.analyticsOpen} onToggleAnalytics={l.toggleAnalytics} />
+      <NavigationRail mode={l.mode} onToggleMode={l.setMode} manifestOpen={l.manifestOpen} onToggleManifest={l.toggleManifest} customsOpen={l.customsOpen} onToggleCustoms={l.toggleCustoms} analyticsOpen={l.analyticsOpen} onToggleAnalytics={l.toggleAnalytics} stormActive={stormActive} onToggleStorm={a.onToggleStorm} />
       <CargoSidebar isOpen={l.manifestOpen} onClose={l.closeManifest} items={s.items} shipment={s.shipment} onSelectShipment={s.setSelectedId} />
       <CommandCenterTopBar shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} isBusy={s.isBusy} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />
-      <RouteDecisionOverlay shipment={s.shipment} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRecheckOperation={s.recheckNow} />
-      <CustomsOverlay shipment={s.shipment} role={s.role} isBusy={s.isBusy} isOpen={l.customsOpen} onAttest={s.attest} onReplaceDocument={s.replaceDocument} />
+      <RouteDecisionOverlay shipment={s.shipment} stormActive={stormActive} activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onRerouteAlternative={a.onRerouteAlternative} onRecheckOperation={s.recheckNow} />
+      <CustomsOverlay shipment={s.shipment} role={s.role} isBusy={s.isBusy} isOpen={l.customsOpen} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />
       <AnalyticsPanel shipment={s.shipment} stormActive={stormActive} isOpen={l.analyticsOpen} />
       <CommandCenterActions stormActive={stormActive} xrayMode={l.xrayMode} isBusy={s.isBusy} onToggleXray={l.toggleXray} {...a} />
     </div>

@@ -9,6 +9,7 @@ interface CommandCenterStateActions {
   selectScenario: (scenario: 'normal' | 'storm') => void;
   selectRoute: (routeId: string) => void;
   attest: (decision: 'approved') => void;
+  verifyEcmr?: () => void;
 }
 
 export function useCommandCenterActions(s: CommandCenterStateActions) {
@@ -22,6 +23,6 @@ export function useCommandCenterActions(s: CommandCenterStateActions) {
     canAttest: s.shipment.allowed_actions.includes('attest'),
     onToggleStorm: () => void s.selectScenario(s.stormActive ? 'normal' : 'storm'),
     onRerouteAlternative: () => altRoute && s.selectRoute(altRoute.id),
-    onVerifyEcmr: () => s.attest('approved'),
+    onVerifyEcmr: () => (s.verifyEcmr ? s.verifyEcmr() : s.attest('approved')),
   };
 }
