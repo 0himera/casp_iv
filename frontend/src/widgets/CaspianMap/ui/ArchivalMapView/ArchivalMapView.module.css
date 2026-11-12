@@ -1,12 +1,3 @@
-@keyframes scanSweep {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(480%);
-  }
-}
-
 .wrap {
   position: relative;
   display: flex;
@@ -14,7 +5,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background: radial-gradient(circle at 48% 50%, #3A0610 0%, #250409 68%, #170205 100%);
+  background-color: #170205;
   overflow: hidden;
 }
 
@@ -26,16 +17,6 @@
   overflow: hidden;
 }
 
-.scanLine {
-  position: absolute;
-  inset: 0;
-  width: 20%;
-  background: linear-gradient(90deg, transparent, rgba(255, 184, 0, 0.15), transparent);
-  animation: scanSweep 6s linear infinite;
-  pointer-events: none;
-  z-index: 3;
-}
-
 .caption {
   position: absolute;
   left: 14px;
@@ -43,8 +24,8 @@
   z-index: 5;
   padding: 5px 9px;
   border-radius: 4px;
-  background: rgba(43, 5, 11, 0.94);
-  border: 1px solid rgba(255, 90, 120, 0.28);
+  background: #250409;
+  border: 1px solid var(--border);
   font-family: var(--font-mono);
   font-size: 10px;
   color: #FFF5F5;

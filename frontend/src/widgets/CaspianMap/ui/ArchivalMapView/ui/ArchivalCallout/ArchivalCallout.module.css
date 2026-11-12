@@ -3,9 +3,9 @@
   z-index: 6;
   padding: 9px 12px;
   border-radius: 4px;
-  background: rgba(43, 5, 11, 0.96);
+  background: #250409;
   border: 1px solid #FFB800;
-  box-shadow: 0 10px 32px rgba(23, 2, 5, 0.75), 0 0 16px rgba(255, 184, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   min-width: 196px;
 }

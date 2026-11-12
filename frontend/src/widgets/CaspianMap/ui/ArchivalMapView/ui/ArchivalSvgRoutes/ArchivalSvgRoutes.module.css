@@ -20,17 +20,10 @@
   opacity: 0.38;
 }
 
-.activeHalo {
-  fill: none;
-  stroke: #FFB800;
-  stroke-width: 4.5;
-  opacity: 0.28;
-}
-
 .activeLine {
   fill: none;
   stroke: #FFD15C;
-  stroke-width: 2;
+  stroke-width: 1.8;
   stroke-dasharray: 6 4;
   animation: arcFlow 1.6s linear infinite;
 }
