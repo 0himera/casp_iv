@@ -30,12 +30,12 @@ export function CorridorExplorer({ onClose, onHighlight }: { onClose: () => void
       return <div className={styles.item} key={path.map((e) => e.id).join(':')}>
         <strong>{names.join(' → ')}</strong>
         {path.length > 1 && <p className={styles.note}>Связность каталога; возможность пересадки не проверена.</p>}
-        <p className={styles.note}>Схематичная линия. ETA, цена и бронь: нет данных.</p>
+        <p className={styles.note}>Путь по маске воды. ETA, цена и бронь: нет данных.</p>
         <button onClick={() => onHighlight(path.map((e) => e.id))}>Выделить связь {i + 1}</button>
         {path.map((edge) => <a key={edge.id} href={edge.source_url} target="_blank" rel="noreferrer">Источник: {edge.port_ids.map(name).join(' — ')}</a>)}
       </div>;
     }) : <p className={styles.note}>Для этой пары в каталоге нет связи до трёх переходов. Это не означает, что перевозка невозможна.</p>}
     <details><summary>Все опубликованные направления ({edges.length})</summary>{edges.map((edge) => <div key={edge.id} className={styles.item}><strong>{edge.port_ids.map(name).join(' ↔ ')}</strong><p className={styles.note}>{edge.evidence}</p><button onClick={() => onHighlight([edge.id])}>Выделить</button><a href={edge.source_url} target="_blank" rel="noreferrer">Источник</a></div>)}</details>
-    <p className={styles.note}>Если координаты порта не подтверждены, линия на карте не строится. Два варианта в карточке груза — отдельные сценарии; просмотр сети их не меняет.</p>
+    <p className={styles.note}>Морские линии обходят сушу по Natural Earth. Портовые и речные подходы не рассчитаны; линия может начинаться в море. Без координат или водного пути линия скрыта. Два варианта в карточке груза — отдельные сценарии; просмотр сети их не меняет.</p>
   </section>;
 }

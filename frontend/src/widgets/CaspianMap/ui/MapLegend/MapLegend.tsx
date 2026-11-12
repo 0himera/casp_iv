@@ -18,12 +18,12 @@ export function MapLegend({ stormActive }: MapLegendProps) {
       <span className={styles.item}>
         <i className={`${styles.line} ${styles.sea}`} /> Альтернатива
       </span>
-      <span className={styles.schematicTag}>Пунктир: опубликованные связи портов</span>
+      <span className={styles.schematicTag}>Пунктир: связи по маске воды</span>
       <span className={styles.item}>
         <i className={`${styles.zone} ${stormActive ? styles.storm : styles.calm}`} />
         {stormActive ? 'Шторм (сценарий)' : 'Акватория Энзели (схема)'}
       </span>
-      <span className={styles.schematicTag}>Схема маршрута{missing.length ? ` · нет координат: ${missing.join(", ")}` : ""}</span>
+      <span className={styles.schematicTag}>Схема · речные подходы не рассчитаны{missing.length ? ` · нет координат: ${missing.join(", ")}` : ""}</span>
     </div>
   );
 }
