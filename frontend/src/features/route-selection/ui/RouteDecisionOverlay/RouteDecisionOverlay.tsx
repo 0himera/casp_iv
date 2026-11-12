@@ -2,6 +2,7 @@
 
 import type { Operation, Shipment } from '@/shared/api/caspian';
 import { ViewfinderFrame } from '@/shared/ui';
+import { TransportChain } from '../TransportChain';
 import { ForecastMetaBlock } from '../ForecastMetaBlock';
 import { OperationBanner } from '../OperationBanner';
 import { RecommendationBanner } from '../RecommendationBanner';
@@ -37,6 +38,7 @@ export function RouteDecisionOverlay({
     <ViewfinderFrame stamp="[ 01-ROUTE / MTC-PREDICTIVE ]" className={styles.overlayCard}>
       <div className={styles.content}>
         <ForecastMetaBlock forecast={forecast} />
+        <TransportChain shipment={shipment} />
         <RecommendationBanner shipment={shipment} canSelectRoute={canSelect} isBusy={isBusy} onRerouteAlternative={onRerouteAlternative} />
         <OperationBanner activeOperation={activeOperation} operationTimedOut={operationTimedOut} errorBanner={errorBanner} onRecheckOperation={onRecheckOperation} />
         <div className={styles.routesList}>
