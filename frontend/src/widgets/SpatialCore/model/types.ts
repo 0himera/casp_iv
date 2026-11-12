@@ -7,4 +7,5 @@ export interface SpatialCoreProps {
   shipment: Shipment;
   stormActive: boolean;
   xrayMode: boolean;
+  onSelectRoute?: (routeId: string) => void;
 }

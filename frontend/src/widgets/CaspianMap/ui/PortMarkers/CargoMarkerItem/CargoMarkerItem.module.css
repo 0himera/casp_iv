@@ -4,6 +4,18 @@
   align-items: center;
   gap: 3px;
   position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.cargoMarker:hover {
+  transform: scale(1.06);
+}
+
+.selected {
+  outline: 1.5px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 
 .cargoCore {

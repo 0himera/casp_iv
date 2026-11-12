@@ -40,4 +40,16 @@
   position: absolute;
   pointer-events: auto;
   z-index: 20;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.calloutWrapper:hover {
+  transform: scale(1.04);
+}
+
+.selected {
+  outline: 1.5px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 6px;
 }

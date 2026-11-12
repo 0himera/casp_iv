@@ -23,7 +23,7 @@ export function CommandCenterPage() {
   return (
     <div className={styles.root}>
       <AsciiCaspianBackground />
-      <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} />
+      <SpatialCore mode={l.mode} ports={s.ports} shipment={s.shipment} stormActive={stormActive} xrayMode={l.xrayMode} onSelectRoute={s.selectRoute} />
       <NavigationRail mode={l.mode} onToggleMode={l.setMode} manifestOpen={l.manifestOpen} onToggleManifest={l.toggleManifest} customsOpen={l.customsOpen} onToggleCustoms={l.toggleCustoms} analyticsOpen={l.analyticsOpen} onToggleAnalytics={l.toggleAnalytics} stormActive={stormActive} onToggleStorm={a.onToggleStorm} />
       <CargoSidebar isOpen={l.manifestOpen} onClose={l.closeManifest} items={s.items} shipment={s.shipment} onSelectShipment={s.setSelectedId} />
       <CommandCenterTopBar shipment={s.shipment} apiOnline={s.apiOnline} role={s.role} scenario={s.scenario} isBusy={s.isBusy} onChangeRole={s.setRole} onSelectScenario={s.selectScenario} />

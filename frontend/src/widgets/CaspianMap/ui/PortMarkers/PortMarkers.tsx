@@ -13,6 +13,10 @@ interface PortMarkersProps {
   shipment: Shipment;
   stormActive: boolean;
   xrayMode?: boolean;
+  selectedPortId?: string | null;
+  cargoSelected?: boolean;
+  onSelectPort?: (port: CaspianPort) => void;
+  onSelectCargo?: (lng: number, lat: number) => void;
 }
 
 export function PortMarkers({
@@ -20,6 +24,10 @@ export function PortMarkers({
   shipment,
   stormActive,
   xrayMode = false,
+  selectedPortId,
+  cargoSelected,
+  onSelectPort,
+  onSelectCargo,
 }: PortMarkersProps) {
   const { current_location: curr } = shipment;
 
@@ -29,26 +37,23 @@ export function PortMarkers({
         const port = resolvePortTelemetry(rawPort, stormActive);
         const isDanger = port.id === 'anzali' && stormActive;
         return (
-          <Marker
-            key={port.id}
-            longitude={port.lng}
-            latitude={port.lat}
-            anchor="center"
-          >
+          <Marker key={port.id} longitude={port.lng} latitude={port.lat} anchor="center">
             <PortMarkerItem
               port={port}
               isDanger={isDanger}
               xrayMode={xrayMode}
+              isSelected={selectedPortId === port.id}
+              onClick={onSelectPort}
             />
           </Marker>
         );
       })}
-      <Marker
-        longitude={curr.longitude}
-        latitude={curr.latitude}
-        anchor="center"
-      >
-        <CargoMarkerItem locationName={curr.name} />
+      <Marker longitude={curr.longitude} latitude={curr.latitude} anchor="center">
+        <CargoMarkerItem
+          locationName={curr.name}
+          isSelected={cargoSelected}
+          onClick={() => onSelectCargo?.(curr.longitude, curr.latitude)}
+        />
       </Marker>
     </div>
   );
