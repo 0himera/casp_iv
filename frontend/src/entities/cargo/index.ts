@@ -4,6 +4,7 @@ export {
   getCargoStatusLabel,
   calculateEsgSummary,
 } from './lib/cargoHelpers';
+export { resolvePortTelemetry } from './lib/portTelemetry';
 export {
   cargoKeys,
   useCaspianPortsQuery,
