@@ -93,8 +93,6 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     return () => { observer.disconnect(); clearTimeout(timer); };
   }, [mode, syncViewport]);
   const updateMapTheme = useCallback((map: MapLibreMap) => {
-    // Style colors can be set before remote tiles/glyphs finish loading.
-    // Mark first: changing paint emits styledata again.
     if (!map.getStyle()?.layers?.length || map.getCanvas().dataset.theme === theme) return;
     map.getCanvas().dataset.theme = theme;
     applySpectralBasemapTheme(map);

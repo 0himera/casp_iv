@@ -17,7 +17,6 @@ export function waterMesh(data: GeoJSON<Geometry>): Float32Array {
       return [(lng + 180) / 360,
         (1 - Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) / Math.PI) / 2];
     }));
-    // Triangulate in the same projection as the map, preserving island holes.
     const { vertices, holes } = flatten(rings);
     for (const index of earcut(vertices, holes, 2)) {
       output.push(vertices[index * 2], vertices[index * 2 + 1]);

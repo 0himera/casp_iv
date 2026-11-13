@@ -1,4 +1,3 @@
-// CASPIAN_RISO: decorative ordered dithering, not an additional data layer.
 export const VERTEX = `#version 300 es
 precision highp float;
 in vec2 a_position;
@@ -10,7 +9,6 @@ void main() {
 }`;
 
 export const FRAGMENT = `#version 300 es
-// CASPIAN_RISO
 precision highp float;
 in vec2 v_world;
 uniform float u_time;

@@ -32,7 +32,7 @@ function subscribe(notify: () => void) {
   };
 }
 export function setTheme(theme: Theme) {
-  try { localStorage.setItem(KEY, theme); } catch { /* Still works for this page when storage is unavailable. */ }
+  try { localStorage.setItem(KEY, theme); } catch {}
   apply(theme);
 }
 export function ThemeProvider({ children }: { children: ReactNode }) {

@@ -7,7 +7,6 @@ interface RemoteHandlerParams {
   runRemote: (fn: () => Promise<Operation>) => void;
 }
 
-// Only the confirmed server projection may change a passport or selected route.
 export function buildCommandHandlers({ shipment, client, role, runRemote }: RemoteHandlerParams) {
   const id = shipment.id;
   return {

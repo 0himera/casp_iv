@@ -72,7 +72,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 section[id] { scroll-margin-top: 84px; }
 @media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } }
 
-/* Native menus and third-party controls share the workspace palette. */
 select option { color: var(--foreground); background: var(--surface-default); }
 .maplibregl-map .maplibregl-ctrl-group, .maplibregl-map .maplibregl-ctrl.maplibregl-ctrl-attrib { background: var(--glass-toolbar); color: var(--foreground); backdrop-filter: blur(16px); }
 .maplibregl-map .maplibregl-ctrl-group { border: 1px solid var(--glass-edge); box-shadow: 0 2px 8px var(--glass-shadow-soft); border-radius: 12px; overflow: hidden; }
