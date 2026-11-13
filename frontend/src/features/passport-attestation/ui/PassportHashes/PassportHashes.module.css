@@ -22,3 +22,5 @@
 }
 
 .wrapper { font: 11px/1.6 var(--font-mono); padding: 12px; border: 1px solid var(--border); border-radius: 3px; } .row { flex-wrap: wrap; gap: 4px; overflow-wrap: anywhere; }
+
+.wrapper { border-radius: var(--inset-radius); background: var(--glass-card); }

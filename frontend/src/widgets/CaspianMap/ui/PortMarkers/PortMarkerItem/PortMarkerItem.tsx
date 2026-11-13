@@ -1,5 +1,6 @@
 'use client';
 
+import { Clock3, Wind } from 'lucide-react';
 import type { CaspianPort } from '@/entities/cargo';
 import styles from './PortMarkerItem.module.css';
 
@@ -20,13 +21,14 @@ function getAlignClass(id: string): string {
 }
 
 export function PortMarkerItem({ port, isDanger, isSelected, onClick }: PortMarkerItemProps) {
-  const wind = port.live?.windSpeed ?? (port.live?.demoMetricsAvailable ? port.windSpeedKmh : null);
+  const wind = port.live?.windSpeed ?? null;
 
   return (
     <button
       type="button"
       aria-label={`Порт ${port.name}`}
-      title={`${port.name}${wind !== null ? ` · ветер ${Math.round(wind)} км/ч` : ''}`}
+      aria-pressed={Boolean(isSelected)}
+      title={`${port.name}${wind !== null ? ` · ветер ${Math.round(wind)} км/ч` : ''}${port.live?.weatherStale ? ' · устаревший прогноз' : ''}`}
       className={styles.container}
       onClick={(event) => {
         event.stopPropagation();
@@ -36,7 +38,7 @@ export function PortMarkerItem({ port, isDanger, isSelected, onClick }: PortMark
       <span className={`${styles.beacon} ${isDanger ? styles.beaconDanger : ''} ${isSelected ? styles.beaconSelected : ''}`} />
       <span className={`${styles.pill} ${getAlignClass(port.id)} ${isDanger ? styles.pillDanger : ''} ${isSelected ? styles.pillSelected : ''}`}>
         <span>{port.name}</span>
-        {wind !== null && <span className={styles.wind}>{Math.round(wind)}</span>}
+        {wind !== null && <span className={styles.wind}><Wind size={12} />{Math.round(wind)}<small>км/ч</small>{port.live?.weatherStale && <Clock3 size={10} />}</span>}
       </span>
     </button>
   );

@@ -8,6 +8,19 @@ import styles from './PortInspectionCard.module.css';
 
 interface PortInspectionCardProps { port: CaspianPort; shipment: Shipment; isBusy?: boolean; onSelectRoute?: (routeId: string) => void; onClose: () => void; }
 
+function Metric({ label, value, demo = false }: { label: string; value: string | number | null | undefined; demo?: boolean }) {
+  const empty = value === null || value === undefined;
+  return <div className={styles.metric} data-empty={empty || undefined}>
+    <span className={styles.k}>{label}</span>
+    <span className={styles.v}>{empty ? '—' : value}</span>
+    {(empty || demo) && <span className={styles.metricNote}>{empty ? 'Источник недоступен' : 'Демо-режим'}</span>}
+  </div>;
+}
+function SailingRow({ name, status }: { name: string; status: string }) {
+  const tone = /ожидан|метео|шторм|огранич|wait|weather/i.test(status) ? 'warning' : /погруз|выгруз|loading/i.test(status) ? 'activity' : 'neutral';
+  return <li className={styles.sailing}><span className={styles.vesselName}>{name}</span><span className={styles.vesselStatus} data-tone={tone}>{status || 'Статус не указан'}</span></li>;
+}
+
 export function PortInspectionCard({ port, shipment, isBusy, onSelectRoute, onClose }: PortInspectionCardProps) {
   const activeRoute = shipment.routes.find((r) => r.id === shipment.selected_route_id);
   const isInActive = activeRoute?.ports.includes(port.name) || activeRoute?.ports.includes(port.id);
@@ -24,16 +37,17 @@ export function PortInspectionCard({ port, shipment, isBusy, onSelectRoute, onCl
       </div>
       {live ? <>
         <div className={styles.grid}>
-          <div className={styles.metric}><span className={styles.k}>Ветер · прогноз</span><span className={styles.v}>{live.windSpeed === null ? 'Нет данных' : `${live.windSpeed} км/ч`}</span></div>
-          <div className={styles.metric}><span className={styles.k}>Порывы</span><span className={styles.v}>{live.windGusts === null ? 'Нет данных' : `${live.windGusts} км/ч`}</span></div>
-          <div className={styles.metric}><span className={styles.k}>Судозаходы / день</span><span className={styles.v}>{live.portCalls ?? 'Нет данных'}</span></div>
-          <div className={styles.metric}><span className={styles.k}>Причалы · демо</span><span className={styles.v}>{live.demoMetricsAvailable ? `${port.berthsAvailable}/${port.totalBerths}` : 'Нет данных'}</span></div>
-          <div className={styles.metric}><span className={styles.k}>Волна · демо</span><span className={styles.v}>{live.demoMetricsAvailable ? `${port.waveHeightM} м` : 'Нет данных'}</span></div>
+          <Metric label="Ветер · прогноз" value={live.windSpeed == null ? null : `${live.windSpeed} км/ч`} />
+          <Metric label="Порывы" value={live.windGusts == null ? null : `${live.windGusts} км/ч`} />
+          <Metric label="Судозаходы / день" value={live.portCalls} />
+          <Metric label="Причалы" value={live.demoMetricsAvailable ? `${port.berthsAvailable}/${port.totalBerths}` : null} demo={live.demoMetricsAvailable} />
+          <Metric label="Волна" value={live.demoMetricsAvailable ? `${port.waveHeightM} м` : null} demo={live.demoMetricsAvailable} />
         </div>
         <p className={styles.meta}>{live.weatherAt ? `Погода: ${new Date(live.weatherAt).toLocaleString('ru-RU')} · Open-Meteo${live.weatherStale ? ' · устарело' : ''}` : 'Прогноз погоды недоступен'}</p>
         <p className={styles.meta}>{live.activityDate ? `Судозаходы: ${live.activityDate} · PortWatch${live.activityStale ? ' · устарело' : ''}` : 'Данные о судозаходах недоступны'}</p>
         <p className={styles.meta}>{live.sailingAvailable ? `Диспозиция: ${live.sailings.length} судов · не бронь` : 'Диспозиция недоступна'}</p>
-        {live.sailings.slice(0, 5).map((s, i) => <p className={styles.meta} key={`${s.name}-${i}`}>{s.name} · {s.status || s.category}</p>)}
+        <ul className={styles.sailings} aria-label="Диспозиция судов">{live.sailings.slice(0, 5).map((s, i) => <SailingRow key={`${s.name}-${i}`} name={s.name} status={s.status || s.category} />)}</ul>
+        {live.sailings.length > 5 && <details className={styles.moreSailings}><summary>Ещё {live.sailings.length - 5} судов</summary><ul className={styles.sailings}>{live.sailings.slice(5).map((s, i) => <SailingRow key={`${s.name}-${i}`} name={s.name} status={s.status || s.category} />)}</ul></details>}
         {live.sailingSources.map((s) => <p className={styles.meta} key={s.url}><a href={s.url} target="_blank" rel="noreferrer">Источник диспозиции · {s.date}{s.stale ? ' · устарело' : ''}</a></p>)}
         {live.weatherSource && <p className={styles.meta}><a href={live.weatherSource} target="_blank" rel="noreferrer">Источник прогноза погоды</a></p>}
         {live.activitySource && <p className={styles.meta}><a href={live.activitySource} target="_blank" rel="noreferrer">Источник судозаходов</a></p>}

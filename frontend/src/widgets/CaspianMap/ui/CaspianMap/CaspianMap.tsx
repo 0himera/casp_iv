@@ -4,11 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import dynamic from 'next/dynamic';
 import { useTheme } from '@/shared/theme/ThemeProvider';
 import { ArrowLeft, Focus, Layers, LocateFixed, PanelRightClose } from 'lucide-react';
-import Map, { NavigationControl, AttributionControl, type MapRef } from 'react-map-gl/maplibre';
+import Map, { NavigationControl, type MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 import type { CaspianPort } from '@/entities/cargo';
 import { buildMapRoutesGeoJson } from '@/entities/shipment';
+import { WorkspacePopover } from '@/shared/ui/workspace-menu/WorkspaceMenu';
+import { MapLegend } from './MapLegend';
 import { JourneyPlanner } from '@/features/route-selection/ui/JourneyPlanner/JourneyPlanner';
 import type { JourneyPreview, Role, Shipment } from '@/shared/api/caspian';
 import { applySpectralBasemapTheme, initMapLibreWorker, SPECTRAL_BASE_STYLE } from '../../model/spectralBasemap';
@@ -127,11 +129,11 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
           </div>
           {mode === 'map' && <><button aria-label="Весь Каспий" className={styles.toolButton} onClick={() => { previewFit.current = false; overview.current = true; i.resetView(); fitOverview(); }}><Focus size={16} /><span>Весь Каспий</span></button>
             <button aria-label="К грузу" className={styles.toolButton} onClick={focusCargo}><LocateFixed size={16} /><span>К грузу</span></button>
-            <details className={styles.layers}><summary><Layers size={16} /><span>Слои</span></summary><div className={styles.layerMenu}>
+            <WorkspacePopover label="Слои карты" className={styles.toolButton} trigger={<><Layers size={16} /><span>Слои</span></>}>
               <label><input type="checkbox" checked={layers.corridors} onChange={(e) => setLayers((l) => ({ ...l, corridors: e.target.checked }))} />Опубликованные связи</label>
               <label><input type="checkbox" checked={layers.storm} onChange={(e) => setLayers((l) => ({ ...l, storm: e.target.checked }))} />Зона штормового сценария</label>
               <label><input type="checkbox" checked={layers.print} onChange={(e) => setLayers((l) => ({ ...l, print: e.target.checked }))} />Текстура воды</label>
-            </div></details></>}
+            </WorkspacePopover></>}
         </div>
         {mode === 'map' ? <Map ref={mapRef} initialViewState={camera} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false}
           interactiveLayerIds={layers.storm && stormActive ? ['storm-fill'] : []}
@@ -140,18 +142,18 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
           onMoveEnd={(e) => { setCamera({ longitude: e.viewState.longitude, latitude: e.viewState.latitude, zoom: e.viewState.zoom }); }}
           onResize={syncViewport} onMoveStart={(e) => { if (e.originalEvent) { overview.current = false; previewFit.current = false; } }}
           onClick={(e) => { if (e.features?.[0]?.layer.id === 'storm-fill') { overview.current = false; setPanelOpen(true); i.selectStorm(); } }} style={{ width: '100%', height: '100%' }}>
-          <RisoWater enabled={layers.print} /><NavigationControl position="bottom-right" showCompass={false} /><AttributionControl position="bottom-left" compact />
+          <RisoWater enabled={layers.print} /><NavigationControl position="bottom-right" showCompass={false} />
           <MapGeoLayers stormActive={stormActive} routeGeoJson={routeGeoJson} hoveredRouteId={hoveredRouteId} showGrid={false} showStorm={layers.storm} />
           {layers.corridors && <CorridorLines highlighted={highlighted} />}
           <PortMarkers hideCargo={Boolean(preview)} ports={ports} shipment={shipment} stormActive={stormActive} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={inspectPort} onSelectCargo={focusCargo} />
         </Map> : <div className={styles.graph}><Graph shipment={shipment} /></div>}
-        <div className={styles.mapCaption}>{mode === 'map' ? <><span className={styles.lineKey} />{preview ? `Предпросмотр: ${preview.origin.name} → ${preview.destination.name}` : 'Выбранный маршрут'}{!preview && <><span className={styles.dashKey} />Альтернативы</>}</> : 'Транспортная цепочка выбранного маршрута'}<span className={styles.scenarioLabel}>Груз и условия — сценарные</span></div>
+        <div className={styles.mapCaption}><MapLegend mode={mode} previewLabel={preview ? `${preview.origin.name} → ${preview.destination.name}` : undefined} hasLand={routeGeoJson.features.some((f) => f.properties?.selected === 1 && f.properties?.primaryMode !== 'sea')} hasAlternatives={routeGeoJson.features.some((f) => f.properties?.selected === 0)} /></div>
       </div>
       <aside ref={panelRef} className={`${styles.panel} ${!panelOpen ? styles.collapsed : ''}`} aria-label="Рабочая панель" data-state={panelOpen ? 'expanded' : 'collapsed'}>
         <WorkspaceNavigation panel={panel} open={panelOpen} onSelect={selectPanel} />
+        <button type="button" className={styles.collapseControl} aria-label="Свернуть панель" onClick={collapsePanel} hidden={!panelOpen}><PanelRightClose size={19} /></button>
         <div id="workspace-panel-content" className={styles.panelContent} inert={!panelOpen} aria-hidden={!panelOpen}>
         <header className={styles.panelHeader}>{inspection ? <button className={styles.back} onClick={i.closeAll}><ArrowLeft size={16} />{panelLabels[panel]}</button> : <h1>{panelLabels[panel]}</h1>}
-          <button className={styles.collapse} aria-label="Свернуть панель" onClick={collapsePanel}><PanelRightClose size={18} /></button>
         </header>
         <div className={styles.panelBody} key={`${panel}-${inspection ? i.selectedPort?.id ?? (i.cargoSelected ? 'cargo' : 'storm') : 'main'}-${shipment.id}`}>
           {inspection ? <MapInspectionOverlays shipment={shipment} selectedPort={i.selectedPort} cargoSelected={i.cargoSelected} stormSelected={i.stormSelected} isBusy={isBusy} onSelectRoute={onSelectRoute} onClose={i.closeAll} /> : <>

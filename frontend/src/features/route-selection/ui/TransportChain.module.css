@@ -6,3 +6,5 @@
 @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
 
 .steps { grid-template-columns: 1fr; } .frame, .step { border-radius: 3px; } .step span, .frame p { font-size: 12px; }
+
+.frame { border-radius: var(--card-radius); background: var(--glass-card); } .step { border-radius: var(--inset-radius); background: var(--glass-input); }

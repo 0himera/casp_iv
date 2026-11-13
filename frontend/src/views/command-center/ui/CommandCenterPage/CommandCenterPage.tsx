@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { WorkspaceMenus, WorkspaceSelect } from '@/shared/ui/workspace-menu/WorkspaceMenu';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme, setTheme } from '@/shared/theme/ThemeProvider';
 import { PassportPanel } from '@/features/passport-attestation';
@@ -26,19 +27,17 @@ export function CommandCenterPage() {
   const s = useCommandCenterState();
   const stormActive = s.scenario === 'storm';
   const a = useCommandCenterActions({ ...s, stormActive });
-  return <div className={styles.root}>
+  return <WorkspaceMenus><div className={styles.root}>
     <header className={styles.header}>
       <div className={styles.brand}>Caspian<span>Transit workspace</span></div>
-      <label className={styles.shipment}><span>Отправка · сценарная</span>
-        <select aria-label="Отправка" value={s.shipment.id} onChange={(e) => s.setSelectedId(e.target.value)}>
-          {s.items.map((item) => <option key={item.id} value={item.id}>{item.title ?? item.id.slice(-5)}</option>)}
-        </select>
-      </label>
+      <div className={styles.shipment}><span>Отправка · сценарная</span>
+        <WorkspaceSelect label="Отправка" value={s.shipment.id} onChange={s.setSelectedId} minWidth={360} options={s.items.map((item) => ({ value: item.id, label: item.title ?? item.id.slice(-5) }))} />
+      </div>
       <div className={styles.journey}><strong>{s.shipment.origin.name} → {s.shipment.destination.name}</strong><span>{s.shipment.mass_tonnes} т · открытые данные + условия расчёта</span></div>
       <span className={`${styles.connection} ${s.apiOnline ? styles.online : ''}`} role="status">{s.apiOnline ? 'API online' : 'API недоступен'}</span>
-      <label className={styles.role}><span>Роль в preview</span><select aria-label="Роль" value={s.role} onChange={(e) => s.setRole(e.target.value as Role)}>
-        <option value="logistician">Логист</option><option value="carrier">Перевозчик</option><option value="customs">Таможня</option>
-      </select></label>
+      <div className={styles.role}><span>Роль в preview</span><WorkspaceSelect label="Роль" value={s.role} onChange={(value) => s.setRole(value as Role)} options={[
+        { value: 'logistician', label: 'Логист' }, { value: 'carrier', label: 'Перевозчик' }, { value: 'customs', label: 'Таможня' },
+      ]} /></div>
       <button className={styles.themeToggle} aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'} title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'} onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
         {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
       </button>
@@ -58,5 +57,5 @@ export function CommandCenterPage() {
         documents={<PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onRevoke={s.revoke} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />}
       />
     </main>
-  </div>;
+  </div></WorkspaceMenus>;
 }

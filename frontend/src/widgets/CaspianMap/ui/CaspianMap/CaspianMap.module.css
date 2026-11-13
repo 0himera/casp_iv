@@ -8,16 +8,12 @@
 .frame { --panel-width: clamp(380px, 26vw, 480px); --panel-gap: 18px; --compact-width: 96px; --compact-height: 212px; flex: 1; position: relative; min-width: 0; height: 100%; }
 .canvas { position: absolute; inset: 0; overflow: hidden; background: var(--map-land); }
 .toolbar { position: absolute; z-index: 3; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; }
-.modeSwitch, .toolButton, .layers { background: var(--glass-toolbar); border: 1px solid var(--border); border-radius: 13px; box-shadow: 0 2px 5px var(--glass-shadow-soft); }
+.modeSwitch, .toolButton { background: var(--glass-toolbar); border: 1px solid var(--border); border-radius: 13px; box-shadow: 0 2px 5px var(--glass-shadow-soft); }
 .modeSwitch { display: flex; padding: 3px; }
 .modeSwitch button { font-size: 12px; padding: 5px 12px; border: 0; border-radius: 9px; color: var(--muted-foreground); cursor: pointer; background: transparent; }
 .modeSwitch button[aria-pressed=true] { background: var(--solid-control); color: var(--solid-control-text); }
-.toolButton, .layers summary { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12px; color: var(--foreground); padding: 9px 11px; cursor: pointer; white-space: nowrap; }
-.toolButton:hover, .layers summary:hover { background: var(--glass-selected); }
-.layers { position: relative; }
-.layers summary { list-style: none; } .layers summary::-webkit-details-marker { display: none; }
-.layerMenu { position: absolute; top: calc(100% + 8px); right: 0; min-width: 245px; padding: 12px; background: var(--surface-default); border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 5px 22px var(--glass-shadow); display: grid; gap: 12px; font-size: 12px; }
-.layerMenu label { display: flex; gap: 9px; align-items: center; cursor: pointer; } .layerMenu input { accent-color: var(--accent-cyan); }
+.toolButton { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12px; color: var(--foreground); padding: 9px 11px; cursor: pointer; white-space: nowrap; }
+.toolButton:hover { background: var(--glass-selected); }
 .panel {
   position: absolute; top: var(--panel-gap); right: var(--panel-gap); z-index: 4;
   width: var(--panel-width); height: calc(100% - 2 * var(--panel-gap));
@@ -43,13 +39,11 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .panel { background: var(--surface-default); } }
 .panelHeader { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 24px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
 .panelHeader h1 { font-size: 23px; font-weight: 550; letter-spacing: -.04em; }
-.collapse, .back { border: 0; background: transparent; padding: 8px; display: flex; align-items: center; gap: 8px; color: var(--muted-foreground); cursor: pointer; font-size: 13px; }
+.back { border: 0; background: transparent; padding: 8px; display: flex; align-items: center; gap: 8px; color: var(--muted-foreground); cursor: pointer; font-size: 13px; }
 .back { margin-left: -8px; }
-.collapse:hover, .back:hover { color: var(--foreground); background: var(--glass-selected); border-radius: 10px; }
+.back:hover { color: var(--foreground); background: var(--glass-selected); border-radius: 10px; }
 .panelBody { min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 20px 24px 28px; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; overscroll-behavior: contain; }
-.mapCaption { position: absolute; left: 18px; bottom: 34px; z-index: 2; display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--foreground); background: var(--glass-toolbar); padding: 8px 10px; border: 1px solid var(--border); border-radius: 3px; pointer-events: none; }
-.lineKey, .dashKey { width: 16px; border-top: 2px solid var(--thermal-amber); } .dashKey { border-top: 2px dashed var(--meta-foreground); margin-left: 5px; }
-.scenarioLabel { border-left: 1px solid var(--border); padding-left: 8px; color: var(--muted-foreground); }
+.mapCaption { position: absolute; left: 18px; bottom: 34px; z-index: 2; display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--foreground); background: var(--glass-toolbar); padding: 8px 10px; border: 1px solid var(--border); border-radius: 3px; pointer-events: auto; }
 .portList { display: flex; flex-direction: column; gap: 12px; }
 .note { color: var(--muted-foreground); font-size: 12px; line-height: 1.55; }
 .networkButton { border: 1px solid var(--border); background: var(--glass-selected); border-radius: 3px; color: var(--foreground); cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 11px 13px; font-size: 13px; }
@@ -58,8 +52,8 @@
 .portRow:hover strong { color: var(--primary); }
 .portRow strong { display: block; font-size: 14px; font-weight: 500; } .portRow small { color: var(--muted-foreground); font-size: 11px; }
 .portWind { font-size: 11px; color: var(--muted-foreground); display: flex; gap: 6px; align-items: center; }
-@media (min-width: 1800px) { .frame { --panel-gap: 24px; } .panelHeader { height: 68px; padding: 0 28px; } .panelBody { padding: 24px 28px 32px; } .toolbar { top: 24px; left: 24px; } .toolButton, .layers summary, .modeSwitch button { font-size: 13px; } }
-@media (max-width: 1150px) { .toolbar { gap: 6px; left: 12px; top: 12px; } .toolButton span { display: none; } .toolButton { width: 36px; height: 36px; } .mapCaption .scenarioLabel { display: none; } }
+@media (min-width: 1800px) { .frame { --panel-gap: 24px; } .panelHeader { height: 68px; padding: 0 28px; } .panelBody { padding: 24px 28px 32px; } .toolbar { top: 24px; left: 24px; } .toolButton, .modeSwitch button { font-size: 13px; } }
+@media (max-width: 1150px) { .toolbar { gap: 6px; left: 12px; top: 12px; } .toolButton span { display: none; } .toolButton { width: 36px; height: 36px; } }
 @media (max-width: 760px) {
   .frame { --panel-gap: 12px; --panel-width: calc(100vw - 24px); }
   .panel { top: auto; bottom: var(--panel-gap); height: 56%; border-radius: 24px; }
@@ -71,12 +65,19 @@
   .withCompactPanel .canvas :global(.maplibregl-ctrl-bottom-right) { right: 0; bottom: 236px; }
   .withPanel .mapCaption { bottom: calc(56% + 42px); }
   .withPanel .canvas :global(.maplibregl-ctrl-bottom-left) { bottom: calc(56% + 6px); }
-  .toolbar { top: 10px; left: 10px; right: 10px; gap: 5px; } .toolButton span { display: none; } .layers summary { padding: 8px; font-size: 11px; } .modeSwitch button { padding: 4px 9px; }
+  .toolbar { top: 10px; left: 10px; right: 10px; gap: 5px; } .toolButton span { display: none; } .modeSwitch button { padding: 4px 9px; }
   .mapCaption { bottom: 26px; left: 10px; font-size: 9px; padding: 5px 7px; gap: 5px; } .withCompactPanel .mapCaption { max-width: calc(100% - 120px); flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) { .panel, .panelContent, .collapsed .panelContent, .navigation button { transition: none; } }
 
-.networkButton, .search { border-radius: 12px; } .layerMenu { border-radius: 14px; }
+.networkButton, .search { border-radius: 12px; }
 @media (max-width: 760px) { .withCompactPanel .graph :global(.react-flow__controls) { bottom: 236px; } }
 
-.modeSwitch, .toolButton, .layers, .mapCaption { -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
+.modeSwitch, .toolButton, .mapCaption { -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
+
+.collapseControl { position: absolute; z-index: 6; top: 14px; right: 14px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: var(--control-radius); background: transparent; color: var(--muted-foreground); cursor: pointer; }
+.collapseControl[hidden] { display: none; }
+.collapseControl:hover { background: var(--glass-selected); color: var(--foreground); }
+.mapCaption { bottom: 18px; border-radius: var(--inset-radius); max-width: calc(100% - var(--panel-width) - 3 * var(--panel-gap)); }
+.withCompactPanel .mapCaption { max-width: calc(100% - 100px); }
+@media (max-width: 760px) { .withPanel .mapCaption { bottom: calc(56% + 24px); max-width: calc(100% - 64px); } .withCompactPanel .mapCaption { bottom: 18px; max-width: calc(100% - 124px); } }

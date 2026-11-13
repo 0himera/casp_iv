@@ -4,7 +4,8 @@
 .brand span { display: block; font: 10px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; margin-top: 5px; color: var(--muted-foreground); }
 .shipment, .role { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .shipment > span, .role > span, .journey > span { font-size: 11px; color: var(--muted-foreground); }
-.shipment select, .role select { font: 500 13px var(--font-sans); color: var(--foreground); border: 0; background: transparent; padding: 2px 18px 2px 0; max-width: 240px; cursor: pointer; }
+.shipment { flex: 0 1 380px; width: clamp(220px, 30vw, 460px); }
+.role { flex: 0 0 132px; }
 .journey { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .journey strong { font-size: 13px; font-weight: 500; }
 .connection { margin-left: auto; white-space: nowrap; font-size: 11px; display: flex; align-items: center; gap: 6px; }
@@ -17,13 +18,13 @@
 .stack { display: flex; flex-direction: column; gap: 22px; }
 .details { border-top: 1px solid var(--border); padding-top: 14px; font-size: 13px; }
 .details summary { cursor: pointer; padding: 0 0 14px; font-weight: 500; }
-@media (min-width: 1800px) { .header { min-height: 76px; gap: 36px; } .journey strong, .shipment select, .role select { font-size: 14px; } }
+@media (min-width: 1800px) { .header { min-height: 76px; gap: 36px; } .journey strong { font-size: 14px; } .shipment { flex-basis: 460px; } }
 @media (max-width: 1050px) { .journey { display: none; } .header { gap: 18px; } }
 @media (max-width: 600px) {
   .header { min-height: 94px; padding: 10px 14px; gap: 8px 14px; flex-wrap: wrap; }
   .brand { font-size: 23px; flex: 1; } .brand span { display: none; }
-  .shipment { order: 3; width: calc(100% - 130px); } .shipment select { max-width: 100%; width: 100%; }
-  .role { order: 4; width: 110px; } .connection { font-size: 10px; }
+  .shipment { order: 3; flex: 1 1 calc(100% - 130px); width: calc(100% - 130px); }
+  .role { order: 4; flex: 0 0 110px; width: 110px; } .connection { font-size: 10px; }
   .role > span, .shipment > span { font-size: 10px; }
 }
 

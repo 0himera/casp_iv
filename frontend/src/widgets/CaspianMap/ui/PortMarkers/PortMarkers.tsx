@@ -37,7 +37,7 @@ export function PortMarkers({
         const port = resolvePortTelemetry(rawPort, stormActive);
         const isDanger = port.id === 'anzali' && stormActive;
         return (
-          <Marker key={port.id} longitude={port.lng} latitude={port.lat} anchor="center">
+          <Marker key={port.id} style={{ zIndex: selectedPortId === port.id ? 3 : 1 }} longitude={port.lng} latitude={port.lat} anchor="center">
             <PortMarkerItem
               port={port}
               isDanger={isDanger}

@@ -53,3 +53,14 @@
 .card { height: auto; overflow: visible; background: transparent; gap: 16px; } .name { font-size: 18px; } .meta { font: 12px/1.6 var(--font-sans); } .k { font-size: 11px; } .v { font-size: 15px; } .grid { gap: 18px 12px; padding: 18px 0; } .statusRow { font-size: 12px; } .closeBtn { display: none; }
 
 .card { padding: 0; border: 0; }
+
+.metric[data-empty] .v { color: var(--muted-foreground); font-size: 14px; font-weight: 400; opacity: .65; }
+.metricNote { color: var(--muted-foreground); font-size: 10px; line-height: 1.4; }
+.sailings { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.sailings:empty { display: none; }
+.sailing { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border: 1px solid var(--glass-edge); border-radius: var(--inset-radius); background: var(--glass-card); }
+.vesselName { min-width: 0; overflow-wrap: anywhere; font-size: 12px; font-weight: 550; color: var(--foreground); }
+.vesselStatus { max-width: 58%; flex-shrink: 0; padding: 4px 7px; border-radius: 7px; font-size: 10px; line-height: 1.4; color: var(--muted-foreground); background: var(--glass-input); }
+.vesselStatus[data-tone=warning] { color: var(--status-warning); background: color-mix(in srgb, var(--status-warning) 12%, transparent); }
+.vesselStatus[data-tone=activity] { color: var(--accent-cyan); background: color-mix(in srgb, var(--accent-cyan) 10%, transparent); }
+.moreSailings summary { cursor: pointer; font-size: 12px; color: var(--muted-foreground); padding: 4px 0 10px; }

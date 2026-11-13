@@ -13,7 +13,7 @@ export function ViewfinderFrame({ children, stamp, className }: ViewfinderFrameP
   return (
     <div
       className={cn(
-        'relative rounded-[4px] border border-border bg-surface-default p-5 sm:p-6',
+        'relative rounded-[var(--card-radius)] border border-[var(--glass-edge)] bg-[var(--glass-card)] p-5 sm:p-6',
         className
       )}
     >
