@@ -39,8 +39,8 @@
 
 .list { gap: 12px; }
 .listHeading { font: 500 26px Georgia, var(--font-serif), serif; letter-spacing: -.03em; }
-.card { border-radius: 3px; padding: 14px; gap: 9px; background: #fbfcf5; }
-.cardActive { background: #e6efdf; border-color: #75a16f; }
+.card { border-radius: 3px; padding: 14px; gap: 9px; background: var(--glass-card); }
+.cardActive { background: var(--glass-selected); border-color: var(--border-strong); }
 .title { font-size: 15px; }
 .meta { font-family: var(--font-sans); font-size: 12px; flex-wrap: wrap; }
 .price { font: 600 21px var(--font-sans); }
@@ -56,15 +56,15 @@
 
 .intro { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); margin-bottom: 6px; }
 .list { overflow: visible; gap: 14px; }
-.card { padding: 16px; gap: 10px; background: #fffef7; border-radius: 4px; }
-.cardActive { background: #e8efdf; border-color: #94ad83; }
+.card { padding: 16px; gap: 10px; background: var(--glass-card); border-radius: 4px; }
+.cardActive { background: var(--glass-selected); border-color: var(--border-strong); }
 .rowBetween { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
 .title { font-size: 14px; font-weight: 600; line-height: 1.4; }
 .meta { font-size: 12px; line-height: 1.5; }
 .price { font-size: 20px; font-weight: 500; }
-.chooseButton { height: 32px; padding: 0 10px; align-self: stretch; border: 1px solid #c6d1bb; background: #f3f6ea; font-size: 12px; justify-content: space-between; }
-.activeTag { border-top: 1px solid #c9d6be; padding-top: 10px; font-size: 12px; }
+.chooseButton { height: 32px; padding: 0 10px; align-self: stretch; border: 1px solid var(--border); background: var(--surface-low); font-size: 12px; justify-content: space-between; }
+.activeTag { border-top: 1px solid var(--border); padding-top: 10px; font-size: 12px; }
 .roleHint { flex-wrap: wrap; font-size: 12px; padding: 12px; }
 @media (min-width: 1800px) { .card { padding: 20px; gap: 12px; } .title { font-size: 16px; } .meta, .intro { font-size: 13px; } .price { font-size: 23px; } .chooseButton { height: 36px; font-size: 13px; } }
 
-.card { border-radius: 16px; background: #ffffff9c; border-color: #ffffffc4; box-shadow: 0 2px 12px #23443105; } .cardActive { background: #e4eedbd9; border-color: #b9cda9; } .chooseButton { border-radius: 10px; height: 38px; background: #ffffff8f; border-color: #d8e2d3; font-size: 13px; } .price { font-weight: 550; letter-spacing: -.04em; font-size: 24px; } .rowBetween > span { border-radius: 8px; }
+.card { border-radius: 16px; background: var(--glass-card); border-color: var(--glass-edge); box-shadow: 0 2px 12px var(--glass-shadow-soft); } .cardActive { background: var(--glass-selected); border-color: var(--border-strong); } .chooseButton { border-radius: 10px; height: 38px; background: var(--glass-input); border-color: var(--border); font-size: 13px; } .price { font-weight: 550; letter-spacing: -.04em; font-size: 24px; } .rowBetween > span { border-radius: 8px; }

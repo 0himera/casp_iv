@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { ArrowLeft, Focus, Layers, LocateFixed, PanelRightClose } from 'lucide-react';
 import Map, { NavigationControl, AttributionControl, type MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import type { Map as MapLibreMap } from 'maplibre-gl';
 import type { CaspianPort } from '@/entities/cargo';
 import { buildMapRoutesGeoJson } from '@/entities/shipment';
 import type { Role, Shipment } from '@/shared/api/caspian';
@@ -29,6 +31,7 @@ interface CaspianMapProps {
 initMapLibreWorker();
 
 export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelectRoute, onChangeRole, forecast, documents }: CaspianMapProps) {
+  const theme = useTheme();
   const mapRef = useRef<MapRef | null>(null);
   const overview = useRef(true);
   const panelRef = useRef<HTMLElement | null>(null);
@@ -71,6 +74,17 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     syncViewport();
     return () => { observer.disconnect(); clearTimeout(timer); };
   }, [mode, syncViewport]);
+  const updateMapTheme = useCallback((map: MapLibreMap) => {
+    // Style colors can be set before remote tiles/glyphs finish loading.
+    // Mark first: changing paint emits styledata again.
+    if (!map.getStyle()?.layers?.length || map.getCanvas().dataset.theme === theme) return;
+    map.getCanvas().dataset.theme = theme;
+    applySpectralBasemapTheme(map);
+  }, [theme]);
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (map) updateMapTheme(map);
+  }, [updateMapTheme]);
   const collapsePanel = () => {
     setPanelOpen(false);
     requestAnimationFrame(() => panelRef.current?.querySelector<HTMLButtonElement>('nav button[aria-pressed="true"]')?.focus({ preventScroll: true }));
@@ -96,7 +110,8 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
         </div>
         {mode === 'map' ? <Map ref={mapRef} initialViewState={camera} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false}
           interactiveLayerIds={layers.storm && stormActive ? ['storm-fill'] : []}
-          onLoad={(e) => { applySpectralBasemapTheme(e.target); syncViewport(); }}
+          onStyleData={(e) => updateMapTheme(e.target)}
+          onLoad={(e) => { updateMapTheme(e.target); syncViewport(); }}
           onMoveEnd={(e) => { setCamera({ longitude: e.viewState.longitude, latitude: e.viewState.latitude, zoom: e.viewState.zoom }); }}
           onResize={syncViewport} onMoveStart={(e) => { if (e.originalEvent) overview.current = false; }}
           onClick={(e) => { if (e.features?.[0]?.layer.id === 'storm-fill') { overview.current = false; setPanelOpen(true); i.selectStorm(); } }} style={{ width: '100%', height: '100%' }}>

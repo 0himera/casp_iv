@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google';
 import { QueryProvider } from './providers/QueryProvider';
+import { ThemeProvider } from '@/shared/theme/ThemeProvider';
+import { themeInitScript } from '@/shared/theme/init';
 import './globals.css';
 
 const plexSans = IBM_Plex_Sans({
@@ -37,10 +39,12 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="ru"
+      suppressHydrationWarning
       className={`${plexSans.variable} ${plexSerif.variable} ${ibmPlexMono.variable} antialiased`}
     >
+      <head><script dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head>
       <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
-        <QueryProvider>{children}</QueryProvider>
+        <ThemeProvider><QueryProvider>{children}</QueryProvider></ThemeProvider>
       </body>
     </html>
   );

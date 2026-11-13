@@ -54,7 +54,7 @@
 html,
 body {
   background-color: var(--background);
-  background-image: var(--paper-fiber), radial-gradient(ellipse at 70% 0%, #d6eef4, transparent 65%);
+  background-image: var(--paper-fiber), radial-gradient(ellipse at 70% 0%, var(--sky-glow), transparent 65%);
   background-size: 180px 180px, 100% 100%;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -71,3 +71,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 section[id] { scroll-margin-top: 84px; }
 @media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } }
+
+/* Native menus and third-party controls share the workspace palette. */
+select option { color: var(--foreground); background: var(--surface-default); }
+.maplibregl-map .maplibregl-ctrl-group, .maplibregl-map .maplibregl-ctrl.maplibregl-ctrl-attrib { background: var(--glass-toolbar); color: var(--foreground); backdrop-filter: blur(16px); }
+.maplibregl-map .maplibregl-ctrl-group { border: 1px solid var(--glass-edge); box-shadow: 0 2px 8px var(--glass-shadow-soft); border-radius: 12px; overflow: hidden; }
+.maplibregl-map .maplibregl-ctrl-group button + button { border-top-color: var(--border); }
+.maplibregl-map .maplibregl-ctrl-group button:hover { background-color: var(--glass-selected); }
+.maplibregl-map .maplibregl-ctrl-attrib a { color: var(--muted-foreground); }
+:root[data-theme="dark"] .maplibregl-ctrl-icon, :root[data-theme="dark"] .maplibregl-ctrl-attrib-button { filter: invert(1); }
+.react-flow.light, .react-flow.dark { --xy-background-color: var(--background); --xy-controls-button-background-color: var(--glass-toolbar); --xy-controls-button-color: var(--foreground); --xy-controls-button-border-color: var(--border); --xy-controls-button-background-color-hover: var(--glass-selected); --xy-background-pattern-dots-color: var(--border-strong); }

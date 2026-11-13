@@ -82,4 +82,4 @@
 }
 
 
-.topStamp { background: #fafbf5e6; border: 1px solid var(--border-subtle); padding: 5px 7px; border-radius: 2px; font-size: 9px; }
+.topStamp { background: var(--glass-toolbar); border: 1px solid var(--border-subtle); padding: 5px 7px; border-radius: 2px; font-size: 9px; }

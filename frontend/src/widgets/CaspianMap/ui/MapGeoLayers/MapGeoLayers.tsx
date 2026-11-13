@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import type { FeatureCollection, LineString, Point } from 'geojson';
 import { CALM_ZONE_GEOJSON, STORM_ZONE_GEOJSON } from '@/data/mockTransitData';
@@ -22,8 +23,10 @@ interface MapGeoLayersProps {
 }
 
 export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGrid = true, showStorm = true }: MapGeoLayersProps) {
+  const theme = useTheme();
   const stormGeoJson = stormActive ? STORM_ZONE_GEOJSON : CALM_ZONE_GEOJSON;
   const palette = useMemo(() => ({
+    theme, // Invalidate the resolved WebGL colors when the DOM palette changes.
     water: getCssVarColor('--map-water', 'transparent'),
     shallow: getCssVarColor('--map-shallow', 'transparent'),
     midDepth: getCssVarColor('--map-mid-depth', 'transparent'),
@@ -38,7 +41,7 @@ export function MapGeoLayers({ stormActive, routeGeoJson, hoveredRouteId, showGr
     routeCasing: getCssVarColor('--map-route-casing', 'transparent'),
     landRoute: getCssVarColor('--map-route-land', 'transparent'),
     surface: getCssVarColor('--surface-default', 'transparent'),
-  }), []);
+  }), [theme]);
   const graticule = useMemo(() => buildCaspianGraticule(), []);
   const displayRoutes = useMemo(() => ({
     ...routeGeoJson,

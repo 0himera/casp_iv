@@ -9,4 +9,4 @@
 
 .frame { border-radius: 3px; }
 
-.frame { border-radius: 14px; background: #ffffff55; } .frame button { border-radius: 10px; } .grid input { border-radius: 8px; }
+.frame { border-radius: 14px; background: var(--glass-card); } .frame button { border-radius: 10px; } .grid input { border-radius: 8px; }

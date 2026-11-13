@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { useMap } from 'react-map-gl/maplibre';
 import type { GeoJSONSource } from 'maplibre-gl';
 import { waterMesh } from '../../model/risograph/geometry';
 import { RisoLayer } from '../../model/risograph/layer';
 
 export function RisoWater({ enabled }: { enabled: boolean }) {
+  const theme = useTheme();
   const { current } = useMap();
   useEffect(() => {
     if (!current || !enabled) return;
@@ -73,6 +75,6 @@ export function RisoWater({ enabled }: { enabled: boolean }) {
       if (map.getLayer('caspian-risograph')) map.removeLayer('caspian-risograph');
       delete canvas.dataset.risoState; delete canvas.dataset.risoMotion;
     };
-  }, [current, enabled]);
+  }, [current, enabled, theme]);
   return null;
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import { Background, Controls, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { buildGraphNodesFromShipment, getSelectedRoute } from '@/entities/shipment';
@@ -16,6 +17,7 @@ interface MultimodalGraphProps {
 const NODE_TYPES = { chainNode: ChainNode };
 
 export function MultimodalGraph({ shipment }: MultimodalGraphProps) {
+  const theme = useTheme();
   const { nodes, edges } = useMemo(() => {
     const route = getSelectedRoute(shipment);
     return buildFlowElements(buildGraphNodesFromShipment(shipment, route));
@@ -27,7 +29,7 @@ export function MultimodalGraph({ shipment }: MultimodalGraphProps) {
         nodes={nodes}
         edges={edges}
         nodeTypes={NODE_TYPES}
-        colorMode="light"
+        colorMode={theme}
         fitView
         fitViewOptions={{ padding: 0.25 }}
         nodesDraggable={false}

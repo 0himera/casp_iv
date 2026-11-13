@@ -1,6 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme, setTheme } from '@/shared/theme/ThemeProvider';
 import { PassportPanel } from '@/features/passport-attestation';
 import { DemoControls } from '@/features/demo-controls';
 import { PlanningControls } from '@/features/route-selection/ui/PlanningControls';
@@ -20,6 +22,7 @@ const MapWorkspace = dynamic(() => import('@/widgets/CaspianMap').then((m) => m.
 });
 
 export function CommandCenterPage() {
+  const theme = useTheme();
   const s = useCommandCenterState();
   const stormActive = s.scenario === 'storm';
   const a = useCommandCenterActions({ ...s, stormActive });
@@ -36,6 +39,9 @@ export function CommandCenterPage() {
       <label className={styles.role}><span>Роль в preview</span><select aria-label="Роль" value={s.role} onChange={(e) => s.setRole(e.target.value as Role)}>
         <option value="logistician">Логист</option><option value="carrier">Перевозчик</option><option value="customs">Таможня</option>
       </select></label>
+      <button className={styles.themeToggle} aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'} title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'} onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      </button>
     </header>
     <div className={styles.operation} aria-live="polite"><OperationBanner activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} onRecheckOperation={s.recheckNow} /></div>
     <main className={styles.workspace}>

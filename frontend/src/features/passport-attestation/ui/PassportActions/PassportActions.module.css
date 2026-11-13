@@ -20,4 +20,4 @@
 
 .buttonRow { flex-wrap: wrap; } .primaryBtn { white-space: normal; height: auto; min-height: 32px; padding-block: 8px; }
 
-.revocation { padding: 14px; border: 1px solid #d8cbb9; border-radius: 14px; background: #fff8ed80; display: grid; gap: 12px; } .actions p { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); } .primaryBtn, .rejectBtn, .verifyBtn, .readyBanner { border-radius: 10px; }
+.revocation { padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--warning-surface); display: grid; gap: 12px; } .actions p { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); } .primaryBtn, .rejectBtn, .verifyBtn, .readyBanner { border-radius: 10px; }

@@ -1,31 +1,31 @@
 .workspace { height: 100%; display: flex; min-width: 0; }
 .navigation { position: absolute; z-index: 5; inset: 0 0 auto; height: 64px; }
-.navigation button { position: absolute; left: 0; top: 0; width: 44px; height: 40px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 13px; background: transparent; color: #62736b; cursor: pointer; transform: translate(calc(18px + var(--index) * 52px), 14px); transition: transform 420ms cubic-bezier(.22, 1, .36, 1), background 180ms, color 180ms, box-shadow 180ms; }
-.navigation button:hover { background: #ffffffa6; color: #153c2b; }
-.navigation button[aria-pressed=true] { color: #164333; background: #fafff4d9; border-color: #ffffffb8; box-shadow: 0 2px 8px #1e402914; }
-.navigation button span { position: absolute; top: calc(100% + 6px); white-space: nowrap; opacity: 0; pointer-events: none; padding: 5px 8px; border-radius: 7px; background: #203c31; color: #fff; font-size: 11px; transition: opacity 120ms; }
+.navigation button { position: absolute; left: 0; top: 0; width: 44px; height: 40px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 13px; background: transparent; color: var(--muted-foreground); cursor: pointer; transform: translate(calc(18px + var(--index) * 52px), 14px); transition: transform 420ms cubic-bezier(.22, 1, .36, 1), background 180ms, color 180ms, box-shadow 180ms; }
+.navigation button:hover { background: var(--glass-highlight); color: var(--foreground); }
+.navigation button[aria-pressed=true] { color: var(--foreground); background: var(--glass-input); border-color: var(--glass-edge); box-shadow: 0 2px 8px var(--glass-shadow-soft); }
+.navigation button span { position: absolute; top: calc(100% + 6px); white-space: nowrap; opacity: 0; pointer-events: none; padding: 5px 8px; border-radius: 7px; background: var(--tooltip-bg); color: var(--tooltip-text); font-size: 11px; transition: opacity 120ms; }
 .navigation button:hover span, .navigation button:focus-visible span { opacity: 1; }
 .frame { --panel-width: clamp(380px, 26vw, 480px); --panel-gap: 18px; --compact-width: 96px; --compact-height: 212px; flex: 1; position: relative; min-width: 0; height: 100%; }
-.canvas { position: absolute; inset: 0; overflow: hidden; background: #e8eddf; }
+.canvas { position: absolute; inset: 0; overflow: hidden; background: var(--map-land); }
 .toolbar { position: absolute; z-index: 3; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; }
-.modeSwitch, .toolButton, .layers { background: #fafbf5f2; border: 1px solid #163f3029; border-radius: 13px; box-shadow: 0 2px 5px #153b2210; }
+.modeSwitch, .toolButton, .layers { background: var(--glass-toolbar); border: 1px solid var(--border); border-radius: 13px; box-shadow: 0 2px 5px var(--glass-shadow-soft); }
 .modeSwitch { display: flex; padding: 3px; }
-.modeSwitch button { font-size: 12px; padding: 5px 12px; border: 0; border-radius: 9px; color: #5f7164; cursor: pointer; background: transparent; }
-.modeSwitch button[aria-pressed=true] { background: #224d3b; color: #fffef5; }
-.toolButton, .layers summary { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12px; color: #254337; padding: 9px 11px; cursor: pointer; white-space: nowrap; }
-.toolButton:hover, .layers summary:hover { background: #e3ebdf; }
+.modeSwitch button { font-size: 12px; padding: 5px 12px; border: 0; border-radius: 9px; color: var(--muted-foreground); cursor: pointer; background: transparent; }
+.modeSwitch button[aria-pressed=true] { background: var(--solid-control); color: var(--solid-control-text); }
+.toolButton, .layers summary { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12px; color: var(--foreground); padding: 9px 11px; cursor: pointer; white-space: nowrap; }
+.toolButton:hover, .layers summary:hover { background: var(--glass-selected); }
 .layers { position: relative; }
 .layers summary { list-style: none; } .layers summary::-webkit-details-marker { display: none; }
-.layerMenu { position: absolute; top: calc(100% + 8px); right: 0; min-width: 245px; padding: 12px; background: #fafbf5; border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 5px 22px #163b3220; display: grid; gap: 12px; font-size: 12px; }
-.layerMenu label { display: flex; gap: 9px; align-items: center; cursor: pointer; } .layerMenu input { accent-color: #245239; }
+.layerMenu { position: absolute; top: calc(100% + 8px); right: 0; min-width: 245px; padding: 12px; background: var(--surface-default); border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 5px 22px var(--glass-shadow); display: grid; gap: 12px; font-size: 12px; }
+.layerMenu label { display: flex; gap: 9px; align-items: center; cursor: pointer; } .layerMenu input { accent-color: var(--accent-cyan); }
 .panel {
   position: absolute; top: var(--panel-gap); right: var(--panel-gap); z-index: 4;
   width: var(--panel-width); height: calc(100% - 2 * var(--panel-gap));
   min-height: 0; min-width: 0; overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .8); border-radius: 26px;
-  background: rgba(247, 250, 242, .76);
+  border: 1px solid var(--glass-edge); border-radius: 26px;
+  background: var(--glass-panel);
   -webkit-backdrop-filter: blur(24px) saturate(1.12); backdrop-filter: blur(24px) saturate(1.12);
-  box-shadow: 0 16px 48px #1330251c, 0 2px 6px #1330250d, inset 0 1px 0 #ffffffa6;
+  box-shadow: 0 16px 48px var(--glass-shadow), 0 2px 6px var(--glass-shadow-soft), inset 0 1px 0 var(--glass-highlight);
   transition: width 420ms cubic-bezier(.22, 1, .36, 1), height 420ms cubic-bezier(.22, 1, .36, 1), border-radius 420ms;
 }
 .panelContent { width: calc(var(--panel-width) - 2px); height: 100%; padding-top: 64px; display: flex; flex-direction: column; opacity: 1; visibility: visible; transition: opacity 180ms 100ms, visibility 0s; }
@@ -40,24 +40,24 @@
 .withPanel .graph { width: calc(100% - var(--panel-width) - 2 * var(--panel-gap)); }
 .withPanel .canvas :global(.maplibregl-ctrl-bottom-right) { right: calc(var(--panel-width) + 2 * var(--panel-gap)); }
 .withCompactPanel .canvas :global(.maplibregl-ctrl-bottom-right) { right: 10px; }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .panel { background: rgba(247, 250, 242, .96); } }
-.panelHeader { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 24px; border-bottom: 1px solid #24473512; flex-shrink: 0; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .panel { background: var(--surface-default); } }
+.panelHeader { display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 24px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
 .panelHeader h1 { font-size: 23px; font-weight: 550; letter-spacing: -.04em; }
-.collapse, .back { border: 0; background: transparent; padding: 8px; display: flex; align-items: center; gap: 8px; color: #536b5f; cursor: pointer; font-size: 13px; }
+.collapse, .back { border: 0; background: transparent; padding: 8px; display: flex; align-items: center; gap: 8px; color: var(--muted-foreground); cursor: pointer; font-size: 13px; }
 .back { margin-left: -8px; }
-.collapse:hover, .back:hover { color: #153c28; background: #e5ecdf; border-radius: 10px; }
-.panelBody { min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 20px 24px 28px; scrollbar-width: thin; scrollbar-color: #b9c8b8 transparent; overscroll-behavior: contain; }
-.mapCaption { position: absolute; left: 18px; bottom: 34px; z-index: 2; display: flex; align-items: center; gap: 8px; font-size: 10px; color: #244535; background: #f9faf1ed; padding: 8px 10px; border: 1px solid #284a3226; border-radius: 3px; pointer-events: none; }
-.lineKey, .dashKey { width: 16px; border-top: 2px solid #bb6e23; } .dashKey { border-top: 2px dashed #76836a; margin-left: 5px; }
-.scenarioLabel { border-left: 1px solid #bbcaba; padding-left: 8px; color: #61715d; }
+.collapse:hover, .back:hover { color: var(--foreground); background: var(--glass-selected); border-radius: 10px; }
+.panelBody { min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 20px 24px 28px; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; overscroll-behavior: contain; }
+.mapCaption { position: absolute; left: 18px; bottom: 34px; z-index: 2; display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--foreground); background: var(--glass-toolbar); padding: 8px 10px; border: 1px solid var(--border); border-radius: 3px; pointer-events: none; }
+.lineKey, .dashKey { width: 16px; border-top: 2px solid var(--thermal-amber); } .dashKey { border-top: 2px dashed var(--meta-foreground); margin-left: 5px; }
+.scenarioLabel { border-left: 1px solid var(--border); padding-left: 8px; color: var(--muted-foreground); }
 .portList { display: flex; flex-direction: column; gap: 12px; }
-.note { color: #65756a; font-size: 12px; line-height: 1.55; }
-.networkButton { border: 1px solid #b8ccba; background: #e4ecdf; border-radius: 3px; color: #264f34; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 11px 13px; font-size: 13px; }
-.search { width: 100%; border: 1px solid var(--border); background: #fffef8; padding: 11px 12px; border-radius: 3px; font-size: 13px; }
+.note { color: var(--muted-foreground); font-size: 12px; line-height: 1.55; }
+.networkButton { border: 1px solid var(--border); background: var(--glass-selected); border-radius: 3px; color: var(--foreground); cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 11px 13px; font-size: 13px; }
+.search { width: 100%; border: 1px solid var(--border); background: var(--glass-input); padding: 11px 12px; border-radius: 3px; font-size: 13px; }
 .portRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 0; border-bottom: 1px solid var(--border); padding: 10px 0 16px; background: transparent; text-align: left; cursor: pointer; }
-.portRow:hover strong { color: #b73b24; }
-.portRow strong { display: block; font-size: 14px; font-weight: 500; } .portRow small { color: #778375; font-size: 11px; }
-.portWind { font-size: 11px; color: #526957; display: flex; gap: 6px; align-items: center; }
+.portRow:hover strong { color: var(--primary); }
+.portRow strong { display: block; font-size: 14px; font-weight: 500; } .portRow small { color: var(--muted-foreground); font-size: 11px; }
+.portWind { font-size: 11px; color: var(--muted-foreground); display: flex; gap: 6px; align-items: center; }
 @media (min-width: 1800px) { .frame { --panel-gap: 24px; } .panelHeader { height: 68px; padding: 0 28px; } .panelBody { padding: 24px 28px 32px; } .toolbar { top: 24px; left: 24px; } .toolButton, .layers summary, .modeSwitch button { font-size: 13px; } }
 @media (max-width: 1150px) { .toolbar { gap: 6px; left: 12px; top: 12px; } .toolButton span { display: none; } .toolButton { width: 36px; height: 36px; } .mapCaption .scenarioLabel { display: none; } }
 @media (max-width: 760px) {
@@ -78,3 +78,5 @@
 
 .networkButton, .search { border-radius: 12px; } .layerMenu { border-radius: 14px; }
 @media (max-width: 760px) { .withCompactPanel .graph :global(.react-flow__controls) { bottom: 236px; } }
+
+.modeSwitch, .toolButton, .layers, .mapCaption { -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
