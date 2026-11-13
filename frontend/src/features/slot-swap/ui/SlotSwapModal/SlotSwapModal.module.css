@@ -1,0 +1,28 @@
+.backdrop {
+  position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: rgba(10, 14, 16, 0.75); backdrop-filter: blur(10px);
+}
+.modal {
+  width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 14px; padding: 20px;
+  border-radius: var(--radius-md); background: var(--map-overlay); border: 1px solid var(--border-strong);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.titleBlock { display: flex; flex-direction: column; gap: 4px; }
+.stamp { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--cyan); }
+.heading { font-family: var(--font-editorial); font-size: 20px; color: var(--foreground); }
+.closeBtn { background: transparent; border: none; color: var(--muted-foreground); cursor: pointer; padding: 4px; border-radius: 4px; }
+.closeBtn:hover { color: var(--foreground); }
+
+.body { display: flex; flex-direction: column; gap: 12px; }
+.executingWrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 40px 16px; }
+.spinIcon { width: 32px; height: 32px; color: var(--accent-cyan); animation: spin 0.9s linear infinite; }
+
+.footer {
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  padding-top: 10px; border-top: 1px solid var(--border);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slideUp { 0% { transform: translateY(16px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }

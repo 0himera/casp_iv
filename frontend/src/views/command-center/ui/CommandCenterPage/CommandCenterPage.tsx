@@ -10,6 +10,7 @@ import { PlanningControls } from '@/features/route-selection/ui/PlanningControls
 import { ForecastMetaBlock } from '@/features/route-selection/ui/ForecastMetaBlock';
 import { OperationBanner } from '@/features/route-selection/ui/OperationBanner';
 import { TransportChain } from '@/features/route-selection/ui/TransportChain';
+import { SlotSwapModal, SlotSwapTrigger, useSlotSwap } from '@/features/slot-swap';
 import { DraughtSimulator } from '@/widgets/DraughtSimulator';
 import { EsgWidget } from '@/widgets/EsgWidget';
 import { PredictiveChart } from '@/widgets/PredictiveChart';
@@ -25,6 +26,7 @@ const MapWorkspace = dynamic(() => import('@/widgets/CaspianMap').then((m) => m.
 export function CommandCenterPage() {
   const theme = useTheme();
   const s = useCommandCenterState();
+  const swap = useSlotSwap(s.shipment.id);
   const contractHash = s.shipment.passport.contract_address?.replace(/^hash-/, '');
   const contractUrl = s.shipment.passport.network === 'casper-test' && contractHash && /^[a-f0-9]{64}$/i.test(contractHash)
     ? `https://testnet.cspr.live/contract/${contractHash}` : null;
@@ -51,6 +53,7 @@ export function CommandCenterPage() {
       <MapWorkspace ports={s.ports} shipment={s.shipment} stormActive={stormActive} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole} onChangeJourney={s.changeJourney}
         forecast={<div className={styles.stack}>
           <ForecastMetaBlock forecast={s.shipment.forecast} />
+          <SlotSwapTrigger missProbability={s.shipment.forecast.miss_probability} isExecuted={swap.isExecuted} onOpen={swap.openModal} />
           <PlanningControls key={s.shipment.forecast.id} shipment={s.shipment} isBusy={s.isBusy} onCalculate={s.recalculate} />
           <PredictiveChart shipment={s.shipment} stormActive={stormActive} />
           <TransportChain shipment={s.shipment} />
@@ -61,5 +64,6 @@ export function CommandCenterPage() {
         documents={<PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onRevoke={s.revoke} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />}
       />
     </main>
+    <SlotSwapModal isOpen={swap.isOpen} step={swap.step} shipment={s.shipment} candidate={swap.candidate} onClose={swap.closeModal} onExecute={swap.executeSwap} />
   </div></WorkspaceMenus>;
 }
