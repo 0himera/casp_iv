@@ -53,3 +53,16 @@
 .price { font-size: 20px; }
 .priceUnknown { font-size: 13px; color: var(--muted-foreground); font-weight: 400; }
 .chooseButton { height: 25px; align-self: flex-start; padding: 0; border: 0; font-size: 11px; }
+
+.intro { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); margin-bottom: 6px; }
+.list { overflow: visible; gap: 14px; }
+.card { padding: 16px; gap: 10px; background: #fffef7; border-radius: 4px; }
+.cardActive { background: #e8efdf; border-color: #94ad83; }
+.rowBetween { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+.title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.meta { font-size: 12px; line-height: 1.5; }
+.price { font-size: 20px; font-weight: 500; }
+.chooseButton { height: 32px; padding: 0 10px; align-self: stretch; border: 1px solid #c6d1bb; background: #f3f6ea; font-size: 12px; justify-content: space-between; }
+.activeTag { border-top: 1px solid #c9d6be; padding-top: 10px; font-size: 12px; }
+.roleHint { flex-wrap: wrap; font-size: 12px; padding: 12px; }
+@media (min-width: 1800px) { .card { padding: 20px; gap: 12px; } .title { font-size: 16px; } .meta, .intro { font-size: 13px; } .price { font-size: 23px; } .chooseButton { height: 36px; font-size: 13px; } }

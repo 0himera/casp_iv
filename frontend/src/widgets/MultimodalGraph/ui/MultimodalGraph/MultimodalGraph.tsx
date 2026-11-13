@@ -35,7 +35,7 @@ export function MultimodalGraph({ shipment }: MultimodalGraphProps) {
         proOptions={{ hideAttribution: true }}
       >
         <Background gap={20} size={1} />
-        <Controls showInteractive={false} />
+        <Controls position="bottom-right" showInteractive={false} />
       </ReactFlow>
     </div>
   );

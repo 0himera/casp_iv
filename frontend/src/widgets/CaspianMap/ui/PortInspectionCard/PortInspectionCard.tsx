@@ -47,7 +47,7 @@ export function PortInspectionCard({ port, shipment, isBusy, onSelectRoute, onCl
         </div>
       </>}
       {isInActive && <div className={styles.statusRow}><Check className={styles.checkIcon} /><span>Включён в текущий маршрут</span></div>}
-      {!isInActive && portRoute && <Button type="button" size="sm" disabled={isBusy} onClick={() => onSelectRoute?.(portRoute.id)} className={styles.routeBtn}>{isBusy ? 'Перестроение...' : `Маршрут через ${port.name}`} <ArrowRight className={styles.arrowIcon} /></Button>}
+      {!isInActive && portRoute && <Button type="button" size="sm" disabled={isBusy || !shipment.allowed_actions.includes('select_route') || !portRoute.feasible} onClick={() => onSelectRoute?.(portRoute.id)} className={styles.routeBtn}>{isBusy ? 'Перестроение...' : `Маршрут через ${port.name}`} <ArrowRight className={styles.arrowIcon} /></Button>}
     </ViewfinderFrame>
   );
 }

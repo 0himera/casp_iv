@@ -17,3 +17,5 @@
 }
 .spinIcon { width: 13px; height: 13px; animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.buttonRow { flex-wrap: wrap; } .primaryBtn { white-space: normal; height: auto; min-height: 32px; padding-block: 8px; }

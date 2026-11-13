@@ -12,7 +12,6 @@ interface PortMarkersProps {
   ports: CaspianPort[];
   shipment: Shipment;
   stormActive: boolean;
-  xrayMode?: boolean;
   selectedPortId?: string | null;
   cargoSelected?: boolean;
   onSelectPort?: (port: CaspianPort) => void;
@@ -23,7 +22,6 @@ export function PortMarkers({
   ports,
   shipment,
   stormActive,
-  xrayMode = false,
   selectedPortId,
   cargoSelected,
   onSelectPort,
@@ -41,7 +39,6 @@ export function PortMarkers({
             <PortMarkerItem
               port={port}
               isDanger={isDanger}
-              xrayMode={xrayMode}
               isSelected={selectedPortId === port.id}
               onClick={onSelectPort}
             />

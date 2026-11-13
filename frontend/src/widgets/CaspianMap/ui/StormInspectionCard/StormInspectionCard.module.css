@@ -34,3 +34,4 @@
   border-top: 1px dashed var(--border);
 }
 .rerouteBtn { width: 100%; }
+.card { background: transparent; gap: 16px; } .name { font-size: 17px; } .meta, .desc { font: 13px/1.6 var(--font-sans); } .desc { border: 0; }

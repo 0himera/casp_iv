@@ -6,7 +6,6 @@ import styles from './PortMarkerItem.module.css';
 interface PortMarkerItemProps {
   port: CaspianPort;
   isDanger: boolean;
-  xrayMode?: boolean;
   isSelected?: boolean;
   onClick?: (port: CaspianPort) => void;
 }
@@ -24,7 +23,10 @@ export function PortMarkerItem({ port, isDanger, isSelected, onClick }: PortMark
   const wind = port.live?.windSpeed ?? (port.live?.demoMetricsAvailable ? port.windSpeedKmh : null);
 
   return (
-    <div
+    <button
+      type="button"
+      aria-label={`Порт ${port.name}`}
+      title={`${port.name}${wind !== null ? ` · ветер ${Math.round(wind)} км/ч` : ''}`}
       className={styles.container}
       onClick={(event) => {
         event.stopPropagation();
@@ -36,6 +38,6 @@ export function PortMarkerItem({ port, isDanger, isSelected, onClick }: PortMark
         <span>{port.name}</span>
         {wind !== null && <span className={styles.wind}>{Math.round(wind)}</span>}
       </span>
-    </div>
+    </button>
   );
 }

@@ -45,3 +45,5 @@
 
 .heading { font-family: Georgia, var(--font-serif), serif; font-size: 23px; }
 .chartBox { height: 170px; }
+
+.card { padding: 16px; min-width: 0; } .titleRow { flex-wrap: wrap; gap: 10px; } .heading, .headingItalic { font: 500 16px/1.4 var(--font-sans); } .legend { flex-wrap: wrap; gap: 8px; font: 11px var(--font-sans); }

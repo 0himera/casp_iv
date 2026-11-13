@@ -51,3 +51,5 @@
 
 .uploadIcon { width: 12px; height: 12px; }
 .fileInput { display: none; }
+
+.docRow { border-radius: 3px; padding: 12px; gap: 10px; } .docRow:hover { transform: none; } .name { font-size: 12px; } .hash { font-size: 10px; } .uploadLabel { position: relative; gap: 4px; padding: 6px; flex-shrink: 0; font-size: 11px; } .fileInput { display: block; position: absolute; width: 1px; height: 1px; opacity: 0; } .uploadLabel:focus-within { outline: 2px solid var(--ring); } .error { color: var(--status-danger); font-size: 12px; }

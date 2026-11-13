@@ -16,7 +16,9 @@ export function CargoMarkerItem({
   onClick,
 }: CargoMarkerItemProps) {
   return (
-    <div
+    <button
+      type="button"
+      aria-label={`Груз: ${locationName}`}
       className={`${styles.cargoMarker} ${isSelected ? styles.selected : ''}`}
       onClick={onClick}
     >
@@ -27,6 +29,6 @@ export function CargoMarkerItem({
         <PixelMarker variant="telemetry" />
         <span>{locationName}</span>
       </span>
-    </div>
+    </button>
   );
 }

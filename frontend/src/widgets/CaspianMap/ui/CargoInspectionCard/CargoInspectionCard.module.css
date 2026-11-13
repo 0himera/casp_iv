@@ -42,3 +42,7 @@
 .metric { display: flex; flex-direction: column; gap: 2px; }
 .k { font-size: 9px; text-transform: uppercase; color: var(--muted-foreground); }
 .v { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; color: var(--foreground); }
+
+.card { padding: 0; border: 0; background: transparent; gap: 18px; } .header { flex-wrap: wrap; } .name { font: 600 17px var(--font-sans); } .title, .k { font-size: 11px; } .v { font-size: 14px; } .routeRow { flex-wrap: wrap; font-size: 13px; } .grid { padding-top: 16px; gap: 16px; } .closeBtn { display: none; }
+
+.titleWrap { min-width: 0; } .title { display: block; overflow-wrap: anywhere; margin-top: 8px; }

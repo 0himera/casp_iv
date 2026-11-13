@@ -12,7 +12,7 @@ export function useMapInteractions(ports: CaspianPort[], mapRef: RefObject<MapRe
   const [activePreset, setActivePreset] = useState<string | null>('overview');
 
   const flyTo = (lng: number, lat: number, zoom = 6.2) => {
-    mapRef.current?.flyTo({ center: [lng, lat], zoom, duration: 850 });
+    mapRef.current?.flyTo({ center: [lng, lat], zoom, duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650 });
   };
 
   const selectPort = (port: CaspianPort) => {
@@ -37,7 +37,7 @@ export function useMapInteractions(ports: CaspianPort[], mapRef: RefObject<MapRe
 
   const resetView = () => {
     setSelectedPortId(null); setCargoSelected(false); setStormSelected(false);
-    setActivePreset('overview'); flyTo(48.2, 42.5, 4.6);
+    setActivePreset('overview');
   };
 
   const closeAll = () => {

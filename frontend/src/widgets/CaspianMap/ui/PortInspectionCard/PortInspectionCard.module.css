@@ -49,3 +49,7 @@
   color: var(--status-success);
 }
 .routeBtn { width: 100%; }
+
+.card { height: auto; overflow: visible; background: transparent; gap: 16px; } .name { font-size: 18px; } .meta { font: 12px/1.6 var(--font-sans); } .k { font-size: 11px; } .v { font-size: 15px; } .grid { gap: 18px 12px; padding: 18px 0; } .statusRow { font-size: 12px; } .closeBtn { display: none; }
+
+.card { padding: 0; border: 0; }

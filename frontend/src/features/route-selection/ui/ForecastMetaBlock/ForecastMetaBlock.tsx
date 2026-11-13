@@ -21,7 +21,7 @@ export function ForecastMetaBlock({ forecast }: ForecastMetaBlockProps) {
         <span className={styles.titleWrap}>
           <PixelMarker variant="ai" />
           <Sparkles className={styles.aiIcon} />
-          <span className={styles.title}>Прогноз и выбор маршрута</span>
+          <span className={styles.title}>Готовность груза</span>
         </span>
         <div className={styles.badges}>
           <Badge variant={forecast.quality === 'missing' ? 'warning' : 'lavender'}>

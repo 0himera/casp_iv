@@ -27,3 +27,5 @@
 .ok { color: var(--status-success); }
 .icon { width: 13px; height: 13px; flex-shrink: 0; }
 @media (max-width: 900px) { .grid, .metrics { grid-template-columns: 1fr; } }
+
+.frame { padding: 14px; border-radius: 3px; gap: 14px; } .grid { grid-template-columns: 1fr; } .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .heading { font: 600 16px/1.4 var(--font-sans); } .controls, .kpi { padding: 10px; border-radius: 3px; } .kpi:hover { transform: none; } .labelRow { flex-wrap: wrap; gap: 6px; font-size: 11px; } .header > span { white-space: normal; } .select { max-width: 100%; } .big { font-size: 19px; }

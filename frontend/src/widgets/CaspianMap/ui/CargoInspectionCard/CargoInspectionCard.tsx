@@ -20,8 +20,8 @@ export function CargoInspectionCard({ shipment, onClose }: CargoInspectionCardPr
         <div className={styles.titleWrap}>
           <Navigation className={styles.icon} />
           <div>
-            <h4 className={styles.name}>{shipment.id}</h4>
-            <span className={styles.title}>{shipment.title}</span>
+            <h4 className={styles.name}>{shipment.title}</h4>
+            <span className={styles.title}>{shipment.id}</span>
           </div>
         </div>
         <button type="button" onClick={onClose} className={styles.closeBtn}><X className={styles.closeIcon} /></button>

@@ -39,3 +39,7 @@
 .downRight { left: 14px; top: 8px; }
 .upRight { left: 14px; bottom: 8px; }
 .wind { color: var(--cyan); }
+
+.container { border: 0; background: transparent; padding: 0; font: inherit; color: inherit; }
+
+@media (min-width: 1800px) { .pill { font-size: 12px; padding: 4px 8px; } .beacon { width: 11px; height: 11px; } }

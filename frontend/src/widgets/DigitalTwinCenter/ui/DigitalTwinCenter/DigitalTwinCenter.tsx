@@ -40,7 +40,7 @@ export function DigitalTwinCenter({ ports, shipment, stormActive, activeOperatio
         <CenterToolbar shipment={shipment} xrayMode={xrayMode} />
         <div className={styles.workspaceRow}>
           <div className={styles.viewport}>
-            <TabsContent value="map" className={styles.tabPane}><CaspianMap ports={ports} shipment={shipment} stormActive={stormActive} xrayMode={xrayMode} /></TabsContent>
+            <TabsContent value="map" className={styles.tabPane}><CaspianMap ports={ports} shipment={shipment} stormActive={stormActive} /></TabsContent>
             <TabsContent value="graph" className={styles.tabPane}><MultimodalGraph shipment={shipment} /></TabsContent>
             <RouteDecisionOverlay shipment={shipment} activeOperation={activeOperation} operationTimedOut={operationTimedOut} errorBanner={errorBanner} isBusy={isBusy} onSelectRoute={onSelectRoute} onRecheckOperation={onRecheckOperation} />
             <SlashCommandBar stormActive={stormActive} xrayMode={xrayMode} canRunScenario={canRunScenario} canSelectRoute={canSelectRoute} canAttest={canAttest} isBusy={isBusy} onToggleStorm={onToggleStorm} onRerouteAlternative={() => altRoute && onSelectRoute(altRoute.id)} onVerifyEcmr={onVerifyEcmr} onToggleXray={() => setXrayMode((v) => !v)} />

@@ -34,3 +34,5 @@
 .okIcon { width: 13px; height: 13px; color: var(--status-success); flex-shrink: 0; }
 .badIcon { width: 13px; height: 13px; color: var(--status-danger); flex-shrink: 0; }
 .waitIcon { width: 13px; height: 13px; color: var(--muted-foreground); flex-shrink: 0; }
+
+.row { font: 12px var(--font-sans); flex-wrap: wrap; gap: 8px; border-radius: 3px; } .row:hover { transform: none; }

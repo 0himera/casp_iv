@@ -4,3 +4,5 @@
 .step svg { color: var(--primary); }
 .step span, .frame p { color: var(--muted-foreground); font-size: 11px; line-height: 1.5; }
 @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+
+.steps { grid-template-columns: 1fr; } .frame, .step { border-radius: 3px; } .step span, .frame p { font-size: 12px; }

@@ -16,3 +16,5 @@
 .item button, .header button { cursor: pointer; color: var(--foreground); background: var(--surface-low); border: 1px solid var(--border); padding: 4px 8px; border-radius: 2px; font-family: var(--font-mono); font-size: 11px; }
 .note { color: var(--muted-foreground); line-height: 1.5; margin: 8px 0; font-size: 11px; }
 .item a { display: block; text-decoration: underline; color: var(--cyan); margin: 5px 0; }
+
+.panel { height: auto; overflow: visible; padding: 0; border: 0; background: transparent; } .header { font: 500 14px var(--font-sans); color: var(--foreground); align-items: center; gap: 12px; } .note { font-size: 12px; line-height: 1.6; } .fields label { font: 12px var(--font-sans); } .fields select { padding: 9px; } .item { padding: 14px; margin-block: 14px; } .item button { font: 12px var(--font-sans); padding: 8px 10px; margin-block: 4px; }

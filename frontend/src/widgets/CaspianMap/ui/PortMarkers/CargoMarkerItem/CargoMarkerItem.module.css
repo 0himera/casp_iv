@@ -42,3 +42,5 @@
   border: 1px solid color-mix(in srgb, var(--primary) 50%, transparent);
   color: var(--foreground);
 }
+
+.cargoMarker { border: 0; background: transparent; padding: 0; font: inherit; color: inherit; }

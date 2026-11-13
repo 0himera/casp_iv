@@ -47,3 +47,5 @@
 .actionBtn { flex: 1; }
 
 .title { font: 500 25px Georgia, var(--font-serif), serif; }
+
+.card { padding: 0; border: 0; background: transparent; gap: 14px; min-width: 0; } .titleRow { flex-wrap: wrap; gap: 10px; } .title { font: 600 18px/1.4 var(--font-sans); } .card > p { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); } .subRow { font: 12px var(--font-sans); } .content, .rows { gap: 12px; }

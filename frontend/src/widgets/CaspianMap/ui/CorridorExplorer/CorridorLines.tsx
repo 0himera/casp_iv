@@ -32,7 +32,7 @@ export function CorridorLines({ highlighted }: { highlighted: string[] }) {
           'line-color': ['case', ['==', ['get', 'highlighted'], 1], accent, corridor],
           'line-width': ['case', ['==', ['get', 'highlighted'], 1], 3, 1.2],
           'line-dasharray': [2, 3],
-          'line-opacity': 0.68,
+          'line-opacity': highlighted.length ? ['case', ['==', ['get', 'highlighted'], 1], 1, 0.12] : 0.68,
         }}
       />
     </Source>
