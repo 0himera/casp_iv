@@ -25,7 +25,7 @@ export function SlotSwapSuccess({ candidate }: SlotSwapSuccessProps) {
       <div className={styles.metricsRow}>
         <div className={styles.metricBox}>
           <span className={styles.mLabel}>СЭКОНОМЛЕНО</span>
-          <span className={styles.mVal}>$22 500</span>
+          <span className={styles.mVal}>{candidate.demurrageHedgedRub.toLocaleString('ru-RU')} ₽</span>
         </div>
         <div className={styles.metricBox}>
           <span className={styles.mLabel}>ПРОСТОЙ СУДНА</span>

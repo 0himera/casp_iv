@@ -1,15 +1,15 @@
 'use client';
 
-import { Coins, Lock } from 'lucide-react';
+import { Coins } from 'lucide-react';
 import { Badge } from '@/shared/ui';
 import styles from './SlotSwapEscrow.module.css';
 
 interface SlotSwapEscrowProps {
-  demurrageUsd: number;
+  demurrageRub: number;
 }
 
-export function SlotSwapEscrow({ demurrageUsd }: SlotSwapEscrowProps) {
-  const rubAmount = Math.round(demurrageUsd * 96.8).toLocaleString('ru-RU');
+export function SlotSwapEscrow({ demurrageRub }: SlotSwapEscrowProps) {
+  const formattedRub = demurrageRub.toLocaleString('ru-RU');
 
   return (
     <div className={styles.container}>
@@ -24,15 +24,15 @@ export function SlotSwapEscrow({ demurrageUsd }: SlotSwapEscrowProps) {
       <div className={styles.grid}>
         <div className={styles.box}>
           <span className={styles.label}>ДЕПОЗИТ ДЕМЕРЕДЖА</span>
-          <span className={styles.val}>${demurrageUsd.toLocaleString()}</span>
+          <span className={styles.val}>{formattedRub} ₽</span>
         </div>
         <div className={styles.box}>
-          <span className={styles.label}>ЭКВИВАЛЕНТ В РУБЛЯХ</span>
-          <span className={styles.val}>{rubAmount} ₽</span>
+          <span className={styles.label}>ЗАЛОГ В СМАРТ-КОНТРАКТЕ</span>
+          <span className={styles.val}>{formattedRub} ₽</span>
         </div>
         <div className={styles.box}>
           <span className={styles.label}>ШТРАФ ДЛЯ ВАС</span>
-          <span className={`${styles.val} ${styles.okVal}`}>$0 (ЗАХЕДЖИРОВАНО)</span>
+          <span className={`${styles.val} ${styles.okVal}`}>0 ₽ (ЗАХЕДЖИРОВАНО)</span>
         </div>
       </div>
 
@@ -43,4 +43,3 @@ export function SlotSwapEscrow({ demurrageUsd }: SlotSwapEscrowProps) {
     </div>
   );
 }
-

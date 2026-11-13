@@ -59,3 +59,4 @@ export function SwapCargoCard(props: SwapCargoCardProps) {
     </div>
   );
 }
+

@@ -22,7 +22,7 @@ export function SlotSwapTrigger({ missProbability, isExecuted, onOpen }: SlotSwa
           </div>
           <div className={styles.info}>
             <span className={styles.title}>SMART SLOT-SWAP АКТИВИРОВАН // CASPER TESTNET</span>
-            <span className={styles.sub}>Слот обменян с AZE-BAK-8104 · Демередж захеджирован ($0 штрафов)</span>
+            <span className={styles.sub}>Слот обменян с AZE-BAK-8104 · Демередж захеджирован (0 ₽ штрафов)</span>
           </div>
         </div>
         <Button size="sm" variant="outline" onClick={onOpen} className={styles.triggerBtn}>
@@ -40,7 +40,7 @@ export function SlotSwapTrigger({ missProbability, isExecuted, onOpen }: SlotSwa
             <ShieldAlert size={16} />
           </div>
           <div className={styles.info}>
-            <span className={styles.title}>УГРОЗА ДЕМЕРЕДЖА: $22 500 (2 180 000 ₽)</span>
+            <span className={styles.title}>УГРОЗА ДЕМЕРЕДЖА: 2 178 000 ₽ / СУТ</span>
             <span className={styles.sub}>Срыв cutoff 84% · Доступен встречный обмен слотом в Махачкале</span>
           </div>
         </div>

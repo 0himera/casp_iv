@@ -11,7 +11,7 @@ export interface SwapCandidate {
   ferryDepartsInHours: number;
   shipDraughtM: number;
   ukcSafeMarginM: number;
-  demurrageHedgedUsd: number;
+  demurrageHedgedRub: number;
   casperDeployHash: string;
 }
 

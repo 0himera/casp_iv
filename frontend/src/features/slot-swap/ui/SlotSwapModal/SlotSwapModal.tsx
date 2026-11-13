@@ -47,7 +47,7 @@ export function SlotSwapModal({
           ) : (
             <>
               <SlotSwapComparison shipment={shipment} candidate={candidate} />
-              <SlotSwapEscrow demurrageUsd={candidate.demurrageHedgedUsd} />
+              <SlotSwapEscrow demurrageRub={candidate.demurrageHedgedRub} />
             </>
           )}
         </div>

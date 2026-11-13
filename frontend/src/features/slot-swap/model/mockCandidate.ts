@@ -13,6 +13,6 @@ export const DEFAULT_SWAP_CANDIDATE: SwapCandidate = {
   ferryDepartsInHours: 4,
   shipDraughtM: 4.05,
   ukcSafeMarginM: 0.35,
-  demurrageHedgedUsd: 22500,
+  demurrageHedgedRub: 2178000,
   casperDeployHash: '0x7f4ad921ba89c31495cfa1082be81a94372f88b901ce2',
 };

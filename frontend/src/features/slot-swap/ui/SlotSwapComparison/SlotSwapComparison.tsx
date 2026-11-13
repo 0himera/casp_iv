@@ -28,7 +28,7 @@ export function SlotSwapComparison({ shipment, candidate }: SlotSwapComparisonPr
           thirdValue="+18 ч задержки"
           isThirdDanger
           fourthLabel="Демередж"
-          fourthValue="$22 500 / сут"
+          fourthValue="2 178 000 ₽ / сут"
           isFourthDanger
         />
 
