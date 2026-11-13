@@ -1,0 +1,34 @@
+{
+  "documents": {
+    "count": 5,
+    "sha256": "9d3fa70c04e0a5fbc4391213c68e13220432469bae8b133f7d009ea7eebf5710"
+  },
+  "shipments": [
+    [
+      "shp_7addd5149e544c75a6d4eab97f02868a",
+      4
+    ],
+    [
+      "shp_aa6da7b5570d40558753311ea265088e",
+      22
+    ]
+  ],
+  "versions": {
+    "count": 26,
+    "sha256": "4fd65bbe2f120c6407fd06e02b890b579c21950bc7a8a08cdc9033536b8103be"
+  },
+  "date": "2026-11-13",
+  "deployment": "VPS Debian 12 x86_64",
+  "checks": {
+    "document_and_proof_hashes_match_source": true,
+    "public_document_download": true,
+    "public_passport_matches_casper": true,
+    "public_marine_route_preview": true,
+    "public_terminal_dwell_algorithm_fallback": true,
+    "public_browser_no_js_or_5xx_errors": true,
+    "all_three_roles_offline_signing": true,
+    "no_signing_test_broadcast": true,
+    "workstation_application_services_stopped_and_disabled": true,
+    "existing_ssh_tunnel_preserved": true
+  }
+}

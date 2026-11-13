@@ -1,3 +1,12 @@
+# Caspian edge
+
+С 13.11.2026 домен обслуживает [развёртывание на VPS](../vps/README.md).
+Cloudflare Worker и HTTPS origin сохранены, nginx направляет API на VPS
+`127.0.0.1:8000`, frontend — на `127.0.0.1:3100`. SSH-туннель не требуется.
+Актуальный origin-конфиг: `../vps/nginx-origin.conf`.
+
+Ниже — прежняя схема через компьютер для справки и отката.
+
 # Caspian API edge
 
 `https://caspian.psychaos.art` — Cloudflare Worker custom domain. Worker передаёт
@@ -9,7 +18,7 @@
 Два независимых SSH reverse tunnel доставляют запросы на компьютер: 18080 → backend
 `127.0.0.1:8000`, 18082 → frontend Next.js `127.0.0.1:3100`. Для демо сейчас запущен
 собранный frontend из ветки `frontend`. Это временное размещение: компьютер, оба сервиса,
-SSH-соединение и Casper worker должны работать. Сервисы и SSH теперь управляются
+SSH-соединение и Casper worker должны работать. Сервисы и SSH управлялись
 [systemd с автоперезапуском](../systemd/README.md); фронт хранится вне `/tmp`. Существующий туннель `127.0.0.1:22222`
 и конфигурация Xray не менялись.
 

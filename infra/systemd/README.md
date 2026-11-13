@@ -1,3 +1,7 @@
+> Legacy workstation deployment. These three application services are stopped
+> and disabled after migration to the [VPS](../vps/README.md). The SSH tunnel is
+> preserved but is no longer used by the domain.
+
 # Persistent preview on xisora
 
 Four user services run the backend, Casper worker, production Next.js frontend and
