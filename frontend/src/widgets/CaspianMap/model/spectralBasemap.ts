@@ -21,6 +21,10 @@ export function applySpectralBasemapTheme(map: MapLibreMap) {
   };
 
   for (const layer of style.layers) {
+    // Theme only the base vector tiles. GeoJSON overlays own their palette,
+    // including water depths, weather zones and selected route segments.
+    if (layer.type !== 'background' && (!('source' in layer) ||
+      typeof layer.source !== 'string' || style.sources[layer.source]?.type !== 'vector')) continue;
     const id = layer.id.toLowerCase();
     if (layer.type === 'background') {
       map.setPaintProperty(layer.id, 'background-color', colors.background);

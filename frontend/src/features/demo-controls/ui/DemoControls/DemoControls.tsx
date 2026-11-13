@@ -7,6 +7,7 @@ import styles from './DemoControls.module.css';
 
 interface DemoControlsProps {
   role: Role;
+  showRoles?: boolean;
   scenario: ScenarioRequest['scenario'];
   canRunScenario: boolean;
   isBusy: boolean;
@@ -22,6 +23,7 @@ const ROLES: { id: Role; label: string }[] = [
 
 export function DemoControls({
   role,
+  showRoles = true,
   scenario,
   canRunScenario,
   isBusy,
@@ -30,7 +32,7 @@ export function DemoControls({
 }: DemoControlsProps) {
   return (
     <div className={styles.wrap}>
-      <div className={styles.group}>
+      {showRoles && <div className={styles.group}>
         {ROLES.map((item) => (
           <Button
             key={item.id}
@@ -42,7 +44,7 @@ export function DemoControls({
             {item.label}
           </Button>
         ))}
-      </div>
+      </div>}
       <div className={styles.group}>
         <Button type="button" size="sm" variant={scenario === 'normal' ? 'secondary' : 'outline'} disabled={!canRunScenario || isBusy} onClick={() => onSelectScenario('normal')}>
           <ShieldCheck className={styles.icon} /> Открытая погода

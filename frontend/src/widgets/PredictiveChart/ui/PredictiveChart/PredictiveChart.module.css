@@ -42,3 +42,6 @@
   font-size: 10px;
   color: var(--muted-foreground);
 }
+
+.heading { font-family: Georgia, var(--font-serif), serif; font-size: 23px; }
+.chartBox { height: 170px; }

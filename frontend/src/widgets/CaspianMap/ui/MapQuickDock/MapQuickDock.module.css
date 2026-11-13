@@ -36,3 +36,20 @@
 .icon { width: 13px; height: 13px; flex-shrink: 0; }
 .spinIcon { width: 13px; height: 13px; flex-shrink: 0; animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.list { gap: 12px; }
+.listHeading { font: 500 26px Georgia, var(--font-serif), serif; letter-spacing: -.03em; }
+.card { border-radius: 3px; padding: 14px; gap: 9px; background: #fbfcf5; }
+.cardActive { background: #e6efdf; border-color: #75a16f; }
+.title { font-size: 15px; }
+.meta { font-family: var(--font-sans); font-size: 12px; flex-wrap: wrap; }
+.price { font: 600 21px var(--font-sans); }
+.tabs, .tabBtn, .portRow, .stageBar { border-radius: 3px; }
+.tabBtn { font-size: 12px; }
+.activeTag { font-family: var(--font-sans); font-size: 12px; }
+.deltaRow { font-family: var(--font-sans); font-size: 11px; }
+
+.card { padding: 11px 13px; gap: 6px; }
+.price { font-size: 20px; }
+.priceUnknown { font-size: 13px; color: var(--muted-foreground); font-weight: 400; }
+.chooseButton { height: 25px; align-self: flex-start; padding: 0; border: 0; font-size: 11px; }

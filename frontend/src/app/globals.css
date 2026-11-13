@@ -54,11 +54,8 @@
 html,
 body {
   background-color: var(--background);
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-    repeating-radial-gradient(ellipse at 18% 28%, transparent 0 46px, color-mix(in srgb, var(--map-grid) 45%, transparent) 47px, transparent 48px 92px);
-  background-size: 48px 48px, 48px 48px, 100% 100%;
+  background-image: var(--paper-fiber), radial-gradient(ellipse at 70% 0%, #d6eef4, transparent 65%);
+  background-size: 180px 180px, 100% 100%;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
@@ -70,3 +67,7 @@ body {
 
 ::selection { background: var(--primary); color: var(--primary-foreground); }
 button, a { -webkit-tap-highlight-color: transparent; }
+
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+section[id] { scroll-margin-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } }

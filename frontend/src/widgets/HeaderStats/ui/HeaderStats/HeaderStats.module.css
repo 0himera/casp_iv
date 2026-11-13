@@ -1,58 +1,10 @@
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.brandBlock,
-.controlsBlock {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.brandTitleRow {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.brandName {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  color: var(--foreground);
-}
-
-.brandItalic {
-  font-family: var(--font-editorial);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 20px;
-  color: var(--primary);
-}
-
-.stamp {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted-foreground);
-  letter-spacing: 0.04em;
-}
-
-.statusBadge { gap: 6px; }
-.warnDot { width: 6px; height: 6px; border-radius: 50%; background-color: var(--status-warning); }
-
-.brandName::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 8px;
-  border-radius: 50% 50% 50% 0;
-  background: var(--primary);
-  transform: rotate(-45deg);
-}
+.header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; min-height: 44px; }
+.links { display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+.links a { text-decoration: none; padding: 8px 0; border-bottom: 2px solid transparent; }
+.links a:hover, .links a:focus-visible { border-color: var(--primary); }
+.brand { font-family: Georgia, var(--font-serif), serif; font-size: 32px; font-style: italic; letter-spacing: -.045em; white-space: nowrap; }
+.role { justify-self: end; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.roleLabel { color: var(--muted-foreground); }
+.role select { padding: 8px 30px 8px 12px; border: 1px solid var(--border-strong); border-radius: 3px; background: var(--surface-default); font: inherit; max-width: 160px; }
+@media (max-width: 850px) { .header { grid-template-columns: 1fr auto; gap: 8px 16px; } .brand { grid-row: 1; grid-column: 1; font-size: 27px; } .role { grid-row: 1; grid-column: 2; } .links { grid-row: 2; grid-column: 1 / -1; gap: 22px; font-size: 13px; } .roleLabel { display: none; } }
+@media (max-width: 380px) { .brand { font-size: 23px; } .role select { max-width: 118px; padding: 7px; } }

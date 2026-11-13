@@ -1,0 +1,6 @@
+{
+  "generator": "built-in image_gen",
+  "asset": "public/images/caspian-thermal-shores.webp",
+  "reference": "Selected risograph concept 3 with surrounding shores",
+  "prompt": "Edit the supplied Caspian Transit website concept into a clean production BACKGROUND ART ASSET. Preserve the entire geographic illustration, Caspian water shape, pale icy mint/cream surrounding land, fine terrain relief, vermilion/cyan risograph halftone swathes and overall placement exactly. Remove ALL typography, ALL navigation, ALL buttons, ALL cards, brand, labels and UI; seamlessly reconstruct the pale background or terrain behind them. Keep the upper 35 percent beautifully light and mostly empty for live HTML headline placement. Lower 65 percent contains the same dark pine Caspian inland sea and surrounding softly illustrated continental shores. Flat edge-to-edge landscape 16:10 artwork only. No text, icons, frames, watermark or added objects. Keep the printed texture and colors of the source; no new geography."
+}

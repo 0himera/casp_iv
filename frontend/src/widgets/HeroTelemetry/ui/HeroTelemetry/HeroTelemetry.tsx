@@ -1,47 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { Shipment } from '@/shared/api/caspian';
-import { Button } from '@/shared/ui';
-import { HeroKpiGrid } from '../HeroKpiGrid';
 import styles from './HeroTelemetry.module.css';
 
-interface HeroTelemetryProps {
-  shipment: Shipment;
-  stormActive: boolean;
-}
-
-export function HeroTelemetry({ shipment, stormActive }: HeroTelemetryProps) {
-  const selectedRoute = shipment.routes.find((r) => r.id === shipment.selected_route_id);
-  const jumpTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  return (
-    <section className={styles.section}>
-      <div className={styles.backdrop} aria-hidden="true">
-        <Image src="/images/caspian-archival-map.jpg" alt="" fill className={styles.bgImage} priority />
-        <div className={styles.bgMask} />
-      </div>
-      <div className={styles.content}>
-        <span className={styles.overline}>{'[ CASPIAN BASIN / ROUTE DESK 01 ]'}</span>
-        <h1 className={styles.headline}>
-          Каспийский <span className={styles.accentSerif}>маршрутный</span> журнал
-        </h1>
-        <p className={styles.subtitle}>
-          Переходы, погода и документы грузов на одном навигационном столе. Выберите рейс, чтобы проследить его путь через Каспийский бассейн.
-        </p>
-        <div className={styles.actions}>
-          <Button type="button" variant="default" size="lg" onClick={() => jumpTo('route-section')}>
-            ВЫБРАТЬ МАРШРУТ И ПРОГНОЗ <ArrowRight className={styles.icon} />
-          </Button>
-          <Button type="button" variant="outline" size="lg" onClick={() => jumpTo('ledger-section')}>
-            <ShieldCheck className={styles.icon} /> SMART LEDGER #V{shipment.passport.version}
-          </Button>
-        </div>
-      </div>
-      <HeroKpiGrid shipment={shipment} selectedRoute={selectedRoute} stormActive={stormActive} />
-    </section>
-  );
+export function HeroTelemetry({ shipment }: { shipment: Shipment; stormActive: boolean }) {
+  return <section id="intro" className={styles.section} aria-label="Через Каспий">
+    <Image src="/images/caspian-thermal-shores.webp" alt="" fill priority sizes="(max-width: 700px) 1140px, 100vw" className={styles.art} />
+    <div className={styles.content}>
+      <h1 className={styles.headline}>Через Каспий.<br />Согласованным маршрутом.</h1>
+      <p className={styles.subtitle}>Погода, маршруты и документы в одном окне.</p>
+      <a className={styles.cta} href="#workspace">Выбрать маршрут <ArrowRight size={17} /></a>
+    </div>
+    <div className={styles.annotations}>
+      <a href="#weather-section">Погода в портах <ArrowRight size={14} /></a>
+      <a href="#ledger-section">Паспорт груза · v{shipment.passport.version} <ArrowRight size={14} /></a>
+    </div>
+  </section>;
 }

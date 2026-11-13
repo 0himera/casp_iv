@@ -45,3 +45,5 @@
 }
 
 .actionBtn { flex: 1; }
+
+.title { font: 500 25px Georgia, var(--font-serif), serif; }

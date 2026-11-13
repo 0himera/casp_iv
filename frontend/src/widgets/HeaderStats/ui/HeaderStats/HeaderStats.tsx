@@ -1,45 +1,26 @@
 'use client';
 
 import type { Role, ScenarioRequest, Shipment } from '@/shared/api/caspian';
-import { DemoControls } from '@/features/demo-controls';
-import { Badge, LivePing } from '@/shared/ui';
-import { HeaderNavActions } from '../HeaderNavActions';
 import styles from './HeaderStats.module.css';
 
 interface HeaderStatsProps {
-  items: Array<{ id: string }>;
-  shipment: Shipment;
-  apiOnline: boolean;
-  role: Role;
-  scenario: ScenarioRequest['scenario'];
-  mode: 'map' | 'graph';
-  isBusy: boolean;
-  canRunScenario: boolean;
-  onSelectShipment: (id: string) => void;
-  onToggleMode: (mode: 'map' | 'graph') => void;
-  onChangeRole: (role: Role) => void;
-  onSelectScenario: (scenario: ScenarioRequest['scenario']) => void;
+  items: Array<{ id: string }>; shipment: Shipment; apiOnline: boolean;
+  role: Role; scenario: ScenarioRequest['scenario']; mode: 'map' | 'graph';
+  isBusy: boolean; canRunScenario: boolean;
+  onSelectShipment: (id: string) => void; onToggleMode: (mode: 'map' | 'graph') => void;
+  onChangeRole: (role: Role) => void; onSelectScenario: (scenario: ScenarioRequest['scenario']) => void;
 }
 
-export function HeaderStats(props: HeaderStatsProps) {
-  const { items, shipment, apiOnline, role, scenario, mode, isBusy } = props;
-  return (
-    <header className={styles.header}>
-      <div className={styles.brandBlock}>
-        <div className={styles.brandTitleRow}>
-          <span className={styles.brandName}>CASPIAN</span>
-          <span className={styles.brandItalic}>Transit</span>
-          <span className={styles.stamp}>{`${shipment.id} // REV ${shipment.revision}`}</span>
-        </div>
-        <Badge variant={apiOnline ? 'success' : 'warning'} className={styles.statusBadge}>
-          {apiOnline ? <LivePing /> : <span className={styles.warnDot} />}
-          <span>{apiOnline ? 'API ONLINE · груз сценарный' : 'OFFLINE'}</span>
-        </Badge>
-      </div>
-      <div className={styles.controlsBlock}>
-        <HeaderNavActions items={items} selectedId={shipment.id} mode={mode} onSelectShipment={props.onSelectShipment} onToggleMode={props.onToggleMode} />
-        <DemoControls role={role} scenario={scenario} isBusy={isBusy} canRunScenario={props.canRunScenario} onChangeRole={props.onChangeRole} onSelectScenario={props.onSelectScenario} />
-      </div>
-    </header>
-  );
+export function HeaderStats({ role, onChangeRole }: HeaderStatsProps) {
+  return <header className={styles.header}>
+    <nav aria-label="Основная навигация" className={styles.links}>
+      <a href="#workspace">Карта</a><a href="#route-section">Прогноз</a><a href="#ledger-section">Документы</a>
+    </nav>
+    <a className={styles.brand} href="#intro">Caspian Transit</a>
+    <label className={styles.role}><span className={styles.roleLabel}>Роль</span>
+      <select aria-label="Роль" value={role} onChange={(event) => onChangeRole(event.target.value as Role)}>
+        <option value="logistician">Логист</option><option value="carrier">Перевозчик</option><option value="customs">Таможня</option>
+      </select>
+    </label>
+  </header>;
 }

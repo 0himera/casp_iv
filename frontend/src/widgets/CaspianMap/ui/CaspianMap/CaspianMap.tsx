@@ -36,7 +36,7 @@ export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, rol
   const [archivalMode, setArchivalMode] = useState(false);
   const [dockOpen, setDockOpen] = useState(true);
   const [hoveredRouteId, setHoveredRouteId] = useState<string | null>(null);
-  const [layers, setLayers] = useState({ storm: true, corridors: true, grid: true });
+  const [layers, setLayers] = useState({ storm: true, corridors: false, grid: false });
   const [highlighted, setHighlighted] = useState<string[]>([]);
   const [clickMenu, setClickMenu] = useState<MapClickPoint | null>(null);
   const hasDock = Boolean(dockOpen || networkOpen || i.selectedPort || i.cargoSelected || i.stormSelected);
@@ -48,10 +48,13 @@ export function CaspianMap({ ports, shipment, stormActive, xrayMode = false, rol
   };
   return (
     <section id="map-section" className={`${styles.frame} ${printEnabled ? styles.riso : ''}`}><div className={styles.toolbar}>
-      <span className={styles.overline}>[ FIG. 01: КАСПИЙСКАЯ ГИДРОЛОГИЯ И ВЕКТОРЫ КОРИДОРОВ ]</span>
+      <span className={styles.overline}>Каспийский бассейн</span>
       <MapPresetsBar activeId={archivalMode ? 'archival' : i.activePreset} dockOpen={hasDock} onSelectPreset={(id) => { setArchivalMode(false); setNetworkOpen(false); setClickMenu(null); i.selectPreset(id); }} onReset={() => { setArchivalMode(false); setClickMenu(null); i.resetView(); }} onFocusCargo={() => { setArchivalMode(false); setClickMenu(null); i.selectCargo(shipment.current_location.longitude, shipment.current_location.latitude); }} onToggleNetwork={() => { i.closeAll(); setClickMenu(null); setNetworkOpen((v) => !v); }} onToggleArchival={() => { setClickMenu(null); setArchivalMode((v) => !v); }} onToggleDock={() => { i.closeAll(); setNetworkOpen(false); setDockOpen((v) => !v); }} />
     </div><div className={`${styles.stageGrid} ${hasDock ? styles.stageWithDock : ''}`}><div className={styles.canvas}>{archivalMode ? <ArchivalMapView printEnabled={printEnabled} ports={ports} shipment={shipment} selectedPortId={i.selectedPort?.id} onSelectPort={(p) => { setNetworkOpen(false); i.selectPort(p); }} /> : (
-      <><Map ref={mapRef} initialViewState={{ longitude: 49.4, latitude: 41.8, zoom: 4.6 }} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false} interactiveLayerIds={['storm-fill', 'alt-route-line']} onLoad={(e) => applySpectralBasemapTheme(e.target)} onClick={onMapClick} style={{ width: '100%', height: '100%' }}>
+      <><Map ref={mapRef} initialViewState={{ longitude: 50.5, latitude: 41.8, zoom: 4.8 }} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false} interactiveLayerIds={['storm-fill', 'alt-route-line']} onLoad={(e) => {
+        applySpectralBasemapTheme(e.target);
+        if (e.target.getCanvas().clientWidth < 600) e.target.fitBounds([[46.5, 36.5], [54.5, 47.6]], { padding: 35, duration: 0 });
+      }} onClick={onMapClick} style={{ width: '100%', height: '100%' }}>
         <RisoWater enabled={printEnabled} /><NavigationControl position="bottom-right" showCompass={false} /><MapGeoLayers stormActive={stormActive} routeGeoJson={routeGeoJson} hoveredRouteId={hoveredRouteId} showGrid={layers.grid} showStorm={layers.storm} />{layers.corridors && <CorridorLines highlighted={highlighted} />}
         <PortMarkers ports={ports} shipment={shipment} stormActive={stormActive} xrayMode={xrayMode} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={(p) => { setNetworkOpen(false); setClickMenu(null); i.selectPort(p); }} onSelectCargo={(lng, lat) => { setNetworkOpen(false); setClickMenu(null); i.selectCargo(lng, lat); }} />
       </Map><MapHudOverlay stormActive={stormActive} isBusy={isBusy} />{clickMenu && <MapClickMenu point={clickMenu} ports={ports} shipment={shipment} role={role} isBusy={isBusy} onInspectPort={(p) => { setNetworkOpen(false); i.selectPort(p); }} onSelectRoute={onSelectRoute} onHoverRoute={setHoveredRouteId} onChangeRole={onChangeRole} onFocusCargo={() => i.selectCargo(shipment.current_location.longitude, shipment.current_location.latitude)} onResetView={i.resetView} onClose={() => setClickMenu(null)} />}</>

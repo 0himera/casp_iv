@@ -22,9 +22,9 @@ export function MapHudOverlay({ stormActive, isBusy }: MapHudOverlayProps) {
         </div>
       )}
       <div className={styles.topStamp}>
-        <span>{'LAT 36.5°N–47.2°N · LON 46.8°E–54.1°E // BATHYMETRY'}</span>
+        <span>{'ГЛУБИНА И МОРСКИЕ МАРШРУТЫ'}</span>
         <span className={stormActive ? styles.stormTag : styles.nominalTag}>
-          {stormActive ? 'ANOMALY // SEA-STATE 6' : 'NOMINAL // SEA-STATE 2'}
+          {stormActive ? 'ШТОРМ · СЦЕНАРИЙ' : 'ПОГОДНЫЙ СЛОЙ'}
         </span>
       </div>
       <div className={styles.depthScale}>

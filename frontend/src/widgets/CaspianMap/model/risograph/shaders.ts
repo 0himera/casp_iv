@@ -32,6 +32,6 @@ void main() {
   float wash = 0.35 + 0.06 * sin(v_world.x * 0.7 + v_world.y * 1.1 + u_time * 0.12);
   float grain = fiber(floor(v_world * 160.0));
   float ink = step(threshold, wash + (grain - 0.5) * 0.12);
-  float alpha = ink * (0.15 + grain * 0.04);
+  float alpha = ink * (0.07 + grain * 0.025);
   fragColor = vec4(u_ink * alpha, alpha);
 }`;

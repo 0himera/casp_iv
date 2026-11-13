@@ -20,3 +20,7 @@
   height: 13px;
 }
 
+
+.shipment { display: flex; align-items: center; gap: 8px; color: var(--muted-foreground); font-size: 12px; }
+.shipment select { max-width: 215px; padding: 7px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface-default); color: var(--foreground); }
+@media (max-width: 480px) { .shipment select { max-width: 180px; } }

@@ -17,33 +17,27 @@ interface DockRoutesListProps {
 
 export function DockRoutesList({ shipment, role, isBusy, onSelectRoute, onHoverRoute, onChangeRole }: DockRoutesListProps) {
   const canSelect = shipment.allowed_actions.includes('select_route');
-  const active = shipment.routes.find((r) => r.id === shipment.selected_route_id);
 
   return (
     <div className={styles.list}>
-      <div className={styles.stageBar}>
-        <span>{shipment.origin.name}</span><ArrowRight className={styles.icon} />
-        <span>Каспийский транзит</span><ArrowRight className={styles.icon} />
-        <span>{shipment.destination.name}</span>
-      </div>
+      <h3 className={styles.listHeading}>Варианты маршрута</h3>
+      <span className={styles.meta}>Оценки сценария</span>
       {!canSelect && onChangeRole && role !== 'logistician' && (
         <div className={styles.roleHint}>
           <span><Lock className={styles.icon} /> Выбор маршрута доступен роли «Логист»</span>
           <Button type="button" size="sm" variant="outline" onClick={() => onChangeRole('logistician')}>Стать Логистом</Button>
         </div>
       )}
-      {shipment.routes.map((r) => {
+      {[...shipment.routes].sort((a, b) => Number(b.id === shipment.selected_route_id) - Number(a.id === shipment.selected_route_id)).map((r) => {
         const isCurrent = r.id === shipment.selected_route_id;
-        const hasTariffs = active && active.cost.amount_minor > 0 && r.cost.amount_minor > 0;
-        const deltaRub = hasTariffs ? (r.cost.amount_minor - active.cost.amount_minor) / 100 : 0;
-        const deltaCo2 = active && r.emissions_kg_co2e !== null && active.emissions_kg_co2e !== null ? Math.round((r.emissions_kg_co2e - active.emissions_kg_co2e) * 100) / 100 : null;
         return (
           <div key={r.id} onMouseEnter={() => onHoverRoute?.(r.id)} onMouseLeave={() => onHoverRoute?.(null)} className={`${styles.card} ${isCurrent ? styles.cardActive : ''}`}>
-            <div className={styles.rowBetween}><span className={styles.title}>{r.name}</span><Badge variant={r.feasible ? 'secondary' : 'destructive'}>Риск: {formatProbability(r.miss_probability)}</Badge></div>
-            <span className={styles.meta}>ETA: {formatMskDateTime(r.eta.p50)} · {r.cost.amount_minor > 0 ? formatRubFromMinor(r.cost.amount_minor) : 'Тариф не подтверждён'}</span>
-            {!isCurrent && hasTariffs && <span className={styles.deltaRow}>{deltaRub >= 0 ? `+${Math.round(deltaRub).toLocaleString('ru-RU')}` : Math.round(deltaRub).toLocaleString('ru-RU')} ₽ {deltaCo2 !== null ? `· ${deltaCo2 >= 0 ? `+${deltaCo2}` : deltaCo2} кг CO₂` : ''}</span>}
+            <div className={styles.rowBetween}><span className={styles.title}>{r.name}</span><Badge variant={!r.feasible || (r.miss_probability ?? 0) >= 0.8 ? 'destructive' : (r.miss_probability ?? 0) >= 0.5 ? 'warning' : 'secondary'}>Риск: {formatProbability(r.miss_probability)}</Badge></div>
+            <span className={styles.meta}>{r.modes.map((mode) => ({ rail: 'Ж/д', road: 'Авто', sea: 'Море' }[mode] ?? mode)).join(' → ')}</span>
+            <strong className={r.cost.amount_minor > 0 ? styles.price : styles.priceUnknown}>{r.cost.amount_minor > 0 ? formatRubFromMinor(r.cost.amount_minor) : 'Тариф не подтверждён'}</strong>
+            {isCurrent && <span className={styles.meta}>ETA: {formatMskDateTime(r.eta.p50)}</span>}
             {isCurrent ? <span className={styles.activeTag}><Check className={styles.icon} /> Активный маршрут</span>
-              : r.feasible ? <Button type="button" size="sm" disabled={!canSelect || isBusy} onClick={() => onSelectRoute?.(r.id)}>{isBusy ? <><Loader2 className={styles.spinIcon} /> Запись...</> : <>Выбрать маршрут <ArrowRight className={styles.icon} /></>}</Button>
+              : r.feasible ? <Button type="button" size="sm" variant="outline" className={styles.chooseButton} disabled={!canSelect || isBusy} onClick={() => onSelectRoute?.(r.id)}>{isBusy ? <><Loader2 className={styles.spinIcon} /> Запись...</> : <>Выбрать маршрут <ArrowRight className={styles.icon} /></>}</Button>
               : <span className={styles.warn}>{r.infeasibility_reason ?? 'Недоступно'}</span>}
           </div>
         );

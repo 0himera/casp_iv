@@ -15,3 +15,5 @@
   width: 13px;
   height: 13px;
 }
+
+.group { flex-wrap: wrap; }
