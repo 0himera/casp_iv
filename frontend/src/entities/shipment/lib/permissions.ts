@@ -4,5 +4,8 @@ export function actionsForRole(shipment: Shipment, role: Role): Shipment['allowe
   const decided = shipment.passport.attestations.some((a) =>
     a.role === role && a.version === shipment.passport.version);
   return shipment.allowed_actions.filter((action) =>
-    action === 'attest' ? !decided : role === 'logistician');
+    action === 'attest' ? !decided : action === 'revoke'
+      ? shipment.passport.attestations.some((a) => a.role === role && a.version === shipment.passport.version
+        && a.decision === 'approved' && a.status === 'active' && Date.parse(a.valid_until) > Date.now())
+      : role === 'logistician');
 }

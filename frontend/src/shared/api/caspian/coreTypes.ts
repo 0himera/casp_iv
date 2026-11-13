@@ -1,6 +1,8 @@
+import type { Shipment as ApiShipment } from '../../../../../api/public-data.types';
+
 export type Role = 'logistician' | 'carrier' | 'customs';
 export type Quality = 'observed' | 'forecast' | 'synthetic' | 'stale' | 'missing';
-export type Action = 'select_route' | 'replace_document' | 'attest' | 'run_scenario';
+export type Action = ApiShipment['allowed_actions'][number];
 
 export type Location = {
   id: string;

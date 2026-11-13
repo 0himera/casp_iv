@@ -18,6 +18,7 @@ export function OperationBanner({
   errorBanner,
   onRecheckOperation,
 }: OperationBannerProps) {
+  const labels = { queued: 'Ожидает отправки', submitted: 'Транзакция отправлена', confirmed: 'Подтверждено Casper', failed: 'Операция отклонена' };
   return (
     <>
       {errorBanner && <div className={styles.errorBox}>{errorBanner}</div>}
@@ -27,8 +28,9 @@ export function OperationBanner({
           <span>
             {operationTimedOut
               ? 'Проверяем выполнение'
-              : `Операция (${activeOperation.status})`}
+              : labels[activeOperation.status]}
           </span>
+          {activeOperation.explorer_url && <a href={activeOperation.explorer_url} target="_blank" rel="noreferrer">Транзакция ↗</a>}
           {operationTimedOut && (
             <Button
               type="button"

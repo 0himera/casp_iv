@@ -34,3 +34,5 @@
     transform: rotate(360deg);
   }
 }
+
+.opBox, .errorBox { padding: 10px 20px; font-size: 12px; border-radius: 0; flex-wrap: wrap; } .opBox a { text-decoration: underline; text-underline-offset: 3px; margin-left: auto; }

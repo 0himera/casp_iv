@@ -646,3 +646,30 @@ def test_add_candidate_is_scenario_invalidates_forecast_and_keeps_passport(rig):
     invalid["expected_revision"] = result["revision"]
     invalid["route"]["ports"] = ["kuryk", "not-a-port"]
     assert client.post(target, json=invalid, headers=headers(key="route-3")).status_code == 422
+
+
+def test_typed_passport_reads_and_revocation_capability(rig, monkeypatch):
+    client, svc, worker, chain, _ = rig
+    shipment_id = create(rig)
+    path = "/api/v1/shipments/" + shipment_id
+    monkeypatch.setattr(Casper, "passport", lambda self, chain_id: chain.passport(chain_id))
+    state = client.get(path + "/passport-state")
+    assert state.status_code == 200, state.text
+    assert state.json()["passport"]["version"] == 1
+    assert (
+        state.json()["passport"]["documents_hash"]
+        == svc.read(shipment_id)["passport"]["documents_hash"]
+    )
+    assert "block_hash" in state.json()["passport"]
+    history = client.get(path + "/versions/1", headers=headers())
+    assert history.status_code == 200, history.text
+    assert history.json()["shipment"]["passport"]["version"] == 1
+    assert "salts" in history.json()["commitment_proof"]
+    assert "revoke" in svc.read(shipment_id)["allowed_actions"]
+    response = client.post(
+        path + "/revocations",
+        headers=headers(key="no-approval"),
+        json={"expected_revision": svc.read(shipment_id)["revision"]},
+    )
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "NOT_REVOCABLE"

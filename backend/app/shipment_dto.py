@@ -1,4 +1,4 @@
-"""Response DTOs mirror api/openapi.json; the pending passport starts at version zero."""
+"""Response DTOs exported to api/public-data.openapi.json."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ Role = Literal["logistician", "carrier", "customs"]
 Quality = Literal["observed", "forecast", "synthetic", "stale", "missing"]
 
 
-Action = Literal["select_route", "replace_document", "attest", "run_scenario"]
+Action = Literal["select_route", "replace_document", "attest", "run_scenario", "revoke"]
 
 
 class Location(DTO):

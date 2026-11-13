@@ -8,3 +8,5 @@
 .grid input { width: 100%; background: var(--background); color: var(--foreground); border: 1px solid var(--border); padding: 6px; border-radius: 4px; }
 
 .frame { border-radius: 3px; }
+
+.frame { border-radius: 14px; background: #ffffff55; } .frame button { border-radius: 10px; } .grid input { border-radius: 8px; }

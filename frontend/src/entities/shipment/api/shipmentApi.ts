@@ -46,6 +46,8 @@ export function useShipmentDetailQuery(id: string, role: Role) {
     queryKey: shipmentKeys.detail(id, role),
     staleTime: 0,
     refetchOnMount: 'always',
+    refetchInterval: 30000,
+    refetchIntervalInBackground: false,
     queryFn: () => client.getShipment(id),
     placeholderData: SEED_SHIPMENT,
     enabled: Boolean(id),

@@ -36,3 +36,5 @@
 .waitIcon { width: 13px; height: 13px; color: var(--muted-foreground); flex-shrink: 0; }
 
 .row { font: 12px var(--font-sans); flex-wrap: wrap; gap: 8px; border-radius: 3px; } .row:hover { transform: none; }
+
+.row { border-radius: 12px; background: #ffffff66; border-color: #ffffff99; padding: 14px; } .activeRole { background: #e7eedeb3; } .expiry { flex-basis: 100%; font-size: 11px; color: var(--muted-foreground); }

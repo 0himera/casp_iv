@@ -37,6 +37,25 @@ export type Attestation = {
   valid_until: string;
 };
 
+export type ChainDecision = {
+  approved: boolean;
+  decided_at_ms: number;
+  valid_until_ms: number;
+  revoked_at_ms: number | null;
+};
+
+export type ChainPassportState = {
+  version: number;
+  current_version: number;
+  documents_hash: string;
+  route_hash: string;
+  decisions: Record<string, ChainDecision>;
+  evaluated_at_ms: number;
+  status: "collecting" | "ready" | "blocked";
+  block_hash: string;
+  state_root_hash: string;
+};
+
 export type Coordinates = {
   latitude: number;
   longitude: number;
@@ -254,6 +273,16 @@ export type Passport = {
   contract_address: string | null;
   transaction_hash: string | null;
   explorer_url: string | null;
+};
+
+export type PassportStateResponse = {
+  chain_shipment_id: string;
+  passport: ChainPassportState | null;
+};
+
+export type PassportVersionResponse = {
+  shipment: Shipment;
+  commitment_proof: Record<string, unknown>;
 };
 
 export type PlanningAssumptions = {
@@ -488,7 +517,7 @@ export type Shipment = {
   passport: Passport;
   timeline: Array<TimelineEvent>;
   sources: Array<Source>;
-  allowed_actions: Array<"select_route" | "replace_document" | "attest" | "run_scenario">;
+  allowed_actions: Array<"select_route" | "replace_document" | "attest" | "run_scenario" | "revoke">;
   pending_operation_id: string | null;
   planning?: PlanningSummary | null;
 };

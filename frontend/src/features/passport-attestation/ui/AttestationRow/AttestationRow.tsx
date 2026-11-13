@@ -3,6 +3,7 @@
 import { CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { getRoleLabel } from '@/entities/shipment';
 import type { Attestation, Role } from '@/shared/api/caspian';
+import { formatMskDateTime } from '@/shared/lib/formatters';
 import { Badge } from '@/shared/ui';
 import styles from './AttestationRow.module.css';
 
@@ -39,6 +40,7 @@ export function AttestationRow({ role, currentRole, version, attestations }: Att
         <span>{getRoleLabel(role)}</span>
       </span>
       <Badge variant={variant}>{statusLabel}</Badge>
+      {latest?.version === version && latest.decision === 'approved' && <span className={styles.expiry}>Срок согласования: {formatMskDateTime(latest.valid_until)}</span>}
     </div>
   );
 }

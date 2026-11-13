@@ -11,20 +11,8 @@ export type ShipmentSummary = {
 
 export type ShipmentList = { items: Array<ShipmentSummary> };
 
-export type Operation = {
-  id: string;
-  shipment_id: string;
-  status: 'queued' | 'submitted' | 'confirmed' | 'simulated' | 'failed';
-  kind: 'select_route' | 'replace_document' | 'attest';
-  network: 'mock' | 'casper-test';
-  transaction_hash: string | null;
-  explorer_url: string | null;
-  created_at: string;
-  result_revision: number | null;
-  error_code: string | null;
-};
+export type { Operation, Health, PassportStateResponse, PassportVersionResponse } from '../../../../../api/public-data.types';
 
-export type Health = { status: 'ok'; mode: 'mock'; api_version: string };
 export type ErrorResponse = { error: { code: string; message: string } };
 
 export type RouteSelectionRequest = {

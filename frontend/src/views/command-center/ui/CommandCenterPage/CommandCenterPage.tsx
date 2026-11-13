@@ -49,7 +49,7 @@ export function CommandCenterPage() {
           <details className={styles.details}><summary>Осадка и уровень воды</summary><DraughtSimulator shipment={s.shipment} /></details>
           <details className={styles.details}><summary>Выбросы маршрута</summary><EsgWidget shipment={s.shipment} /></details>
         </div>}
-        documents={<PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />}
+        documents={<PassportPanel shipment={s.shipment} role={s.role} isBusy={s.isBusy} onAttest={s.attest} onRevoke={s.revoke} onVerifyEcmr={a.onVerifyEcmr} onReplaceDocument={s.replaceDocument} />}
       />
     </main>
   </div>;

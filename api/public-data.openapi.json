@@ -1388,7 +1388,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PassportVersionResponse"
+                }
               }
             }
           },
@@ -1458,7 +1460,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PassportStateResponse"
+                }
               }
             }
           },
@@ -2452,6 +2456,111 @@
           "valid_until"
         ],
         "title": "Attestation"
+      },
+      "ChainDecision": {
+        "properties": {
+          "approved": {
+            "type": "boolean",
+            "title": "Approved"
+          },
+          "decided_at_ms": {
+            "type": "integer",
+            "title": "Decided At Ms"
+          },
+          "valid_until_ms": {
+            "type": "integer",
+            "title": "Valid Until Ms"
+          },
+          "revoked_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revoked At Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "approved",
+          "decided_at_ms",
+          "valid_until_ms",
+          "revoked_at_ms"
+        ],
+        "title": "ChainDecision"
+      },
+      "ChainPassportState": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "current_version": {
+            "type": "integer",
+            "title": "Current Version"
+          },
+          "documents_hash": {
+            "type": "string",
+            "title": "Documents Hash"
+          },
+          "route_hash": {
+            "type": "string",
+            "title": "Route Hash"
+          },
+          "decisions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ChainDecision"
+            },
+            "propertyNames": {
+              "enum": [
+                "logistician",
+                "carrier",
+                "customs"
+              ]
+            },
+            "type": "object",
+            "title": "Decisions"
+          },
+          "evaluated_at_ms": {
+            "type": "integer",
+            "title": "Evaluated At Ms"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "collecting",
+              "ready",
+              "blocked"
+            ],
+            "title": "Status"
+          },
+          "block_hash": {
+            "type": "string",
+            "title": "Block Hash"
+          },
+          "state_root_hash": {
+            "type": "string",
+            "title": "State Root Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "version",
+          "current_version",
+          "documents_hash",
+          "route_hash",
+          "decisions",
+          "evaluated_at_ms",
+          "status",
+          "block_hash",
+          "state_root_hash"
+        ],
+        "title": "ChainPassportState"
       },
       "Coordinates": {
         "properties": {
@@ -3720,6 +3829,50 @@
           "explorer_url"
         ],
         "title": "Passport"
+      },
+      "PassportStateResponse": {
+        "properties": {
+          "chain_shipment_id": {
+            "type": "string",
+            "title": "Chain Shipment Id"
+          },
+          "passport": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChainPassportState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "chain_shipment_id",
+          "passport"
+        ],
+        "title": "PassportStateResponse"
+      },
+      "PassportVersionResponse": {
+        "properties": {
+          "shipment": {
+            "$ref": "#/components/schemas/Shipment"
+          },
+          "commitment_proof": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Commitment Proof"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "shipment",
+          "commitment_proof"
+        ],
+        "title": "PassportVersionResponse"
       },
       "PlanningAssumptions": {
         "properties": {
@@ -5147,7 +5300,8 @@
                 "select_route",
                 "replace_document",
                 "attest",
-                "run_scenario"
+                "run_scenario",
+                "revoke"
               ]
             },
             "type": "array",

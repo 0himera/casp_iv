@@ -68,6 +68,7 @@ export function useCommandCenterState() {
       handlers.selectRoute(routeId);
     },
     attest: handlers.attest,
+    revoke: handlers.revoke,
     verifyEcmr: handlers.verifyEcmr,
     replaceDocument: handlers.replaceDocument,
   };

@@ -2,10 +2,11 @@ import type {
   AttestationRequest,
   DocumentRevisionRequest,
   Health,
+  PassportStateResponse,
+  PassportVersionResponse,
   Operation,
   Role,
   RouteSelectionRequest,
-  ScenarioRequest,
   Shipment,
   ShipmentList,
   RecalculateRequest,
@@ -21,12 +22,12 @@ export class ApiError extends Error {
 
 export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
   const base = baseUrl.replace(/\/$/, '');
-  async function request<T>(path: string, body?: unknown, idempotencyKey?: string): Promise<T> {
+  async function request<T>(path: string, body?: unknown, idempotencyKey?: string, asBlob = false): Promise<T> {
     const role = getDemoRole();
     const response = await fetch(base + path, {
       method: body === undefined ? 'GET' : 'POST',
       cache: 'no-store',
-      signal: AbortSignal.timeout(path.endsWith('/recalculate') ? 45000 : 15000),
+      signal: AbortSignal.timeout((path.endsWith('/recalculate') || path.endsWith('/passport-state')) ? 45000 : 15000),
       headers: {
         Authorization: `Bearer ${getRoleToken(role)}`,
         ...(body === undefined
@@ -38,11 +39,11 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     });
-    const data = await response.json();
     if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
       throw new ApiError(response.status, data.error?.code ?? 'HTTP_ERROR', data.error?.message ?? 'Ошибка API');
     }
-    return data as T;
+    return (asBlob ? await response.blob() : await response.json()) as T;
   }
   const shipmentPath = (id: string) => `/shipments/${encodeURIComponent(id)}`;
   return {
@@ -56,7 +57,12 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
       request<Operation>(`${shipmentPath(id)}/document-revisions`, body, key),
     attest: (id: string, body: AttestationRequest, key: string) =>
       request<Operation>(`${shipmentPath(id)}/attestations`, body, key),
-    setScenario: (body: ScenarioRequest, key: string) => request<Shipment>('/demo/scenarios', body, key),
+    revoke: (id: string, expectedRevision: number, key: string) =>
+      request<Operation>(`${shipmentPath(id)}/revocations`, { expected_revision: expectedRevision }, key),
+    getPassportState: (id: string) => request<PassportStateResponse>(`${shipmentPath(id)}/passport-state`),
+    getPassportVersion: (id: string, version: number) => request<PassportVersionResponse>(`${shipmentPath(id)}/versions/${version}`),
+    downloadDocument: (id: string, documentId: string, version: number) =>
+      request<Blob>(`${shipmentPath(id)}/documents/${encodeURIComponent(documentId)}/versions/${version}`, undefined, undefined, true),
     recalculate: (id: string, body: RecalculateRequest, key: string) =>
       request<Shipment>(`${shipmentPath(id)}/recalculate`, body, key),
   };

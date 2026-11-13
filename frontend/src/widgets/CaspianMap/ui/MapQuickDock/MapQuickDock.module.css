@@ -66,3 +66,5 @@
 .activeTag { border-top: 1px solid #c9d6be; padding-top: 10px; font-size: 12px; }
 .roleHint { flex-wrap: wrap; font-size: 12px; padding: 12px; }
 @media (min-width: 1800px) { .card { padding: 20px; gap: 12px; } .title { font-size: 16px; } .meta, .intro { font-size: 13px; } .price { font-size: 23px; } .chooseButton { height: 36px; font-size: 13px; } }
+
+.card { border-radius: 16px; background: #ffffff9c; border-color: #ffffffc4; box-shadow: 0 2px 12px #23443105; } .cardActive { background: #e4eedbd9; border-color: #b9cda9; } .chooseButton { border-radius: 10px; height: 38px; background: #ffffff8f; border-color: #d8e2d3; font-size: 13px; } .price { font-weight: 550; letter-spacing: -.04em; font-size: 24px; } .rowBetween > span { border-radius: 8px; }

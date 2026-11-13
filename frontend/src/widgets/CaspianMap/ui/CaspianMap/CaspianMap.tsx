@@ -47,11 +47,11 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     const map = mapRef.current?.getContainer().getBoundingClientRect();
     const panel = panelRef.current?.getBoundingClientRect();
     if (map && panel) {
-      if (window.matchMedia('(max-width: 760px)').matches) padding.bottom = map.bottom - panel.top + 55;
+      if (panelOpen && window.matchMedia('(max-width: 760px)').matches) padding.bottom = map.bottom - panel.top + 55;
       else padding.right = map.right - panel.left + 65;
     }
     return padding;
-  }, []);
+  }, [panelOpen]);
   const { longitude, latitude } = shipment.current_location;
   const fitOverview = useCallback(() => mapRef.current?.fitBounds([
     [Math.min(46.5, longitude), Math.min(36.5, latitude)],
@@ -61,14 +61,26 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     if (overview.current) fitOverview();
     else mapRef.current?.getMap().setPadding(viewportPadding());
   }, [fitOverview, viewportPadding]);
-  useEffect(() => { syncViewport(); }, [panelOpen, mode, syncViewport]);
-  const selectPanel = (next: WorkspacePanel) => { setPanel(next); setPanelOpen(true); i.closeAll(); };
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const observer = new ResizeObserver(() => {
+      clearTimeout(timer);
+      timer = setTimeout(syncViewport, 80);
+    });
+    if (panelRef.current) observer.observe(panelRef.current);
+    syncViewport();
+    return () => { observer.disconnect(); clearTimeout(timer); };
+  }, [mode, syncViewport]);
+  const collapsePanel = () => {
+    setPanelOpen(false);
+    requestAnimationFrame(() => panelRef.current?.querySelector<HTMLButtonElement>('nav button[aria-pressed="true"]')?.focus({ preventScroll: true }));
+  };
+  const selectPanel = (next: WorkspacePanel) => { if (next !== panel || panelOpen) i.closeAll(); setPanel(next); setPanelOpen(true); };
   const inspectPort = (port: CaspianPort) => { setCamera({ longitude: port.lng, latitude: port.lat, zoom: 6.5 }); overview.current = false; setPanelOpen(true); setMode('map'); i.selectPort(port); };
   const focusCargo = () => { overview.current = false; setPanelOpen(true); i.selectCargo(shipment.current_location.longitude, shipment.current_location.latitude); };
   const highlight = (ids: string[]) => { setHighlighted(ids); setLayers((l) => ({ ...l, corridors: ids.length > 0 })); setMode('map'); overview.current = true; fitOverview(); };
   return <div className={styles.workspace}>
-    <WorkspaceNavigation panel={panel} open={panelOpen} onSelect={selectPanel} />
-    <section aria-label="Карта и рабочая панель" className={`${styles.frame} ${panelOpen ? styles.withPanel : ''}`}>
+    <section aria-label="Карта и рабочая панель" className={`${styles.frame} ${panelOpen ? styles.withPanel : styles.withCompactPanel}`}>
       <div className={styles.canvas} data-testid="workspace-map">
         <div className={styles.toolbar}>
           <div className={styles.modeSwitch} aria-label="Представление маршрута">
@@ -95,9 +107,11 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
         </Map> : <div className={styles.graph}><Graph shipment={shipment} /></div>}
         <div className={styles.mapCaption}>{mode === 'map' ? <><span className={styles.lineKey} />Выбранный маршрут<span className={styles.dashKey} />Альтернативы</> : 'Транспортная цепочка выбранного маршрута'}<span className={styles.scenarioLabel}>Груз и условия — сценарные</span></div>
       </div>
-      {panelOpen && <aside ref={panelRef} className={styles.panel} aria-label="Рабочая панель">
+      <aside ref={panelRef} className={`${styles.panel} ${!panelOpen ? styles.collapsed : ''}`} aria-label="Рабочая панель" data-state={panelOpen ? 'expanded' : 'collapsed'}>
+        <WorkspaceNavigation panel={panel} open={panelOpen} onSelect={selectPanel} />
+        <div id="workspace-panel-content" className={styles.panelContent} inert={!panelOpen} aria-hidden={!panelOpen}>
         <header className={styles.panelHeader}>{inspection ? <button className={styles.back} onClick={i.closeAll}><ArrowLeft size={16} />{panelLabels[panel]}</button> : <h1>{panelLabels[panel]}</h1>}
-          <button className={styles.collapse} aria-label="Свернуть панель" onClick={() => setPanelOpen(false)}><PanelRightClose size={18} /></button>
+          <button className={styles.collapse} aria-label="Свернуть панель" onClick={collapsePanel}><PanelRightClose size={18} /></button>
         </header>
         <div className={styles.panelBody} key={`${panel}-${inspection ? i.selectedPort?.id ?? (i.cargoSelected ? 'cargo' : 'storm') : 'main'}-${shipment.id}`}>
           {inspection ? <MapInspectionOverlays shipment={shipment} selectedPort={i.selectedPort} cargoSelected={i.cargoSelected} stormSelected={i.stormSelected} isBusy={isBusy} onSelectRoute={onSelectRoute} onClose={i.closeAll} /> : <>
@@ -106,7 +120,8 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
             {panel === 'ports' && <PortsPanel ports={ports} onSelect={inspectPort} onHighlight={highlight} />}
           </>}
         </div>
-      </aside>}
+        </div>
+      </aside>
     </section>
   </div>;
 }

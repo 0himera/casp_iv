@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from .casper import Casper
 from .emissions import EmissionsComparison, EmissionsRequest, calculate
+from .passport_dto import PassportStateResponse, PassportVersionResponse
 from .planning import prepare
 from .planning_models import RecalculateRequest
 from .prediction import PredictionRequest, PredictionResponse, predict
@@ -199,7 +200,7 @@ def download(shipment_id: str, document_id: str, version: int, svc: Service, rol
     )
 
 
-@router.get("/shipments/{shipment_id}/versions/{version}")
+@router.get("/shipments/{shipment_id}/versions/{version}", response_model=PassportVersionResponse)
 def history(shipment_id: str, version: int, svc: Service, role: Reader):
     with svc.store.connect() as db:
         row = db.execute(
@@ -211,7 +212,7 @@ def history(shipment_id: str, version: int, svc: Service, role: Reader):
     return {"shipment": json.loads(row["snapshot"]), "commitment_proof": json.loads(row["proof"])}
 
 
-@router.get("/shipments/{shipment_id}/passport-state")
+@router.get("/shipments/{shipment_id}/passport-state", response_model=PassportStateResponse)
 def passport_state(shipment_id: str, svc: Service):
     row = svc.store.shipment(shipment_id)
     if not row:

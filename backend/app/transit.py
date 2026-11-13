@@ -121,7 +121,7 @@ class Transit:
         snapshot["allowed_actions"] = (
             []
             if row["pending"] or not fresh(snapshot)
-            else ["select_route", "replace_document", "attest", "run_scenario"]
+            else ["select_route", "replace_document", "attest", "run_scenario", "revoke"]
         )
         return snapshot
 

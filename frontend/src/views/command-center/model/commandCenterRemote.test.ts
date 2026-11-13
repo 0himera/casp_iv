@@ -13,10 +13,11 @@ describe('confirmed passport projection', () => {
     const handlers = buildCommandHandlers({shipment, role: 'customs',
       client: createCaspianClient('/api/backend', () => 'customs'), runRemote: (fn) => { pending.push(fn); }});
     handlers.attest('approved');
+    handlers.revoke();
     handlers.verifyEcmr();
     handlers.selectRoute(shipment.routes[1].id);
     handlers.replaceDocument('doc', 'new.txt', 'YWJj');
-    expect(pending).toHaveLength(4);
+    expect(pending).toHaveLength(5);
     expect(shipment).toEqual(before);
   });
   it('only offers logistical changes to the logistician and one decision per role/version', () => {

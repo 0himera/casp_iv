@@ -53,3 +53,5 @@
 .fileInput { display: none; }
 
 .docRow { border-radius: 3px; padding: 12px; gap: 10px; } .docRow:hover { transform: none; } .name { font-size: 12px; } .hash { font-size: 10px; } .uploadLabel { position: relative; gap: 4px; padding: 6px; flex-shrink: 0; font-size: 11px; } .fileInput { display: block; position: absolute; width: 1px; height: 1px; opacity: 0; } .uploadLabel:focus-within { outline: 2px solid var(--ring); } .error { color: var(--status-danger); font-size: 12px; }
+
+.docRow { border-radius: 12px; background: #ffffff70; border-color: #ffffffa6; flex-wrap: wrap; } .docActions { display: flex; gap: 6px; margin-left: auto; } .download { border: 1px solid #cad8c4; border-radius: 9px; background: #ffffff80; width: 32px; height: 32px; display: grid; place-items: center; cursor: pointer; } .download:disabled { opacity: .5; } .uploadLabel { border-radius: 9px; } .spin { animation: spin 1s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }
