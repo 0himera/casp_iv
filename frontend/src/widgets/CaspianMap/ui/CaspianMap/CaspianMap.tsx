@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { ArrowLeft, Focus, Layers, LocateFixed, PanelRightClose } from 'lucide-react';
 import Map, { NavigationControl, AttributionControl, type MapRef } from 'react-map-gl/maplibre';
@@ -31,6 +31,7 @@ initMapLibreWorker();
 export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelectRoute, onChangeRole, forecast, documents }: CaspianMapProps) {
   const mapRef = useRef<MapRef | null>(null);
   const overview = useRef(true);
+  const panelRef = useRef<HTMLElement | null>(null);
   const [camera, setCamera] = useState({ longitude: 50.5, latitude: 42, zoom: 4 });
   const routeGeoJson = useMemo(() => buildMapRoutesGeoJson(shipment), [shipment]);
   const i = useMapInteractions(ports, mapRef);
@@ -41,7 +42,26 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
   const [layers, setLayers] = useState({ storm: true, corridors: false, print: true });
   const [highlighted, setHighlighted] = useState<string[]>([]);
   const inspection = Boolean(i.selectedPort || i.cargoSelected || i.stormSelected);
-  const fitOverview = () => mapRef.current?.fitBounds([[Math.min(46.5, shipment.current_location.longitude), Math.min(36.5, shipment.current_location.latitude)], [Math.max(54.5, shipment.current_location.longitude), Math.max(47.6, shipment.current_location.latitude)]], { padding: { top: 68, bottom: 40, left: 65, right: 65 }, duration: 0 });
+  const viewportPadding = useCallback(() => {
+    const padding = { top: 68, bottom: 40, left: 65, right: 65 };
+    const map = mapRef.current?.getContainer().getBoundingClientRect();
+    const panel = panelRef.current?.getBoundingClientRect();
+    if (map && panel) {
+      if (window.matchMedia('(max-width: 760px)').matches) padding.bottom = map.bottom - panel.top + 55;
+      else padding.right = map.right - panel.left + 65;
+    }
+    return padding;
+  }, []);
+  const { longitude, latitude } = shipment.current_location;
+  const fitOverview = useCallback(() => mapRef.current?.fitBounds([
+    [Math.min(46.5, longitude), Math.min(36.5, latitude)],
+    [Math.max(54.5, longitude), Math.max(47.6, latitude)],
+  ], { padding: viewportPadding(), absolutePadding: true, duration: 0 }), [longitude, latitude, viewportPadding]);
+  const syncViewport = useCallback(() => {
+    if (overview.current) fitOverview();
+    else mapRef.current?.getMap().setPadding(viewportPadding());
+  }, [fitOverview, viewportPadding]);
+  useEffect(() => { syncViewport(); }, [panelOpen, mode, syncViewport]);
   const selectPanel = (next: WorkspacePanel) => { setPanel(next); setPanelOpen(true); i.closeAll(); };
   const inspectPort = (port: CaspianPort) => { setCamera({ longitude: port.lng, latitude: port.lat, zoom: 6.5 }); overview.current = false; setPanelOpen(true); setMode('map'); i.selectPort(port); };
   const focusCargo = () => { overview.current = false; setPanelOpen(true); i.selectCargo(shipment.current_location.longitude, shipment.current_location.latitude); };
@@ -64,18 +84,18 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
         </div>
         {mode === 'map' ? <Map ref={mapRef} initialViewState={camera} mapStyle={SPECTRAL_BASE_STYLE} attributionControl={false}
           interactiveLayerIds={layers.storm && stormActive ? ['storm-fill'] : []}
-          onLoad={(e) => { applySpectralBasemapTheme(e.target); if (overview.current) fitOverview(); }}
+          onLoad={(e) => { applySpectralBasemapTheme(e.target); syncViewport(); }}
           onMoveEnd={(e) => { setCamera({ longitude: e.viewState.longitude, latitude: e.viewState.latitude, zoom: e.viewState.zoom }); }}
-          onResize={() => { if (overview.current) fitOverview(); }} onMoveStart={(e) => { if (e.originalEvent) overview.current = false; }}
+          onResize={syncViewport} onMoveStart={(e) => { if (e.originalEvent) overview.current = false; }}
           onClick={(e) => { if (e.features?.[0]?.layer.id === 'storm-fill') { overview.current = false; setPanelOpen(true); i.selectStorm(); } }} style={{ width: '100%', height: '100%' }}>
           <RisoWater enabled={layers.print} /><NavigationControl position="bottom-right" showCompass={false} /><AttributionControl position="bottom-left" compact />
           <MapGeoLayers stormActive={stormActive} routeGeoJson={routeGeoJson} hoveredRouteId={hoveredRouteId} showGrid={false} showStorm={layers.storm} />
           {layers.corridors && <CorridorLines highlighted={highlighted} />}
           <PortMarkers ports={ports} shipment={shipment} stormActive={stormActive} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={inspectPort} onSelectCargo={focusCargo} />
-        </Map> : <Graph shipment={shipment} />}
+        </Map> : <div className={styles.graph}><Graph shipment={shipment} /></div>}
         <div className={styles.mapCaption}>{mode === 'map' ? <><span className={styles.lineKey} />Выбранный маршрут<span className={styles.dashKey} />Альтернативы</> : 'Транспортная цепочка выбранного маршрута'}<span className={styles.scenarioLabel}>Груз и условия — сценарные</span></div>
       </div>
-      {panelOpen && <aside className={styles.panel} aria-label="Рабочая панель">
+      {panelOpen && <aside ref={panelRef} className={styles.panel} aria-label="Рабочая панель">
         <header className={styles.panelHeader}>{inspection ? <button className={styles.back} onClick={i.closeAll}><ArrowLeft size={16} />{panelLabels[panel]}</button> : <h1>{panelLabels[panel]}</h1>}
           <button className={styles.collapse} aria-label="Свернуть панель" onClick={() => setPanelOpen(false)}><PanelRightClose size={18} /></button>
         </header>

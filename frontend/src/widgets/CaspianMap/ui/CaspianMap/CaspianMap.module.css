@@ -3,9 +3,9 @@
 .navigation button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; min-height: 64px; padding: 8px 0; border: 1px solid transparent; border-radius: 4px; background: transparent; color: #62736b; cursor: pointer; font-size: 11px; }
 .navigation button:hover { background: #e8ede5; color: #183e31; }
 .navigation button[aria-pressed=true] { background: #dce7da; border-color: #c8d5c3; color: #173b2b; }
-.frame { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; height: 100%; }
-.withPanel { grid-template-columns: minmax(0, 1fr) clamp(360px, 23vw, 480px); }
-.canvas { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #e8eddf; }
+.frame { --panel-width: clamp(360px, 23vw, 480px); --panel-gap: 18px; flex: 1; position: relative; display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; height: 100%; }
+.withPanel { grid-template-columns: minmax(0, 1fr) calc(var(--panel-width) + 2 * var(--panel-gap)); }
+.canvas { grid-column: 1 / -1; grid-row: 1; position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #e8eddf; }
 .toolbar { position: absolute; z-index: 3; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; }
 .modeSwitch, .toolButton, .layers { background: #fafbf5f2; border: 1px solid #163f3029; border-radius: 4px; box-shadow: 0 2px 5px #153b2210; }
 .modeSwitch { display: flex; padding: 3px; }
@@ -17,7 +17,20 @@
 .layers summary { list-style: none; } .layers summary::-webkit-details-marker { display: none; }
 .layerMenu { position: absolute; top: calc(100% + 8px); right: 0; min-width: 245px; padding: 12px; background: #fafbf5; border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 5px 22px #163b3220; display: grid; gap: 12px; font-size: 12px; }
 .layerMenu label { display: flex; gap: 9px; align-items: center; cursor: pointer; } .layerMenu input { accent-color: #245239; }
-.panel { min-height: 0; min-width: 0; display: flex; flex-direction: column; border-left: 1px solid var(--border); background: #f7f8f2; }
+.panel {
+  grid-column: 2; grid-row: 1; z-index: 4; margin: var(--panel-gap);
+  min-height: 0; min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .72); border-radius: 22px;
+  background: rgba(247, 250, 242, .76);
+  -webkit-backdrop-filter: blur(24px) saturate(1.12);
+  backdrop-filter: blur(24px) saturate(1.12);
+  box-shadow: 0 12px 40px rgba(19, 48, 37, .13), 0 2px 6px rgba(19, 48, 37, .06), inset 0 1px 0 rgba(255, 255, 255, .65);
+}
+.panelHeader { background: rgba(255, 255, 255, .15); }
+.graph { width: 100%; height: 100%; }
+.withPanel .graph { width: calc(100% - var(--panel-width) - 2 * var(--panel-gap)); }
+.withPanel .canvas :global(.maplibregl-ctrl-bottom-right) { right: calc(var(--panel-width) + 2 * var(--panel-gap)); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .panel { background: rgba(247, 250, 242, .96); } }
 .panelHeader { display: flex; justify-content: space-between; align-items: center; height: 66px; padding: 0 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .panelHeader h1 { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
 .collapse, .back { border: 0; background: transparent; padding: 8px; display: flex; align-items: center; gap: 8px; color: #536b5f; cursor: pointer; font-size: 13px; }
@@ -35,14 +48,18 @@
 .portRow:hover strong { color: #b73b24; }
 .portRow strong { display: block; font-size: 14px; font-weight: 500; } .portRow small { color: #778375; font-size: 11px; }
 .portWind { font-size: 11px; color: #526957; display: flex; gap: 6px; align-items: center; }
-@media (min-width: 1800px) { .navigation { width: 100px; padding: 24px 10px; } .navigation button { font-size: 12px; min-height: 74px; } .panelHeader { height: 74px; padding: 0 28px; } .panelBody { padding: 24px 28px 32px; } .toolbar { top: 24px; left: 24px; } .toolButton, .layers summary, .modeSwitch button { font-size: 13px; } }
+@media (min-width: 1800px) { .frame { --panel-gap: 24px; } .navigation { width: 100px; padding: 24px 10px; } .navigation button { font-size: 12px; min-height: 74px; } .panelHeader { height: 74px; padding: 0 28px; } .panelBody { padding: 24px 28px 32px; } .toolbar { top: 24px; left: 24px; } .toolButton, .layers summary, .modeSwitch button { font-size: 13px; } }
 @media (max-width: 1150px) { .toolbar { gap: 6px; left: 12px; top: 12px; } .toolButton span { display: none; } .toolButton { width: 36px; height: 36px; } .mapCaption .scenarioLabel { display: none; } .navigation { width: 74px; } }
 @media (max-width: 760px) {
   .workspace { flex-direction: column; } .navigation { order: 2; flex-direction: row; width: 100%; height: 62px; padding: 4px 8px; gap: 4px; border-right: 0; border-top: 1px solid var(--border); flex-shrink: 0; }
   .navigation button { flex: 1; min-height: 0; padding: 3px; gap: 3px; font-size: 10px; }
-  .frame { min-height: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
-  .withPanel { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 45%); }
-  .panel { border-left: 0; border-top: 1px solid #aebaab; } .panelHeader { height: 44px; padding: 0 16px; } .panelHeader h1 { font-size: 15px; } .panelBody { padding: 14px 16px 20px; }
+  .frame { --panel-gap: 12px; min-height: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  .withPanel { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  .withPanel .graph { width: 100%; height: calc(55% - 24px); }
+  .withPanel .canvas :global(.maplibregl-ctrl-bottom-right) { right: 0; bottom: calc(45% + 24px); }
+  .withPanel .mapCaption { bottom: calc(45% + 42px); }
+  .withPanel .canvas :global(.maplibregl-ctrl-bottom-left) { bottom: calc(45% + 6px); }
+  .panel { grid-column: 1; align-self: end; height: 45%; border-radius: 18px; } .panelHeader { height: 44px; padding: 0 16px; } .panelHeader h1 { font-size: 15px; } .panelBody { padding: 14px 16px 20px; }
   .toolbar { top: 10px; left: 10px; right: 10px; gap: 5px; } .toolButton span { display: none; } .layers summary { padding: 8px; font-size: 11px; } .modeSwitch button { padding: 4px 9px; }
   .mapCaption { bottom: 26px; left: 10px; font-size: 9px; padding: 5px 7px; gap: 5px; }
 }
