@@ -23,6 +23,11 @@ class RevisionInput(Input):
     expected_revision: int = Field(ge=1)
 
 
+class ChangeJourney(RevisionInput):
+    origin_port_id: str = Field(min_length=1, max_length=100)
+    destination_port_id: str = Field(min_length=1, max_length=100)
+
+
 class SelectRoute(RevisionInput):
     route_id: str = Field(min_length=1, max_length=100)
     forecast_id: str = Field(min_length=1, max_length=100)
@@ -50,7 +55,9 @@ class Operation(Input):
     id: str
     shipment_id: str
     status: Literal["queued", "submitted", "confirmed", "failed"]
-    kind: Literal["create", "select_route", "replace_document", "attest", "revoke"]
+    kind: Literal[
+        "create", "select_route", "replace_document", "attest", "revoke", "change_journey"
+    ]
     network: Literal["casper-test"] = "casper-test"
     transaction_hash: str | None = None
     explorer_url: str | None = None

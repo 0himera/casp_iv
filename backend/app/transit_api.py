@@ -1,5 +1,8 @@
+import copy
 import json
 import secrets
+import uuid
+from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, Request
@@ -8,16 +11,19 @@ from pydantic import BaseModel
 
 from .casper import Casper
 from .emissions import EmissionsComparison, EmissionsRequest, calculate
+from .marine import JourneyPreview
+from .marine import preview as preview_journey
 from .passport_dto import PassportStateResponse, PassportVersionResponse
 from .planning import prepare
 from .planning_models import RecalculateRequest
 from .prediction import PredictionRequest, PredictionResponse, predict
 from .shipment_dto import Shipment, ShipmentList
-from .transit import Transit, fail
+from .transit import Transit, fail, iso
 from .transit import now as utc_now
 from .transit_models import (
     AddRouteCandidate,
     Attest,
+    ChangeJourney,
     CreateDemoShipment,
     Operation,
     ReplaceDocument,
@@ -152,6 +158,118 @@ async def recalculate(
         idem,
         prepared=prepared,
         request_data=data,
+    )
+
+
+@router.get("/marine-route", response_model=JourneyPreview)
+def marine_route(origin_port_id: str, destination_port_id: str):
+    try:
+        return preview_journey(origin_port_id, destination_port_id)
+    except ValueError as exc:
+        fail(422, "MARINE_ROUTE_UNAVAILABLE", str(exc))
+
+
+@router.post("/shipments/{shipment_id}/journey", status_code=202, response_model=Operation)
+async def change_journey(
+    shipment_id: str,
+    body: ChangeJourney,
+    request: Request,
+    svc: Service,
+    role: Actor,
+    idem: Idempotency,
+):
+    if role != "logistician":
+        fail(403, "FORBIDDEN", "Направление отправки меняет логист")
+    # Replay before weather access or revision validation. enqueue verifies the body digest.
+    with svc.store.connect() as db:
+        replay = db.execute(
+            "SELECT 1 FROM operations WHERE scope=? AND idem=?",
+            (f"{role}:{shipment_id}:change_journey", idem),
+        ).fetchone()
+    if replay:
+        return svc.enqueue(role, "change_journey", shipment_id, body.model_dump(), idem)
+    shipment = svc.read(shipment_id)
+    if shipment["revision"] != body.expected_revision:
+        fail(409, "REVISION_CONFLICT", "Отправка изменилась; обновите карточку")
+    if shipment["pending_operation_id"]:
+        fail(409, "OPERATION_PENDING", "Дождитесь текущей операции")
+    try:
+        path = preview_journey(body.origin_port_id, body.destination_port_id)
+    except ValueError as exc:
+        fail(422, "MARINE_ROUTE_UNAVAILABLE", str(exc))
+    candidate = copy.deepcopy(shipment)
+    journey = {
+        "origin": path.origin.model_dump(),
+        "destination": path.destination.model_dump(),
+        "current_location": path.origin.model_dump(),
+        "movement_status": "planned",
+        "routes": [path.route.model_dump()],
+        "selected_route_id": path.route.id,
+    }
+    candidate.update(journey)
+    start = utc_now()
+    options = RecalculateRequest(
+        expected_revision=body.expected_revision,
+        assumptions=(shipment.get("planning") or {}).get("assumptions", {}),
+    )
+    scenario, prepared = await prepare(
+        candidate, options, request.app.state.data, request.app.state.settings, start
+    )
+    result = predict(scenario).routes[0].model_dump(mode="json")
+    missing = path.route.id in prepared["missing"]
+    route = prepared["routes"][0]
+    route.update(
+        miss_probability=None if missing else result["probability_target_cutoff_missed"],
+        eta=dict.fromkeys(("p10", "p50", "p90"))
+        if missing
+        else result["delivery_eta"] or dict.fromkeys(("p10", "p50", "p90")),
+    )
+    forecast = {
+        "id": "forecast_" + uuid.uuid4().hex,
+        "generated_at": iso(start),
+        "valid_until": iso(start + timedelta(hours=1)),
+        "method": "monte_carlo",
+        "quality": "missing" if missing else "synthetic",
+        "ready_at": dict.fromkeys(("p10", "p50", "p90")) if missing else result["ready_at"],
+        "cargo_cutoff": iso(scenario.routes[0].sailings[0].cutoff_at),
+        "miss_probability": route["miss_probability"],
+        "reasons": [
+            "Monte Carlo: морской маршрут, открытая погода и сценарные условия.",
+            *prepared["planning"]["inputs"][0]["warnings"],
+        ],
+    }
+    prepared["planning"]["emissions"]["shipment_revision"] = shipment["revision"] + 1
+    sources = [s for s in shipment["sources"] if s["id"] not in ("planning", "marine_geometry")]
+    sources.extend(
+        [
+            {
+                "id": "marine_geometry",
+                "name": "Морской маршрут по маске воды",
+                "url": None,
+                "quality": "synthetic",
+                "observed_at": iso(start),
+                "note": " ".join(path.warnings),
+            },
+            {
+                "id": "planning",
+                "name": "Расчёт по погоде и сценарным условиям",
+                "url": None,
+                "quality": "synthetic",
+                "observed_at": iso(start),
+                "note": prepared["planning"]["note"],
+            },
+        ]
+    )
+    journey.update(
+        routes=prepared["routes"],
+        planning=prepared["planning"],
+        forecast=forecast,
+        data_mode="mixed",
+        scenario_time=iso(start),
+        sources=sources,
+    )
+    return svc.enqueue(
+        role, "change_journey", shipment_id, body.model_dump(), idem, journey=journey
     )
 
 

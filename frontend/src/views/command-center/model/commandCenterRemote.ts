@@ -11,6 +11,9 @@ interface RemoteHandlerParams {
 export function buildCommandHandlers({ shipment, client, role, runRemote }: RemoteHandlerParams) {
   const id = shipment.id;
   return {
+    changeJourney: (origin: string, destination: string) => runRemote(() => client.changeJourney(id, {
+      origin_port_id: origin, destination_port_id: destination, expected_revision: shipment.revision,
+    }, crypto.randomUUID())),
     selectRoute: (routeId: string) => runRemote(() => client.selectRoute(id, {
       route_id: routeId, forecast_id: shipment.forecast.id,
       expected_revision: shipment.revision,

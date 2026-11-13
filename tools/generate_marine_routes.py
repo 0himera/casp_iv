@@ -41,9 +41,12 @@ for p in ports:
     if p['longitude'] is None:
         excluded[p['id']] = 'UNVERIFIED_COORDINATES'; continue
     point = (p['longitude'], p['latitude'])
-    key = min(nodes, key=lambda k: distance(point, nodes[k]))
+    # Both Volga ports use the documented seaward entrance of the VKMSK.
+    # Never draw an invented straight river approach through the land mask.
+    target = (47.76, 44.76333333) if p['id'] in ('astrakhan', 'olya') else point
+    key = min(nodes, key=lambda k: distance(target, nodes[k]))
     gap = distance(point, nodes[key])
-    if gap > 25:
+    if gap > 25 and p['id'] not in ('astrakhan', 'olya'):
         excluded[p['id']] = 'RIVER_OR_COASTAL_APPROACH_NOT_ROUTED'; continue
     anchors[p['id']] = {'key': key, 'coordinate': nodes[key], 'port_coordinate': point, 'offshore_gap_km': round(gap, 2)}
 
@@ -59,7 +62,7 @@ for start_id, start in anchors.items():
                 costs[other] = candidate; previous[other] = key
                 heapq.heappush(queue, (candidate, other))
     for end_id, end in anchors.items():
-        if end_id <= start_id or end['key'] not in costs: continue
+        if end_id <= start_id or end['key'] not in costs or end['key'] == start['key']: continue
         key = end['key']; path = [nodes[key]]
         while key != start['key']:
             key = previous[key]; path.append(nodes[key])
@@ -77,7 +80,7 @@ payload = {'method': 'water-mask-grid-visibility-v1', 'source': 'https://natural
            'note': 'Sea-only display geometry, not navigation. Endpoints are offshore; port and river approaches omitted.',
            'grid_degrees': STEP, 'aliases': aliases, 'ports': {p['id']: [p['longitude'], p['latitude']] for p in ports if p['longitude'] is not None}, 'anchors': {k: {f:v for f,v in p.items() if f != 'key'} for k,p in anchors.items()},
            'excluded': excluded, 'routes': routes}
-target = ROOT / 'frontend/src/data/marineRoutes.json'
-target.write_text(json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + '\n')
+for name in ('frontend/src/data/marineRoutes.json', 'data/geography/marine-routes.json'):
+    (ROOT / name).write_text(json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + '\n')
 print('Sea routes:', len(routes), 'nodes:', len(nodes), 'excluded:', excluded)
 print('Offshore gaps:', {k:v['offshore_gap_km'] for k,v in anchors.items()})

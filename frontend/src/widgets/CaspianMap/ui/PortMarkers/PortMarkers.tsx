@@ -14,6 +14,7 @@ interface PortMarkersProps {
   stormActive: boolean;
   selectedPortId?: string | null;
   cargoSelected?: boolean;
+  hideCargo?: boolean;
   onSelectPort?: (port: CaspianPort) => void;
   onSelectCargo?: (lng: number, lat: number) => void;
 }
@@ -24,6 +25,7 @@ export function PortMarkers({
   stormActive,
   selectedPortId,
   cargoSelected,
+  hideCargo,
   onSelectPort,
   onSelectCargo,
 }: PortMarkersProps) {
@@ -45,13 +47,13 @@ export function PortMarkers({
           </Marker>
         );
       })}
-      <Marker longitude={curr.longitude} latitude={curr.latitude} anchor="center">
+      {!hideCargo && <Marker longitude={curr.longitude} latitude={curr.latitude} anchor="center">
         <CargoMarkerItem
           locationName={curr.name}
           isSelected={cargoSelected}
           onClick={() => onSelectCargo?.(curr.longitude, curr.latitude)}
         />
-      </Marker>
+      </Marker>}
     </div>
   );
 }

@@ -9,7 +9,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 import type { CaspianPort } from '@/entities/cargo';
 import { buildMapRoutesGeoJson } from '@/entities/shipment';
-import type { Role, Shipment } from '@/shared/api/caspian';
+import { JourneyPlanner } from '@/features/route-selection/ui/JourneyPlanner/JourneyPlanner';
+import type { JourneyPreview, Role, Shipment } from '@/shared/api/caspian';
 import { applySpectralBasemapTheme, initMapLibreWorker, SPECTRAL_BASE_STYLE } from '../../model/spectralBasemap';
 import { useMapInteractions } from '../../model/useMapInteractions';
 import { CorridorLines } from '../CorridorExplorer';
@@ -26,17 +27,23 @@ const Graph = dynamic(() => import('@/widgets/MultimodalGraph').then((m) => m.Mu
 interface CaspianMapProps {
   ports: CaspianPort[]; shipment: Shipment; stormActive: boolean;
   role?: Role; isBusy?: boolean; onSelectRoute?: (routeId: string) => void;
-  onChangeRole?: (role: Role) => void; forecast?: ReactNode; documents?: ReactNode;
+  onChangeRole?: (role: Role) => void; onChangeJourney?: (origin: string, destination: string) => void; forecast?: ReactNode; documents?: ReactNode;
 }
 initMapLibreWorker();
 
-export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelectRoute, onChangeRole, forecast, documents }: CaspianMapProps) {
+export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelectRoute, onChangeRole, onChangeJourney, forecast, documents }: CaspianMapProps) {
   const theme = useTheme();
   const mapRef = useRef<MapRef | null>(null);
   const overview = useRef(true);
   const panelRef = useRef<HTMLElement | null>(null);
   const [camera, setCamera] = useState({ longitude: 50.5, latitude: 42, zoom: 4 });
-  const routeGeoJson = useMemo(() => buildMapRoutesGeoJson(shipment), [shipment]);
+  const previewRef = useRef<JourneyPreview | null>(null);
+  const previewFit = useRef(false);
+  const [preview, setPreview] = useState<JourneyPreview | null>(null);
+  const routeGeoJson = useMemo(() => preview ? {
+    type: 'FeatureCollection' as const,
+    features: [{ type: 'Feature' as const, properties: { id: preview.route.id, selected: 1, primaryMode: 'sea' }, geometry: { type: 'LineString' as const, coordinates: preview.route.geometry.coordinates } }],
+  } : buildMapRoutesGeoJson(shipment), [shipment, preview]);
   const i = useMapInteractions(ports, mapRef);
   const [panel, setPanel] = useState<WorkspacePanel>('routes');
   const [panelOpen, setPanelOpen] = useState(true);
@@ -60,10 +67,19 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     [Math.min(46.5, longitude), Math.min(36.5, latitude)],
     [Math.max(54.5, longitude), Math.max(47.6, latitude)],
   ], { padding: viewportPadding(), absolutePadding: true, duration: 0 }), [longitude, latitude, viewportPadding]);
+  const fitPreview = useCallback((value: JourneyPreview, duration = 0) => {
+    const coords = [...value.route.geometry.coordinates, [value.origin.longitude, value.origin.latitude], [value.destination.longitude, value.destination.latitude]];
+    const padding = viewportPadding();
+    mapRef.current?.fitBounds([
+      [Math.min(...coords.map((c) => c[0])), Math.min(...coords.map((c) => c[1]))],
+      [Math.max(...coords.map((c) => c[0])), Math.max(...coords.map((c) => c[1]))],
+    ], { padding: { ...padding, bottom: Math.max(padding.bottom, 80) }, absolutePadding: true, maxZoom: 7, duration });
+  }, [viewportPadding]);
   const syncViewport = useCallback(() => {
-    if (overview.current) fitOverview();
+    if (previewFit.current && previewRef.current) fitPreview(previewRef.current);
+    else if (overview.current) fitOverview();
     else mapRef.current?.getMap().setPadding(viewportPadding());
-  }, [fitOverview, viewportPadding]);
+  }, [fitOverview, fitPreview, viewportPadding]);
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     const observer = new ResizeObserver(() => {
@@ -85,6 +101,15 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
     const map = mapRef.current?.getMap();
     if (map) updateMapTheme(map);
   }, [updateMapTheme]);
+  const showPreview = useCallback((value: JourneyPreview | null) => {
+    setPreview(value);
+    previewRef.current = value;
+    previewFit.current = Boolean(value);
+    if (!value) return;
+    setMode('map');
+    overview.current = false;
+    fitPreview(value, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 500);
+  }, [fitPreview]);
   const collapsePanel = () => {
     setPanelOpen(false);
     requestAnimationFrame(() => panelRef.current?.querySelector<HTMLButtonElement>('nav button[aria-pressed="true"]')?.focus({ preventScroll: true }));
@@ -100,7 +125,7 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
           <div className={styles.modeSwitch} aria-label="Представление маршрута">
             <button aria-pressed={mode === 'map'} onClick={() => setMode('map')}>Карта</button><button aria-pressed={mode === 'graph'} onClick={() => setMode('graph')}>Граф</button>
           </div>
-          {mode === 'map' && <><button aria-label="Весь Каспий" className={styles.toolButton} onClick={() => { overview.current = true; i.resetView(); fitOverview(); }}><Focus size={16} /><span>Весь Каспий</span></button>
+          {mode === 'map' && <><button aria-label="Весь Каспий" className={styles.toolButton} onClick={() => { previewFit.current = false; overview.current = true; i.resetView(); fitOverview(); }}><Focus size={16} /><span>Весь Каспий</span></button>
             <button aria-label="К грузу" className={styles.toolButton} onClick={focusCargo}><LocateFixed size={16} /><span>К грузу</span></button>
             <details className={styles.layers}><summary><Layers size={16} /><span>Слои</span></summary><div className={styles.layerMenu}>
               <label><input type="checkbox" checked={layers.corridors} onChange={(e) => setLayers((l) => ({ ...l, corridors: e.target.checked }))} />Опубликованные связи</label>
@@ -113,14 +138,14 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
           onStyleData={(e) => updateMapTheme(e.target)}
           onLoad={(e) => { updateMapTheme(e.target); syncViewport(); }}
           onMoveEnd={(e) => { setCamera({ longitude: e.viewState.longitude, latitude: e.viewState.latitude, zoom: e.viewState.zoom }); }}
-          onResize={syncViewport} onMoveStart={(e) => { if (e.originalEvent) overview.current = false; }}
+          onResize={syncViewport} onMoveStart={(e) => { if (e.originalEvent) { overview.current = false; previewFit.current = false; } }}
           onClick={(e) => { if (e.features?.[0]?.layer.id === 'storm-fill') { overview.current = false; setPanelOpen(true); i.selectStorm(); } }} style={{ width: '100%', height: '100%' }}>
           <RisoWater enabled={layers.print} /><NavigationControl position="bottom-right" showCompass={false} /><AttributionControl position="bottom-left" compact />
           <MapGeoLayers stormActive={stormActive} routeGeoJson={routeGeoJson} hoveredRouteId={hoveredRouteId} showGrid={false} showStorm={layers.storm} />
           {layers.corridors && <CorridorLines highlighted={highlighted} />}
-          <PortMarkers ports={ports} shipment={shipment} stormActive={stormActive} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={inspectPort} onSelectCargo={focusCargo} />
+          <PortMarkers hideCargo={Boolean(preview)} ports={ports} shipment={shipment} stormActive={stormActive} selectedPortId={i.selectedPort?.id} cargoSelected={i.cargoSelected} onSelectPort={inspectPort} onSelectCargo={focusCargo} />
         </Map> : <div className={styles.graph}><Graph shipment={shipment} /></div>}
-        <div className={styles.mapCaption}>{mode === 'map' ? <><span className={styles.lineKey} />Выбранный маршрут<span className={styles.dashKey} />Альтернативы</> : 'Транспортная цепочка выбранного маршрута'}<span className={styles.scenarioLabel}>Груз и условия — сценарные</span></div>
+        <div className={styles.mapCaption}>{mode === 'map' ? <><span className={styles.lineKey} />{preview ? `Предпросмотр: ${preview.origin.name} → ${preview.destination.name}` : 'Выбранный маршрут'}{!preview && <><span className={styles.dashKey} />Альтернативы</>}</> : 'Транспортная цепочка выбранного маршрута'}<span className={styles.scenarioLabel}>Груз и условия — сценарные</span></div>
       </div>
       <aside ref={panelRef} className={`${styles.panel} ${!panelOpen ? styles.collapsed : ''}`} aria-label="Рабочая панель" data-state={panelOpen ? 'expanded' : 'collapsed'}>
         <WorkspaceNavigation panel={panel} open={panelOpen} onSelect={selectPanel} />
@@ -130,7 +155,7 @@ export function CaspianMap({ ports, shipment, stormActive, role, isBusy, onSelec
         </header>
         <div className={styles.panelBody} key={`${panel}-${inspection ? i.selectedPort?.id ?? (i.cargoSelected ? 'cargo' : 'storm') : 'main'}-${shipment.id}`}>
           {inspection ? <MapInspectionOverlays shipment={shipment} selectedPort={i.selectedPort} cargoSelected={i.cargoSelected} stormSelected={i.stormSelected} isBusy={isBusy} onSelectRoute={onSelectRoute} onClose={i.closeAll} /> : <>
-            {panel === 'routes' && <DockRoutesList shipment={shipment} role={role} isBusy={isBusy} onSelectRoute={onSelectRoute} onHoverRoute={setHoveredRouteId} onChangeRole={onChangeRole} />}
+            {panel === 'routes' && <><JourneyPlanner key={`${shipment.id}-${shipment.passport.version}`} shipment={shipment} ports={ports} role={role ?? 'logistician'} isBusy={Boolean(isBusy)} onPreview={showPreview} onSave={onChangeJourney} />{!preview && <DockRoutesList shipment={shipment} role={role} isBusy={isBusy} onSelectRoute={onSelectRoute} onHoverRoute={setHoveredRouteId} onChangeRole={onChangeRole} />}</>}
             {panel === 'forecast' && forecast}{panel === 'documents' && documents}
             {panel === 'ports' && <PortsPanel ports={ports} onSelect={inspectPort} onHighlight={highlight} />}
           </>}

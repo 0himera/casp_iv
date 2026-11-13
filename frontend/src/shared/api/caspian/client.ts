@@ -1,5 +1,7 @@
 import type {
   AttestationRequest,
+  ChangeJourney,
+  JourneyPreview,
   DocumentRevisionRequest,
   Health,
   PassportStateResponse,
@@ -27,7 +29,7 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
     const response = await fetch(base + path, {
       method: body === undefined ? 'GET' : 'POST',
       cache: 'no-store',
-      signal: AbortSignal.timeout((path.endsWith('/recalculate') || path.endsWith('/passport-state')) ? 45000 : 15000),
+      signal: AbortSignal.timeout((path.endsWith('/recalculate') || path.endsWith('/passport-state') || path.endsWith('/journey')) ? 45000 : 15000),
       headers: {
         Authorization: `Bearer ${getRoleToken(role)}`,
         ...(body === undefined
@@ -63,6 +65,8 @@ export function createCaspianClient(baseUrl: string, getDemoRole: () => Role) {
     getPassportVersion: (id: string, version: number) => request<PassportVersionResponse>(`${shipmentPath(id)}/versions/${version}`),
     downloadDocument: (id: string, documentId: string, version: number) =>
       request<Blob>(`${shipmentPath(id)}/documents/${encodeURIComponent(documentId)}/versions/${version}`, undefined, undefined, true),
+    previewJourney: (origin: string, destination: string) => request<JourneyPreview>(`/marine-route?${new URLSearchParams({ origin_port_id: origin, destination_port_id: destination })}`),
+    changeJourney: (id: string, body: ChangeJourney, key: string) => request<Operation>(`${shipmentPath(id)}/journey`, body, key),
     recalculate: (id: string, body: RecalculateRequest, key: string) =>
       request<Shipment>(`${shipmentPath(id)}/recalculate`, body, key),
   };

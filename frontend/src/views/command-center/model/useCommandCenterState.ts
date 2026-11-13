@@ -32,7 +32,7 @@ export function useCommandCenterState() {
     void qc.invalidateQueries({ queryKey: shipmentKeys.all });
   }, [qc]);
   const polling = useOperationPolling(realCard ? shipment.pending_operation_id : null, role, apiOnline, refreshAll);
-  const updateLocal = (next: typeof shipment) => qc.setQueryData(shipmentKeys.detail(activeId, role), next);
+  const updateLocal = (next: typeof shipment) => qc.setQueryData(shipmentKeys.detail(activeId), next);
   const runRemote = (fn: () => Promise<Operation>) => {
     if (detail.isFetching || requestPending || polling.activeOperation || shipment.pending_operation_id) return;
     if (!realCard) { setErrorBanner('Демонстрационная карточка: операция не отправлена'); return; }
@@ -67,6 +67,7 @@ export function useCommandCenterState() {
       if (routeId === shipment.selected_route_id || polling.activeOperation || requestPending) return;
       handlers.selectRoute(routeId);
     },
+    changeJourney: handlers.changeJourney,
     attest: handlers.attest,
     revoke: handlers.revoke,
     verifyEcmr: handlers.verifyEcmr,

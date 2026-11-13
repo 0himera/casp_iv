@@ -1,5 +1,5 @@
 {
-  "checked_on": "2026-11-12",
+  "checked_on": "2026-11-13",
   "catalog_source": "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0",
   "ports": [
     {
@@ -143,13 +143,13 @@
       "name_ru": "Алят",
       "country_iso3": "AZE",
       "region": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 39.9779826,
+      "longitude": 49.4435301,
       "portwatch_id": null,
-      "coordinate_source": null,
+      "coordinate_source": "OpenStreetMap way 630876699: port authority building, approximate port location; https://www.openstreetmap.org/way/630876699",
       "operator_source": "https://cabinet.asco.az/passenger-ticket",
       "coverage": {
-        "weather": "not_probed",
+        "weather": "coordinates_available_not_probed",
         "port_activity": "operator_html_verified",
         "live_ais": "unverified"
       }
@@ -159,13 +159,13 @@
       "name_ru": "Оля",
       "country_iso3": "RUS",
       "region": null,
-      "latitude": null,
-      "longitude": null,
+      "latitude": 45.782185,
+      "longitude": 47.5443773,
       "portwatch_id": null,
-      "coordinate_source": null,
+      "coordinate_source": "OpenStreetMap way 1008827948: harbour; https://www.openstreetmap.org/way/1008827948",
       "operator_source": "https://ampastra.ru/",
       "coverage": {
-        "weather": "not_probed",
+        "weather": "coordinates_available_not_probed",
         "port_activity": "unverified",
         "live_ais": "unverified"
       }

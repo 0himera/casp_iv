@@ -45,7 +45,7 @@ export function CommandCenterPage() {
     </header>
     <div className={styles.operation} aria-live="polite"><OperationBanner activeOperation={s.activeOperation} operationTimedOut={s.operationTimedOut} errorBanner={s.errorBanner} onRecheckOperation={s.recheckNow} /></div>
     <main className={styles.workspace}>
-      <MapWorkspace ports={s.ports} shipment={s.shipment} stormActive={stormActive} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole}
+      <MapWorkspace ports={s.ports} shipment={s.shipment} stormActive={stormActive} role={s.role} isBusy={s.isBusy} onSelectRoute={s.selectRoute} onChangeRole={s.setRole} onChangeJourney={s.changeJourney}
         forecast={<div className={styles.stack}>
           <ForecastMetaBlock forecast={s.shipment.forecast} />
           <PlanningControls key={s.shipment.forecast.id} shipment={s.shipment} isBusy={s.isBusy} onCalculate={s.recalculate} />

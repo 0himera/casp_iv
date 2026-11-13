@@ -691,6 +691,196 @@
         }
       }
     },
+    "/api/v1/marine-route": {
+      "get": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Marine Route",
+        "operationId": "marine_route_api_v1_marine_route_get",
+        "parameters": [
+          {
+            "name": "origin_port_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Origin Port Id"
+            }
+          },
+          {
+            "name": "destination_port_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Port Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JourneyPreview"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{shipment_id}/journey": {
+      "post": {
+        "tags": [
+          "shipments"
+        ],
+        "summary": "Change Journey",
+        "operationId": "change_journey_api_v1_shipments__shipment_id__journey_post",
+        "parameters": [
+          {
+            "name": "shipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Shipment Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeJourney"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/shipments/{shipment_id}/route-candidates": {
       "post": {
         "tags": [
@@ -2562,6 +2752,35 @@
         ],
         "title": "ChainPassportState"
       },
+      "ChangeJourney": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "origin_port_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Origin Port Id"
+          },
+          "destination_port_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Destination Port Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "origin_port_id",
+          "destination_port_id"
+        ],
+        "title": "ChangeJourney"
+      },
       "Coordinates": {
         "properties": {
           "latitude": {
@@ -3465,6 +3684,45 @@
         ],
         "title": "Health"
       },
+      "JourneyPreview": {
+        "properties": {
+          "origin": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "route": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "sea_distance_km": {
+            "type": "number",
+            "title": "Sea Distance Km"
+          },
+          "approach_gap_km": {
+            "type": "number",
+            "title": "Approach Gap Km"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "origin",
+          "destination",
+          "route",
+          "sea_distance_km",
+          "approach_gap_km",
+          "warnings"
+        ],
+        "title": "JourneyPreview"
+      },
       "LiveOverview": {
         "properties": {
           "generated_at": {
@@ -3659,7 +3917,8 @@
               "select_route",
               "replace_document",
               "attest",
-              "revoke"
+              "revoke",
+              "change_journey"
             ],
             "title": "Kind"
           },

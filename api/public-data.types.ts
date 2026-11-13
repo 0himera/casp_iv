@@ -56,6 +56,12 @@ export type ChainPassportState = {
   state_root_hash: string;
 };
 
+export type ChangeJourney = {
+  expected_revision: number;
+  origin_port_id: string;
+  destination_port_id: string;
+};
+
 export type Coordinates = {
   latitude: number;
   longitude: number;
@@ -222,6 +228,15 @@ export type Health = {
   upstream_checked?: false;
 };
 
+export type JourneyPreview = {
+  origin: Location;
+  destination: Location;
+  route: Route;
+  sea_distance_km: number;
+  approach_gap_km: number;
+  warnings: Array<string>;
+};
+
 export type LiveOverview = {
   generated_at: string;
   items: Array<LivePortOverview>;
@@ -253,7 +268,7 @@ export type Operation = {
   id: string;
   shipment_id: string;
   status: "queued" | "submitted" | "confirmed" | "failed";
-  kind: "create" | "select_route" | "replace_document" | "attest" | "revoke";
+  kind: "create" | "select_route" | "replace_document" | "attest" | "revoke" | "change_journey";
   network?: "casper-test";
   transaction_hash?: string | null;
   explorer_url?: string | null;

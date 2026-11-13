@@ -338,7 +338,7 @@ class Transit:
             )
         return {"items": items}
 
-    def enqueue(self, role, kind, shipment_id, body, idem):
+    def enqueue(self, role, kind, shipment_id, body, idem, *, journey=None):
         scope = f"{role}:{shipment_id or 'new'}:{kind}"
         digest = hashlib.sha256(rfc8785.dumps(body)).hexdigest()
         with self.store.connect(write=True) as db:
@@ -349,7 +349,10 @@ class Transit:
                 if previous["digest"] != digest:
                     fail(409, "IDEMPOTENCY_CONFLICT", "Ключ уже использован с другим телом")
                 return json.loads(previous["public"])
-            if kind in ("create", "select_route", "replace_document") and role != "logistician":
+            if (
+                kind in ("create", "select_route", "replace_document", "change_journey")
+                and role != "logistician"
+            ):
                 fail(403, "FORBIDDEN", "Действие доступно логисту")
             uploads = []
             if kind == "create":
@@ -424,8 +427,22 @@ class Transit:
                     arg("shipment_id", {"ByteArray": 32}, chain_id),
                     arg("expected_version", "U32", version),
                 ]
-                entry_point = "revise" if kind in ("select_route", "replace_document") else kind
-                if kind == "select_route":
+                entry_point = (
+                    "revise"
+                    if kind in ("select_route", "replace_document", "change_journey")
+                    else kind
+                )
+                if kind == "change_journey":
+                    if journey is None:
+                        fail(422, "JOURNEY_REQUIRED", "Нужен рассчитанный маршрут")
+                    if (
+                        candidate["origin"]["id"] == body["origin_port_id"]
+                        and candidate["destination"]["id"] == body["destination_port_id"]
+                        and all(r["modes"] == ["sea"] for r in candidate["routes"])
+                    ):
+                        fail(409, "NO_CHANGE", "Эти порты уже выбраны")
+                    candidate.update(journey)
+                elif kind == "select_route":
                     forecast = candidate["forecast"]
                     if (
                         body["forecast_id"] != forecast["id"]

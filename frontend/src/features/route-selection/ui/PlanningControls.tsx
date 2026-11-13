@@ -25,16 +25,17 @@ const fields = [
 export function PlanningControls({ shipment, isBusy, onCalculate }: {
   shipment: Shipment; isBusy: boolean; onCalculate: (value: PlanningAssumptions) => void;
 }) {
+  const marineOnly = shipment.routes.every((r) => r.modes.length === 1 && r.modes[0] === 'sea');
   const [draft, setDraft] = useState<PlanningAssumptions>({ ...defaults, ...shipment.planning?.assumptions });
   return <section className={styles.frame} aria-label="Условия расчёта">
     <p>{shipment.planning ? 'Расчёт на сервере: погода + сценарные условия.' : 'Пересчитайте прогноз, чтобы заменить демонстрационные числа расчётом.'}</p>
     <details><summary>Допущения и источники расчёта</summary>
       <form onSubmit={(e) => { e.preventDefault(); onCalculate(draft); }}>
-        <div className={styles.grid}>{fields.map(([key, label, min, max]) => <label key={key}>{label}
+        <div className={styles.grid}>{fields.filter(([key]) => !marineOnly || !['rail_delay_hours', 'road_delay_hours', 'rail_kg_per_tonne_km'].includes(key)).map(([key, label, min, max]) => <label key={key}>{label}
           <input type="number" min={min} max={max} step="any" required value={draft[key] ?? defaults[key]} onChange={(e) => setDraft({ ...draft, [key]: e.target.valueAsNumber })} />
         </label>)}</div>
         <label><input type="checkbox" checked={draft.assume_capacity ?? true} onChange={(e) => setDraft({ ...draft, assume_capacity: e.target.checked })} /> Допустить места на условных рейсах; фактическая вместимость не подтверждена</label>
-        <p>Условные cutoff: базовый для Астрахани; Махачкала +12 ч, Актау +36 ч, Туркменбаши +60 ч. Это не расписание оператора. Без допущения мест ETA доставки не определяется. Порог ветра — параметр сценария, не норматив допуска судна.</p>
+        <p>{marineOnly ? 'Cutoff отсчитывается от момента расчёта для выбранного порта.' : 'Условные cutoff: базовый для Астрахани; Махачкала +12 ч, Актау +36 ч, Туркменбаши +60 ч.'} Это не расписание оператора. Без допущения мест ETA доставки не определяется. Порог ветра — параметр сценария, не норматив допуска судна.</p>
         <Button type="submit" size="sm" disabled={isBusy || !shipment.allowed_actions.includes('run_scenario')}>Применить условия</Button>
       </form>
       {shipment.planning && <><p>{shipment.planning.note}</p>{shipment.planning.inputs.map((input) => <p key={input.route_id}>

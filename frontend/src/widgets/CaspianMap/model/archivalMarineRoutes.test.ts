@@ -4,9 +4,9 @@ import { ARCHIVAL_MARINE_ROUTES } from './archivalMarineRoutes';
 import { projectArchivalCoord } from './archivalPins';
 
 describe('SVG maritime routes', () => {
-  it('renders all 28 coastal connections without unsupported river approaches', () => {
-    expect(ARCHIVAL_MARINE_ROUTES).toHaveLength(28);
-    expect(ARCHIVAL_MARINE_ROUTES.some((r) => r.from === 'astrakhan' || r.to === 'astrakhan')).toBe(false);
+  it('renders the 31 supported pairs in the legacy illustration with offshore anchors', () => {
+    expect(ARCHIVAL_MARINE_ROUTES).toHaveLength(31);
+    expect(ARCHIVAL_MARINE_ROUTES.some((r) => r.from === 'astrakhan' && r.to === 'olya')).toBe(false);
   });
 
   it('preserves every water-route waypoint without decorative curves or shortcuts', () => {

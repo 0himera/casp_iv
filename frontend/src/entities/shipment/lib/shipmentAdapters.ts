@@ -32,16 +32,18 @@ export function buildGraphNodesFromShipment(shipment: Shipment, route: Route): M
   const riskStatus: NodeStatus =
     prob === null ? 'warning' : prob >= 0.5 ? 'critical' : prob >= 0.2 ? 'warning' : 'ok';
   const input = shipment.planning?.inputs.find((x) => x.route_id === route.id);
-  const firstPort = route.ports[0] ?? 'Порт погрузки';
-  const lastPort = route.ports.at(-1) ?? shipment.destination.name;
+  const marineOnly = route.modes.length === 1 && route.modes[0] === 'sea';
+  const firstPort = (marineOnly ? shipment.origin.name : route.ports[0]) ?? 'Порт погрузки';
+  const lastPort = (marineOnly ? shipment.destination.name : route.ports.at(-1)) ?? shipment.destination.name;
   const landMode = route.modes.includes('rail') ? 'rail' : 'road';
   const landDelay = (landMode === 'rail' ? shipment.planning?.assumptions.rail_delay_hours : shipment.planning?.assumptions.road_delay_hours) ?? 0;
-  return [
+  const nodes: MultimodalNodeData[] = [
     { id: 'n1', label: landMode === 'road' ? 'Авто до порта' : 'Ж/д до порта', location: shipment.current_location.name, mode: landMode, status: landDelay > 0 ? 'warning' : 'ok', delayHours: landDelay, eta: input ? `${input.land_hours} ч до ${firstPort}` : formatMskDateTime(shipment.scenario_time) },
     { id: 'n2', label: 'Порт погрузки', location: firstPort, mode: 'sea', status: riskStatus, delayHours: input?.terminal_hours ?? 0, eta: formatMskDateTime(shipment.forecast.ready_at.p50) },
     { id: 'n3', label: 'Морской паром', location: `${firstPort} → ${lastPort}`, mode: 'sea', status: riskStatus, delayHours: input?.weather_hold_hours ?? 0, eta: formatMskDateTime(shipment.forecast.cargo_cutoff) },
     { id: 'n4', label: 'Паспорт / Pre-clearance', location: `v${shipment.passport.version} (${getPassportStatusLabel(shipment.passport.status)})`, mode: 'customs', status: shipment.passport.status === 'ready' ? 'ok' : shipment.passport.status === 'blocked' ? 'critical' : 'warning', delayHours: 0, eta: formatMskDateTime(shipment.updated_at) },
     { id: 'n5', label: 'Порт выгрузки', location: lastPort, mode: 'sea', status: route.feasible ? 'ok' : 'critical', delayHours: 0, eta: formatMskDateTime(route.eta.p50) },
-    { id: 'n6', label: 'Приёмка груза', location: shipment.destination.name, mode: 'road', status: route.feasible ? 'ok' : 'warning', delayHours: 0, eta: formatMskDateTime(route.eta.p90) },
+    { id: 'n6', label: 'Приёмка груза', location: shipment.destination.name, mode: marineOnly ? 'sea' : 'road', status: route.feasible ? 'ok' : 'warning', delayHours: 0, eta: formatMskDateTime(route.eta.p90) },
   ];
+  return marineOnly ? nodes.filter((n) => n.id !== 'n1') : nodes;
 }

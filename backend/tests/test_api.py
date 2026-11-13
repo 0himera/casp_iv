@@ -153,7 +153,7 @@ def test_no_snapshot_is_503_and_cooldown_is_advertised(rig):
     "path,code",
     [
         ("/ports/unknown", "PORT_NOT_FOUND"),
-        ("/ports/olya/weather", "COORDINATES_UNVERIFIED"),
+        ("/ports/olya/activity", "SOURCE_NOT_COVERED"),
         ("/ports/kuryk/activity", "SOURCE_NOT_COVERED"),
         ("/ports/makhachkala/activity?days=1000", "VALIDATION_ERROR"),
         ("/ports/makhachkala/activity?days=0", "VALIDATION_ERROR"),
@@ -296,8 +296,8 @@ def test_live_overview_reports_real_provider_data_and_missing_coverage(rig):
     ports = {item["port"]["id"]: item for item in result["items"]}
     assert ports["makhachkala"]["weather"]["meta"]["source_id"] == "open_meteo"
     assert ports["makhachkala"]["activity"]["meta"]["source_id"] == "imf_portwatch"
-    assert ports["olya"]["weather"] is None
-    assert ports["olya"]["weather_error"] == "COORDINATES_UNVERIFIED"
+    assert ports["olya"]["weather"]["requested_location"]["latitude"] == 45.782185
+    assert ports["olya"]["weather_error"] is None
     assert ports["kuryk"]["activity"] is None
     assert ports["kuryk"]["activity_error"] == "SOURCE_NOT_COVERED"
     assert ports["anzali"]["sailings_error"] == "SOURCE_NOT_COVERED"
@@ -314,4 +314,4 @@ def test_live_overview_keeps_sources_separate_when_unavailable(rig):
     assert ports["makhachkala"]["weather_error"] == "SOURCE_UNAVAILABLE"
     assert ports["makhachkala"]["activity"] is None
     assert ports["makhachkala"]["activity_error"] == "SOURCE_UNAVAILABLE"
-    assert ports["alat"]["weather_error"] == "COORDINATES_UNVERIFIED"
+    assert ports["alat"]["weather_error"] == "SOURCE_UNAVAILABLE"

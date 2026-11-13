@@ -12,7 +12,7 @@ function saveJson(value: unknown, filename: string) {
   const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
   const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-const eventNames: Record<string, string> = { create: 'Паспорт создан', select_route: 'Маршрут изменён', replace_document: 'Документ обновлён', attest: 'Решение роли записано', revoke: 'Согласование отозвано' };
+const eventNames: Record<string, string> = { create: 'Паспорт создан', change_journey: 'Порты отправки изменены', select_route: 'Маршрут изменён', replace_document: 'Документ обновлён', attest: 'Решение роли записано', revoke: 'Согласование отозвано' };
 
 export function PassportHistory({ shipment, role }: { shipment: Shipment; role: Role }) {
   const [open, setOpen] = useState(false);

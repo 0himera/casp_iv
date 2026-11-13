@@ -8,8 +8,9 @@ describe('sea geometry', () => {
     expect(seaRoute('anzali', 'kuryk')).toEqual([...forward!].reverse());
   });
   it('never substitutes a straight line for a missing river approach or unknown port', () => {
-    expect(seaRoute('astrakhan', 'anzali')).toBeNull();
-    expect(seaRoute('alat', 'aktau')).toBeNull();
+    expect(seaRoute('astrakhan', 'anzali')?.[0][1]).toBeLessThan(45);
+    expect(seaRoute('astrakhan', 'olya')).toBeNull();
+    expect(seaRoute('alat', 'aktau')).not.toBeNull();
     expect(seaRoute('not-a-port', 'aktau')).toBeNull();
   });
 });

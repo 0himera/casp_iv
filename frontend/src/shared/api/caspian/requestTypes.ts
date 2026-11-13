@@ -11,7 +11,7 @@ export type ShipmentSummary = {
 
 export type ShipmentList = { items: Array<ShipmentSummary> };
 
-export type { Operation, Health, PassportStateResponse, PassportVersionResponse } from '../../../../../api/public-data.types';
+export type { ChangeJourney, JourneyPreview, Operation, Health, PassportStateResponse, PassportVersionResponse } from '../../../../../api/public-data.types';
 
 export type ErrorResponse = { error: { code: string; message: string } };
 

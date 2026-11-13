@@ -7,8 +7,8 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '/api/backen
 export const shipmentKeys = {
   all: ['caspian-shipments'] as const,
   health: () => [...shipmentKeys.all, 'health'] as const,
-  list: (role: Role) => [...shipmentKeys.all, 'list', role] as const,
-  detail: (id: string, role: Role) => [...shipmentKeys.all, 'detail', id, role] as const,
+  list: () => [...shipmentKeys.all, 'list'] as const,
+  detail: (id: string) => [...shipmentKeys.all, 'detail', id] as const,
 };
 
 function buildFallbackSummary(s: Shipment): ShipmentSummary {
@@ -33,7 +33,7 @@ export function useHealthQuery() {
 export function useShipmentsListQuery(role: Role) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   const query = useQuery({
-    queryKey: shipmentKeys.list(role),
+    queryKey: shipmentKeys.list(),
     queryFn: () => client.listShipments(),
     placeholderData: { items: [buildFallbackSummary(SEED_SHIPMENT)] },
   });
@@ -43,7 +43,7 @@ export function useShipmentsListQuery(role: Role) {
 export function useShipmentDetailQuery(id: string, role: Role) {
   const client = createCaspianClient(API_BASE_URL, () => role);
   const query = useQuery({
-    queryKey: shipmentKeys.detail(id, role),
+    queryKey: shipmentKeys.detail(id),
     staleTime: 0,
     refetchOnMount: 'always',
     refetchInterval: 30000,

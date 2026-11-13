@@ -8,6 +8,7 @@ from statistics import median
 
 from .catalog import load_catalog
 from .emissions import EmissionsRequest, calculate
+from .marine import preview as marine_preview
 from .planning_models import PlanningInput, PlanningSummary
 from .prediction import PredictionRequest
 from .service import DataUnavailable
@@ -46,8 +47,9 @@ async def prepare(shipment, body, data, settings, start):
     target = [destination["longitude"], destination["latitude"]]
     current = [shipment["current_location"]["longitude"], shipment["current_location"]["latitude"]]
     routes = copy.deepcopy(shipment["routes"])
+    marine_only = all(r["modes"] == ["sea"] for r in routes)
     # Existing agreement geometry is immutable until a confirmed route revision.
-    for route_id in ("route_aktau", "route_turkmen"):
+    for route_id in () if marine_only else ("route_aktau", "route_turkmen"):
         if any(r["id"] == route_id for r in routes):
             continue
         port = by_id[PORTS[route_id]]
@@ -112,6 +114,10 @@ async def prepare(shipment, body, data, settings, start):
         port_id = port.id
         point = [port.coordinates.longitude, port.coordinates.latitude]
         land_km, sea_km = distance(current, point) * 1.4, distance(point, target) * 1.1
+        marine = None
+        if route["modes"] == ["sea"]:
+            marine = marine_preview(port_id, destination["id"])
+            land_km, sea_km = 0, marine.route.distance_km
         weather, activity = readings.get(port_id, (None, None))
         destination_weather = readings.get(destination["id"], (None, None))[0]
         relevant = [w for w in (weather, destination_weather) if w is not None]
@@ -122,6 +128,8 @@ async def prepare(shipment, body, data, settings, start):
             if start <= p.time <= start + timedelta(hours=48) and p.wind_speed_10m is not None
         ]
         warnings = ["Расписание, места и длительности — допущения; судозаходы не равны очереди."]
+        if marine:
+            warnings.extend(marine.warnings)
         weather_status = "forecast"
         if not wind or weather is None or destination_weather is None:
             weather_status = "missing"
@@ -154,7 +162,7 @@ async def prepare(shipment, body, data, settings, start):
             warnings.append("Свежая активность недоступна: очередь взята из допущений.")
         mode = "rail" if "rail" in route["modes"] else "road"
         delay = assumptions.rail_delay_hours if mode == "rail" else assumptions.road_delay_hours
-        land_hours = land_km / (40 if mode == "rail" else 60) + delay
+        land_hours = 0 if marine else land_km / (40 if mode == "rail" else 60) + delay
         terminal = assumptions.terminal_hours * factor
         cutoff_hours = assumptions.cutoff_in_hours + CUTOFF_OFFSETS.get(route["id"], 0)
         inputs.append(
@@ -206,7 +214,7 @@ async def prepare(shipment, body, data, settings, start):
             {
                 "route_id": route["id"],
                 "legs": [
-                    {"mode": mode, "distance_km": max(0.001, land_km)},
+                    *([] if marine else [{"mode": mode, "distance_km": max(0.001, land_km)}]),
                     {"mode": "sea", "distance_km": max(0.001, sea_km)},
                 ],
             }
