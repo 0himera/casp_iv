@@ -78,18 +78,10 @@
   text-align: left;
 }
 
-.hashRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.hash {
-  color: var(--accent-cyan);
-}
+.hashRow { display: flex; align-items: center; justify-content: space-between; }
+.hash { color: var(--accent-cyan); }
 
 @keyframes popIn {
   0% { transform: scale(0.7); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
-

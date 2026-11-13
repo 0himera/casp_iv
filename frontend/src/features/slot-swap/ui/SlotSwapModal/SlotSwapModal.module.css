@@ -3,7 +3,7 @@
   padding: 16px; background: rgba(10, 14, 16, 0.75); backdrop-filter: blur(10px);
 }
 .modal {
-  width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 14px; padding: 20px;
+  width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 14px; padding: 20px;
   border-radius: var(--radius-md); background: var(--map-overlay); border: 1px solid var(--border-strong);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
