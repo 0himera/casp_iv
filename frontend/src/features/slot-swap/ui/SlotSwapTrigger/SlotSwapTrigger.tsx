@@ -13,8 +13,6 @@ interface SlotSwapTriggerProps {
 export function SlotSwapTrigger({ missProbability, isExecuted, onOpen }: SlotSwapTriggerProps) {
   const isHighRisk = (missProbability ?? 0) >= 0.5;
 
-  if (!isHighRisk && !isExecuted) return null;
-
   if (isExecuted) {
     return (
       <div className={styles.executedBanner}>
@@ -34,20 +32,40 @@ export function SlotSwapTrigger({ missProbability, isExecuted, onOpen }: SlotSwa
     );
   }
 
+  if (isHighRisk) {
+    return (
+      <div className={styles.banner}>
+        <div className={styles.left}>
+          <div className={styles.iconWrap}>
+            <ShieldAlert size={16} />
+          </div>
+          <div className={styles.info}>
+            <span className={styles.title}>УГРОЗА ДЕМЕРЕДЖА: $22 500 (2 180 000 ₽)</span>
+            <span className={styles.sub}>Срыв cutoff 84% · Доступен встречный обмен слотом в Махачкале</span>
+          </div>
+        </div>
+        <Button size="sm" variant="default" onClick={onOpen} className={styles.triggerBtn}>
+          <Zap size={14} />
+          <span>Выполнить Smart Slot-Swap</span>
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.banner}>
+    <div className={styles.standbyBanner}>
       <div className={styles.left}>
-        <div className={styles.iconWrap}>
-          <ShieldAlert size={16} />
+        <div className={styles.standbyIconWrap}>
+          <Zap size={16} />
         </div>
         <div className={styles.info}>
-          <span className={styles.title}>УГРОЗА ДЕМЕРЕДЖА: $22 500 (2 180 000 ₽)</span>
-          <span className={styles.sub}>Доступен встречный груз в Махачкале для P2P-обмена слотом</span>
+          <span className={styles.title}>БИРЖА ПАРОМНЫХ СЛОТОВ // CASPER SMART ESCROW</span>
+          <span className={styles.sub}>P2P-хеджирование рисков простоя судов и срыва паромного cutoff</span>
         </div>
       </div>
-      <Button size="sm" variant="default" onClick={onOpen} className={styles.triggerBtn}>
-        <Zap size={14} />
-        <span>Выполнить Smart Slot-Swap</span>
+      <Button size="sm" variant="outline" onClick={onOpen} className={styles.triggerBtn}>
+        <Zap size={13} />
+        <span>Открыть биржу слотов</span>
       </Button>
     </div>
   );

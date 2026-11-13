@@ -43,3 +43,4 @@ export function SlotSwapEscrow({ demurrageUsd }: SlotSwapEscrowProps) {
     </div>
   );
 }
+

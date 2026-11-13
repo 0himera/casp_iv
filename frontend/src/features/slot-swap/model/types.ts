@@ -24,3 +24,4 @@ export interface SlotSwapState {
   isExecuted: boolean;
   activeShipmentId: string;
 }
+

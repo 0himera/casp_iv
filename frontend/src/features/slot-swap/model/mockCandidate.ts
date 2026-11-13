@@ -16,3 +16,4 @@ export const DEFAULT_SWAP_CANDIDATE: SwapCandidate = {
   demurrageHedgedUsd: 22500,
   casperDeployHash: '0x7f4ad921ba89c31495cfa1082be81a94372f88b901ce2',
 };
+

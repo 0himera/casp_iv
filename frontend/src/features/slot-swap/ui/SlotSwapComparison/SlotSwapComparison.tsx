@@ -58,3 +58,4 @@ export function SlotSwapComparison({ shipment, candidate }: SlotSwapComparisonPr
     </div>
   );
 }
+

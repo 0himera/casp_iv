@@ -50,3 +50,4 @@ export function SlotSwapSuccess({ candidate }: SlotSwapSuccessProps) {
     </div>
   );
 }
+
