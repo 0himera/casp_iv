@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { WorkspaceMenus, WorkspaceSelect } from '@/shared/ui/workspace-menu/WorkspaceMenu';
-import { Moon, Sun } from 'lucide-react';
+import { ArrowUpRight, Moon, SquareCode, Sun } from 'lucide-react';
 import { useTheme, setTheme } from '@/shared/theme/ThemeProvider';
 import { PassportPanel } from '@/features/passport-attestation';
 import { DemoControls } from '@/features/demo-controls';
@@ -25,6 +25,9 @@ const MapWorkspace = dynamic(() => import('@/widgets/CaspianMap').then((m) => m.
 export function CommandCenterPage() {
   const theme = useTheme();
   const s = useCommandCenterState();
+  const contractHash = s.shipment.passport.contract_address?.replace(/^hash-/, '');
+  const contractUrl = s.shipment.passport.network === 'casper-test' && contractHash && /^[a-f0-9]{64}$/i.test(contractHash)
+    ? `https://testnet.cspr.live/contract/${contractHash}` : null;
   const stormActive = s.scenario === 'storm';
   const a = useCommandCenterActions({ ...s, stormActive });
   return <WorkspaceMenus><div className={styles.root}>
@@ -35,6 +38,7 @@ export function CommandCenterPage() {
       </div>
       <div className={styles.journey}><strong>{s.shipment.origin.name} → {s.shipment.destination.name}</strong><span>{s.shipment.mass_tonnes} т · открытые данные + условия расчёта</span></div>
       <span className={`${styles.connection} ${s.apiOnline ? styles.online : ''}`} role="status">{s.apiOnline ? 'API online' : 'API недоступен'}</span>
+      {contractUrl && <a className={styles.contractLink} href={contractUrl} target="_blank" rel="noopener noreferrer" aria-label="Смарт-контракт в Casper Live (testnet)" title="Смарт-контракт · Casper Testnet · открыть в новой вкладке"><SquareCode size={16} /><span>Контракт <ArrowUpRight size={12} /></span></a>}
       <div className={styles.role}><span>Роль в preview</span><WorkspaceSelect label="Роль" value={s.role} onChange={(value) => s.setRole(value as Role)} options={[
         { value: 'logistician', label: 'Логист' }, { value: 'carrier', label: 'Перевозчик' }, { value: 'customs', label: 'Таможня' },
       ]} /></div>
